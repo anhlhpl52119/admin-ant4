@@ -1,0 +1,39 @@
+{
+  "extends": "@antfu",
+  "rules": {
+    "vue/component-name-in-template-casing": [
+      "error",
+      "PascalCase",
+      {
+        "registeredComponentsOnly": false
+      }
+    ],
+    "vue/component-tags-order": [
+      "error",
+      {
+        "order": [
+          "template",
+          "script",
+          "style"
+        ]
+      }
+    ],
+    "semi": [
+      2,
+      "always"
+    ],
+    "no-extra-semi": "off",
+    "func-style": [
+      "error",
+      "declaration",
+      {
+        "allowArrowFunctions": true
+      }
+    ],
+    "antfu/top-level-function": "off",
+    "@typescript-eslint/semi": [
+      "off"
+    ],
+    "curly": ["error", "multi-line"]
+  }
+}
