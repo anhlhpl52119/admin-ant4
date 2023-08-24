@@ -1,0 +1,30 @@
+{
+  "extends": [
+    "@vue/tsconfig/tsconfig.dom.json",
+    "@tsconfig/node18/tsconfig.json"
+  ],
+  "exclude": [
+    "src/**/__tests__/*",
+    "**/dist/**",
+    "uno.config.ts"
+  ],
+  "compilerOptions": {
+    "lib": [
+      "ES6",
+      "DOM"
+    ],
+    "composite": true,
+    "skipLibCheck": false,
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "module": "ESNext",
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  }
+}
