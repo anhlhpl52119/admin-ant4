@@ -17,7 +17,7 @@
       <div class="border h-90" />
       <div> <UnitConverionOptions /> </div>
     </section>
-    <section>
+    <section class="mt-40">
       <h1 class="text-20">
         Demo Tax
       </h1>
