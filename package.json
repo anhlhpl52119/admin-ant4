@@ -25,7 +25,6 @@
     "@antfu/eslint-config": "^0.39.8",
     "@tsconfig/node18": "^2.0.1",
     "@types/node": "^18.16.17",
-    "@unocss/reset": "^0.53.5",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/tsconfig": "^0.4.0",
     "eslint": "^8.45.0",
