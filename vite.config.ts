@@ -43,7 +43,7 @@ export default defineConfig({
       less: {
         javascriptEnabled: true,
         modifyVars: {},
-        additionalData: '@import "@/styles/variables.less";',
+        additionalData: '@import "@/assets/styles/variables.less";',
       },
     },
   },
