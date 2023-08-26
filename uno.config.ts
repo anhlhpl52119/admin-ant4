@@ -1,13 +1,33 @@
+// import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders';
+import type { CSSEntries, UtilObject } from 'unocss';
 import {
   defineConfig,
+  presetIcons,
+  presetUno,
+  transformerDirectives,
+  transformerVariantGroup,
 } from 'unocss';
 
 export default defineConfig({
   include: [
+    // /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
     /\.ts$/,
-    /\.vue$/, /\.vue\?vue/, // .vue
+    /\.vue$/,
+    /\.vue\?vue/, // .vue
   ],
+  safelist: ['bg-info', 'bg-danger', 'bg-warning', 'bg-success', 'bg-white'],
   theme: {
+    colors: {
+      abd: '#dcdfe5', // app border,
+      primary: '#3b82f6',
+      secondary: '#64748B',
+      success: '#22c55e',
+      info: '#3b82f6',
+      warning: '#f59e0b',
+      help: '#d946ef',
+      danger: '#ef4444',
+      plain: '#6c757d',
+    },
     breakpoints: {
       'xs': '0px',
       'sm': '640px',
@@ -34,16 +54,16 @@ export default defineConfig({
     ['flex-center', 'flex items-center justify-center'],
     ['grid-center', 'items-center justify-items-center'],
   ],
-  postprocess: (util) => {
+  postprocess: (util: UtilObject) => {
     // 1 => 0.1rem (ex: p-1)
     {
       const remRE = /(-?[\.\d]+)rem/g;
 
-      util.entries.forEach((i) => {
+      util.entries.forEach((i: [string, string | number | undefined]) => {
         const value = i[1];
 
         if (value && typeof value === 'string' && remRE.test(value)) {
-          i[1] = value.replace(remRE, (_, p1) => `${p1 * 4 / 10}rem`);
+          i[1] = value.replace(remRE, (_: string, p1: string) => `${(+p1 * 4) / 10}rem`);
         }
       });
     }
@@ -52,26 +72,26 @@ export default defineConfig({
     {
       const rpxRE = /(-?[\.\d]+)rpx/g;
 
-      util.entries.forEach((i) => {
+      util.entries.forEach((i: [string, string | number | undefined]) => {
         const value = i[1];
 
         if (value && typeof value === 'string' && rpxRE.test(value)) {
-          i[1] = value.replace(rpxRE, (_, p1) => `${p1}rem`);
+          i[1] = value.replace(rpxRE, (_: string, p1: string) => `${p1}rem`);
         }
       });
     }
   },
   variants: [
     // i_rule to make it !important (ex: i_p-1)
-    (matcher) => {
+    (matcher: string) => {
       if (!matcher.startsWith('i_')) {
         return matcher;
       }
 
       return {
         matcher: matcher.slice(2),
-        body: (body) => {
-          body.forEach((v) => {
+        body: (body: CSSEntries) => {
+          body.forEach((v: [string, string | number | undefined]) => {
             if (v[1]) {
               v[1] += ' !important';
             }
@@ -82,4 +102,15 @@ export default defineConfig({
       };
     },
   ],
+  presets: [
+    presetUno(),
+    presetIcons({
+      collections: {
+        // custom: FileSystemIconLoader('./assets/svg', (svg: string) => svg),
+      },
+
+      warn: true,
+    }),
+  ],
+  transformers: [transformerDirectives(), transformerVariantGroup()],
 });

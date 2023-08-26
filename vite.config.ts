@@ -18,6 +18,7 @@ export default defineConfig({
     Vue(),
     Components({
       dts: './auto/components.d.ts',
+      include: [/\.vue$/, /\.vue\?vue/],
       resolvers: [
         AntDesignVueResolver({
           importStyle: false,
@@ -29,6 +30,7 @@ export default defineConfig({
       imports: [
         'vue', 'vue-router',
       ],
+      vueTemplate: true,
     }),
     UnoCSS({
       presets: [
@@ -40,11 +42,14 @@ export default defineConfig({
   ],
   css: {
     preprocessorOptions: {
-      less: {
-        javascriptEnabled: true,
-        modifyVars: {},
-        additionalData: '@import "@/assets/styles/variables.less";',
+      scss: {
+        // additionalData: '@import "./src/assets/styles/varr.scss";',
       },
+      // less: {
+      //   javascriptEnabled: true,
+      //   modifyVars: {},
+      //   additionalData: '@import "@/assets/styles/variables.less";',
+      // },
     },
   },
   server: {
