@@ -1,11 +1,11 @@
 <template>
   <ALayout class="min-h-screen">
+    <div class="bg-white m-24 h-40" />
     <ALayoutSider v-model:collapsed="collapsed" collapsible>
-      <div class="bg-white m-24 h-40" />
       <AMenu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
         <AMenuItem key="1">
           <PieChartOutlined />
-          <span>Option 1</span>
+          <span>Option 1 controller for each other</span>
         </AMenuItem>
         <ASubMenu key="sub1">
           <template #title>
@@ -21,11 +21,26 @@
           <AMenuItem key="5">
             Alex
           </AMenuItem>
+          <ASubMenu key="sub15">
+            <template #title>
+              <UserOutlined />
+              <span>User</span>
+            </template>
+            <AMenuItem key="31">
+              Tom
+            </AMenuItem>
+            <AMenuItem key="41">
+              Bill
+            </AMenuItem>
+            <AMenuItem key="51">
+              Alex
+            </AMenuItem>
+          </ASubMenu>
         </ASubMenu>
       </AMenu>
     </ALayoutSider>
     <ALayout>
-      <header class="h-64" bg-white />
+      <!-- <header class="h-64 bg-white" /> -->
       <ALayoutContent class="m-16">
         <div class="card bg-white min-h-360">
           <RouterView />
