@@ -1,8 +1,9 @@
 // base
-import '@/assets/styles/normalize.less';
-import '@/assets//styles/fonts.less';
-import '@/assets//styles/root.less';
-import '@/assets//styles/scroll-bar.less';
+import '@/assets/styles/normalize.scss';
+import '@/assets/styles/fonts.scss';
+import '@/assets/styles/root.scss';
+import '@/assets/styles/scroll-bar.scss';
+import '@/assets/styles/varr.scss';
 
 // uno css
 import 'uno.css';

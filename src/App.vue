@@ -1,7 +1,13 @@
 <template>
-  <Suspense>
+  <AConfigProvider
+    :theme="{
+      token: {
+        colorPrimary: '#2c9674',
+      },
+    }"
+  >
     <RouterView />
-  </Suspense>
+  </AConfigProvider>
 </template>
 
 <script lang="ts" setup>

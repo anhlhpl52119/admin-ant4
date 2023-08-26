@@ -17,7 +17,7 @@
       <div class="border h-90" />
       <div> <UnitConverionOptions /> </div>
     </section>
-    <section class="mt-40">
+    <section class="mt-100">
       <h1 class="text-20">
         Demo Tax
       </h1>
@@ -43,7 +43,6 @@ export interface taxPrice {
 }
 const fetch = async () => {
   const { data } = await ProductApi.getList();
-  console.log(data);
 };
 const itemPrice = reactive<taxPrice>({
   price: 1201212,
