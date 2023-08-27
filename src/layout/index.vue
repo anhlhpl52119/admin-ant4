@@ -1,9 +1,9 @@
 <template>
   <ALayout class="min-h-screen">
     <div class="bg-white m-24 h-40" />
-    <ALayoutSider v-model:collapsed="collapsed" collapsible>
+    <ALayoutSider v-model:collapsed="collapsed" collapsible class="bg-white">
       <AMenu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-        <AMenuItem key="1">
+        <AMenuItem key="1" class="flex-center">
           <PieChartOutlined />
           <span>Option 1 controller for each other</span>
         </AMenuItem>
@@ -12,10 +12,10 @@
             <UserOutlined />
             <span>User</span>
           </template>
-          <AMenuItem key="3">
+          <AMenuItem key="3" @click="$router.push('/dev')">
             Tom
           </AMenuItem>
-          <AMenuItem key="4">
+          <AMenuItem key="4" @click="$router.push('/')">
             Bill
           </AMenuItem>
           <AMenuItem key="5">
@@ -43,7 +43,7 @@
       <!-- <header class="h-64 bg-white" /> -->
       <ALayoutContent class="m-16">
         <div class="card bg-white min-h-360">
-          <RouterView />
+          <PageContent />
         </div>
       </ALayoutContent>
       <ALayoutFooter class="text-center">
@@ -55,10 +55,10 @@
 
 <script lang="ts" setup>
 import {
-  PieChartOutlined,
-  UserOutlined,
+  PieChartOutlined, UserOutlined,
 } from '@ant-design/icons-vue';
 import { ref } from 'vue';
+import PageContent from '@/layout/page-content/index.vue';
 
 const collapsed = ref<boolean>(false);
 const selectedKeys = ref<string[]>(['1']);
