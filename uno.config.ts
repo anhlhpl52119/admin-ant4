@@ -1,4 +1,3 @@
-// import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders';
 import type { CSSEntries, UtilObject } from 'unocss';
 import {
   defineConfig,
