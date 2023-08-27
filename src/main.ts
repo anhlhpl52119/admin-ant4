@@ -1,8 +1,8 @@
 import { createApp } from 'vue';
 
 import App from './App.vue';
-import router from './router';
 import * as plugins from '@/plugins';
+import { setupRouter } from '@/router';
 
 const app = createApp(App);
 
@@ -13,8 +13,8 @@ const setupPlugin = () => {
 };
 
 const setupApp = async () => {
-  app.use(router);
-  await router.isReady();
+  await setupRouter(app)
+  ;
 };
 
 setupPlugin();
