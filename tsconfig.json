@@ -8,12 +8,13 @@
     "**/dist/**",
     "uno.config.ts"
   ],
+  "declaration": false,
   "compilerOptions": {
     "lib": [
       "ES6",
       "DOM"
     ],
-    "composite": true,
+    "composite": false,
     "skipLibCheck": false,
     "baseUrl": ".",
     "jsx": "preserve",
