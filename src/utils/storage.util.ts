@@ -1,4 +1,4 @@
-import type { ECacheKey, EStorage } from '@/enums/cache.enum';
+import type { EStorage } from '@/enums/cache.enum';
 
 // Default expire time item
 const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 2; // 2 days
@@ -11,18 +11,18 @@ const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 2; // 2 days
 function createStorage(prefixKey: string, storageType = localStorage) {
   const storage = storageType;
 
-  function _getKey(key: EStorage | ECacheKey) {
+  function _getKey(key: EStorage) {
     return `${prefixKey}${key}`.toUpperCase();
   }
 
   /**
    * @description set cache
-   * @param { EStorageKey | EAuthKey} key cache key
+   * @param { EStorage} key cache key
    * @param {*} value cache value
    * @param expire
    */
   function set(
-    key: ECacheKey | ECacheKey,
+    key: EStorage,
     value: any,
     expire: number | null = DEFAULT_CACHE_TIME,
   ) {
@@ -35,10 +35,10 @@ function createStorage(prefixKey: string, storageType = localStorage) {
 
   /**
    * read cache
-   * @param { EStorageKey | EAuthKey} key cache key
+   * @param { EStorage} key cache key
    * @param {*=} def default value
    */
-  function get<T = any>(key: ECacheKey | ECacheKey, def: any = null): T {
+  function get<T = any>(key: EStorage, def: any = null): T {
     const item = storage.getItem(_getKey(key));
     if (item) {
       try {
@@ -60,9 +60,9 @@ function createStorage(prefixKey: string, storageType = localStorage) {
 
   /**
    * Remove an item from the cache
-   * @param { EStorageKey | EAuthKey} key
+   * @param { EStorage} key
    */
-  function remove(key: ECacheKey | ECacheKey) {
+  function remove(key: EStorage) {
     storage.removeItem(_getKey(key));
   }
 
@@ -83,7 +83,7 @@ function createStorage(prefixKey: string, storageType = localStorage) {
    * @example
    */
   function setCookie(
-    name: ECacheKey | ECacheKey,
+    name: EStorage,
     value: any,
     expire: number | null = DEFAULT_CACHE_TIME,
   ) {
@@ -94,7 +94,7 @@ function createStorage(prefixKey: string, storageType = localStorage) {
    * Get cookie value by name
    * @param name
    */
-  function getCookie(name: ECacheKey | ECacheKey): string {
+  function getCookie(name: EStorage): string {
     const cookieArr = document.cookie.split('; ');
     for (let i = 0, length = cookieArr.length; i < length; i++) {
       const kv = cookieArr[i].split('=');
@@ -109,7 +109,7 @@ function createStorage(prefixKey: string, storageType = localStorage) {
    * Delete the specified cookie by keyname
    * @param {string} key
    */
-  function removeCookie(key: ECacheKey | ECacheKey) {
+  function removeCookie(key: EStorage) {
     setCookie(key, 1, -1);
   }
 

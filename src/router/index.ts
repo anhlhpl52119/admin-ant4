@@ -6,12 +6,13 @@ import { dynamicRouterGenerator } from './router-factory';
 import MainLayout from '@/layout/index.vue';
 import { ERouteName } from '@/enums/router.enum';
 import { ERole } from '@/enums/common.enum';
+import { DEFAULT_ROUTE_PATH } from '@/constants/common.constant';
 
 export const routes: CustomRoute[] = [{
   path: '/',
-  name: ERouteName.PAGE1,
+  name: ERouteName.MAIN_LAYOUT,
   component: MainLayout,
-  redirect: '/user/feat1',
+  redirect: DEFAULT_ROUTE_PATH,
   meta: {
     hiddenInMenu: false,
     permit: [],

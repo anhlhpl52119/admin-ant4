@@ -3,26 +3,18 @@ import { ERouteName } from '@/enums/router.enum';
 import PageContent from '@/layout/page-content/index.vue';
 
 const routes: CustomRoute[] = [{
-  path: 'dashboard',
-  name: ERouteName.DASHBOARD,
+  path: '/:pathMatch(.*)*',
+  name: ERouteName.ERROR,
   component: PageContent,
-  redirect: '/dashboard/page1',
+  redirect: 'ERROR-404',
   meta: {
     hiddenInMenu: false,
   },
   children: [
     {
-      path: 'page1',
-      name: ERouteName.DASHBOARD_PAGE1,
-      component: () => import('@/views/home.vue'),
-      meta: {
-        hiddenInMenu: false,
-      },
-    },
-    {
-      path: 'page2',
-      name: ERouteName.DASHBOARD_PAGE2,
-      component: () => import('@/views/dev.vue'),
+      path: 'ERROR-404',
+      name: ERouteName.ERROR_404,
+      component: () => import('@/views/errors/404.vue'),
       meta: {
         hiddenInMenu: false,
       },
