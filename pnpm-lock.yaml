@@ -31,6 +31,9 @@ devDependencies:
   '@antfu/eslint-config':
     specifier: ^0.39.8
     version: 0.39.8(eslint@8.45.0)(typescript@5.0.4)
+  '@iconify/json':
+    specifier: ^2.2.106
+    version: 2.2.106
   '@tsconfig/node18':
     specifier: ^2.0.1
     version: 2.0.1
@@ -507,9 +510,15 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
+  /@iconify/json@2.2.106:
+    resolution: {integrity: sha512-VZXCBmSrtwutVmzgkCk6Yr9CVfl5AbEOZ/APjZbnG8+21vt91Px/nf3yXnfL6e1DAdNeZtn+iuLlVp+7cP0a3Q==}
+    dependencies:
+      '@iconify/types': 2.0.0
+      pathe: 1.1.1
+    dev: true
+
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
-    dev: false
 
   /@iconify/utils@2.1.7:
     resolution: {integrity: sha512-P8S3z/L1LcV4Qem9AoCfVAaTFGySEMzFEY4CHZLkfRj0Fv9LiR+AwjDgrDrzyI93U2L2mg9JHsbTJ52mF8suNw==}

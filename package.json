@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
+    "@iconify/json": "^2.2.106",
     "@tsconfig/node18": "^2.0.1",
     "@types/node": "^18.16.17",
     "@vitejs/plugin-vue": "^4.2.3",
