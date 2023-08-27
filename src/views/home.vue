@@ -18,6 +18,7 @@
       <ACheckbox v-model:checked="checkBoxState">
         Checkbox
       </ACheckbox>
+      <i class="i-ph-anchor-simple-thin w30 h30" />
     </div>
   </main>
 </template>
