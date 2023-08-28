@@ -8,7 +8,8 @@ const routes: CustomRoute[] = [{
   component: PageContent,
   redirect: 'ERROR-404',
   meta: {
-    hiddenInMenu: false,
+    hiddenInMenu: true,
+    title: 'Error',
   },
   children: [
     {
@@ -16,7 +17,8 @@ const routes: CustomRoute[] = [{
       name: ERouteName.ERROR_404,
       component: () => import('@/views/errors/404.vue'),
       meta: {
-        hiddenInMenu: false,
+        hiddenInMenu: true,
+        title: 'Error',
       },
     },
   ],
