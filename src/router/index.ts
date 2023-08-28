@@ -15,6 +15,7 @@ export const routes: CustomRoute[] = [{
   redirect: DEFAULT_ROUTE_PATH,
   meta: {
     hiddenInMenu: false,
+    title: 'Home',
     permit: [],
   },
   children: [],
@@ -27,6 +28,7 @@ const router = createRouter({
 
 export async function setupRouter(app: App) {
   dynamicRouterGenerator(ERole.ADMIN);
+
   // Init Router goard
   beforeEach(router);
   afterEach(router);
