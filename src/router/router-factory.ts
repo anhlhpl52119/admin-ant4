@@ -32,7 +32,7 @@ const filterRoute = (arr: CustomRoute[], userRole: ERole) => {
   return result;
 };
 
-export const dynamicRouterGenerator = (userRole: ERole) => {
+export const dynamicRouterGenerator = async (userRole: ERole) => {
   try {
     const baseLayout = routes.find(item => item.name === ERouteName.MAIN_LAYOUT)!;
     const userRoutes = filterRoute(staticRoutes, userRole);
