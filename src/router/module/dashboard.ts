@@ -9,6 +9,7 @@ const routes: CustomRoute[] = [{
   redirect: '/dashboard/page1',
   meta: {
     hiddenInMenu: false,
+    title: 'Dashboard',
   },
   children: [
     {
@@ -16,7 +17,8 @@ const routes: CustomRoute[] = [{
       name: ERouteName.DASHBOARD_PAGE1,
       component: () => import('@/views/home.vue'),
       meta: {
-        hiddenInMenu: false,
+        hiddenInMenu: true,
+        title: 'Dashboard Page 1',
       },
     },
     {
@@ -25,6 +27,7 @@ const routes: CustomRoute[] = [{
       component: () => import('@/views/dev.vue'),
       meta: {
         hiddenInMenu: false,
+        title: 'Dashboard Page 2',
       },
     },
   ],
