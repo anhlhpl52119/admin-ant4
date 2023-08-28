@@ -8,6 +8,7 @@ const routes: CustomRoute[] = [{
   component: PageContent,
   redirect: '/management/page1',
   meta: {
+    title: 'Management',
     hiddenInMenu: false,
   },
   children: [
@@ -16,6 +17,7 @@ const routes: CustomRoute[] = [{
       name: ERouteName.MANAGEMENT_PAGE1,
       component: () => import('@/views/home.vue'),
       meta: {
+        title: 'Management Menu 1',
         hiddenInMenu: false,
       },
     },
@@ -25,6 +27,7 @@ const routes: CustomRoute[] = [{
       component: () => import('@/views/dev.vue'),
       meta: {
         hiddenInMenu: false,
+        title: 'Management Menu 2',
       },
     },
   ],
