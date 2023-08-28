@@ -1,15 +1,16 @@
 import type { CustomRoute } from '@/router/typing';
 
-import MainLayout from '@/layout/index.vue';
+import PageContent from '@/layout/page-content/index.vue';
 import { ERouteName } from '@/enums/router.enum';
 
 const routes: CustomRoute[] = [{
   path: 'user',
   name: ERouteName.USER,
-  component: MainLayout,
+  component: PageContent,
   redirect: '/user/page1',
   meta: {
     hiddenInMenu: false,
+    title: 'User Info',
     permit: [],
   },
   children: [
@@ -18,7 +19,8 @@ const routes: CustomRoute[] = [{
       name: ERouteName.USER_PAGE1,
       component: () => import('@/views/home.vue'),
       meta: {
-        hiddenInMenu: false,
+        hiddenInMenu: true,
+        title: 'User Info Menu 1',
         permit: [],
       },
     },
@@ -28,6 +30,7 @@ const routes: CustomRoute[] = [{
       component: () => import('@/views/dev.vue'),
       meta: {
         hiddenInMenu: false,
+        title: 'User Info Menu 2',
         permit: [],
       },
     },
