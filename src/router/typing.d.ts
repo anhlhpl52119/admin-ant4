@@ -4,7 +4,7 @@ import type { RouteComponent, RouteRecordRaw } from "vue-router"
 
 export type RouteMeta = {
     icon?: string,
-    title?: string,
+    title: string,
     hiddenInMenu: boolean,
     permit?: ERole[]
 } 
