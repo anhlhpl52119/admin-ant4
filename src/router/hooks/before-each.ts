@@ -4,6 +4,9 @@ import { type Router } from 'vue-router';
 
 // import { useUserAuth } from '@/stores/auth';
 // import { DefaultRoutes } from '@/enums/route-name';
+import { EStorage } from '@/enums/cache.enum';
+import { useUserStore } from '@/stores/user.store';
+import { localStore } from '@/utils/storage.util';
 
 export const beforeEach = (router: Router) => {
 //   router.beforeEach(async (to, _, next) => {
@@ -12,7 +15,7 @@ export const beforeEach = (router: Router) => {
 //     const token = localStore.get(EStorage.ACCESS_TOKEN);
 //     if (token) {
 //       try {
-//         await authStore.afterLogin();
+//         await authStore.afterLogin();l
 //       }
 //       catch (error) {
 //         authStore.resetToken();
@@ -41,7 +44,10 @@ export const beforeEach = (router: Router) => {
 //     }
 //   });
   router.beforeEach(async (to, _, next) => {
-    console.log('before each: ', to);
+    const token = localStore.get(EStorage.ACCESS_TOKEN);
+    const userStore = useUserStore();
+    await userStore.login();
+    console.log('to', to);
     next();
   });
 };
