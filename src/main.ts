@@ -8,8 +8,8 @@ const app = createApp(App);
 
 const setupPlugin = () => {
   plugins.setupAssets();
-  plugins.setupPinia(app);
   plugins.setupAntdv(app);
+  plugins.setupPinia(app);
 };
 
 const setupApp = async () => {
