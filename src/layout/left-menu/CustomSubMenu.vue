@@ -21,6 +21,7 @@ import {
 } from '@ant-design/icons-vue';
 import type { CustomRoute } from '@/router/typing';
 
+// [ ]: add new controller
 const props = defineProps<{ data: CustomRoute }>();
 const { data } = toRefs(props);
 </script>
