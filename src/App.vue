@@ -2,7 +2,7 @@
   <AConfigProvider
     :theme="{
       token: {
-        colorPrimary: '#2c9674',
+        // colorPrimary: '#2c9674',
       },
     }"
   >
