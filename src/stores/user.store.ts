@@ -23,7 +23,6 @@ export const useUserStore = defineStore('user-store', () => {
     arr.forEach((i) => {
       if (i.meta.hiddenInMenu) {
         return;
-        // sd
       }
       if (!i.children || i.children.length === 0) {
         result.push(i);

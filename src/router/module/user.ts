@@ -33,6 +33,17 @@ const routes: CustomRoute[] = [{
         title: 'User Info Menu 2',
         permit: [],
       },
+      children: [
+        {
+          path: 'page999',
+          name: ERouteName.USER_PAGE5,
+          component: () => import('@/views/dev.vue'),
+          meta: {
+            hiddenInMenu: false,
+            title: 'User Info Menu 5',
+            permit: [],
+          },
+        }],
     },
   ],
 }];
