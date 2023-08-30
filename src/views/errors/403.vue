@@ -1,5 +1,5 @@
 <template>
-  <AResult status="404" title="404" sub-title="Sorry, the page you visited does not exist.">
+  <AResult status="403" title="403" sub-title="Sorry, you are not authorized to access this page.">
     <template #extra>
       <AButton type="primary">
         Back Home
@@ -7,6 +7,3 @@
     </template>
   </AResult>
 </template>
-
-<script lang="ts" setup>
-</script>

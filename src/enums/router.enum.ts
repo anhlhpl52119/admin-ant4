@@ -3,6 +3,7 @@ export enum ERouteName {
   ERROR = 'error',
   ERROR_404 = 'error-404',
   ERROR_500 = 'error-500',
+  ERROR_403 = 'error-403',
   DASHBOARD = 'dashboard',
   DASHBOARD_PAGE1 = 'dashboard-page1',
   DASHBOARD_PAGE2 = 'dashboard-page2',
