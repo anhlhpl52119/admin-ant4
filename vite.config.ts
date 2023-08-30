@@ -11,8 +11,11 @@ import { presetAttributify, presetIcons, presetUno } from 'unocss';
 // const url = import.meta.env.VITE_BASE_API_URL;
 // const auth = import.meta.env.VITE_API_AUTH_PREFIX;
 // const base = import.meta.env.VITE_API_VERSION_PREFIX;
+// TODO: add from .env
+const url = 'proxyDomain';
+const auth = 'authapi';
+const base = 'apiversion';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     Vue(),
@@ -45,31 +48,18 @@ export default defineConfig({
       scss: {
         // additionalData: '@import "./src/assets/styles/varr.scss";',
       },
-      // less: {
-      //   javascriptEnabled: true,
-      //   modifyVars: {},
-      //   additionalData: '@import "@/assets/styles/variables.less";',
-      // },
     },
   },
   server: {
     port: 3001,
     host: true,
     proxy: {
-      // [base]: {
-      //   target: url,
-      //   changeOrigin: true,
-      // },
-      // [auth]: {
-      //   target: url,
-      //   changeOrigin: true,
-      // },
-      '/api/v1/': {
-        target: 'https://ecom-api.sonnguyenauto.com',
+      [base]: {
+        target: url,
         changeOrigin: true,
       },
-      '/authentication/': {
-        target: 'https://ecom-api.sonnguyenauto.com',
+      [auth]: {
+        target: url,
         changeOrigin: true,
       },
     },
