@@ -1,6 +1,6 @@
 <template>
   <ALayout class="min-h-screen">
-    <div class="bg-white m-24 h-40" />
+    <!-- <div class="bg-white m-24 h-40" /> -->
     <ALayoutSider v-model:collapsed="collapsed" collapsible :width="250">
       <AMenu v-model:openKeys="activeKey" :selected-keys="selectedKeys" theme="dark" mode="inline">
         <template v-for="item in userStore.userMenu" :key="item.name">
@@ -10,7 +10,7 @@
     </ALayoutSider>
     <ALayout>
       <header class="h-64 bg-white" />
-      <ALayoutContent class="m-16">
+      <ALayoutContent>
         <div class="card bg-white min-h-360">
           <PageContent />
         </div>

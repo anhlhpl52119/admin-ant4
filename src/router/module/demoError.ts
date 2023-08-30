@@ -4,7 +4,7 @@ import PageContent from '@/layout/page-content/index.vue';
 
 const routes: CustomRoute[] = [{
   path: 'demo',
-  name: ERouteName.ERROR,
+  name: ERouteName.DEMO_ERROR,
   component: PageContent,
   redirect: '/demo/error-500',
   meta: {
@@ -23,7 +23,7 @@ const routes: CustomRoute[] = [{
     },
     {
       path: 'error-404',
-      name: ERouteName.ERROR_404,
+      name: ERouteName.DEMO_404,
       component: () => import('@/views/errors/404.vue'),
       meta: {
         hiddenInMenu: false,
