@@ -1,4 +1,6 @@
 export enum ERouteName {
+  DEMO = 'demo',
+  DEMO_PAGE1 = 'demo-page1',
   MAIN_LAYOUT = 'layout',
   ERROR = 'error',
   ERROR_404 = 'error-404',

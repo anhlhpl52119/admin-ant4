@@ -39,6 +39,26 @@ const routes: CustomRoute[] = [{
         title: 'Error 304',
       },
     },
+    {
+      path: 'demo-component',
+      name: ERouteName.DEMO,
+      component: PageContent,
+      meta: {
+        hiddenInMenu: false,
+        title: 'Demo Component',
+      },
+      children: [
+        {
+          path: 'demo-1',
+          name: ERouteName.DEMO_PAGE1,
+          component: () => import('@/views/demo/multiples-langs.vue'),
+          meta: {
+            hiddenInMenu: false,
+            title: 'Multiple languages',
+          },
+        },
+      ],
+    },
   ],
 }];
 
