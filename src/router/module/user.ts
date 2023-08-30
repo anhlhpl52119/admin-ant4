@@ -36,6 +36,5 @@ const routes: CustomRoute[] = [{
     },
   ],
 }];
-// const routes: CustomRoute[] = [];
 
 export default routes;

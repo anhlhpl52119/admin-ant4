@@ -25,9 +25,4 @@
 
 <script lang="ts" setup>
 const checkBoxState = ref<boolean>(false);
-
-interface Controller {
-  use: string
-  other: number
-}
 </script>

@@ -11,9 +11,7 @@
     <QuantityItemControl v-model:quantity="b" :default="1" />
     <h2>Demo Price</h2>
     <section class="flex-center gap-20">
-      <div>
-        <!-- <UnitConverionOptions /> -->
-      </div>
+      <div />
       <div class="border h-90" />
       <div> <UnitConverionOptions /> </div>
     </section>
@@ -31,8 +29,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ProductApi } from '@/apis/ecom/product';
-
 const a = ref('');
 const b = ref<number>(1);
 
@@ -42,7 +38,6 @@ export interface taxPrice {
   tax: string | null
 }
 const fetch = async () => {
-  const { data } = await ProductApi.getList();
 };
 const itemPrice = reactive<taxPrice>({
   price: 1201212,

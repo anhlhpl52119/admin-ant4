@@ -29,10 +29,11 @@ const router = createRouter({
 export async function setupRouter(app: App) {
   dynamicRouterGenerator(ERole.ADMIN);
 
-  // Init Router goard
+  // Init router gruard
   beforeEach(router);
   afterEach(router);
-  // App setup
+
+  // App setup router
   app.use(router);
   await router.isReady();
 }

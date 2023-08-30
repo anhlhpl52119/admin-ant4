@@ -6,7 +6,7 @@ import { type Router } from 'vue-router';
 
 export const afterEach = (router: Router) => {
   router.afterEach(() => {
-    console.log('after');
+    // TODO: add NProgress done
     // NProgress.done(); // End progress bar
   });
 };
