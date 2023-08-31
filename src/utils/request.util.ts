@@ -8,11 +8,11 @@ import type {
 import { message as $message } from 'ant-design-vue';
 import { uniqueSlash } from '@/utils/url.util';
 import { ERole } from '@/enums/common.enum';
-import type { EAxiosMethod } from '@/enums/common.enum';
+import type { RequestMethod } from '@/enums/request.enum';
 
 interface Config {
   url: string
-  method: EAxiosMethod
+  method: RequestMethod
   body?: any
   params?: any
   timeout?: number
