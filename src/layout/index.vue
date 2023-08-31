@@ -10,14 +10,15 @@
     </ALayoutSider>
     <ALayout>
       <header class="h-64 bg-white" />
-      <ALayoutContent>
-        <div class="card bg-white min-h-360">
+      <ALayoutContent class="relative">
+        <div class="card bg-white min-h-360 m-16">
           <PageContent />
+          <AppDrawer />
         </div>
       </ALayoutContent>
-      <ALayoutFooter class="text-center">
+      <!-- <ALayoutFooter class="text-center">
         Footer
-      </ALayoutFooter>
+      </ALayoutFooter> -->
     </ALayout>
   </ALayout>
 </template>
@@ -35,4 +36,5 @@ const activeKey = ref<string[]>([ERouteName.DASHBOARD]);
 const selectedKeys = computed(() =>
   [routes?.name?.toString() ?? ERouteName.DASHBOARD],
 );
+const a: Partial<UpdateDriverRequestBody> = { address: '' };
 </script>
