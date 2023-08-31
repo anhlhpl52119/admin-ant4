@@ -12,9 +12,9 @@ import { presetAttributify, presetIcons, presetUno } from 'unocss';
 // const auth = import.meta.env.VITE_API_AUTH_PREFIX;
 // const base = import.meta.env.VITE_API_VERSION_PREFIX;
 // TODO: add from .env
-const url = 'proxyDomain';
-const auth = 'authapi';
-const base = 'apiversion';
+const url = 'https://dcms-dev.takeit.vn';
+const auth = '/';
+const base = '/api/v1/';
 
 export default defineConfig({
   plugins: [
