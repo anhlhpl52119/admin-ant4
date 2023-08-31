@@ -1,4 +1,4 @@
-import { RequestMethod } from '@/enums/request.enum';
+import { ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const authApis = {
@@ -6,12 +6,13 @@ export const authApis = {
     const body = { user: { ...bodyParams } };
     return request<LoginResponse>({
       url: '/login',
-      method: RequestMethod.POST,
+      method: ERequestMethod.POST,
       body,
     },
     {
       successMsg: 'Đăng nhập thành công',
       isShowLoading: true,
+      isAuth: true,
     });
   },
 };

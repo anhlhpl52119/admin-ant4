@@ -15,7 +15,7 @@ const routes: CustomRoute[] = [{
     {
       path: 'page1',
       name: ERouteName.MANAGEMENT_PAGE1,
-      component: () => import('@/views/home.vue'),
+      component: () => import('@/views/demo/demo-button.vue'),
       meta: {
         title: 'Management Menu 1',
         hiddenInMenu: false,
@@ -24,7 +24,7 @@ const routes: CustomRoute[] = [{
     {
       path: 'page2',
       name: ERouteName.MANAGEMENT_PAGE2,
-      component: () => import('@/views/dev.vue'),
+      component: () => import('@/views/demo/dev.vue'),
       meta: {
         hiddenInMenu: false,
         title: 'Management Menu 2',

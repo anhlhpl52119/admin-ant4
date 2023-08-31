@@ -1,5 +1,10 @@
 export enum ERouteName {
   DEMO = 'demo',
+  DRIVER = 'driver',
+  DRIVER_MANAGEMENT = 'driver-management',
+  BRANCH = 'branch',
+  BRANCH_MANAGEMENT = 'branch-management',
+  DRIVER_GROUP = 'driver-group',
   DEMO_PAGE1 = 'demo-page1',
   DEMO_ERROR = 'DEMO-ERROR',
   DEMO_404 = 'DEMO-404',

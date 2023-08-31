@@ -29,6 +29,8 @@
 </template>
 
 <script lang="ts" setup>
+import { authApis } from '@/apis/auth/auth.api';
+
 const a = ref('');
 const b = ref<number>(1);
 
@@ -38,6 +40,8 @@ export interface taxPrice {
   tax: string | null
 }
 const fetch = async () => {
+  const auth = await authApis.login({ email: 'nhattruong0000@gmail.com', password: '123123A@' });
+  console.log(auth);
 };
 const itemPrice = reactive<taxPrice>({
   price: 1201212,

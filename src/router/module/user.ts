@@ -17,7 +17,7 @@ const routes: CustomRoute[] = [{
     {
       path: 'page1',
       name: ERouteName.USER_PAGE1,
-      component: () => import('@/views/home.vue'),
+      component: () => import('@/views/demo/demo-button.vue'),
       meta: {
         hiddenInMenu: true,
         title: 'User Info Menu 1',
@@ -27,7 +27,7 @@ const routes: CustomRoute[] = [{
     {
       path: 'page2',
       name: ERouteName.USER_PAGE3,
-      component: () => import('@/views/dev.vue'),
+      component: () => import('@/views/demo/dev.vue'),
       meta: {
         hiddenInMenu: false,
         title: 'User Info Menu 2',
@@ -37,7 +37,7 @@ const routes: CustomRoute[] = [{
         {
           path: 'page999',
           name: ERouteName.USER_PAGE5,
-          component: () => import('@/views/dev.vue'),
+          component: () => import('@/views/demo/dev.vue'),
           meta: {
             hiddenInMenu: false,
             title: 'User Info Menu 5',

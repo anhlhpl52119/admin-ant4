@@ -1,11 +1,11 @@
-import { RequestMethod } from '@/enums/request.enum';
+import { ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const driverApis = {
   search: (params: ApiQuery<Driver>) => {
     return request<PageResponse<SearchDriverResponse>>({
       url: '/core/driver',
-      method: RequestMethod.GET,
+      method: ERequestMethod.GET,
       params,
     },
     {
@@ -17,7 +17,7 @@ export const driverApis = {
     const body = { driver: { ...rqBody } };
     return request<PageResponse<SearchDriverResponse>>({
       url: '/core/driver',
-      method: RequestMethod.POST,
+      method: ERequestMethod.POST,
       body,
     },
     {
@@ -28,7 +28,7 @@ export const driverApis = {
   getDetails: (driverId: string) => {
     return request<GetDriverDetailResponse>({
       url: `/core/driver${driverId}`,
-      method: RequestMethod.GET,
+      method: ERequestMethod.GET,
     },
     {
       successMsg: 'Thành Công',
@@ -39,7 +39,7 @@ export const driverApis = {
     const body = { driver: { ...rqBody } };
     return request<GetDriverDetailResponse>({
       url: `/core/driver${driverId}`,
-      method: RequestMethod.PUT,
+      method: ERequestMethod.PUT,
       body,
     },
     {

@@ -1,11 +1,11 @@
-import { RequestMethod } from '@/enums/request.enum';
+import { ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const groupDriverApis = {
   search: (params: ApiQuery<GroupDriver>) => {
     return request<PageResponse<SearchGroupDriverResponse>>({
       url: '/core/driver',
-      method: RequestMethod.GET,
+      method: ERequestMethod.GET,
       params,
     },
     {
@@ -17,7 +17,7 @@ export const groupDriverApis = {
     const body = { group_driver: { ...rqBody } };
     return request<PageResponse<SearchDriverResponse>>({
       url: '/core/driver',
-      method: RequestMethod.POST,
+      method: ERequestMethod.POST,
       body,
     },
     {
@@ -28,7 +28,7 @@ export const groupDriverApis = {
   getDetails: (driverId: string) => {
     return request<GetGroupDriverDetailResponse>({
       url: `/core/driver${driverId}`,
-      method: RequestMethod.GET,
+      method: ERequestMethod.GET,
     },
     {
       successMsg: 'Thành Công',
@@ -39,7 +39,7 @@ export const groupDriverApis = {
     const body = { group_driver: { ...rqBody } };
     return request<GetDriverDetailResponse>({
       url: `/core/driver${driverId}`,
-      method: RequestMethod.PUT,
+      method: ERequestMethod.PUT,
       body,
     },
     {

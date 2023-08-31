@@ -15,7 +15,7 @@ const routes: CustomRoute[] = [{
     {
       path: 'page1',
       name: ERouteName.DASHBOARD_PAGE1,
-      component: () => import('@/views/home.vue'),
+      component: () => import('@/views/demo/demo-button.vue'),
       meta: {
         hiddenInMenu: true,
         title: 'Dashboard Page 1',
@@ -24,7 +24,7 @@ const routes: CustomRoute[] = [{
     {
       path: 'page2',
       name: ERouteName.DASHBOARD_PAGE2,
-      component: () => import('@/views/dev.vue'),
+      component: () => import('@/views/demo/dev.vue'),
       meta: {
         hiddenInMenu: false,
         title: 'Dashboard Page 2',

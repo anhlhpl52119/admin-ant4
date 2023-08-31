@@ -13,7 +13,7 @@ import { presetAttributify, presetIcons, presetUno } from 'unocss';
 // const base = import.meta.env.VITE_API_VERSION_PREFIX;
 // TODO: add from .env
 const url = 'https://dcms-dev.takeit.vn';
-const auth = '/';
+const auth = '/login';
 const base = '/api/v1/';
 
 export default defineConfig({

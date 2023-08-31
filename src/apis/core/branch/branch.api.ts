@@ -1,11 +1,11 @@
-import { RequestMethod } from '@/enums/request.enum';
+import { ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const branchApis = {
   search: (params: ApiQuery<Branch>) => {
     return request<PageResponse<SearchBranchResponse>>({
       url: '/core/branch',
-      method: RequestMethod.GET,
+      method: ERequestMethod.GET,
       params,
     },
     {
@@ -17,7 +17,7 @@ export const branchApis = {
     const body = { branch: { ...rqBody } };
     return request({
       url: '/core/branch',
-      method: RequestMethod.POST,
+      method: ERequestMethod.POST,
       body,
     },
     {
@@ -28,7 +28,7 @@ export const branchApis = {
   getDetails: (branchId: string) => {
     return request<GetBranchDetailResponse>({
       url: `/core/branch${branchId}`,
-      method: RequestMethod.GET,
+      method: ERequestMethod.GET,
     },
     {
       successMsg: 'Thành Công',
@@ -39,7 +39,7 @@ export const branchApis = {
     const body = { branch: { ...rqBody } };
     return request({
       url: `/core/branch${branchId}`,
-      method: RequestMethod.PUT,
+      method: ERequestMethod.PUT,
       body,
     },
     {
