@@ -1,15 +1,13 @@
 <template>
   <div class="tabs-view-content">
-    <RouterView v-slot="{ Component }">
+    <RouterView #="{ Component }">
       <template v-if="Component">
         <Transition
           :name="Object.is(route.meta?.transitionName, false) ? '' : 'fade-transform'"
           mode="out-in"
           appear
         >
-          <!-- <KeepAlive :include="keepAliveComponents"> -->
           <Component :is="Component" :key="route.fullPath" />
-          <!-- </KeepAlive> -->
         </Transition>
       </template>
     </RouterView>

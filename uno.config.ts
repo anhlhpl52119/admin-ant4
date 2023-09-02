@@ -51,7 +51,7 @@ export default defineConfig({
     ['fixed-tl', 'fixed top-0 left-0'],
     ['fixed-center', 'fixed top-1/2 left-1/2 translate--1/2'],
     ['flex-center', 'flex items-center justify-center'],
-    ['grid-center', 'items-center justify-items-center'],
+    ['grid-center', 'grid items-center justify-items-center'],
   ],
   postprocess: (util: UtilObject) => {
     // 1 => 0.1rem (ex: p-1)

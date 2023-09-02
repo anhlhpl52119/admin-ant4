@@ -1,16 +1,46 @@
 <template>
-  <div>
-    Login
-  </div>
+  <main class="bg-abd flex-center">
+    <div class="w400 h400 flex flex-col gap-10">
+      <CInput
+        v-model:value="formState.email"
+        label="Email"
+        label-placement="top"
+        :maxlength="30"
+        :prevent-key="[' ']"
+      />
+      <AInputPassword v-model:value="formState.password" />
+      <AButton
+        size="large"
+        type="primary"
+        block
+        :loading="isLoading"
+        @click="submit"
+      >
+        Đăng Nhập
+      </AButton>
+    </div>
+  </main>
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
-  foo: string
-  bar: string
-}>();
-const emits = defineEmits<{
-  foo: [v: string]
-  bar: [v: string]
-}>();
+import { useUserStore } from '@/stores/user.store';
+
+const userStore = useUserStore();
+const isLoading = ref<boolean>(false);
+const formState = reactive({
+  email: 'nhattruong0000@gmail.com',
+  password: '123123A@',
+});
+const submit = async () => {
+  try {
+    isLoading.value = true;
+    await userStore.login(formState);
+  }
+  catch (error) {
+    return Promise.reject(error);
+  }
+  finally {
+    isLoading.value = false;
+  }
+};
 </script>

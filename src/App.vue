@@ -6,7 +6,9 @@
       },
     }"
   >
-    <RouterView />
+    <RouterView v-slot="{ Component }">
+      <Component :is="Component" />
+    </RouterView>
   </AConfigProvider>
 </template>
 

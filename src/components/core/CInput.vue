@@ -3,7 +3,7 @@
     <span v-if="label" :class="labelClass" class="font-medium">
       {{ label }}
     </span>
-    <AInput :maxlength="10" v-bind="{ ...$attrs, ...props }" @input="onInput" />
+    <AInput :maxlength="10" v-bind="{ ...$attrs, ...props }" @input="onInput" @keydown="onKeydownHandler" />
   </div>
 </template>
 
@@ -16,6 +16,7 @@ type LabelPlacement = 'top' | 'bottom' | 'left' | 'right'
 
 const props = defineProps({
   ...InputProp(),
+  preventKey: Array<string>,
   acceptedOnly: String as PropType<RegexTypes>,
   labelPlacement: String as PropType<LabelPlacement>,
   label: String,
@@ -65,5 +66,11 @@ const onInput = (e: any) => {
     return emits('update:value', val);
   }
   emits('update:value', reRexFactory[props.acceptedOnly](val));
+};
+const onKeydownHandler = (e: KeyboardEvent) => {
+  if (!props.preventKey || !props.preventKey.includes(e.key)) {
+    return;
+  }
+  e.preventDefault();
 };
 </script>

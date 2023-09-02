@@ -32,4 +32,6 @@ export enum ERouteName {
   USER_PAGE4 = 'user-page4',
   USER_PAGE5 = 'user-page5',
   USER_PAGE6 = 'user-page6',
+  LOGIN = 'login',
+  WHITE_LIST = 'white-list',
 }

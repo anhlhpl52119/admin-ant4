@@ -45,8 +45,8 @@ export const useUserStore = defineStore('user-store', () => {
     userMenu.value = routeToMenu(menus);
   };
 
-  const login = async () => {
-    const auth = await authApis.login({ email: 'nhattruong0000@gmail.com', password: '123123A@' });
+  const login = async (user: LoginRequestBody) => {
+    const auth = await authApis.login(user);
     if (typeof auth.headers.getAuthorization === 'function') {
       const token = auth.headers.getAuthorization();
       sessionStore.setCookie(EStorage.ACCESS_TOKEN, token);
