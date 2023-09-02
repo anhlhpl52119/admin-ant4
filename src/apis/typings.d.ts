@@ -25,11 +25,11 @@ type ApiAttributeQuery<T> = Partial<RansackQuery<T>>
 
 // api response
 type PageResponse<T> = {
-    data: T & {
-        current_page: number;
-        total_page: number;
-        total_records: number;
-    }
+    message: string[],
+    data: T,
+    current_page: number;
+    total_page: number;
+    total_records: number;
 }
 
 type ApiQuery<T> = {
