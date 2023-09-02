@@ -10,10 +10,12 @@ const filterRoute = (arr: CustomRoute[], userRole: ERole) => {
     if (!i.meta.permit || i.meta.permit.length === 0) {
       if (!i.children || i.children.length === 0) {
         result.push(i);
+
         return;
       }
       i.children = filterRoute(i.children, userRole);
       result.push(i);
+
       return;
     }
 
@@ -23,12 +25,14 @@ const filterRoute = (arr: CustomRoute[], userRole: ERole) => {
 
     if (!i.children || i.children.length === 0) {
       result.push(i);
+
       return;
     }
 
     i.children = filterRoute(i.children, userRole);
     result.push(i);
   });
+
   return result;
 };
 
@@ -39,6 +43,7 @@ export const dynamicRouterGenerator = async (userRole: ERole) => {
     const menus = [...userRoutes]; // TODO: add error module path
     baseLayout.children = menus;
     router.addRoute(baseLayout);
+
     return Promise.resolve({
       menus,
       routes: baseLayout.children,

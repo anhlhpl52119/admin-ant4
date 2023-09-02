@@ -5,3 +5,7 @@ export enum ERequestMethod {
   DEL = 'DELETE',
   PATCH = 'PATCH',
 }
+export enum EStatusCode {
+  UNAUTHORIZED = 401,
+  UNKNOWN = 999,
+}

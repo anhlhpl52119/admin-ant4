@@ -15,6 +15,7 @@ export const groupDriverApis = {
   },
   create: (rqBody: CreateGroupDriverRequestBody) => {
     const body = { group_driver: { ...rqBody } };
+
     return request<PageResponse<SearchDriverResponse>>({
       url: '/core/driver',
       method: ERequestMethod.POST,
@@ -37,6 +38,7 @@ export const groupDriverApis = {
   },
   update: (driverId: string, rqBody: UpdateGroupDriverRequestBody) => {
     const body = { group_driver: { ...rqBody } };
+
     return request<GetDriverDetailResponse>({
       url: `/core/driver${driverId}`,
       method: ERequestMethod.PUT,

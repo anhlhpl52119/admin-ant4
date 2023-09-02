@@ -55,6 +55,7 @@ function createStorage(prefixKey: string, storageType = localStorage) {
         return def;
       }
     }
+
     return def;
   }
 
@@ -102,6 +103,7 @@ function createStorage(prefixKey: string, storageType = localStorage) {
         return kv[1];
       }
     }
+
     return '';
   }
 

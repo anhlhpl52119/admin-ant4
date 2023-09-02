@@ -1,16 +1,37 @@
 <template>
-  <div>
-    Driver
-  </div>
+  <main>
+    <div class="text-20">
+      Driver
+    </div>
+    <div class="gap-16 flex-center">
+      <AButton danger type="primary" @click="call.search()">
+        Test Search Api ...
+      </AButton>
+      <AButton type="primary">
+        Test Api 2
+      </AButton>
+      <AButton danger>
+        Danger btn
+      </AButton>
+      <AButton type="dashed">
+        Dashed Button
+      </AButton>
+      <ACheckbox v-model:checked="checkBoxState">
+        Checkbox
+      </ACheckbox>
+      <i class="i-ph-anchor-simple-thin w30 h30" />
+    </div>
+  </main>
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
-  foo: string
-  bar: string
-}>();
-const emits = defineEmits<{
-  foo: [v: string]
-  bar: [v: string]
-}>();
+import { driverApis } from '@/apis/core/driver/driver.api';
+
+const checkBoxState = ref<boolean>(false);
+
+const call = {
+  search: async () => {
+    const res = await driverApis.search();
+  },
+};
 </script>

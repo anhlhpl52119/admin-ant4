@@ -1,5 +1,6 @@
 export const isNumeric = (str: string) => {
   const parseNum = Number(str);
+
   return !Number.isNaN(parseNum);
 };
 export const percentFormat = (num: number): string => {

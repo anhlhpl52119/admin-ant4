@@ -46,8 +46,7 @@ export const beforeEach = (router: Router) => {
   router.beforeEach(async (to, _, next) => {
     const token = localStore.get(EStorage.ACCESS_TOKEN);
     const userStore = useUserStore();
-    await userStore.login();
-    console.log('to', to);
+    await userStore.setupUserMenu();
     next();
   });
 };

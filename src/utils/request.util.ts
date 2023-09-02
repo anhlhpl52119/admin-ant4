@@ -8,11 +8,13 @@ import type {
 import { message as $message } from 'ant-design-vue';
 import { uniqueSlash } from '@/utils/url.util';
 import { ERole } from '@/enums/common.enum';
-import type { RequestMethod } from '@/enums/request.enum';
+import { type ERequestMethod, EStatusCode } from '@/enums/request.enum';
+import { sessionStore } from '@/utils/storage.util';
+import { EStorage } from '@/enums/cache.enum';
 
 interface Config {
   url: string
-  method: RequestMethod
+  method: ERequestMethod
   body?: any
   params?: any
   timeout?: number
@@ -24,22 +26,19 @@ interface RequestOptions {
   errorMsg?: string
   isShowLoading?: boolean
   loadingMessage?: string
+  getDataDirectly?: boolean
 }
 
-const UNKNOWN_ERROR = 'Unknow error';
-
-const VITE_BASE_AUTH = import.meta.env.VITE_API_AUTH_PREFIX;
-const VERSION_PREFIX = import.meta.env.VITE_API_VERSION_PREFIX;
+const UNKNOWN_ERROR = 'Lỗi không xác định';
 
 const service = axios.create({
-  timeout: 6000, // 1 mins
+  timeout: 6000,
 });
 
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // const token = localStore.get(ECacheKey.ACCESS_TOKEN);
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzb25uZ3V5ZW4tYXBpIiwiZXhwIjoxNjkyNjAxOTk0LCJhdWQiOiI4NjZhYzI2ZC1mYjZhLTQ5YWYtYTgwZC1lNmZjN2U0Yzc1MDEiLCJ1c2VyIjp7ImlkIjoiMjI5YjQyYjctMjk0NS00NGQzLTgxNDEtYTQ2NDFjNDJlZTViIn19.Pz-PRSFhbO-uBSU3evwc8omQkBUxmBXaxkOSKQIyZCE';
-    if (token && config.headers) {
+    const token = sessionStore.getCookie(EStorage.ACCESS_TOKEN);
+    if (token !== '' && config.headers) {
       config.headers.Authorization = token;
     }
 
@@ -52,15 +51,15 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (response: AxiosResponse) => {
-    if (response.status === 200) {
-      return response.data;
-    }
-    const res = response.data;
-    const error = new Error(UNKNOWN_ERROR) as Error & { code: any };
-    error.code = res.code;
-    return Promise.reject(error);
+    return response;
   },
-  (error: AxiosError<{ messages: string[] }>) => {
+  (error: AxiosError<{ message: string[] }>) => {
+    const status = error?.response?.status ?? EStatusCode.UNKNOWN;
+    if (status === EStatusCode.UNAUTHORIZED) {
+      sessionStore.clearCookie();
+      // show message
+    }
+
     return Promise.reject(error);
   },
 );
@@ -71,29 +70,48 @@ service.interceptors.response.use(
  * @returns {string} return url + object params in string
  */
 export const request = async <T>(config: Config, options: RequestOptions = {}): Promise<T> => {
-  const axiosConfig: AxiosRequestConfig = { ...config, data: config.body };
+  const MSG_KEY = 1; // message key
+  const axiosConfig: AxiosRequestConfig = { ...config, data: config.body }; // re-assign config 'body' to axios 'data'
+
+  //
   const {
     errorMsg, permitRoles: permitRole, successMsg, isShowLoading,
     loadingMessage = 'Đang thực hiện...',
+    getDataDirectly = true,
     isAuth = false,
   } = options;
+
+  // current role has no accessible to execute api request
   if (permitRole && permitRole.includes(ERole.GUEST)) {
-    return $message.error('You are not access able');
+    return $message.error('Bạn không có quyền truy cập tính năng này!');
   }
-  const MSG_KEY = 1;
+
+  // show loading
   if (isShowLoading) {
     $message.loading({ content: () => loadingMessage, key: MSG_KEY });
   }
+
+  // sent request
   try {
-    const targetURL = isAuth ? VITE_BASE_AUTH : '/api/v1';
+    const targetURL = isAuth ? '/' : '/api/v1';
     axiosConfig.url = uniqueSlash(`${targetURL + config.url}`);
     const response = await service.request(axiosConfig);
     successMsg && $message.success({ content: successMsg, key: MSG_KEY });
-    return response.data;
+
+    return getDataDirectly ? response.data : response;
   }
   catch (error: any) {
-    $message.error({ content: error.code, key: MSG_KEY });
-    return Promise.reject(error);
+    // show Custom error message
+    if (errorMsg) {
+      return $message.error({ content: errorMsg, key: MSG_KEY });
+    }
+    // show server response message
+    if (error.response.data) {
+      return $message.error({ content: error.response.data, key: MSG_KEY });
+    }
+
+    // show common message
+    return $message.error({ content: UNKNOWN_ERROR, key: MSG_KEY });
   }
   finally {
     if (!successMsg && !errorMsg) {

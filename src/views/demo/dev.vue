@@ -13,7 +13,6 @@
     <section class="flex-center gap-20">
       <div />
       <div class="border h-90" />
-      <div> <UnitConverionOptions /> </div>
     </section>
     <section class="mt-100">
       <h1 class="text-20">
@@ -29,8 +28,10 @@
 </template>
 
 <script lang="ts" setup>
-import { authApis } from '@/apis/auth/auth.api';
+// import { authApis } from '@/apis/auth/auth.api';
+import { useUserStore } from '@/stores/user.store';
 
+const userStore = useUserStore();
 const a = ref('');
 const b = ref<number>(1);
 
@@ -40,9 +41,9 @@ export interface taxPrice {
   tax: string | null
 }
 const fetch = async () => {
-  const auth = await authApis.login({ email: 'nhattruong0000@gmail.com', password: '123123A@' });
-  console.log(auth);
+  await userStore.login();
 };
+
 const itemPrice = reactive<taxPrice>({
   price: 1201212,
   quantity: 1,

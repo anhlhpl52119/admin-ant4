@@ -15,6 +15,7 @@ export const branchApis = {
   },
   create: (rqBody: CreateBranchRequestBody) => {
     const body = { branch: { ...rqBody } };
+
     return request({
       url: '/core/branch',
       method: ERequestMethod.POST,
@@ -37,6 +38,7 @@ export const branchApis = {
   },
   update: (branchId: string, rqBody: UpdateBranchRequestBody) => {
     const body = { branch: { ...rqBody } };
+
     return request({
       url: `/core/branch${branchId}`,
       method: ERequestMethod.PUT,
