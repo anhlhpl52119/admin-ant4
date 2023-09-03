@@ -1,143 +1,121 @@
 import type { EStorage } from '@/enums/cache.enum';
 
-// Default expire time item
-const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 2; // 2 days
+const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7;
 
 /**
  * Create a local cache object
  * @param {string=} prefixKey -
  * @param storageType
  */
-function createStorage(prefixKey: string, storageType = localStorage) {
-  const storage = storageType;
+export const createStorage = ({ storage = localStorage } = {}) => {
+  const Storage = class {
+    private storage = storage;
 
-  function _getKey(key: EStorage) {
-    return `${prefixKey}${key}`.toUpperCase();
-  }
-
-  /**
+    /**
    * @description set cache
    * @param { EStorage} key cache key
    * @param {*} value cache value
    * @param expire
    */
-  function set(
-    key: EStorage,
-    value: any,
-    expire: number | null = DEFAULT_CACHE_TIME,
-  ) {
-    const stringData = JSON.stringify({
-      value,
-      expire: expire !== null ? new Date().getTime() + expire * 1000 : null,
-    });
-    storage.setItem(_getKey(key), stringData);
-  }
+    set(key: EStorage, value: any, expire: number | null = DEFAULT_CACHE_TIME) {
+      const stringData = JSON.stringify({
+        value,
+        expire: expire !== null ? new Date().getTime() + expire * 1000 : null,
+      });
+      this.storage.setItem(key, stringData);
+    }
 
-  /**
+    /**
    * read cache
    * @param { EStorage} key cache key
    * @param {*=} def default value
    */
-  function get<T = any>(key: EStorage, def: any = null): T {
-    const item = storage.getItem(_getKey(key));
-    if (item) {
-      try {
-        const data = JSON.parse(item);
-        const { value, expire } = data;
-        // Return directly within the validity period
-        if (expire === null || expire >= Date.now()) {
-          return value;
+    get<T = any>(key: EStorage, def: any = null): T {
+      const item = this.storage.getItem(key);
+      if (item) {
+        try {
+          const data = JSON.parse(item);
+          const { value, expire } = data;
+          // Return directly within the validity period
+          if (expire === null || expire >= Date.now()) {
+            return value;
+          }
+          this.remove(key);
         }
+        catch (e) {
+          return def;
+        }
+      }
 
-        remove(key);
-      }
-      catch (e) {
-        return def;
-      }
+      return def;
     }
 
-    return def;
-  }
-
-  /**
+    /**
    * Remove an item from the cache
-   * @param { EStorage} key
+   * @param { string} key
    */
-  function remove(key: EStorage) {
-    storage.removeItem(_getKey(key));
-  }
+    remove(key: string) {
+      this.storage.removeItem(key);
+    }
 
-  /**
+    /**
    * Clear all caches
    * @memberOf Cache
    */
-  function clear(): void {
-    storage.clear();
-  }
+    clear(): void {
+      this.storage.clear();
+    }
 
-  /**
+    /**
    * set cookies
-   * @param {string} name cookie name
+   * @param {EStorage} name cookie name
    * @param {*} value cookie value
    * @param {number=} expire expiration time
    * If the expiration time is set, the browser automatically deletes by default
    * @example
    */
-  function setCookie(
-    name: EStorage,
-    value: any,
-    expire: number | null = DEFAULT_CACHE_TIME,
-  ) {
-    document.cookie = `${_getKey(name)}=${value}; Max-Age=${expire}`;
-  }
-
-  /**
-   * Get cookie value by name
-   * @param name
-   */
-  function getCookie(name: EStorage): string {
-    const cookieArr = document.cookie.split('; ');
-    for (let i = 0, length = cookieArr.length; i < length; i++) {
-      const kv = cookieArr[i].split('=');
-      if (kv[0] === _getKey(name)) {
-        return kv[1];
-      }
+    setCookie(name: EStorage, value: any, expire: number | null = DEFAULT_CACHE_TIME) {
+      document.cookie = `${name}=${value}; Max-Age=${expire}`;
     }
 
-    return '';
-  }
+    /**
+     * Get cookie by key name
+     * @param name
+     */
+    getCookie(name: EStorage): string {
+      const cookieArr = document.cookie.split('; ');
+      for (let i = 0, length = cookieArr.length; i < length; i++) {
+        const kv = cookieArr[i].split('=');
+        if (kv[0] === name) {
+          return kv[1];
+        }
+      }
 
-  /**
-   * Delete the specified cookie by keyname
-   * @param {string} key
-   */
-  function removeCookie(key: EStorage) {
-    setCookie(key, 1, -1);
-  }
+      return '';
+    }
 
-  /**
-   * Empty cookies to invalidate all cookies
-   */
-  function clearCookie(): void {
-    const keys = document.cookie.match(/[^ =;]+(?==)/g);
-    if (keys) {
-      for (let i = keys.length; i--;) {
-        document.cookie = `${keys[i]}=0;expire=${new Date(0).toUTCString()}`;
+    /**
+     * Delete the specified cookie by keyname
+     * @param {string} key
+     */
+    removeCookie(key: EStorage) {
+      this.setCookie(key, 1, -1);
+    }
+
+    /**
+    * Empty cookies to invalidate all cookies
+    */
+    clearCookie(): void {
+      const keys = document.cookie.match(/[^ =;]+(?==)/g);
+      if (keys) {
+        for (let i = keys.length; i--;) {
+          document.cookie = `${keys[i]}=0;expire=${new Date(0).toUTCString()}`;
+        }
       }
     }
-  }
-
-  return {
-    set,
-    get,
-    remove,
-    clear,
-    setCookie,
-    getCookie,
-    removeCookie,
-    clearCookie,
   };
-}
 
-export const localStore = createStorage('LC_', localStorage);
-export const sessionStore = createStorage('SS_', sessionStorage);
+  return new Storage();
+};
+
+export const BrowserStorage = createStorage();
