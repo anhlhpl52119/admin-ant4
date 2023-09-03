@@ -16,8 +16,10 @@ declare global {
     }
     
     type SearchBranchResponse = {
-        drivers: Branch[]
+        branchs: Branch[]
     }
+
+    type SearchBranchQueryParams = ApiQuery<Branch>
 
     type GetBranchDetailResponse = Branch
 

@@ -2,7 +2,7 @@ import { ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const branchApis = {
-  search: (params: ApiQuery<Branch>) => {
+  search: (params?: SearchBranchQueryParams) => {
     return request<PageResponse<SearchBranchResponse>>({
       url: '/core/branch',
       method: ERequestMethod.GET,

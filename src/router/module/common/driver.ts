@@ -15,7 +15,7 @@ const routes: CustomRoute[] = [{
     {
       path: 'driver-management',
       name: ERouteName.DRIVER_MANAGEMENT,
-      component: () => import('@/views/driver-management/driver.vue'),
+      component: () => import('@/views/driver/driver.vue'),
       meta: {
         hiddenInMenu: false,
         title: 'Quản Lý Tài Xế',

@@ -17,6 +17,8 @@ declare global {
     type SearchDriverResponse = {
         drivers: Driver[]
     }
+
+    type SearchDriverQueryParams = ApiQuery<Driver>
     
     type GetDriverDetailResponse = {
         id: string;

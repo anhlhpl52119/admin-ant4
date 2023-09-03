@@ -50,6 +50,7 @@ declare module 'vue' {
     CInput: typeof import('./../src/components/core/CInput.vue')['default']
     CInputPassword: typeof import('./../src/components/core/CInputPassword.vue')['default']
     copy: typeof import('./../src/components/HelloComp copy.vue')['default']
+    CTableFilterDropdown: typeof import('./../src/components/core/CTableFilterDropdown.vue')['default']
     CustomInput: typeof import('./../src/components/common/CustomInput.vue')['default']
     HelloComp: typeof import('./../src/components/common/HelloComp.vue')['default']
     NewCompTwo: typeof import('./../src/components/common/NewCompTwo.vue')['default']

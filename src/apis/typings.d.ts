@@ -16,7 +16,7 @@ type ApiPageQuery = {
     items?: number;
     page?: number;
     child?: boolean;
-    parent: boolean;
+    parent?: boolean;
     all?: boolean
 }
 
