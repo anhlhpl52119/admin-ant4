@@ -1,5 +1,5 @@
 <template>
-  <ATable :data-source="branchesState" :columns="columns">
+  <ATable :data-source="driverState" :columns="columns" :loading="isFetching">
     <template
       #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }: Partial<FilterDropdownProps<Branch>> "
     >
@@ -15,15 +15,12 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
 import type { FilterDropdownProps } from 'ant-design-vue/es/table/interface';
-import { useBranchTableData } from './useBranchTableData';
+import { useDriverTableData } from './useDriverTableData';
 
-const { columns, branchesState } = useBranchTableData();
-const state = reactive({
-  searchText: '',
-  searchedColumn: '',
+const { columns, driverState, isFetching } = useDriverTableData();
+watch(driverState, (v) => {
+  console.log('object', v);
 });
-
 const searchInput = ref();
 </script>

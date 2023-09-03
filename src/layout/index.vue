@@ -1,7 +1,6 @@
 <template>
   <ALayout class="min-h-screen">
-    <!-- <div class="bg-white m-24 h-40" /> -->
-    <ALayoutSider v-model:collapsed="collapsed" collapsible :width="250">
+    <ALayoutSider v-model:collapsed="isCollapsed" collapsible :width="250">
       <AMenu v-model:openKeys="activeKey" :selected-keys="selectedKeys" theme="dark" mode="inline">
         <template v-for="item in userStore.userMenu" :key="item.name">
           <CustomSubMenu :data="item" />
@@ -34,16 +33,33 @@ import { useUserStore } from '@/stores/user.store';
 import { ERouteName } from '@/enums/router.enum';
 import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
+import type { CustomRoute } from '@/router/typing';
 
 const routes = useRoute();
 const userStore = useUserStore();
-const collapsed = ref<boolean>(false);
-const activeKey = ref<string[]>([ERouteName.DASHBOARD]);
-const selectedKeys = computed(() =>
-  [routes?.name?.toString() ?? ERouteName.DASHBOARD],
-);
+
+const isCollapsed = ref<boolean>(false);
+const activeKey = ref<string[]>(findParentRouteName(userStore.userMenu, routes.name?.toString() as ERouteName ?? ERouteName.DASHBOARD));
+const selectedKeys = computed(() => [routes?.name?.toString() ?? ERouteName.DASHBOARD]);
+
 const doLogout = () => {
   BrowserStorage.removeCookie(EStorage.ACCESS_TOKEN);
   location.reload();
 };
+
+function findParentRouteName(routes: CustomRoute[], activeName: ERouteName, parents: ERouteName[] = []): ERouteName[] {
+  for (const i of routes) {
+    if (i.name === activeName) {
+      return parents;
+    }
+    if (i.children && i.children.length > 0) {
+      const result = findParentRouteName(i.children, activeName, [...parents, i.name]);
+      if (result.length > 0) {
+        return result;
+      }
+    }
+  }
+
+  return [];
+}
 </script>

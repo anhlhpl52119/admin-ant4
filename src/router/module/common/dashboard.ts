@@ -17,7 +17,7 @@ const routes: CustomRoute[] = [{
       name: ERouteName.DASHBOARD_PAGE1,
       component: () => import('@/views/demo/demo-button.vue'),
       meta: {
-        hiddenInMenu: true,
+        hiddenInMenu: false,
         title: 'Dashboard Page 1',
       },
     },
