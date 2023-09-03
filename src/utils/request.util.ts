@@ -9,7 +9,7 @@ import { message as $message } from 'ant-design-vue';
 import { uniqueSlash } from '@/utils/url.util';
 import { ERole } from '@/enums/common.enum';
 import { type ERequestMethod, EStatusCode } from '@/enums/request.enum';
-import { sessionStore } from '@/utils/storage.util';
+import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
 
 interface Config {
@@ -37,7 +37,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = sessionStore.getCookie(EStorage.ACCESS_TOKEN);
+    const token = BrowserStorage.getCookie(EStorage.ACCESS_TOKEN);
     if (token !== '' && config.headers) {
       config.headers.Authorization = token;
     }
@@ -56,8 +56,8 @@ service.interceptors.response.use(
   (error: AxiosError<{ message: string[] }>) => {
     const status = error?.response?.status ?? EStatusCode.UNKNOWN;
     if (status === EStatusCode.UNAUTHORIZED) {
-      sessionStore.clearCookie();
-      // show message
+      BrowserStorage.removeCookie(EStorage.ACCESS_TOKEN);
+      location.reload(); // TODO: add user confirm after reload
     }
 
     return Promise.reject(error);
