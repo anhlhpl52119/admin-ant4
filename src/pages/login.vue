@@ -1,19 +1,24 @@
 <template>
   <main class="bg-abd flex-center">
-    <div class="w400 h400 flex flex-col gap-10">
+    <div class="w400 h400 flex flex-col gap-10" @keydown.enter="submit">
       <CInput
         v-model:value="formState.email"
         label="Email"
-        label-placement="top"
-        :maxlength="30"
-        :prevent-key="[' ']"
+        accepted-only="userLogin"
+        :maxlength="60"
       />
-      <AInputPassword v-model:value="formState.password" />
+
+      <CInputPassword
+        v-model:value="formState.password"
+        label="Password"
+        accepted-only="password"
+      />
       <AButton
         size="large"
         type="primary"
         block
         :loading="isLoading"
+        :disabled="isDisabledLogin"
         @click="submit"
       >
         Đăng Nhập
@@ -33,6 +38,9 @@ const formState = reactive({
   email: 'nhattruong0000@gmail.com',
   password: '123123A@',
 });
+const isDisabledLogin = computed(() =>
+  formState.email.length === 0 || formState.password.length < 8,
+);
 
 const submit = async () => {
   try {

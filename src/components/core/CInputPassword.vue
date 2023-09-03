@@ -3,7 +3,7 @@
     <span v-if="label" :class="labelClass" class="font-medium">
       {{ label }}
     </span>
-    <AInput :maxlength="10" v-bind="{ ...$attrs, ...props }" @input="onInput" @keydown="onKeydownHandler" />
+    <AInputPassword :maxlength="32" v-bind="{ ...$attrs, ...props }" @input="onInput" @keydown="onKeydownHandler" />
   </div>
 </template>
 
@@ -11,8 +11,8 @@
 import InputProp from 'ant-design-vue/es/input/inputProps';
 import type { PropType } from 'vue';
 
-type RegexTypes = 'number' | 'text' | 'userLogin';
-type LabelPlacement = 'top' | 'bottom' | 'left' | 'right'
+  type RegexTypes = 'password';
+  type LabelPlacement = 'top' | 'bottom' | 'left' | 'right'
 
 const props = defineProps({
   ...InputProp(),
@@ -28,10 +28,10 @@ const emits = defineEmits<{
 }>();
 
 /**
- * define where is label placement base on props
- *
- * @return {string} - class of tailwind
- * */
+   * define where is label placement base on props
+   *
+   * @return {string} - class of tailwind
+   * */
 const labelWhere = computed(() => {
   switch (props.labelPlacement) {
     case 'right':
@@ -48,16 +48,15 @@ const labelWhere = computed(() => {
 });
 
 const reRexFactory: { [k in RegexTypes]: (v: string) => string } = {
-  text: (v: string) => v.replace(/[0-9]/g, ''),
-  number: (v: string) => v.replace(/[^0-9]/g, ''),
-  userLogin: (v: string) => v.replace(/[~!#$%^&*()\-\+=\[\]{}|\\;:'",<>\/?\s]/g, ''),
+//   password: (v: string) => v.replace(/^[a-zA-Z0-9]+$/u, ''),
+  password: (v: string) => v,
 };
 
 /**
- * Trigger when typing on input
- * remove first space character
- *
- * */
+   * Trigger when typing on input
+   * remove first space character
+   *
+   * */
 const onInput = (e: any) => {
   const firstSpace = /^\s/;
   // remove empty space character ahead of string

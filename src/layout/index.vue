@@ -9,7 +9,11 @@
       </AMenu>
     </ALayoutSider>
     <ALayout>
-      <header class="h-64 bg-white" />
+      <header class="h-64 bg-white flex-center">
+        <AButton danger @click="doLogout">
+          Log out
+        </AButton>
+      </header>
       <ALayoutContent class="relative">
         <div class="card bg-white min-h-360 m-16">
           <PageContent />
@@ -28,6 +32,8 @@ import CustomSubMenu from './left-menu/CustomSubMenu.vue';
 import PageContent from '@/layout/page-content/index.vue';
 import { useUserStore } from '@/stores/user.store';
 import { ERouteName } from '@/enums/router.enum';
+import { BrowserStorage } from '@/utils/storage.util';
+import { EStorage } from '@/enums/cache.enum';
 
 const routes = useRoute();
 const userStore = useUserStore();
@@ -36,4 +42,8 @@ const activeKey = ref<string[]>([ERouteName.DASHBOARD]);
 const selectedKeys = computed(() =>
   [routes?.name?.toString() ?? ERouteName.DASHBOARD],
 );
+const doLogout = () => {
+  BrowserStorage.removeCookie(EStorage.ACCESS_TOKEN);
+  location.reload();
+};
 </script>
