@@ -1,10 +1,10 @@
 import type { CustomRoute } from './typing';
 import type { ERole } from '@/enums/common.enum';
-import staticRoutes from '@/router/module';
-import router, { routes } from '@/router';
+import router from '@/router';
+import { commonRoutes } from '@/router/module/common';
 import { ERouteName } from '@/enums/router.enum';
 
-const filterRoute = (arr: CustomRoute[], userRole: ERole) => {
+const filterRoutesByRole = (arr: CustomRoute[], userRole: ERole) => {
   const result: CustomRoute[] = [];
   arr.forEach((i) => {
     if (!i.meta.permit || i.meta.permit.length === 0) {
@@ -13,7 +13,7 @@ const filterRoute = (arr: CustomRoute[], userRole: ERole) => {
 
         return;
       }
-      i.children = filterRoute(i.children, userRole);
+      i.children = filterRoutesByRole(i.children, userRole);
       result.push(i);
 
       return;
@@ -29,7 +29,7 @@ const filterRoute = (arr: CustomRoute[], userRole: ERole) => {
       return;
     }
 
-    i.children = filterRoute(i.children, userRole);
+    i.children = filterRoutesByRole(i.children, userRole);
     result.push(i);
   });
 
@@ -38,15 +38,14 @@ const filterRoute = (arr: CustomRoute[], userRole: ERole) => {
 
 export const dynamicRouterGenerator = async (userRole: ERole) => {
   try {
-    const baseLayout = routes.find(item => item.name === ERouteName.MAIN_LAYOUT)!;
-    const userRoutes = filterRoute(staticRoutes, userRole);
-    const menus = [...userRoutes]; // TODO: add error module path
-    baseLayout.children = menus;
-    router.addRoute(baseLayout);
+    const layout = commonRoutes.find(item => item.name === ERouteName.MAIN_LAYOUT)!;
+    const userRoutes = filterRoutesByRole(layout.children || [], userRole);
+    const menus = [...userRoutes];
+    router.addRoute(layout);
 
     return Promise.resolve({
       menus,
-      routes: baseLayout.children,
+      routes: layout.children,
     });
   }
   catch (error) {
