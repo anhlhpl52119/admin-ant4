@@ -1,22 +1,21 @@
 import { defineStore } from 'pinia';
-import { localStore, sessionStore } from '@/utils/storage.util';
+import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
 import type { CustomRoute } from '@/router/typing';
-
-// import { ERole } from '@/enums/common.enum';
 import { dynamicRouterGenerator } from '@/router/router-factory';
 import { authApis } from '@/apis/auth/auth.api';
+import { ERole } from '@/enums/common.enum';
 
 export const useUserStore = defineStore('user-store', () => {
   // state
-  const token = ref<string>(localStore.get(EStorage.ACCESS_TOKEN));
+  const token = ref<string>(BrowserStorage.get(EStorage.ACCESS_TOKEN));
   const userInfo = ref<any>({ role: 'sd' });
   const userMenu = ref<CustomRoute[]>([]);
 
   // getter
   const getToken = computed(() => token.value);
   const getUserInfo = computed(() => userInfo.value);
-  const getUserRole = computed(() => userInfo.value?.role);
+  const getUserRole = computed(() => ERole.ADMIN);
 
   // action
   const routeToMenu = (arr: CustomRoute[]) => {
@@ -49,7 +48,7 @@ export const useUserStore = defineStore('user-store', () => {
     const auth = await authApis.login(user);
     if (typeof auth.headers.getAuthorization === 'function') {
       const token = auth.headers.getAuthorization();
-      sessionStore.setCookie(EStorage.ACCESS_TOKEN, token);
+      BrowserStorage.setCookie(EStorage.ACCESS_TOKEN, token);
     }
     await setupUserMenu();
   };
