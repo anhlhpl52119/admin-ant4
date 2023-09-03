@@ -24,17 +24,21 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/user.store';
+import { DEFAULT_ROUTE_PATH } from '@/constants/common.constant';
 
+const router = useRouter();
 const userStore = useUserStore();
 const isLoading = ref<boolean>(false);
 const formState = reactive({
   email: 'nhattruong0000@gmail.com',
   password: '123123A@',
 });
+
 const submit = async () => {
   try {
     isLoading.value = true;
     await userStore.login(formState);
+    router.replace(DEFAULT_ROUTE_PATH);
   }
   catch (error) {
     return Promise.reject(error);
