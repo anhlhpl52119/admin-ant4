@@ -1,15 +1,15 @@
 <template>
   <div class="tabs-view-content">
     <RouterView #="{ Component }">
-      <template v-if="Component">
-        <Transition
-          :name="Object.is(route.meta?.transitionName, false) ? '' : 'fade-transform'"
-          mode="out-in"
-          appear
-        >
+      <Transition
+        :name="Object.is(route.meta?.transitionName, false) ? '' : 'fade-transform'"
+        mode="out-in"
+        appear
+      >
+        <template v-if="Component">
           <Component :is="Component" :key="route.fullPath" />
-        </Transition>
-      </template>
+        </template>
+      </Transition>
     </RouterView>
   </div>
 </template>

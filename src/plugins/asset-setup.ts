@@ -1,3 +1,6 @@
+// vue transition
+import '@/assets/styles/transition.scss';
+
 // base
 import '@/assets/styles/normalize.scss';
 import '@/assets/styles/fonts.scss';
