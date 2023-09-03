@@ -5,48 +5,39 @@ import { type Router } from 'vue-router';
 // import { useUserAuth } from '@/stores/auth';
 // import { DefaultRoutes } from '@/enums/route-name';
 import { EStorage } from '@/enums/cache.enum';
+
 import { useUserStore } from '@/stores/user.store';
-import { localStore } from '@/utils/storage.util';
+import { BrowserStorage } from '@/utils/storage.util';
+import { DEFAULT_ROUTE_PATH } from '@/constants/common.constant';
+import { ERouteName } from '@/enums/router.enum';
 
 export const beforeEach = (router: Router) => {
-//   router.beforeEach(async (to, _, next) => {
-//     // NProgress.start();
-//     const authStore = useUserAuth();
-//     const token = localStore.get(EStorage.ACCESS_TOKEN);
-//     if (token) {
-//       try {
-//         await authStore.afterLogin();l
-//       }
-//       catch (error) {
-//         authStore.resetToken();
-//       }
-//       const hasRoute = router.hasRoute(to.name!);
-//       if (to.name === DefaultRoutes.Default) {
-//         next({ path: '/' });
-//       }
-//       else {
-//         if (!hasRoute) {
-//           next({ ...to, replace: true });
-//         }
-//         else {
-//           next();
-//         }
-//       }
-//     }
-//     else {
-//       const hasRoute = router.hasRoute(to.name!);
-//       if (hasRoute) {
-//         next();
-//       }
-//       else {
-//         next({ name: DefaultRoutes.Default, replace: true });
-//       }
-//     }
-//   });
+  const userStore = useUserStore();
   router.beforeEach(async (to, _, next) => {
-    const token = localStore.get(EStorage.ACCESS_TOKEN);
-    const userStore = useUserStore();
-    await userStore.setupUserMenu();
+    const token = BrowserStorage.getCookie(EStorage.ACCESS_TOKEN);
+    const hasRoute = router.hasRoute(to.name!);
+
+    // un-authen
+    if (!token || token === '' || token === '0') {
+      if (to.name === ERouteName.LOGIN) {
+        return next();
+      }
+
+      return next({ name: ERouteName.LOGIN });
+    }
+
+    if (!hasRoute) {
+      await userStore.setupUserMenu();
+
+      return next({ ...to, replace: true });
+    }
+
+    if (userStore.userMenu.length === 0) {
+      await userStore.setupUserMenu();
+
+      return next({ path: DEFAULT_ROUTE_PATH });
+    }
+
     next();
   });
 };
