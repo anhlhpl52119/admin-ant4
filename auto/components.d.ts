@@ -48,6 +48,7 @@ declare module 'vue' {
     ATransfer: typeof import('ant-design-vue/es')['Transfer']
     AUpload: typeof import('ant-design-vue/es')['Upload']
     CInput: typeof import('./../src/components/core/CInput.vue')['default']
+    CInputPassword: typeof import('./../src/components/core/CInputPassword.vue')['default']
     copy: typeof import('./../src/components/HelloComp copy.vue')['default']
     CustomInput: typeof import('./../src/components/common/CustomInput.vue')['default']
     HelloComp: typeof import('./../src/components/common/HelloComp.vue')['default']

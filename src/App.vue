@@ -6,15 +6,9 @@
       },
     }"
   >
-    <Transition
-      name="fade-transform"
-      mode="out-in"
-      appear
-    >
-      <RouterView v-slot="{ Component }">
-        <Component :is="Component" />
-      </RouterView>
-    </Transition>
+    <RouterView v-slot="{ Component }">
+      <Component :is="Component" />
+    </RouterView>
   </AConfigProvider>
 </template>
 

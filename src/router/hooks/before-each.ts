@@ -16,7 +16,6 @@ export const beforeEach = (router: Router) => {
   router.beforeEach(async (to, _, next) => {
     const token = BrowserStorage.getCookie(EStorage.ACCESS_TOKEN);
     const hasRoute = router.hasRoute(to.name!);
-
     // un-authen
     if (!token || token === '' || token === '0') {
       if (to.name === ERouteName.LOGIN) {

@@ -36,5 +36,4 @@ const activeKey = ref<string[]>([ERouteName.DASHBOARD]);
 const selectedKeys = computed(() =>
   [routes?.name?.toString() ?? ERouteName.DASHBOARD],
 );
-const a: Partial<UpdateDriverRequestBody> = { address: '' };
 </script>
