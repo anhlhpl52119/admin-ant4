@@ -34,9 +34,12 @@ import { DEFAULT_ROUTE_PATH } from '@/constants/common.constant';
 const router = useRouter();
 const userStore = useUserStore();
 const isLoading = ref<boolean>(false);
-const formState = reactive({
+
+// TODO: remove hard code
+const formState = reactive<LoginRequestBody>({
   email: 'nhattruong0000@gmail.com',
   password: '123123A@',
+  refresh: true,
 });
 const isDisabledLogin = computed(() =>
   formState.email.length === 0 || formState.password.length < 8,
@@ -47,9 +50,6 @@ const submit = async () => {
     isLoading.value = true;
     await userStore.login(formState);
     router.replace(DEFAULT_ROUTE_PATH);
-  }
-  catch (error) {
-    return Promise.reject(error);
   }
   finally {
     isLoading.value = false;
