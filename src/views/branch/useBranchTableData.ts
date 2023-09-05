@@ -15,7 +15,7 @@ export const useBranchTableData = () => {
     const params = { ...queryState, ...option };
     try {
       const res = await branchApis.search(params);
-      branchesState.value = res.data.branchs;
+      branchesState.value = res.data.branches;
     }
     catch (error) {
       Promise.reject(error);
