@@ -7,12 +7,14 @@
         accepted-only="userLogin"
         :maxlength="60"
       />
-
-      <CInputPassword
+      <CInput
         v-model:value="formState.password"
+        password
         label="Password"
-        accepted-only="password"
       />
+      <ACheckbox v-model:value="formState.refresh">
+        Remember me
+      </ACheckbox>
       <AButton
         size="large"
         type="primary"
@@ -37,15 +39,19 @@ const isLoading = ref<boolean>(false);
 
 // TODO: remove hard code
 const formState = reactive<LoginRequestBody>({
-  email: 'nhattruong0000@gmail.com',
+  email: 'admin@takeit.vn',
   password: '123123A@',
   refresh: true,
 });
+
 const isDisabledLogin = computed(() =>
-  formState.email.length === 0 || formState.password.length < 8,
+  formState.email.length === 0 && formState.password.length < 8,
 );
 
 const submit = async () => {
+  if (isDisabledLogin.value) {
+    return;
+  }
   try {
     isLoading.value = true;
     await userStore.login(formState);
