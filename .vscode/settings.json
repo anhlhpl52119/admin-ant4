@@ -1,0 +1,12 @@
+{
+  "search.exclude": {
+    "node_modules": true
+  },
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "iconify.inplace": false,
+  "scss.lint.unknownAtRules": "ignore",
+
+  // format on save
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true }
+}
