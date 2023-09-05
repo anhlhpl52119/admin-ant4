@@ -1,3 +1,14 @@
 {
-  "recommendations": ["Vue.volar", "Vue.vscode-typescript-vue-plugin"]
+  "recommendations": [
+    "Vue.volar",
+    "Vue.vscode-typescript-vue-plugin",
+    "antfu.unocss",
+    "antfu.vite",
+    "antfu.iconify",
+    "csstools.postcss",
+    "vue.volar",
+    "MisterJ.vue-volar-extention-pack",
+    "sibiraj-s.vscode-scss-formatter"
+    "dbaeumer.vscode-eslint"
+  ]
 }
