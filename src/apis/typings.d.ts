@@ -1,11 +1,11 @@
 // generate query interface model compatible to Ransack
 type RansackQuery<T> = {
     [K in keyof T as `${string & K}${T[K] extends string | null | boolean
-    ? '_eq' | '_cont'
+    ? "_eq" | "_cont"
     : T[K] extends Date | null
-    ? '_lteq' | '_gteq' | '_gt' | '_lt'
+    ? "_lteq" | "_gteq" | "_gt" | "_lt"
     : T[K] extends boolean | null
-    ? '_true' | '_false'
+    ? "_true" | "_false"
     : never}`]: T[K];
 } & {
     [key: string]: any;
@@ -17,21 +17,21 @@ type ApiPageQuery = {
     page?: number;
     child?: boolean;
     parent?: boolean;
-    all?: boolean
-}
+    all?: boolean;
+};
 
-// 
-type ApiAttributeQuery<T> = Partial<RansackQuery<T>>
+//
+type ApiAttributeQuery<T> = Partial<RansackQuery<T>>;
 
 // api response
 type PageResponse<T> = {
-    message: string[],
-    data: T,
+    message: string[];
+    data: T;
     current_page: number;
     total_page: number;
     total_records: number;
-}
+};
 
 type ApiQuery<T> = {
-    query?: ApiAttributeQuery<T>
-} & ApiPageQuery
+    query?: ApiAttributeQuery<T>;
+} & ApiPageQuery;
