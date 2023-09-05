@@ -70,7 +70,13 @@ service.interceptors.response.use(
  * @returns {string} return url + object params in string
  */
 export const request = async <T>(config: Config, options: RequestOptions = {}): Promise<T> => {
-  const MSG_KEY = 1; // message key
+  const MSG_KEY = 1; // message key TODO: handler with UUID
+
+  // handle params have 'includes' in query params
+  if (config?.params?.includes && config.params.includes.length > 0) {
+    config.params.includes = config.params.includes.toString(); // convert [a,b] to "a,b"
+  }
+
   const axiosConfig: AxiosRequestConfig = { ...config, data: config.body }; // re-assign config 'body' to axios 'data'
 
   //
@@ -101,7 +107,7 @@ export const request = async <T>(config: Config, options: RequestOptions = {}): 
     return getDataDirectly ? response.data : response;
   }
   catch (error: any) {
-    // show Custom error message
+    // show injected error message in config
     if (errorMsg) {
       return $message.error({ content: errorMsg, key: MSG_KEY });
     }
