@@ -10,6 +10,7 @@ const routes: CustomRoute[] = [{
   meta: {
     hiddenInMenu: false,
     title: 'Tài Xế',
+    icon: 'i-healthicons:truck-driver',
   },
   children: [
     {

@@ -10,6 +10,7 @@ const routes: CustomRoute[] = [{
   meta: {
     title: 'Management',
     hiddenInMenu: false,
+    icon: 'i-carbon:gui-management',
   },
   children: [
     {

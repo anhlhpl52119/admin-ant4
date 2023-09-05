@@ -10,6 +10,7 @@ const routes: CustomRoute[] = [{
   meta: {
     hiddenInMenu: false,
     title: 'Demo',
+    icon: 'i-game-icons:soap-experiment',
   },
   children: [
     {

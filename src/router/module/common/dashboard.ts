@@ -10,6 +10,7 @@ const routes: CustomRoute[] = [{
   meta: {
     hiddenInMenu: false,
     title: 'Dashboard',
+    icon: 'i-material-symbols:insert-chart',
   },
   children: [
     {

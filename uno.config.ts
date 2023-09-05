@@ -107,7 +107,10 @@ export default defineConfig({
       collections: {
         // custom: FileSystemIconLoader('./assets/svg', (svg: string) => svg),
       },
-
+      extraProperties: {
+        'display': 'inline-block',
+        'vertical-align': 'middle',
+      },
       warn: true,
     }),
   ],

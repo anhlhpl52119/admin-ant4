@@ -3,13 +3,14 @@ import { ERouteName } from '@/enums/router.enum';
 import PageContent from '@/layout/page-content/index.vue';
 
 const routes: CustomRoute[] = [{
-  path: 'driver',
+  path: 'branch',
   name: ERouteName.BRANCH,
   component: PageContent,
   redirect: '/branch/branch-management',
   meta: {
     hiddenInMenu: false,
     title: 'Chi Nhánh',
+    icon: 'i-mdi:store-marker-outline',
   },
   children: [
     {

@@ -12,6 +12,7 @@ const routes: CustomRoute[] = [{
     hiddenInMenu: false,
     title: 'User Info',
     permit: [],
+    icon: 'i-material-symbols:person-rounded',
   },
   children: [
     {
