@@ -13,8 +13,7 @@ const setupPlugin = () => {
 };
 
 const setupApp = async () => {
-  await setupRouter(app)
-  ;
+  await setupRouter(app);
 };
 
 setupPlugin();
