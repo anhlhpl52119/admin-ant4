@@ -15,10 +15,13 @@ type RansackQuery<T> = {
 type ApiPageQuery = {
     items?: number;
     page?: number;
-    child?: boolean;
-    parent?: boolean;
+    includes?: string[];
     all?: boolean;
 };
+
+type ApiRelationShipQuery<T extends string = string> = {
+    includes?: T[]
+}
 
 //
 type ApiAttributeQuery<T> = Partial<RansackQuery<T>>;
@@ -32,6 +35,6 @@ type PageResponse<T> = {
     total_records: number;
 };
 
-type ApiQuery<T> = {
+type ApiQuery<T, P extends string = string> = ApiPageQuery & ApiRelationShipQuery<P> & {
     query?: ApiAttributeQuery<T>;
-} & ApiPageQuery;
+}
