@@ -13,6 +13,8 @@ declare global {
     source_id: string;
     source_created_at: string;
     source_updated_at: string;
+    group_drivers?: GroupDriver[],
+    retailer?: any //TODO: add retailer
   };
 
   type SearchDriverResponse = {
