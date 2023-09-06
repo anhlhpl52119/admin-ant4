@@ -1,21 +1,22 @@
 <template>
   <ASubMenu v-if="data.children && data.children.length > 0" :key="data.name">
-    <template #title>
-      <div class="flex items-center">
-        <i v-if="data.meta.icon" :class="data.meta.icon" class="w-25 h-25 mr-5" />
-        <span>{{ data.meta.title }}</span>
-      </div>
+    <template v-if="data.meta.icon" #icon>
+      <i :class="data.meta.icon" class="w22 h22" />
     </template>
+    <template #title>
+      <span>{{ data.meta.title }}</span>
+    </template>
+
     <CustomSubMenu v-for="item in data.children" :key="item.name" :data="item" />
   </ASubMenu>
   <template v-else>
     <AMenuItem :key="data.name" class="flex-center">
-      <div class="flex items-center">
-        <i v-if="data.meta.icon" :class="data.meta.icon" class="w25 h25 mr-5" />
-        <RouterLink :to="{ name: data.name }">
-          {{ data.meta.title }}
-        </RouterLink>
-      </div>
+      <template v-if="data.meta.icon" #icon>
+        <i :class="data.meta.icon" class="w22 h22 mr-5" />
+      </template>
+      <RouterLink :to="{ name: data.name }">
+        {{ data.meta.title }}
+      </RouterLink>
     </AMenuItem>
   </template>
 </template>
