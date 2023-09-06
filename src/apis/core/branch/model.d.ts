@@ -13,6 +13,7 @@ declare global {
     source_id: string;
     source_created_at: string;
     source_updated_at: string;
+    retailer?: any //TODO: add retailer
   };
 
   type SearchBranchResponse = {
