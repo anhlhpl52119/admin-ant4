@@ -1,7 +1,13 @@
 <template>
   <ATable :data-source="driverState" :columns="columns" :loading="isFetching">
     <template
-      #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }: Partial<FilterDropdownProps<Branch>> "
+      #customFilterDropdown="{
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+        column,
+      }: Partial<FilterDropdownProps<Branch>>"
     >
       <CTableFilterDropdown
         :selected-keys="selectedKeys!"

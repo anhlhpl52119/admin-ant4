@@ -17,16 +17,16 @@ export function setObjToUrlParams(baseUrl: string, obj: object): string {
   parameters = parameters.replace(/&$/, '');
   if (/\?$/.test(baseUrl)) {
     url = baseUrl + parameters;
+  } else {
+    url = baseUrl.replace(/\/?$/, '?') + parameters;
   }
-
-  else { url = baseUrl.replace(/\/?$/, '?') + parameters; }
 
   return url;
 }
 
 /**
-   * Only keep single slash in url
-   * @param path URL path
-   * @returns {string} return an string URL with unique slash
-   */
+ * Only keep single slash in url
+ * @param path URL path
+ * @returns {string} return an string URL with unique slash
+ */
 export const uniqueSlash = (path: string) => path.replace(/(https?:\/)|(\/)+/g, '$1$2');

@@ -13,20 +13,20 @@ import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
 
 interface Config {
-  url: string
-  method: ERequestMethod
-  body?: any
-  params?: any
-  timeout?: number
+  url: string;
+  method: ERequestMethod;
+  body?: any;
+  params?: any;
+  timeout?: number;
 }
 interface RequestOptions {
-  permitRoles?: Array<keyof typeof ERole>
-  isAuth?: boolean
-  successMsg?: string
-  errorMsg?: string
-  isShowLoading?: boolean
-  loadingMessage?: string
-  getDataDirectly?: boolean
+  permitRoles?: Array<keyof typeof ERole>;
+  isAuth?: boolean;
+  successMsg?: string;
+  errorMsg?: string;
+  isShowLoading?: boolean;
+  loadingMessage?: string;
+  getDataDirectly?: boolean;
 }
 
 const UNKNOWN_ERROR = 'Lỗi không xác định';
@@ -69,7 +69,10 @@ service.interceptors.response.use(
  * @param options axios option
  * @returns {string} return url + object params in string
  */
-export const request = async <T>(config: Config, options: RequestOptions = {}): Promise<T> => {
+export const request = async <T>(
+  config: Config,
+  options: RequestOptions = {},
+): Promise<T> => {
   const MSG_KEY = 1; // message key TODO: handler with UUID
 
   // handle params have 'includes' in query params
@@ -81,7 +84,10 @@ export const request = async <T>(config: Config, options: RequestOptions = {}): 
 
   //
   const {
-    errorMsg, permitRoles: permitRole, successMsg, isShowLoading,
+    errorMsg,
+    permitRoles: permitRole,
+    successMsg,
+    isShowLoading,
     loadingMessage = 'Đang thực hiện...',
     getDataDirectly = true,
     isAuth = false,
@@ -105,8 +111,7 @@ export const request = async <T>(config: Config, options: RequestOptions = {}): 
     successMsg && $message.success({ content: successMsg, key: MSG_KEY });
 
     return getDataDirectly ? response.data : response;
-  }
-  catch (error: any) {
+  } catch (error: any) {
     // show injected error message in config
     if (errorMsg) {
       return $message.error({ content: errorMsg, key: MSG_KEY });
@@ -118,8 +123,7 @@ export const request = async <T>(config: Config, options: RequestOptions = {}): 
 
     // show common message
     return $message.error({ content: UNKNOWN_ERROR, key: MSG_KEY });
-  }
-  finally {
+  } finally {
     if (!successMsg && !errorMsg) {
       $message.destroy(MSG_KEY);
     }

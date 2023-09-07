@@ -7,7 +7,7 @@
       label="This is label from outside"
       placeholder="todo"
     />
-    <br>
+    <br />
     <QuantityItemControl v-model:quantity="b" :default="1" />
     <h2>Demo Price</h2>
     <section class="flex-center gap-20">
@@ -15,15 +15,11 @@
       <div class="border h-90" />
     </section>
     <section class="mt-100">
-      <h1 class="text-20">
-        Demo Tax
-      </h1>
+      <h1 class="text-20">Demo Tax</h1>
       <pre>{{ itemPrice }}</pre>
     </section>
     <section />
-    <AButton @click="fetch">
-      testApi
-    </AButton>
+    <AButton @click="fetch"> testApi </AButton>
   </main>
 </template>
 
@@ -36,9 +32,9 @@ const a = ref('');
 const b = ref<number>(1);
 
 export interface taxPrice {
-  price: number
-  quantity: number
-  tax: string | null
+  price: number;
+  quantity: number;
+  tax: string | null;
 }
 const fetch = async () => {
   await userStore.login();

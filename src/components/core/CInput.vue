@@ -3,7 +3,12 @@
     <span v-if="label" :class="labelClass" class="font-medium">
       {{ label }}
     </span>
-    <AInputPassword v-if="password" :maxlength="10" v-bind="{ ...$attrs, ...props }" @input="onInput" />
+    <AInputPassword
+      v-if="password"
+      :maxlength="10"
+      v-bind="{ ...$attrs, ...props }"
+      @input="onInput"
+    />
     <AInput v-else :maxlength="10" v-bind="{ ...$attrs, ...props }" @input="onInput" />
   </div>
 </template>
@@ -13,7 +18,7 @@ import InputProp from 'ant-design-vue/es/input/inputProps';
 import type { PropType } from 'vue';
 
 type RegexTypes = 'number' | 'text' | 'userLogin';
-type LabelPlacement = 'top' | 'bottom' | 'left' | 'right'
+type LabelPlacement = 'top' | 'bottom' | 'left' | 'right';
 
 const props = defineProps({
   ...InputProp(),
@@ -26,7 +31,7 @@ const props = defineProps({
 });
 
 const emits = defineEmits<{
-  'update:value': [v: string]
+  'update:value': [v: string];
 }>();
 
 /**

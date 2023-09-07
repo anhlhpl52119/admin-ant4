@@ -7,14 +7,8 @@
         accepted-only="userLogin"
         :maxlength="60"
       />
-      <CInput
-        v-model:value="formState.password"
-        password
-        label="Password"
-      />
-      <ACheckbox v-model:value="formState.refresh">
-        Remember me
-      </ACheckbox>
+      <CInput v-model:value="formState.password" password label="Password" />
+      <ACheckbox v-model:value="formState.refresh"> Remember me </ACheckbox>
       <AButton
         size="large"
         type="primary"
@@ -44,8 +38,8 @@ const formState = reactive<LoginRequestBody>({
   refresh: true,
 });
 
-const isDisabledLogin = computed(() =>
-  formState.email.length === 0 && formState.password.length < 8,
+const isDisabledLogin = computed(
+  () => formState.email.length === 0 && formState.password.length < 8,
 );
 
 const submit = async () => {
@@ -56,8 +50,7 @@ const submit = async () => {
     isLoading.value = true;
     await userStore.login(formState);
     router.replace(DEFAULT_ROUTE_PATH);
-  }
-  finally {
+  } finally {
     isLoading.value = false;
   }
 };

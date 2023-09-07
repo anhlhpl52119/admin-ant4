@@ -18,7 +18,7 @@ declare global {
     drivers: Driver[];
   };
 
-  type RetailerRelationship = "group_drivers" | "drivers";
+  type RetailerRelationship = 'group_drivers' | 'drivers';
 
   type SearchRetailerQueryParams = ApiQuery<Retailer, RetailerRelationship>;
 

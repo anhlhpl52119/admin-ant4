@@ -12,11 +12,11 @@ export const createStorage = ({ storage = localStorage } = {}) => {
     private storage = storage;
 
     /**
-   * @description set cache
-   * @param { EStorage} key cache key
-   * @param {*} value cache value
-   * @param expire
-   */
+     * @description set cache
+     * @param { EStorage} key cache key
+     * @param {*} value cache value
+     * @param expire
+     */
     set(key: EStorage, value: any, expire: number | null = DEFAULT_CACHE_TIME) {
       const stringData = JSON.stringify({
         value,
@@ -26,10 +26,10 @@ export const createStorage = ({ storage = localStorage } = {}) => {
     }
 
     /**
-   * read cache
-   * @param { EStorage} key cache key
-   * @param {*=} def default value
-   */
+     * read cache
+     * @param { EStorage} key cache key
+     * @param {*=} def default value
+     */
     get<T = any>(key: EStorage, def: any = null): T {
       const item = this.storage.getItem(key);
       if (item) {
@@ -41,8 +41,7 @@ export const createStorage = ({ storage = localStorage } = {}) => {
             return value;
           }
           this.remove(key);
-        }
-        catch (e) {
+        } catch (e) {
           return def;
         }
       }
@@ -51,29 +50,29 @@ export const createStorage = ({ storage = localStorage } = {}) => {
     }
 
     /**
-   * Remove an item from the cache
-   * @param { string} key
-   */
+     * Remove an item from the cache
+     * @param { string} key
+     */
     remove(key: string) {
       this.storage.removeItem(key);
     }
 
     /**
-   * Clear all caches
-   * @memberOf Cache
-   */
+     * Clear all caches
+     * @memberOf Cache
+     */
     clear(): void {
       this.storage.clear();
     }
 
     /**
-   * set cookies
-   * @param {EStorage} name cookie name
-   * @param {*} value cookie value
-   * @param {number=} expire expiration time
-   * If the expiration time is set, the browser automatically deletes by default
-   * @example
-   */
+     * set cookies
+     * @param {EStorage} name cookie name
+     * @param {*} value cookie value
+     * @param {number=} expire expiration time
+     * If the expiration time is set, the browser automatically deletes by default
+     * @example
+     */
     setCookie(name: EStorage, value: any, expire: number | null = DEFAULT_CACHE_TIME) {
       document.cookie = `${name}=${value}; Max-Age=${expire}`;
     }
@@ -103,12 +102,12 @@ export const createStorage = ({ storage = localStorage } = {}) => {
     }
 
     /**
-    * Empty cookies to invalidate all cookies
-    */
+     * Empty cookies to invalidate all cookies
+     */
     clearCookie(): void {
       const keys = document.cookie.match(/[^ =;]+(?==)/g);
       if (keys) {
-        for (let i = keys.length; i--;) {
+        for (let i = keys.length; i--; ) {
           document.cookie = `${keys[i]}=0;expire=${new Date(0).toUTCString()}`;
         }
       }

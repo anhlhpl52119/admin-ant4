@@ -1,7 +1,13 @@
 <template>
   <ATable :data-source="branchesState" :columns="columns">
     <template
-      #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }: Partial<FilterDropdownProps<Branch>> "
+      #customFilterDropdown="{
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+        column,
+      }: Partial<FilterDropdownProps<Branch>>"
     >
       <CTableFilterDropdown
         :selected-keys="selectedKeys!"

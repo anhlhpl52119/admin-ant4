@@ -38,7 +38,7 @@ const filterRoutesByRole = (arr: CustomRoute[], userRole: ERole) => {
 
 export const dynamicRouterGenerator = async (userRole: ERole) => {
   try {
-    const layout = commonRoutes.find(item => item.name === ERouteName.MAIN_LAYOUT)!;
+    const layout = commonRoutes.find((item) => item.name === ERouteName.MAIN_LAYOUT)!;
     const userRoutes = filterRoutesByRole(layout.children || [], userRole);
     const menus = [...userRoutes];
     router.addRoute(layout);
@@ -47,8 +47,7 @@ export const dynamicRouterGenerator = async (userRole: ERole) => {
       menus,
       routes: layout.children,
     });
-  }
-  catch (error) {
+  } catch (error) {
     return Promise.reject(error);
   }
 };
