@@ -41,7 +41,7 @@ export interface taxPrice {
   tax: string | null
 }
 const fetch = async () => {
-  await userStore.login();
+  // await userStore.login();
 };
 
 const itemPrice = reactive<taxPrice>({

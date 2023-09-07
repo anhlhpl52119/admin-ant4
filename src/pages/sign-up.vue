@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Sign up
-  </div>
+  <div>Sign up</div>
 </template>
 
 <script lang="ts" setup>

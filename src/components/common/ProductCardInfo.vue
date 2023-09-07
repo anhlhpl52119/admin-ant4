@@ -1,7 +1,10 @@
 <template>
   <ACard class="w-250" hoverable>
     <template #cover>
-      <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png">
+      <img
+        alt="example"
+        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+      >
     </template>
     <ACardMeta title="Europe Street beat">
       <template #description>
@@ -11,6 +14,4 @@
   </ACard>
 </template>
 
-<script lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>

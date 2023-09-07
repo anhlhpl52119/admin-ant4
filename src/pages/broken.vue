@@ -1,7 +1,5 @@
 <template>
-  <div>
-    broken
-  </div>
+  <div>broken</div>
 </template>
 
 <script lang="ts" setup>

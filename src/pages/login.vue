@@ -7,11 +7,7 @@
         accepted-only="userLogin"
         :maxlength="60"
       />
-      <CInput
-        v-model:value="formState.password"
-        password
-        label="Password"
-      />
+      <CInput v-model:value="formState.password" password label="Password" />
       <ACheckbox v-model:value="formState.refresh">
         Remember me
       </ACheckbox>
@@ -44,8 +40,8 @@ const formState = reactive<LoginRequestBody>({
   refresh: true,
 });
 
-const isDisabledLogin = computed(() =>
-  formState.email.length === 0 && formState.password.length < 8,
+const isDisabledLogin = computed(
+  () => formState.email.length === 0 && formState.password.length < 8,
 );
 
 const submit = async () => {

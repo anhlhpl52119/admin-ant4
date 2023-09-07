@@ -28,6 +28,7 @@ export const commonRoutes: CustomRoute[] = [
       ...user,
       ...management,
       ...error,
-      ...demo],
+      ...demo,
+    ],
   },
 ];

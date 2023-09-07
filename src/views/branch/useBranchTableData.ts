@@ -31,7 +31,9 @@ export const useBranchTableData = () => {
       title: 'Name',
       dataIndex: 'name',
       customFilterDropdown: true,
-      onFilter: (value: string | number | boolean, record: Branch) => { queryState.query.name_cont = value; },
+      onFilter: (value: string | number | boolean, record: Branch) => {
+        queryState.query.name_cont = value;
+      },
       sorter: (a: Branch, b: Branch) => a.name.length - b.name.length,
       sortDirections: ['descend'],
     },
@@ -56,7 +58,8 @@ export const useBranchTableData = () => {
       // ],
       // filterMultiple: false,
       customFilterDropdown: true,
-      onFilter: (value: string | number | boolean, record: Branch) => record.address.indexOf(value.toString()) === 0,
+      onFilter: (value: string | number | boolean, record: Branch) =>
+        record.address.indexOf(value.toString()) === 0,
       sorter: (a: Branch, b: Branch) => a.address.length - b.address.length,
       sortDirections: ['descend', 'ascend'],
     },

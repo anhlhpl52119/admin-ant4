@@ -63,7 +63,6 @@ const custom = computed({
   set(val) {
     updateQuantity(Number(val));
   },
-
 });
 
 const change = (v: ChangeType) => {

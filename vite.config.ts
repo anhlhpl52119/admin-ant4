@@ -30,17 +30,11 @@ export default defineConfig({
     }),
     AutoImport({
       dts: './auto/auto-imports.d.ts',
-      imports: [
-        'vue', 'vue-router',
-      ],
+      imports: ['vue', 'vue-router'],
       vueTemplate: true,
     }),
     UnoCSS({
-      presets: [
-        presetUno(),
-        presetAttributify(),
-        presetIcons(),
-      ],
+      presets: [presetUno(), presetAttributify(), presetIcons()],
     }),
   ],
   css: {

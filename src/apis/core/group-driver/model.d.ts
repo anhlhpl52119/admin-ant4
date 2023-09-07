@@ -12,15 +12,15 @@ declare global {
     source_id: string;
     source_created_at: string;
     source_updated_at: string;
-    retailer?: any //TODO: add retailer
-    drivers?: Driver[]
+    retailer?: any; //TODO: add retailer
+    drivers?: Driver[];
   };
 
   type SearchGroupDriverResponse = {
     group_driver: GroupDriver[];
   };
 
-  type GroupDriverRelationship = "retailer" | "drivers";
+  type GroupDriverRelationship = 'retailer' | 'drivers';
   type GetGroupDriverDetailResponse = GroupDriver;
 
   type CreateGroupDriverRequestBody = {
