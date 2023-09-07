@@ -8,5 +8,6 @@
   "scss.lint.unknownAtRules": "ignore",
 
   // format on save
-  "editor.codeActionsOnSave": { "source.fixAll.eslint": true }
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+
 }
