@@ -1,31 +1,17 @@
 {
-  "extends": [
-    "@vue/tsconfig/tsconfig.dom.json",
-    "@tsconfig/node18/tsconfig.json"
-  ],
-  "exclude": [
-    "src/**/__tests__/*",
-    "**/dist/**",
-    "uno.config.ts"
-  ],
+  "extends": ["@vue/tsconfig/tsconfig.dom.json", "@tsconfig/node18/tsconfig.json"],
+  "exclude": ["src/**/__tests__/*", "**/dist/**", "uno.config.ts"],
   "declaration": false,
   "compilerOptions": {
-    "lib": [
-      "ES6",
-      "DOM"
-    ],
+    "lib": ["ES6", "DOM"],
     "composite": false,
     "skipLibCheck": false,
     "baseUrl": ".",
     "jsx": "preserve",
     "module": "ESNext",
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   }
 }
