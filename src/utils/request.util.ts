@@ -69,7 +69,10 @@ service.interceptors.response.use(
  * @param options axios option
  * @returns {string} return url + object params in string
  */
-export const request = async <T>(config: Config, options: RequestOptions = {}): Promise<T> => {
+export const request = async <T>(
+  config: Config,
+  options: RequestOptions = {},
+): Promise<T> => {
   const MSG_KEY = 1; // message key TODO: handler with UUID
 
   // handle params have 'includes' in query params
@@ -81,7 +84,10 @@ export const request = async <T>(config: Config, options: RequestOptions = {}): 
 
   //
   const {
-    errorMsg, permitRoles: permitRole, successMsg, isShowLoading,
+    errorMsg,
+    permitRoles: permitRole,
+    successMsg,
+    isShowLoading,
     loadingMessage = 'Đang thực hiện...',
     getDataDirectly = true,
     isAuth = false,

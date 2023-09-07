@@ -1,7 +1,5 @@
 <template>
-  <div>
-    group-driver
-  </div>
+  <div>group-driver</div>
 </template>
 
 <script lang="ts" setup>

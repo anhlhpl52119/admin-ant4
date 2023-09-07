@@ -1,31 +1,28 @@
-import type { ERole } from "@/enums/common.enum";
-import type { AxiosResponse } from "axios";
+import type { ERole } from '@/enums/common.enum';
+import type { AxiosResponse } from 'axios';
 
-export { }
+export {};
 declare global {
+  type LoginRequestBody = {
+    email: string;
+    password: string;
+    refresh: boolean;
+  };
 
-    type LoginRequestBody = {
-        email: string;
-        password: string;
-        refresh: boolean;
-    }
+  type UserLogin = {
+    status: {
+      code: number;
+      message: string;
+      data: {
+        user: {
+          id: string;
+          email: string;
+          name: string;
+          role: ERole;
+        };
+      };
+    };
+  };
 
-    type UserLogin = {
-        status: {
-            code: number;
-            message: string;
-            data: {
-                user: {
-                    id: string;
-                    email: string;
-                    name: string;
-                    role: ERole;
-                }
-            }
-        }
-    }
-
-    type LoginResponse = AxiosResponse<UserLogin>
-
+  type LoginResponse = AxiosResponse<UserLogin>;
 }
-

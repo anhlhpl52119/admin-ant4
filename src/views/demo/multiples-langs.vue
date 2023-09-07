@@ -14,7 +14,11 @@
     <ASpace
       direction="vertical"
       :size="[0, 16]"
-      :style="{ width: '100%', paddingTop: '16px', borderTop: `1px solid ${token.colorBorder}` }"
+      :style="{
+        width: '100%',
+        paddingTop: '16px',
+        borderTop: `1px solid ${token.colorBorder}`,
+      }"
     >
       <APagination :total="50" show-size-changer />
       <ASpace wrap>
@@ -44,7 +48,12 @@
           <a href="#">Click to confirm</a>
         </APopconfirm>
       </ASpace>
-      <ATransfer :data-source="[]" show-search :target-keys="[]" :render="item => item.title" />
+      <ATransfer
+        :data-source="[]"
+        show-search
+        :target-keys="[]"
+        :render="(item) => item.title"
+      />
       <div
         :style="{
           'width': '320px',

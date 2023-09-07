@@ -1,11 +1,6 @@
 <template>
   <ALayout class="min-h-screen">
-    <ALayoutSider
-      v-model:collapsed="isCollapsed"
-      collapsible
-      :width="250"
-      theme="light"
-    >
+    <ALayoutSider v-model:collapsed="isCollapsed" collapsible :width="250" theme="light">
       <AMenu
         v-model:openKeys="activeKey"
         :selected-keys="selectedKeys"
@@ -55,9 +50,7 @@ const activeKey = ref<string[]>(
     (routes.name?.toString() as ERouteName) ?? ERouteName.DASHBOARD,
   ),
 );
-const selectedKeys = computed(() => [
-  routes?.name?.toString() ?? ERouteName.DASHBOARD,
-]);
+const selectedKeys = computed(() => [routes?.name?.toString() ?? ERouteName.DASHBOARD]);
 
 const doLogout = () => {
   BrowserStorage.removeCookie(EStorage.ACCESS_TOKEN);
@@ -74,10 +67,7 @@ function findParentRouteName(
       return parents;
     }
     if (i.children && i.children.length > 0) {
-      const result = findParentRouteName(i.children, activeName, [
-        ...parents,
-        i.name,
-      ]);
+      const result = findParentRouteName(i.children, activeName, [...parents, i.name]);
       if (result.length > 0) {
         return result;
       }

@@ -8,7 +8,7 @@
     "csstools.postcss",
     "vue.volar",
     "MisterJ.vue-volar-extention-pack",
-    "sibiraj-s.vscode-scss-formatter"
+    "sibiraj-s.vscode-scss-formatter",
     "dbaeumer.vscode-eslint"
   ]
 }

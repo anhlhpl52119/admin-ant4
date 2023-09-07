@@ -1,7 +1,5 @@
 <template>
-  <div>
-    for got password
-  </div>
+  <div>for got password</div>
 </template>
 
 <script lang="ts" setup>
