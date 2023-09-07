@@ -16,9 +16,11 @@ export const useDriverTableData = () => {
     try {
       const res = await driverApis.search(params);
       driverState.value = res.data.drivers;
-    } catch (error) {
+    }
+    catch (error) {
       Promise.reject(error);
-    } finally {
+    }
+    finally {
       isFetching.value = false;
     }
   };

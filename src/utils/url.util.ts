@@ -17,7 +17,8 @@ export function setObjToUrlParams(baseUrl: string, obj: object): string {
   parameters = parameters.replace(/&$/, '');
   if (/\?$/.test(baseUrl)) {
     url = baseUrl + parameters;
-  } else {
+  }
+  else {
     url = baseUrl.replace(/\/?$/, '?') + parameters;
   }
 

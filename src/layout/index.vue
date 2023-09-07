@@ -14,7 +14,9 @@
     </ALayoutSider>
     <ALayout>
       <header class="h-64 bg-white flex-center">
-        <AButton danger @click="doLogout"> Log out </AButton>
+        <AButton danger @click="doLogout">
+          Log out
+        </AButton>
       </header>
       <ALayoutContent class="relative">
         <div class="card bg-white min-h-360 m-16">

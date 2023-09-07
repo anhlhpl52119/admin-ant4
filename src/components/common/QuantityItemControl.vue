@@ -32,14 +32,14 @@ import { computed, toRef } from 'vue';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons-vue';
 
 const props = defineProps<{
-  quantity: number;
-  default: number;
-  maxlength?: number;
-  isFormat?: boolean;
+  quantity: number
+  default: number
+  maxlength?: number
+  isFormat?: boolean
 }>();
 
 const emits = defineEmits<{
-  'update:quantity': [v: number];
+  'update:quantity': [v: number]
 }>();
 
 const max = computed(() => {

@@ -5,7 +5,9 @@
     sub-title="Sorry, you are not authorized to access this page."
   >
     <template #extra>
-      <AButton type="primary"> Back Home </AButton>
+      <AButton type="primary">
+        Back Home
+      </AButton>
     </template>
   </AResult>
 </template>

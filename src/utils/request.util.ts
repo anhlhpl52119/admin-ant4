@@ -13,20 +13,20 @@ import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
 
 interface Config {
-  url: string;
-  method: ERequestMethod;
-  body?: any;
-  params?: any;
-  timeout?: number;
+  url: string
+  method: ERequestMethod
+  body?: any
+  params?: any
+  timeout?: number
 }
 interface RequestOptions {
-  permitRoles?: Array<keyof typeof ERole>;
-  isAuth?: boolean;
-  successMsg?: string;
-  errorMsg?: string;
-  isShowLoading?: boolean;
-  loadingMessage?: string;
-  getDataDirectly?: boolean;
+  permitRoles?: Array<keyof typeof ERole>
+  isAuth?: boolean
+  successMsg?: string
+  errorMsg?: string
+  isShowLoading?: boolean
+  loadingMessage?: string
+  getDataDirectly?: boolean
 }
 
 const UNKNOWN_ERROR = 'Lỗi không xác định';
@@ -111,7 +111,8 @@ export const request = async <T>(
     successMsg && $message.success({ content: successMsg, key: MSG_KEY });
 
     return getDataDirectly ? response.data : response;
-  } catch (error: any) {
+  }
+  catch (error: any) {
     // show injected error message in config
     if (errorMsg) {
       return $message.error({ content: errorMsg, key: MSG_KEY });
@@ -123,7 +124,8 @@ export const request = async <T>(
 
     // show common message
     return $message.error({ content: UNKNOWN_ERROR, key: MSG_KEY });
-  } finally {
+  }
+  finally {
     if (!successMsg && !errorMsg) {
       $message.destroy(MSG_KEY);
     }

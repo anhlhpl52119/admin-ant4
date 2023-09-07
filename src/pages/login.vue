@@ -8,7 +8,9 @@
         :maxlength="60"
       />
       <CInput v-model:value="formState.password" password label="Password" />
-      <ACheckbox v-model:value="formState.refresh"> Remember me </ACheckbox>
+      <ACheckbox v-model:value="formState.refresh">
+        Remember me
+      </ACheckbox>
       <AButton
         size="large"
         type="primary"
@@ -50,7 +52,8 @@ const submit = async () => {
     isLoading.value = true;
     await userStore.login(formState);
     router.replace(DEFAULT_ROUTE_PATH);
-  } finally {
+  }
+  finally {
     isLoading.value = false;
   }
 };

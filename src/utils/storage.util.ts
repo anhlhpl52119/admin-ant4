@@ -41,7 +41,8 @@ export const createStorage = ({ storage = localStorage } = {}) => {
             return value;
           }
           this.remove(key);
-        } catch (e) {
+        }
+        catch (e) {
           return def;
         }
       }
@@ -107,7 +108,7 @@ export const createStorage = ({ storage = localStorage } = {}) => {
     clearCookie(): void {
       const keys = document.cookie.match(/[^ =;]+(?==)/g);
       if (keys) {
-        for (let i = keys.length; i--; ) {
+        for (let i = keys.length; i--;) {
           document.cookie = `${keys[i]}=0;expire=${new Date(0).toUTCString()}`;
         }
       }

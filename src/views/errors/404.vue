@@ -5,7 +5,9 @@
     sub-title="Sorry, the page you visited does not exist."
   >
     <template #extra>
-      <AButton type="primary"> Back Home </AButton>
+      <AButton type="primary">
+        Back Home
+      </AButton>
     </template>
   </AResult>
 </template>

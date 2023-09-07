@@ -2,8 +2,12 @@
   <div style="margin-bottom: 16px">
     <span style="margin-right: 16px">Change locale of components:</span>
     <ARadioGroup v-model:value="locale">
-      <ARadioButton key="en" :value="enUS.locale"> English </ARadioButton>
-      <ARadioButton key="cn" :value="zhCN.locale"> 中文 </ARadioButton>
+      <ARadioButton key="en" :value="enUS.locale">
+        English
+      </ARadioButton>
+      <ARadioButton key="cn" :value="zhCN.locale">
+        中文
+      </ARadioButton>
     </ARadioGroup>
   </div>
   <AConfigProvider :locale="locale === 'en' ? enUS : zhCN">
@@ -19,17 +23,27 @@
       <APagination :total="50" show-size-changer />
       <ASpace wrap>
         <ASelect show-search style="width: 200px">
-          <ASelectOption value="jack"> jack </ASelectOption>
-          <ASelectOption value="lucy"> lucy </ASelectOption>
+          <ASelectOption value="jack">
+            jack
+          </ASelectOption>
+          <ASelectOption value="lucy">
+            lucy
+          </ASelectOption>
         </ASelect>
         <ADatePicker />
         <ATimePicker />
         <ARangePicker style="width: 200px" />
       </ASpace>
       <ASpace wrap>
-        <AButton type="primary" @click="visible = true"> Show Modal </AButton>
-        <AButton @click="info"> Show info </AButton>
-        <AButton @click="confirm"> Show confirm </AButton>
+        <AButton type="primary" @click="visible = true">
+          Show Modal
+        </AButton>
+        <AButton @click="info">
+          Show info
+        </AButton>
+        <AButton @click="confirm">
+          Show confirm
+        </AButton>
         <APopconfirm title="Question?">
           <a href="#">Click to confirm</a>
         </APopconfirm>
@@ -42,8 +56,8 @@
       />
       <div
         :style="{
-          width: '320px',
-          border: `1px solid ${token.colorBorder}`,
+          'width': '320px',
+          'border': `1px solid ${token.colorBorder}`,
           'border-radius': '8px',
         }"
       >
@@ -63,7 +77,9 @@
           <AInputNumber v-model:value="formModel.age" :width="200" />
         </AFormItem>
         <AFormItem :wrapper-col="{ offset: 2, span: 6 }">
-          <AButton type="primary" html-type="submit"> submit </AButton>
+          <AButton type="primary" html-type="submit">
+            submit
+          </AButton>
         </AFormItem>
       </AForm>
       <ATable :data-source="[]" :columns="columns" />
@@ -82,11 +98,19 @@
         />
       </ASpace>
       <AUpload list-type="picture-card" :file-list="fileList" />
-      <ADivider orientation="left"> Tour </ADivider>
-      <AButton type="primary" @click="() => (tourOpen = true)"> Begin Tour </AButton>
+      <ADivider orientation="left">
+        Tour
+      </ADivider>
+      <AButton type="primary" @click="() => (tourOpen = true)">
+        Begin Tour
+      </AButton>
       <ASpace>
-        <AButton ref="ref1"> upload </AButton>
-        <AButton ref="ref2" type="primary"> save </AButton>
+        <AButton ref="ref1">
+          upload
+        </AButton>
+        <AButton ref="ref2" type="primary">
+          save
+        </AButton>
         <AButton ref="ref3">
           <template #icon>
             <EllipsisOutlined />

@@ -31,7 +31,7 @@ const props = defineProps({
 });
 
 const emits = defineEmits<{
-  'update:value': [v: string];
+  'update:value': [v: string]
 }>();
 
 /**

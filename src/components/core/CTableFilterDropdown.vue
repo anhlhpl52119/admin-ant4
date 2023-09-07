@@ -31,7 +31,7 @@ import { SearchOutlined } from '@ant-design/icons-vue';
 
 const props = defineProps<FilterDropdownProps<T>>();
 const emits = defineEmits<{
-  search: [v: (s: string) => void];
+  search: [v: (s: string) => void]
 }>();
 const searchInput = ref();
 const handleSearch = (selectedKeys: Array<string | number>, dataIndex: any) => {};
