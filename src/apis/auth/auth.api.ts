@@ -19,4 +19,16 @@ export const authApis = {
       },
     );
   },
+  logout: () => {
+    return request(
+      {
+        url: '/logout',
+        method: ERequestMethod.DELETE,
+      },
+      {
+        getDataDirectly: false,
+        isAuth: true,
+      },
+    );
+  },
 };
