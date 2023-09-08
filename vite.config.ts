@@ -14,6 +14,7 @@ import { presetAttributify, presetIcons, presetUno } from 'unocss';
 // TODO: add from .env
 const url = 'https://dcms-dev.takeit.vn';
 const auth = '/login';
+const logout = '/logout';
 const base = '/api/v1/';
 
 export default defineConfig({
@@ -53,6 +54,10 @@ export default defineConfig({
         changeOrigin: true,
       },
       [auth]: {
+        target: url,
+        changeOrigin: true,
+      },
+      [logout]: {
         target: url,
         changeOrigin: true,
       },
