@@ -1,7 +1,10 @@
 import type { TableColumnType } from 'ant-design-vue';
 import { branchApis } from '@/apis/core/branch/branch.api';
 
+import { useApplicationStore } from '@/stores/application.store';
+
 export const useBranchTableData = () => {
+  const appStore = useApplicationStore();
   const branchesState = ref<Branch[]>([]);
   const queryState = reactive<SearchBranchQueryParams>({
     page: 1,

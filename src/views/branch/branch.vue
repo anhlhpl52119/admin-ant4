@@ -1,5 +1,5 @@
 <template>
-  <ATable :data-source="branchesState" :columns="columns">
+  <ATable :data-source="branchesState" :columns="columns" :loading="appStore.loadingAppState.has(EApiId.API2)">
     <template
       #customFilterDropdown="{
         setSelectedKeys,
@@ -24,6 +24,10 @@
 import { reactive, ref } from 'vue';
 import type { FilterDropdownProps } from 'ant-design-vue/es/table/interface';
 import { useBranchTableData } from './useBranchTableData';
+import { useApplicationStore } from '@/stores/application.store';
+import { EApiId } from '@/enums/request.enum';
+
+const appStore = useApplicationStore();
 
 const { columns, branchesState } = useBranchTableData();
 const state = reactive({

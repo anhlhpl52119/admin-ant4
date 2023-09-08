@@ -99,7 +99,7 @@ export const createStorage = ({ storage = localStorage } = {}) => {
      * @param {string} key
      */
     removeCookie(key: EStorage) {
-      this.setCookie(key, 1, -1);
+      this.setCookie(key, null, -1);
     }
 
     /**
