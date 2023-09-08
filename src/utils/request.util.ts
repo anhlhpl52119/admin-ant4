@@ -6,11 +6,14 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios';
 import { message as $message } from 'ant-design-vue';
+import { sleepFor } from './common.util';
 import { uniqueSlash } from '@/utils/url.util';
 import { ERole } from '@/enums/common.enum';
-import { type ERequestMethod, EStatusCode } from '@/enums/request.enum';
+import { EStatusCode } from '@/enums/request.enum';
+import type { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
+import { useApplicationStore } from '@/stores/application.store';
 
 interface Config {
   url: string
@@ -20,6 +23,7 @@ interface Config {
   timeout?: number
 }
 interface RequestOptions {
+  id?: EApiId
   permitRoles?: Array<keyof typeof ERole>
   isAuth?: boolean
   successMsg?: string
@@ -73,9 +77,9 @@ export const request = async <T>(
   config: Config,
   options: RequestOptions = {},
 ): Promise<T> => {
-  const MSG_KEY = 1; // message key TODO: handler with UUID
+  const appStore = useApplicationStore();
 
-  // handle params have 'includes' in query params
+  // convert request params with 'include' queries
   if (config?.params?.includes && config.params.includes.length > 0) {
     config.params.includes = config.params.includes.toString(); // convert [a,b] to "a,b"
   }
@@ -84,8 +88,9 @@ export const request = async <T>(
 
   //
   const {
+    id,
     errorMsg,
-    permitRoles: permitRole,
+    permitRoles,
     successMsg,
     isShowLoading,
     loadingMessage = 'Đang thực hiện...',
@@ -94,40 +99,43 @@ export const request = async <T>(
   } = options;
 
   // current role has no accessible to execute api request
-  if (permitRole && permitRole.includes(ERole.GUEST)) {
+  if (permitRoles && permitRoles.includes(ERole.GUEST)) {
     return $message.error('Bạn không có quyền truy cập tính năng này!');
   }
 
   // show loading
-  if (isShowLoading) {
-    $message.loading({ content: () => loadingMessage, key: MSG_KEY });
-  }
+  isShowLoading && $message.loading({ content: () => loadingMessage, key: id });
+
+  // set application loading
+  id && appStore.setLoadingId(id);
 
   // sent request
   try {
     const targetURL = isAuth ? '/' : '/api/v1';
     axiosConfig.url = uniqueSlash(`${targetURL + config.url}`);
     const response = await service.request(axiosConfig);
-    successMsg && $message.success({ content: successMsg, key: MSG_KEY });
+    successMsg && $message.success({ content: successMsg, key: id });
 
     return getDataDirectly ? response.data : response;
   }
   catch (error: any) {
     // show injected error message in config
     if (errorMsg) {
-      return $message.error({ content: errorMsg, key: MSG_KEY });
+      return $message.error({ content: errorMsg, key: id });
     }
     // show server response message
     if (error.response.data) {
-      return $message.error({ content: error.response.data, key: MSG_KEY });
+      return $message.error({ content: error.response.data, key: id });
     }
 
     // show common message
-    return $message.error({ content: UNKNOWN_ERROR, key: MSG_KEY });
+    return $message.error({ content: UNKNOWN_ERROR, key: id });
   }
   finally {
+    await sleepFor(2000);
     if (!successMsg && !errorMsg) {
-      $message.destroy(MSG_KEY);
+      $message.destroy(id);
     }
+    appStore.removeLoadingId(id);
   }
 };
