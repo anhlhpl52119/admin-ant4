@@ -1,4 +1,4 @@
-import { ERequestMethod } from '@/enums/request.enum';
+import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const branchApis = {
@@ -10,6 +10,7 @@ export const branchApis = {
         params,
       },
       {
+        id: EApiId.API1,
         successMsg: 'Thành Công',
         isShowLoading: true,
       },
