@@ -39,6 +39,7 @@ import { ERouteName } from '@/enums/router.enum';
 import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
 import type { CustomRoute } from '@/router/typing';
+import { authApis } from '@/apis/auth/auth.api';
 
 const routes = useRoute();
 const userStore = useUserStore();
@@ -52,7 +53,8 @@ const activeKey = ref<string[]>(
 );
 const selectedKeys = computed(() => [routes?.name?.toString() ?? ERouteName.DASHBOARD]);
 
-const doLogout = () => {
+const doLogout = async () => {
+  await authApis.logout();
   BrowserStorage.removeCookie(EStorage.ACCESS_TOKEN);
   location.reload();
 };
