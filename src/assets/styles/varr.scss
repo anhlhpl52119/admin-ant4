@@ -1,3 +1,9 @@
 .card {
-  @apply rounded-8 p-16;
+  @apply rounded-12 p-16 shadow-md bg-white m16;
+}
+
+.my-table .ant-table {
+  &-title {
+    @apply p-0;
+  }
 }
