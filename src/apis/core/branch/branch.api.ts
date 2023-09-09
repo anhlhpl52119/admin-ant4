@@ -10,9 +10,9 @@ export const branchApis = {
         params,
       },
       {
-        id: EApiId.API1,
-        successMsg: 'Thành Công',
-        isShowLoading: true,
+        id: EApiId.BRANCH_SEARCH,
+        successMsg: 'Tải chi nhánh thành công',
+        isShowLoading: false,
       },
     );
   },
