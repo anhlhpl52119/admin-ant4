@@ -1,0 +1,83 @@
+import type { TableColumnType } from 'ant-design-vue';
+import { branchApis } from '@/apis/core/branch/branch.api';
+
+import { useApplicationStore } from '@/stores/application.store';
+import { EApiId } from '@/enums/request.enum';
+
+export const useBranchTableData = () => {
+  const appStore = useApplicationStore();
+
+  const branchesState = ref<Branch[]>([]);
+  const tableLoading = computed(() => appStore.loadingAppState.has(EApiId.BRANCH_SEARCH));
+
+  const paginationState = reactive({
+    totalRecord: 0,
+    totalPage: 1,
+    currentPage: 1,
+    viewBy: 10,
+  });
+
+  const queriesState = ref<SearchBranchQueryParams['query']>({});
+
+  const fetchQueriesParams = computed<SearchBranchQueryParams>(() => ({
+    page: paginationState.currentPage,
+    items: paginationState.viewBy,
+    query: queriesState.value,
+  }));
+
+  const fetch = async (option?: SearchBranchQueryParams) => {
+    const params = { ...fetchQueriesParams.value, ...option };
+
+    const res = await branchApis.search(params);
+
+    if (!(res && res.data) || res.data.branches.length === 0) {
+      return;
+    }
+
+    paginationState.viewBy = params?.items ?? 10;
+    branchesState.value = res.data.branches;
+    paginationState.totalRecord = res.data.total_records;
+    paginationState.totalPage = res.data.total_page;
+  };
+
+  watch(fetchQueriesParams, () => {
+    fetch();
+  });
+
+  const onPageSizeChange = () => {
+    paginationState.currentPage = 1;
+  };
+
+  const columns: TableColumnType<Branch>[] = [
+    {
+      title: 'STT',
+      dataIndex: 'indexNum',
+      width: 25,
+      align: 'center',
+    },
+    {
+      title: 'Tên',
+      dataIndex: 'name',
+    },
+    {
+      title: 'Mã',
+      dataIndex: 'email',
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+    },
+  ];
+
+  fetch();
+
+  return {
+    columns,
+    tableLoading,
+    branchesState,
+    paginationState,
+    queriesState,
+
+    onPageSizeChange,
+  };
+};
