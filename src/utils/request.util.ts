@@ -6,7 +6,6 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios';
 import { message as $message } from 'ant-design-vue';
-import { sleepFor } from './common.util';
 import { uniqueSlash } from '@/utils/url.util';
 import { ERole } from '@/enums/common.enum';
 import { EStatusCode } from '@/enums/request.enum';
@@ -36,7 +35,7 @@ interface RequestOptions {
 const UNKNOWN_ERROR = 'Lỗi không xác định';
 
 const service = axios.create({
-  timeout: 6000,
+  timeout: 60000,
 });
 
 service.interceptors.request.use(
@@ -76,7 +75,7 @@ service.interceptors.response.use(
 export const request = async <T>(
   config: Config,
   options: RequestOptions = {},
-): Promise<T> => {
+): Promise<T | null> => {
   const appStore = useApplicationStore();
 
   // convert request params with 'include' queries
@@ -114,25 +113,30 @@ export const request = async <T>(
     const targetURL = isAuth ? '/' : '/api/v1';
     axiosConfig.url = uniqueSlash(`${targetURL + config.url}`);
     const response = await service.request(axiosConfig);
-    successMsg && $message.success({ content: successMsg, key: id });
+
+    if (successMsg && isShowLoading) {
+      $message.success({ content: successMsg, key: id });
+    }
 
     return getDataDirectly ? response.data : response;
   }
   catch (error: any) {
     // show injected error message in config
     if (errorMsg) {
-      return $message.error({ content: errorMsg, key: id });
+      $message.error({ content: errorMsg, key: id });
     }
     // show server response message
     if (error.response.data) {
-      return $message.error({ content: error.response.data, key: id });
+      $message.error({ content: error.response.data, key: id });
     }
 
     // show common message
-    return $message.error({ content: UNKNOWN_ERROR, key: id });
+    $message.error({ content: UNKNOWN_ERROR, key: id });
+
+    return null as T;
   }
   finally {
-    await sleepFor(2000);
+    // await sleepFor(2000);
     if (!successMsg && !errorMsg) {
       $message.destroy(id);
     }
