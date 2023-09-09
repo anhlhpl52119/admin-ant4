@@ -18,6 +18,7 @@ export default defineConfig({
   theme: {
     colors: {
       abd: '#dcdfe5', // app border,
+      abg: '#f8faff', // app background
       primary: '#3b82f6',
       secondary: '#64748B',
       success: '#22c55e',
@@ -51,6 +52,7 @@ export default defineConfig({
     ['fixed-tl', 'fixed top-0 left-0'],
     ['fixed-center', 'fixed top-1/2 left-1/2 translate--1/2'],
     ['flex-center', 'flex items-center justify-center'],
+    ['flex-b-center', 'flex items-center justify-between'],
     ['grid-center', 'grid items-center justify-items-center'],
   ],
   postprocess: (util: UtilObject) => {
