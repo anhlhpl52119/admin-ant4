@@ -12,14 +12,14 @@
         </template>
       </AMenu>
     </ALayoutSider>
-    <ALayout>
-      <header class="h-64 bg-white flex-center">
+    <ALayout class="bg-abg">
+      <header class="h-60 bg-white flex-center">
         <AButton danger @click="doLogout">
           Log out
         </AButton>
       </header>
       <ALayoutContent class="relative">
-        <div class="card bg-white min-h-360 m-16">
+        <div class="min-h-360">
           <PageContent />
           <AppDrawer />
         </div>
