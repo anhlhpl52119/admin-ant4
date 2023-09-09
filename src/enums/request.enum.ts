@@ -12,4 +12,8 @@ export enum EStatusCode {
 export enum EApiId {
   API1,
   API2,
+  BRANCH_SEARCH,
+  BRANCH_DETAILS,
+  BRANCH_UPDATE,
+  BRANCH_DELETE,
 };
