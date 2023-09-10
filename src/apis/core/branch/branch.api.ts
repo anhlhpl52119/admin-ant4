@@ -49,13 +49,13 @@ export const branchApis = {
 
     return request(
       {
-        url: `/core/branch${branchId}`,
+        url: `/core/branch/${branchId}`,
         method: ERequestMethod.PUT,
         body,
       },
       {
-        successMsg: 'Sửa Thành Công',
-        isShowLoading: true,
+        id: EApiId.BRANCH_UPDATE,
+        isShowLoading: false,
       },
     );
   },

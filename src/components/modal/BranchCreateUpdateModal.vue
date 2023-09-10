@@ -5,7 +5,7 @@
     :ok-button-props="{ disabled: false }"
     :cancel-button-props="{ disabled: false }"
     :mask-closable="false"
-    :confirm-loading="appStore.loadingAppState.has(EApiId.BRANCH_CREATE)"
+    :confirm-loading="isSubmitLoading"
     :ok-text="modalState.okBtnText"
     @ok="onSubmit"
     @cancel="onCloseModal"
@@ -19,7 +19,7 @@
       />
       <template v-else>
         <CInput v-model:value="createUpdateBodyState.name" label="Tên chi nhánh" />
-        <CInput v-model:value="createUpdateBodyState.code" label="Mã chi nhánh:" />
+        <CInput v-model:value="createUpdateBodyState.code" label="Mã chi nhánh" />
         <CInput v-model:value="createUpdateBodyState.address" label="Địa chỉ" />
         <CInput v-model:value="createUpdateBodyState.contact_number" label="Số điện thoại" />
         <CInput v-model:value="createUpdateBodyState.description" label="Mô tả" />
@@ -56,6 +56,10 @@ const createUpdateBodyState = reactive<CreateBranchRequestBody>({
   retailer_id: '2f1f6f7b-4bef-462d-b611-811262bb6c48',
 });
 
+const isSubmitLoading = computed(() =>
+  appStore.loadingAppState.has(EApiId.BRANCH_CREATE)
+ || appStore.loadingAppState.has(EApiId.BRANCH_UPDATE));
+
 const isUpdateMode = computed(() => !!props.branchId);
 
 const onCloseModal = () => {
@@ -68,7 +72,7 @@ const onSubmit = async () => {
     ? await branchApis.update(props.branchId!, createUpdateBodyState)
     : await branchApis.create(createUpdateBodyState);
 
-  if (!rs || rs) {
+  if (!rs) {
     Modal.error({
       content: 'Thất bại',
     });

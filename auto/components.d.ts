@@ -46,6 +46,7 @@ declare module 'vue' {
     ASubMenu: typeof import('ant-design-vue/es')['SubMenu']
     ATable: typeof import('ant-design-vue/es')['Table']
     ATimePicker: typeof import('ant-design-vue/es')['TimePicker']
+    ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     ATransfer: typeof import('ant-design-vue/es')['Transfer']
     AUpload: typeof import('ant-design-vue/es')['Upload']
     BranchCreateUpdateModal: typeof import('./../src/components/modal/BranchCreateUpdateModal.vue')['default']
