@@ -35,6 +35,7 @@
         :columns="columns"
         :loading="tableLoading"
         :pagination="false"
+        :scroll="{ y: '61rem' }"
         class="my-table"
       >
         <template #bodyCell="{ index, column, record }">

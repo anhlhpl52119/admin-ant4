@@ -70,12 +70,14 @@ export const useRetailerTable = () => {
     {
       title: 'STT',
       dataIndex: 'indexNum',
-      width: 25,
+      width: '7rem',
       align: 'center',
+      fixed: 'left',
     },
     {
       title: 'Tên',
       dataIndex: 'name',
+      fixed: 'left',
     },
     {
       title: 'Mã',
@@ -99,7 +101,8 @@ export const useRetailerTable = () => {
     },
     {
       dataIndex: 'edit',
-      width: 10,
+      width: '6rem',
+      fixed: 'right',
     },
   ];
 

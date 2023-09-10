@@ -19,13 +19,12 @@ export default defineConfig({
     colors: {
       abd: '#dcdfe5', // app border,
       abg: '#f8faff', // app background
-      primary: '#3b82f6',
+      primary: '#4281A4',
       secondary: '#64748B',
-      success: '#22c55e',
-      info: '#3b82f6',
-      warning: '#f59e0b',
-      help: '#d946ef',
-      danger: '#ef4444',
+      success: '#48A9A6',
+      info: '#4281A4',
+      warning: '#D4B483',
+      danger: '#C1666B',
       plain: '#6c757d',
     },
     breakpoints: {

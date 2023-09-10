@@ -29,12 +29,13 @@
         </template>
       </AButton>
     </section>
-    <section class="card">
+    <section class="card h-full">
       <ATable
         :data-source="branchesState"
         :columns="columns"
         :loading="tableLoading"
         :pagination="false"
+        :scroll="{ y: '61rem' }"
         class="my-table"
       >
         <template #bodyCell="{ index, column, record }">
