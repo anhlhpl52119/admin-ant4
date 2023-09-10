@@ -8,7 +8,7 @@
     :confirm-loading="isSubmitLoading"
     :ok-text="modalState.okBtnText"
     @ok="onSubmit"
-    @cancel="onCloseModal"
+    @cancel="onCloseModal()"
   >
     <div class="grid gap-15">
       <ASpin
@@ -62,8 +62,10 @@ const isSubmitLoading = computed(() =>
 
 const isUpdateMode = computed(() => !!props.branchId);
 
-const onCloseModal = () => {
-  open.value = false;
+const onCloseModal = (forceReloadTable: boolean = false) => {
+  if (forceReloadTable) {
+    // reload(); //TODO: add reload
+  }
   Modal.destroyAll();
 };
 
@@ -82,7 +84,7 @@ const onSubmit = async () => {
 
   Modal.success({
     content: 'Thành công',
-    onOk: () => onCloseModal(),
+    onOk: () => onCloseModal(true),
   });
 };
 

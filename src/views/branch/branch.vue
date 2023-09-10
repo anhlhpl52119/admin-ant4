@@ -61,8 +61,8 @@
             </ul>
             <ul class="flex items-center gap-10">
               <li>
-                <AButton type="primary">
-                  Select All
+                <AButton type="primary" :icon="h(ReloadOutlined)" @click="reload">
+                  Refresh
                 </AButton>
               </li>
               <li>
@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts" setup>
-import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
+import { EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { useBranchTableData } from '@/composable/table/useBranchTable';
 import { VIEW_BY_OPTIONS } from '@/constants/common.constant';
@@ -107,6 +107,7 @@ const {
   queriesState,
   onPageSizeChange,
   search,
+  reload,
 } = useBranchTableData();
 
 const openModel = (branchId?: string) => {

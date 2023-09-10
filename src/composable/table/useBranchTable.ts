@@ -54,6 +54,10 @@ export const useBranchTableData = () => {
     }
     fetch();
   };
+
+  const reload = () => {
+    fetch();
+  };
   watch(fetchQueriesParams, () => {
     fetch();
   });
@@ -105,6 +109,7 @@ export const useBranchTableData = () => {
     queriesState,
 
     onPageSizeChange,
+    reload,
     search,
   };
 };
