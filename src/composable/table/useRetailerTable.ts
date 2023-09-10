@@ -14,7 +14,7 @@ export const useRetailerTable = () => {
   const lastedQueries: SearchRetailerQueryParams['query'] = {};
 
   const flag = ref<boolean>(false);
-  const tableLoading = computed(() => appStore.loadingAppState.has(EApiId.BRANCH_SEARCH));
+  const tableLoading = computed(() => appStore.loadingAppState.has(EApiId.RETAILER_SEARCH));
 
   const paginationState = reactive({
     totalRecord: 0,
