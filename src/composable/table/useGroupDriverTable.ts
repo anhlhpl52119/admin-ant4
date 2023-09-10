@@ -2,19 +2,19 @@ import type { TableColumnType } from 'ant-design-vue';
 
 import { useApplicationStore } from '@/stores/application.store';
 import { EApiId } from '@/enums/request.enum';
-import { retailerApis } from '@/apis/core/retailer/retailer.api';
+import { groupDriverApis } from '@/apis/core/group-driver/group-driver.api';
 
-export const useRetailerTable = () => {
+export const useGroupDriverTable = () => {
   const appStore = useApplicationStore();
 
-  const retailerState = ref<Retailer[]>([]);
+  const groupDriverState = ref<GroupDriver[]>([]);
 
-  const queriesState = ref<SearchRetailerQueryParams['query']>({});
+  const queriesState = ref<SearchGroupDriverQueryParams['query']>({});
 
-  const lastedQueries: SearchRetailerQueryParams['query'] = {};
+  const lastedQueries: SearchGroupDriverQueryParams['query'] = {};
 
   const flag = ref<boolean>(false);
-  const tableLoading = computed(() => appStore.loadingAppState.has(EApiId.BRANCH_SEARCH));
+  const tableLoading = computed(() => appStore.loadingAppState.has(EApiId.GROUP_DRIVER_SEARCH));
 
   const paginationState = reactive({
     totalRecord: 0,
@@ -23,24 +23,24 @@ export const useRetailerTable = () => {
     viewBy: 10,
   });
 
-  const fetchQueriesParams = computed<SearchRetailerQueryParams>(() => ({
+  const fetchQueriesParams = computed<SearchGroupDriverQueryParams>(() => ({
     page: paginationState.currentPage,
     items: paginationState.viewBy,
     query: queriesState.value,
   }));
 
-  const fetch = async (optional?: SearchRetailerQueryParams) => {
-    retailerState.value = [];
+  const fetch = async (optional?: SearchGroupDriverQueryParams) => {
+    groupDriverState.value = [];
     const params = { ...fetchQueriesParams.value, ...optional };
     lastedQueries.value = params.query;
-    const res = await retailerApis.search(params);
+    const res = await groupDriverApis.search(params);
 
-    if (!(res && res.data) || res.data.retailers.length === 0) {
+    if (!(res && res.data) || res.data.group_drivers.length === 0) {
       return;
     }
 
     paginationState.viewBy = params?.items ?? 10;
-    retailerState.value = res.data.retailers;
+    groupDriverState.value = res.data.group_drivers;
     paginationState.totalRecord = res.data.total_records;
     paginationState.totalPage = res.data.total_page;
 
@@ -66,7 +66,7 @@ export const useRetailerTable = () => {
     paginationState.currentPage = 1;
   };
 
-  const columns: TableColumnType<Retailer>[] = [
+  const columns: TableColumnType<GroupDriver>[] = [
     {
       title: 'STT',
       dataIndex: 'indexNum',
@@ -79,11 +79,7 @@ export const useRetailerTable = () => {
     },
     {
       title: 'Mã',
-      dataIndex: 'email',
-    },
-    {
-      title: 'Số điện thoại',
-      dataIndex: 'phone',
+      dataIndex: 'code',
     },
     {
       title: 'Email',
@@ -108,7 +104,7 @@ export const useRetailerTable = () => {
   return {
     columns,
     tableLoading,
-    retailerState,
+    groupDriverState,
     paginationState,
     queriesState,
 

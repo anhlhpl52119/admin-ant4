@@ -2,10 +2,10 @@
   <main>
     <article class="mx-16 my-20 flex-b-center">
       <span class="text-24 font-700">
-        Tài Xế
+        Nhóm Tài Xế
       </span>
       <AButton type="primary" size="large" @click="openModel()">
-        Thêm Tài Xế Mới
+        Thêm Nhóm Tài Xế
         <template #icon>
           <PlusOutlined />
         </template>
@@ -31,7 +31,7 @@
     </section>
     <section class="card">
       <ATable
-        :data-source="driversState"
+        :data-source="groupDriverState"
         :columns="columns"
         :loading="tableLoading"
         :pagination="false"
@@ -94,26 +94,26 @@
 <script lang="ts" setup>
 import { EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
-import { useDriverTable } from '@/composable/table/useDriverTable';
+import { useGroupDriverTable } from '@/composable/table/useGroupDriverTable';
 import { VIEW_BY_OPTIONS } from '@/constants/common.constant';
 
-const DriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/DriverCreateUpdateModal.vue'));
+const GroupDriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/GroupDriverCreateUpdateModal.vue'));
 
 const {
   columns,
-  driversState,
+  groupDriverState,
   tableLoading,
   paginationState,
   queriesState,
   onPageSizeChange,
   search,
   reload,
-} = useDriverTable();
+} = useGroupDriverTable();
 
-const openModel = (driverId?: string) => {
+const openModel = (groupDriverId?: string) => {
   Modal.info({
-    content: h(DriverCreateUpdateModal, {
-      driverId,
+    content: h(GroupDriverCreateUpdateModal, {
+      groupDriverId,
     }),
   });
 };

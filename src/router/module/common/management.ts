@@ -10,7 +10,7 @@ const routes: CustomRoute[] = [
     redirect: '/management/page1',
     meta: {
       title: 'Management',
-      hiddenInMenu: false,
+      hiddenInMenu: true,
       icon: 'i-carbon:gui-management',
     },
     children: [

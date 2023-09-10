@@ -9,7 +9,7 @@ const routes: CustomRoute[] = [
     component: PageContent,
     redirect: '/dashboard/page1',
     meta: {
-      hiddenInMenu: false,
+      hiddenInMenu: true,
       title: 'Dashboard',
       icon: 'i-material-symbols:insert-chart',
     },

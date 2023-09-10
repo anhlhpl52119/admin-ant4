@@ -23,6 +23,10 @@ export enum ERouteName {
   DRIVER_GROUP = 'driver-group',
   DRIVER_MANAGEMENT = 'driver-management',
 
+  /** Driver Routes */
+  RETAILER = 'retailer',
+  RETAILER_MANAGEMENT = 'retailer-management',
+
   /** White List Routes */
   WHITE_LIST = 'white-list',
 

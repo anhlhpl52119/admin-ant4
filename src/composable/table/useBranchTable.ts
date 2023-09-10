@@ -4,7 +4,7 @@ import { branchApis } from '@/apis/core/branch/branch.api';
 import { useApplicationStore } from '@/stores/application.store';
 import { EApiId } from '@/enums/request.enum';
 
-export const useBranchTableData = () => {
+export const useBranchTable = () => {
   const appStore = useApplicationStore();
 
   const branchesState = ref<Branch[]>([]);
@@ -79,7 +79,7 @@ export const useBranchTableData = () => {
     },
     {
       title: 'Mã',
-      dataIndex: 'email',
+      dataIndex: 'code',
     },
     {
       title: 'Số điện thoại',

@@ -1,4 +1,4 @@
-import { ERequestMethod } from '@/enums/request.enum';
+import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const driverApis = {
@@ -10,8 +10,9 @@ export const driverApis = {
         params,
       },
       {
+        id: EApiId.DRIVER_SEARCH,
         successMsg: 'Thành Công',
-        isShowLoading: true,
+        isShowLoading: false,
       },
     );
   },
@@ -25,20 +26,22 @@ export const driverApis = {
         body,
       },
       {
+        id: EApiId.DRIVER_CREATE,
         successMsg: 'Thành Công',
-        isShowLoading: true,
+        isShowLoading: false,
       },
     );
   },
   getDetails: (driverId: string) => {
     return request<GetDriverDetailResponse>(
       {
-        url: `/core/driver${driverId}`,
+        url: `/core/driver/${driverId}`,
         method: ERequestMethod.GET,
       },
       {
+        id: EApiId.DRIVER_DETAILS,
         successMsg: 'Thành Công',
-        isShowLoading: true,
+        isShowLoading: false,
       },
     );
   },
@@ -47,13 +50,14 @@ export const driverApis = {
 
     return request<GetDriverDetailResponse>(
       {
-        url: `/core/driver${driverId}`,
+        url: `/core/driver/${driverId}`,
         method: ERequestMethod.PUT,
         body,
       },
       {
+        id: EApiId.DRIVER_UPDATE,
         successMsg: 'Thành Công',
-        isShowLoading: true,
+        isShowLoading: false,
       },
     );
   },

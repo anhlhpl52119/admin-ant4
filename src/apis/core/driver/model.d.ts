@@ -13,6 +13,7 @@ declare global {
     source_id: string;
     source_created_at: string;
     source_updated_at: string;
+    user_id: string;
     group_drivers?: GroupDriver[];
     retailer?: any; //TODO: add retailer
   };
@@ -24,21 +25,8 @@ declare global {
 
   type SearchDriverQueryParams = ApiQuery<Driver, DriverRelationShip>;
 
-  type GetDriverDetailResponse = {
-    id: string;
-    name: string;
-    code: string;
-    description: string;
-    phone: string;
-    email: string;
-    address: string;
-    status: string;
-    source: string;
-    source_id: string;
-    source_created_at: string;
-    source_updated_at: string;
-  };
-
+  type GetDriverDetailResponse = ObjectResponse<Driver>
+  
   type CreateDriverRequestBody = {
     name: string;
     code: string;
@@ -46,6 +34,7 @@ declare global {
     phone: string;
     email: string;
     address: string;
+    user_id: string;
   };
 
   type UpdateDriverRequestBody = {
@@ -55,5 +44,6 @@ declare global {
     phone: string;
     email: string;
     address: string;
+    user_id: string;
   };
 }

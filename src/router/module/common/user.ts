@@ -10,7 +10,7 @@ const routes: CustomRoute[] = [
     component: PageContent,
     redirect: '/user/page1',
     meta: {
-      hiddenInMenu: false,
+      hiddenInMenu: true,
       title: 'User Info',
       permit: [],
       icon: 'i-material-symbols:person-rounded',

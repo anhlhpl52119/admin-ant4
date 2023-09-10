@@ -12,32 +12,36 @@ declare global {
     source_id: string;
     source_created_at: string;
     source_updated_at: string;
+    retailer_id: string;
     retailer?: any; //TODO: add retailer
     drivers?: Driver[];
   };
 
   type SearchGroupDriverResponse = {
-    group_driver: GroupDriver[];
+    group_drivers: GroupDriver[];
   };
 
   type GroupDriverRelationship = 'retailer' | 'drivers';
-  type GetGroupDriverDetailResponse = GroupDriver;
+
+  type GetGroupDriverDetailResponse = ObjectResponse<GroupDriver>;
+
+  type SearchGroupDriverQueryParams = ApiQuery<GroupDriver, GroupDriverRelationship>;
 
   type CreateGroupDriverRequestBody = {
     name: string;
     code: string;
     description: string;
-    contact_number: string;
     email: string;
     address: string;
+    retailer_id: string;
   };
 
   type UpdateGroupDriverRequestBody = {
     name: string;
     code: string;
     description: string;
-    contact_number: string;
     email: string;
     address: string;
+    retailer_id: string;
   };
 }

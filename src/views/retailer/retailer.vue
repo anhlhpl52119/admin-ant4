@@ -2,10 +2,10 @@
   <main>
     <article class="mx-16 my-20 flex-b-center">
       <span class="text-24 font-700">
-        Tài Xế
+        Nhà Bán lẻ
       </span>
       <AButton type="primary" size="large" @click="openModel()">
-        Thêm Tài Xế Mới
+        Thêm Nhà Bán lẻ mới
         <template #icon>
           <PlusOutlined />
         </template>
@@ -31,7 +31,7 @@
     </section>
     <section class="card">
       <ATable
-        :data-source="driversState"
+        :data-source="retailerState"
         :columns="columns"
         :loading="tableLoading"
         :pagination="false"
@@ -94,26 +94,26 @@
 <script lang="ts" setup>
 import { EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
-import { useDriverTable } from '@/composable/table/useDriverTable';
+import { useRetailerTable } from '@/composable/table/useRetailerTable';
 import { VIEW_BY_OPTIONS } from '@/constants/common.constant';
 
-const DriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/DriverCreateUpdateModal.vue'));
+const RetailerCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/RetailerCreateUpdateModal.vue'));
 
 const {
   columns,
-  driversState,
+  retailerState,
   tableLoading,
   paginationState,
   queriesState,
   onPageSizeChange,
   search,
   reload,
-} = useDriverTable();
+} = useRetailerTable();
 
-const openModel = (driverId?: string) => {
+const openModel = (retailerId?: string) => {
   Modal.info({
-    content: h(DriverCreateUpdateModal, {
-      driverId,
+    content: h(RetailerCreateUpdateModal, {
+      retailerId,
     }),
   });
 };

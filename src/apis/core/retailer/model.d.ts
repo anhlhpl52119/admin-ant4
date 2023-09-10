@@ -15,26 +15,14 @@ declare global {
   };
 
   type SearchRetailerResponse = {
-    drivers: Driver[];
+    retailers: Retailer[];
   };
 
   type RetailerRelationship = 'group_drivers' | 'drivers';
 
   type SearchRetailerQueryParams = ApiQuery<Retailer, RetailerRelationship>;
 
-  type GetRetailerDetailResponse = {
-    id: string;
-    name: string;
-    code: string;
-    phone: string;
-    description: string;
-    email: string;
-    address: string;
-    status: string;
-    source: string;
-    group_drivers?: GroupDriver[];
-    drivers?: Driver;
-  };
+  type GetRetailerDetailResponse = ObjectResponse<Retailer>;
 
   type CreateRetailerRequestBody = {
     name: string;

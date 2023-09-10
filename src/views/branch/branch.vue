@@ -94,7 +94,7 @@
 <script lang="ts" setup>
 import { EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
-import { useBranchTableData } from '@/composable/table/useBranchTable';
+import { useBranchTable } from '@/composable/table/useBranchTable';
 import { VIEW_BY_OPTIONS } from '@/constants/common.constant';
 
 const BranchCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/BranchCreateUpdateModal.vue'));
@@ -108,7 +108,7 @@ const {
   onPageSizeChange,
   search,
   reload,
-} = useBranchTableData();
+} = useBranchTable();
 
 const openModel = (branchId?: string) => {
   Modal.info({

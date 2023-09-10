@@ -1,4 +1,4 @@
-import { ERequestMethod } from '@/enums/request.enum';
+import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const retailerApis = {
@@ -10,8 +10,9 @@ export const retailerApis = {
         params,
       },
       {
+        id: EApiId.RETAILER_SEARCH,
         successMsg: 'Thành Công',
-        isShowLoading: true,
+        isShowLoading: false,
       },
     );
   },
@@ -25,20 +26,22 @@ export const retailerApis = {
         body,
       },
       {
+        id: EApiId.RETAILER_CREATE,
         successMsg: 'Thành Công',
-        isShowLoading: true,
+        isShowLoading: false,
       },
     );
   },
   getDetails: (retailerId: string) => {
     return request<GetRetailerDetailResponse>(
       {
-        url: `/core/retailer${retailerId}`,
+        url: `/core/retailer/${retailerId}`,
         method: ERequestMethod.GET,
       },
       {
+        id: EApiId.RETAILER_DETAILS,
         successMsg: 'Thành Công',
-        isShowLoading: true,
+        isShowLoading: false,
       },
     );
   },
@@ -47,13 +50,14 @@ export const retailerApis = {
 
     return request<GetRetailerDetailResponse>(
       {
-        url: `/core/retailer${retailerId}`,
+        url: `/core/retailer/${retailerId}`,
         method: ERequestMethod.PUT,
         body,
       },
       {
+        id: EApiId.RETAILER_UPDATE,
         successMsg: 'Thành Công',
-        isShowLoading: true,
+        isShowLoading: false,
       },
     );
   },

@@ -26,7 +26,7 @@ const routes: CustomRoute[] = [
       {
         path: 'driver-group',
         name: ERouteName.DRIVER_GROUP,
-        component: () => import('@/views/driver-management/group-driver.vue'),
+        component: () => import('@/views/group-driver/group-driver.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'Nhóm tài xế',
