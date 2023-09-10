@@ -1,9 +1,6 @@
 import { type Router } from 'vue-router';
 
-// import NProgress from 'nprogress';
-
-// import { useUserAuth } from '@/stores/auth';
-// import { DefaultRoutes } from '@/enums/route-name';
+import { Modal } from 'ant-design-vue';
 import { EStorage } from '@/enums/cache.enum';
 
 import { useUserStore } from '@/stores/user.store';
@@ -14,8 +11,11 @@ import { ERouteName } from '@/enums/router.enum';
 export const beforeEach = (router: Router) => {
   const userStore = useUserStore();
   router.beforeEach(async (to, _, next) => {
+    Modal.destroyAll();
+
     const token = BrowserStorage.getCookie(EStorage.ACCESS_TOKEN);
     const hasRoute = router.hasRoute(to.name!);
+
     // un-authen
     if (!token || token === '' || token === '0') {
       if (to.name === ERouteName.LOGIN) {
