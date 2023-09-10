@@ -26,7 +26,8 @@ export const branchApis = {
         body,
       },
       {
-        successMsg: 'Thành Công',
+        id: EApiId.BRANCH_CREATE,
+        successMsg: 'Tạo Thành Công',
         isShowLoading: true,
       },
     );
@@ -34,12 +35,12 @@ export const branchApis = {
   getDetails: (branchId: string) => {
     return request<GetBranchDetailResponse>(
       {
-        url: `/core/branch${branchId}`,
+        url: `/core/branch/${branchId}`,
         method: ERequestMethod.GET,
       },
       {
-        successMsg: 'Thành Công',
-        isShowLoading: true,
+        id: EApiId.BRANCH_DETAILS,
+        isShowLoading: false,
       },
     );
   },
@@ -53,7 +54,7 @@ export const branchApis = {
         body,
       },
       {
-        successMsg: 'Thành Công',
+        successMsg: 'Sửa Thành Công',
         isShowLoading: true,
       },
     );
