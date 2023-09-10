@@ -13,6 +13,7 @@ declare global {
     source_id: string;
     source_created_at: string;
     source_updated_at: string;
+    retailer_id: string;
     retailer?: any; //TODO: add retailer
   };
 
@@ -24,7 +25,7 @@ declare global {
 
   type SearchBranchQueryParams = ApiQuery<Branch, BranchRelationShip>;
 
-  type GetBranchDetailResponse = Branch;
+  type GetBranchDetailResponse = ObjectResponse<Branch>;
 
   type CreateBranchRequestBody = {
     name: string;
@@ -33,6 +34,7 @@ declare global {
     contact_number: string;
     email: string;
     address: string;
+    retailer_id: string;
   };
 
   type UpdateBranchRequestBody = {

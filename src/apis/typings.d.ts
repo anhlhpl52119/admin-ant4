@@ -36,6 +36,11 @@ type PageResponse<T> = {
   };
 };
 
+type ObjectResponse<T> = {
+  message: string[];
+  data: T;
+};
+
 type ApiQuery<T, P extends string = string> = ApiPageQuery &
   ApiRelationShipQuery<P> & {
     query?: ApiAttributeQuery<T>;
