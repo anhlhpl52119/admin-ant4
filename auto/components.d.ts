@@ -50,6 +50,7 @@ declare module 'vue' {
     ATransfer: typeof import('ant-design-vue/es')['Transfer']
     AUpload: typeof import('ant-design-vue/es')['Upload']
     BranchCreateUpdateModal: typeof import('./../src/components/modal/BranchCreateUpdateModal.vue')['default']
+    CFetchOption: typeof import('./../src/components/core/CFetchOption.vue')['default']
     CInput: typeof import('./../src/components/core/CInput.vue')['default']
     CInputPassword: (typeof import('./../src/components/core/CInputPassword.vue'))['default']
     copy: typeof import('./../src/components/modal/DriverCreateUpdateModal copy.vue')['default']
