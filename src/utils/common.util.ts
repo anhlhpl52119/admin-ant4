@@ -1,3 +1,5 @@
+type DebounceFn<T extends (...args: any[]) => any> = (...args: Parameters<T>) => void;
+
 /**
  * @description Return random item in arr
  * @param {Array<T>} arr - list of items
@@ -12,4 +14,19 @@ export const sleepFor = async (millisecond: number = 0) => {
       resolve(null);
     }, millisecond);
   });
+};
+
+export const debounceFor = <T extends (...args: any[]) => any>(func: T, delay: number): DebounceFn<T> => {
+  let timeoutId: ReturnType<typeof setTimeout> | null;
+
+  return function debounced(...args: Parameters<T>): void {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+      func(...args);
+      timeoutId = null;
+    }, delay);
+  };
 };
