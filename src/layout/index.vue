@@ -18,13 +18,10 @@
           Log out
         </AButton>
       </header>
-      <ALayoutContent class="relative p-15 overflow-hidden">
+      <ALayoutContent class="relative p-15 h-full">
         <PageContent />
         <AppDrawer />
       </ALayoutContent>
-      <!-- <ALayoutFooter class="text-center">
-        Footer
-      </ALayoutFooter> -->
     </ALayout>
   </ALayout>
 </template>

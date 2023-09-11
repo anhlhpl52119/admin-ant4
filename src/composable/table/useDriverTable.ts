@@ -73,6 +73,7 @@ export const useDriverTable = () => {
       width: '7rem',
       align: 'center',
       fixed: 'left',
+      responsive: ['lg'],
     },
     {
       title: 'Tên',
@@ -82,6 +83,7 @@ export const useDriverTable = () => {
     {
       title: 'Mã',
       dataIndex: 'code',
+      responsive: ['lg'],
     },
     {
       title: 'Số điện thoại',
@@ -90,14 +92,17 @@ export const useDriverTable = () => {
     {
       title: 'Email',
       dataIndex: 'email',
+      responsive: ['md'],
     },
     {
       title: 'Địa chỉ',
       dataIndex: 'address',
+      responsive: ['md'],
     },
     {
       title: 'Mô tả',
       dataIndex: 'description',
+      responsive: ['lg'],
     },
     {
       dataIndex: 'edit',

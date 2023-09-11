@@ -1,6 +1,6 @@
 <template>
-  <main>
-    <article class="mx-16 my-20 flex-b-center">
+  <div>
+    <article class="mb-16 flex-b-center">
       <span class="text-24 font-700">
         Tài Xế
       </span>
@@ -89,7 +89,7 @@
         </template>
       </ATable>
     </section>
-  </main>
+  </div>
 </template>
 
 <script lang="ts" setup>
