@@ -35,7 +35,7 @@ interface RequestOptions {
 const UNKNOWN_ERROR = 'Lỗi không xác định';
 
 const service = axios.create({
-  timeout: 60000,
+  timeout: 6000,
 });
 
 service.interceptors.request.use(
