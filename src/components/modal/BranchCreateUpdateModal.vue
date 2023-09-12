@@ -25,6 +25,12 @@
         <CInput v-model:value="createUpdateBodyState.description" label="Mô tả" />
         <CInput v-model:value="createUpdateBodyState.email" label="Email" />
         <CInput v-model:value="createUpdateBodyState.retailer_id" label="Người sở hữu" />
+        <CFetchOption
+          label="Người sở hữu fetch"
+          :request-data="test"
+          item-label-keys="name"
+          item-value-key="id"
+        />
       </template>
     </div>
   </AModal>
@@ -87,6 +93,15 @@ const onSubmit = async () => {
     content: 'Thành công',
     onOk: () => onCloseModal(true),
   });
+};
+
+const test = async (params?: string) => {
+  const rs = await branchApis.search(params ? { query: { name_cont: params } } : undefined);
+  if (!rs || rs.data.branches.length === 0) {
+    return [];
+  }
+
+  return rs.data.branches;
 };
 
 const init = async () => {
