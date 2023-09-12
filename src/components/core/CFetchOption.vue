@@ -4,58 +4,45 @@
       {{ label }}
     </span>
     <ASelect
-      v-bind="{ ...$attrs, ...props }"
+      v-bind="{ ...$attrs }"
+      v-model:value="value"
       :options="optionsRef"
-      @change="handleChange"
-    />
+      show-search
+      placeholder="Tìm theo tên"
+      :filter-option="false"
+      :loading="isFetching"
+      @search="onSearchVal"
+      @change="onTest"
+    >
+      <template v-if="optionsRef.length === 0" #notFoundContent>
+        <ASpin v-if="isFetching" size="small" />
+        <span v-else> Không tìm thấy hãy thử tìm bằng tên khác</span>
+      </template>
+    </ASelect>
   </div>
 </template>
 
 <script lang="ts" setup generic="T">
-import { type DefaultOptionType, selectProps } from 'ant-design-vue/es/select/index';
-import { debounceFor } from '@/utils/common.util';
+import { type DefaultOptionType } from 'ant-design-vue/es/select/index';
 
-type RegexTypes = 'number' | 'text' | 'userLogin';
 type LabelPlacement = 'top' | 'bottom' | 'left' | 'right';
-type LabelKeys = [keyof T, keyof T] | [keyof T]
-type ValueKey = [keyof T]
+type LabelKeys = keyof T
+type ValueKey = keyof T
+interface FnParams { keyword?: string; defaultKey: keyof T }
 
-const props = defineProps({
-  ...selectProps(),
-  labelPlacement: String as PropType<LabelPlacement>,
-  label: String,
-  labelClass: String,
-  initialValue: String,
-  isReadOnly: Boolean,
-  disabledOptions: [] as PropType<string[]>,
-  delayTime: {
-    type: Number,
-    default: 600, // 600ms to next fetch
-  },
-  requestData: {
-    type: Function as PropType<(v?: string) => Promise<T[]>>,
-    required: true,
-  },
-  itemLabelKeys: {
-    type: [] as PropType<LabelKeys>,
-    required: false,
-  },
-  itemValueKey: {
-    type: [] as PropType<ValueKey>,
-    required: false,
-  },
-});
+interface CustomProps {
+  labelPlacement?: LabelPlacement
+  label?: string
+  labelClass?: string
+  initialValue?: string
+  isReadOnly?: boolean
+  disabledOptions?: string[]
+  requestData: (v: FnParams) => Promise<T[]>
+  itemLabelKeys: LabelKeys
+  itemValueKey: ValueKey
+}
+const props = defineProps<CustomProps>();
 
-const emits = defineEmits<{
-  'update:value': [v: string]
-  selected: [v: T]
-}>();
-
-/**
- * define where is label placement base on props
- *
- * @return {string} - class of tailwind
- * */
 const labelWhere = computed(() => {
   switch (props.labelPlacement) {
     case 'right':
@@ -71,39 +58,35 @@ const labelWhere = computed(() => {
   }
 });
 
-const reRexFactory: { [k in RegexTypes]: (v: string) => string } = {
-  text: (v: string) => v.replace(/[0-9]/g, ''),
-  number: (v: string) => v.replace(/[^0-9]/g, ''),
-  userLogin: (v: string) => v.replace(/[~!#$%^&*()\-\+=\[\]{}|\\;:'",<>\/?\s]/g, ''),
-};
-
-/**
- * Trigger when typing on input
- * remove first space character
- *
- * */
-// const onInput = (e: any) => {
-//   const firstSpace = /^\s/;
-//   // remove empty space character ahead of string
-//   const val = e?.target?.value?.replace(firstSpace, '') ?? '';
-
-//   if (!props.acceptedOnly) {
-//     return emits('update:value', val);
-//   }
-//   emits('update:value', reRexFactory[props.acceptedOnly](val));
-// };
 const optionsRef = ref<DefaultOptionType[]>([]);
-const handleChange = async () => {
+const isFetching = ref<boolean>(false);
+const value = ref('');
+const handleChange = async (searchVal?: string) => {
+  isFetching.value = true;
+  optionsRef.value = [];
+
+  const asdada = searchVal? searchVal : props.
   const fetch = props.requestData;
-  const a = await fetch();
+  const a = await fetch({});
   optionsRef.value = a.map(i => ({
-    label: i[props.itemLabelKeys![0]] as string,
-    value: i[props.itemValueKey![0]] as string,
+    label: i[props.itemLabelKeys] as string,
+    value: i[props.itemValueKey] as string,
   }));
+  isFetching.value = false;
 };
-// handleChange();
-const init = async () => {
-  await debounceFor(handleChange, 400);
+const onTest = (v: any) => {
 };
-init();
+let timeout: ReturnType<typeof setTimeout>;
+const onSearchVal = (val: string) => {
+  if (!val) {
+    return;
+  }
+  if (timeout) {
+    clearTimeout(timeout);
+  }
+  timeout = setTimeout(() => {
+    handleChange(val);
+  }, 600);
+};
+handleChange();
 </script>
