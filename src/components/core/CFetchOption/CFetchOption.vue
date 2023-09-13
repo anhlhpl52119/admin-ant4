@@ -38,6 +38,7 @@ import { type DefaultOptionType } from 'ant-design-vue/es/select/index';
 import type { Gen, PropTypes } from './types';
 
 const props = defineProps<PropTypes<T>>();
+
 defineEmits<{
   'update:initialValue': [v: string | number]
 }>();
