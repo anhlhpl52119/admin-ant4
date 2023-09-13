@@ -55,7 +55,7 @@
         </template>
         <template #title>
           <div class="flex-b-center mb-16">
-            <ul class="flex gap-5 font-700 items-end">
+            <ul class="flex gap-5 font-700 items-center">
               <li><span>Tổng cộng:</span></li>
               <li><span class="text-primary text-18">{{ paginationState.totalRecord }}</span></li>
               <li><span>bản ghi được tìm thấy</span></li>
