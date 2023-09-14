@@ -3,17 +3,13 @@
     <span v-if="label" :class="labelClass" class="font-medium">
       {{ label }}
     </span>
-
-    <!-- Skeleton -->
-    <ASkeletonInput v-if="isLoadingOnInit" class="w-full" :active="true" :block="true" />
-
     <!-- Select dropdown -->
     <ASelect
-      v-else
       v-bind="{ ...$attrs }"
       v-model:value="selectedVal"
       :options="optionsRef"
       :show-search="true"
+      :disabled="isLoadingOnInit"
       :filter-option="false"
       @search="onTypeToSearch"
       @change="$emit('update:initialValue', $event)"
@@ -27,7 +23,21 @@
       <!-- Show icon  -->
       <template #suffixIcon>
         <i v-if="isFetching" class="i-svg-spinners:3-dots-bounce w20 h20 text-primary" />
-        <i v-else class="i-material-symbols:arrow-drop-down-circle-outline-rounded w20 h20 text-primary" />
+        <i v-else class="i-material-symbols:arrow-drop-down-circle-outline-rounded w20 h20" />
+      </template>
+      <template v-if="!va" #dropdownRender="{ menuNode: menu }">
+        <VNodes :vnodes="menu" />
+        <ADivider style="margin: 4px 0" />
+        <div
+          style="padding: 4px 8px; cursor: pointer"
+          @mousedown="e => e.preventDefault()"
+          @click="fetchOptions()"
+        >
+          <div class="flex gap-5 text-primary">
+            <SearchOutlined />
+            <span>Tìm kết quả tương tự hoặc nhập để tìm kiếm</span>
+          </div>
+        </div>
       </template>
     </ASelect>
   </div>
@@ -35,6 +45,7 @@
 
 <script lang="ts" setup generic="T extends Gen">
 import { type DefaultOptionType } from 'ant-design-vue/es/select/index';
+import { SearchOutlined } from '@ant-design/icons-vue';
 import type { Gen, PropTypes } from './types';
 
 const props = defineProps<PropTypes<T>>();
@@ -68,6 +79,18 @@ const labelPlacement = () => {
   }
 };
 
+const VNodes = defineComponent({
+  props: {
+    vnodes: {
+      type: Object,
+      required: true,
+    },
+  },
+  render() {
+    return this.vnodes;
+  },
+});
+
 const fetchOptions = async (v?: ApiAttributeQuery<T>) => {
   isFetching.value = true;
   optionsRef.value = [];
@@ -89,7 +112,10 @@ const fetchOptions = async (v?: ApiAttributeQuery<T>) => {
   }
 };
 
+const va = ref<string>();
+
 const onTypeToSearch = (typingVal: string) => {
+  va.value = typingVal;
   if (!typingVal) {
     return;
   }
