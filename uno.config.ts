@@ -19,7 +19,7 @@ export default defineConfig({
     colors: {
       abd: '#dcdfe5', // app border,
       abg: '#f8faff', // app background
-      primary: '#4281A4',
+      primary: '#1677ff',
       secondary: '#64748B',
       success: '#48A9A6',
       info: '#4281A4',
