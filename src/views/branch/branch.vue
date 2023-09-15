@@ -17,17 +17,35 @@
         <CInput v-model:value="queriesState!.code_cont" label="Tìm theo mã:" />
         <CInput v-model:value="queriesState!.address_cont" label="Tìm theo địa chỉ:" />
       </ul>
-      <AButton
-        type="primary" size="large"
-        :loading="tableLoading"
-        class="justify-self-end"
-        @click="search"
-      >
-        Tìm
-        <template #icon>
-          <SearchOutlined />
-        </template>
-      </AButton>
+      <ul class="justify-self-end flex gap-5 items-center">
+        <li>
+          <AButton
+            size="small"
+            shape="round"
+            danger
+            :loading="tableLoading"
+            class="group"
+            @click="reload"
+          >
+            <span>Xóa bộ lọc</span>
+            <template #icon>
+              <ClearOutlined />
+            </template>
+          </AButton>
+        </li>
+        <li>
+          <AButton
+            type="primary" size="large"
+            :loading="tableLoading"
+            @click="search"
+          >
+            Tìm
+            <template #icon>
+              <SearchOutlined />
+            </template>
+          </AButton>
+        </li>
+      </ul>
     </section>
     <section class="card h-full">
       <ATable
@@ -63,7 +81,7 @@
             <ul class="flex items-center gap-10">
               <li>
                 <AButton type="primary" :icon="h(ReloadOutlined)" @click="reload">
-                  Refresh
+                  Làm mới
                 </AButton>
               </li>
               <li>
@@ -84,6 +102,38 @@
                   @change="onPageSizeChange"
                 />
               </li>
+              <li>
+                <ADropdown>
+                  <template #overlay>
+                    <AMenu @click="handleMenuClick">
+                      <AMenuItem key="1">
+                        <UserOutlined />
+                        <div class="flex gap-5 items-center">
+                          <i class="i-mdi:sort-calendar-ascending w25 h25 text-primary" />
+                          <span>Ngày tạo gần nhất</span>
+                        </div>
+                      </AMenuItem>
+                      <AMenuItem key="2">
+                        <div class="flex gap-5 items-center">
+                          <i class="i-mdi:sort-calendar-descending w25 h25 text-danger" />
+                          <span>Ngày tạo xa nhất</span>
+                        </div>
+                        <UserOutlined />
+                      </AMenuItem>
+                      <AMenuItem key="3">
+                        <div class="flex gap-5 items-center">
+                          <i class="i-mdi:sort-calendar-ascending w25 h25 text-primary" />
+                          <span>Ngày sửa đổi gần nhất</span>
+                        </div>
+                      </AMenuItem>
+                    </AMenu>
+                  </template>
+                  <AButton size="small">
+                    Ngày tạo gần nhất
+                    <DownOutlined />
+                  </AButton>
+                </ADropdown>
+              </li>
             </ul>
           </div>
         </template>
@@ -93,7 +143,7 @@
 </template>
 
 <script lang="ts" setup>
-import { EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue';
+import { ClearOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { useBranchTable } from '@/composable/table/useBranchTable';
 import { VIEW_BY_OPTIONS } from '@/constants/common.constant';
@@ -118,4 +168,5 @@ const openModel = (branchId?: string) => {
     }),
   });
 };
+const handleMenuClick = () => { };
 </script>
