@@ -23,7 +23,12 @@
         <CInput v-model:value="createUpdateBodyState.address" label="Địa chỉ" />
         <CInput v-model:value="createUpdateBodyState.description" label="Mô tả" />
         <CInput v-model:value="createUpdateBodyState.email" label="Email" />
-        <CInput v-model:value="createUpdateBodyState.retailer_id" label="Người sở hữu" />
+        <CFetchOption
+          v-model:initial-value="createUpdateBodyState.retailer_id"
+          label="Người sở hữu"
+          :request-data="composeRetailerOption"
+          label-key="name"
+        />
       </template>
     </div>
   </AModal>
@@ -34,6 +39,7 @@ import { Modal } from 'ant-design-vue';
 import { useApplicationStore } from '@/stores/application.store';
 import { EApiId } from '@/enums/request.enum';
 import { groupDriverApis } from '@/apis/core/group-driver/group-driver.api';
+import { retailerApis } from '@/apis/core/retailer/retailer.api';
 
 const props = defineProps<{ groupDriverId?: string }>();
 
@@ -52,7 +58,7 @@ const createUpdateBodyState = reactive<CreateGroupDriverRequestBody>({
   address: '1213 st Hung Vuong',
   description: 'Hung Anh test',
   email: 'taixeanhlhpl@taixe.vn',
-  retailer_id: '2f1f6f7b-4bef-462d-b611-811262bb6c48',
+  retailer_id: '',
 });
 
 const isSubmitLoading = computed(() =>
@@ -60,6 +66,15 @@ const isSubmitLoading = computed(() =>
  || appStore.loadingAppState.has(EApiId.GROUP_DRIVER_UPDATE));
 
 const isUpdateMode = computed(() => !!props.groupDriverId);
+
+const composeRetailerOption = async (query?: ApiAttributeQuery<Retailer>) => {
+  const rs = await retailerApis.search({ query });
+  if (!rs || rs.data.retailers.length === 0) {
+    return [];
+  }
+
+  return rs.data.retailers;
+};
 
 const onCloseModal = (forceReloadTable: boolean = false) => {
   if (forceReloadTable) {
