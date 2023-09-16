@@ -24,7 +24,7 @@ export default defineConfig({
       success: '#48A9A6',
       info: '#4281A4',
       warning: '#D4B483',
-      danger: '#C1666B',
+      danger: '#ff4d4f',
       plain: '#6c757d',
     },
     breakpoints: {
@@ -108,10 +108,10 @@ export default defineConfig({
       collections: {
         // custom: FileSystemIconLoader('./assets/svg', (svg: string) => svg),
       },
-      extraProperties: {
-        'display': 'inline-block',
-        'vertical-align': 'middle',
-      },
+      // extraProperties: {
+      //   'display': 'inline-block',
+      //   'vertical-align': 'middle',
+      // },
       warn: true,
     }),
   ],
