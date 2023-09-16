@@ -23,7 +23,7 @@
       </template>
     </template>
     <template #title>
-      <div class="flex-b-center mb-16">
+      <!-- <div class="flex-b-center mb-16">
         <ul class="flex gap-5 font-700 items-center">
           <li><span>Tổng cộng:</span></li>
           <li><span class="text-primary text-18">{{ paginationState.totalRecord }}</span></li>
@@ -86,16 +86,22 @@
             </ADropdown>
           </li>
         </ul>
-      </div>
+      </div> -->
+      <CommonTableHeader
+        :current-page="paginationState.currentPage"
+        :view-by="paginationState.viewBy"
+        :total-record="paginationState.totalRecord"
+        @change-page-size="onPageSizeChange"
+        @reload="reload"
+      />
     </template>
   </ATable>
 </template>
 
 <script lang="ts" setup>
-import { EditOutlined, ReloadOutlined } from '@ant-design/icons-vue';
+import { EditOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { useBranchTable } from '@/composable/table/useBranchTable';
-import { VIEW_BY_OPTIONS } from '@/constants/common.constant';
 
 const BranchCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/BranchCreateUpdateModal.vue'));
 
