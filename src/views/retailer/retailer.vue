@@ -31,7 +31,7 @@
     </section>
     <section class="card">
       <ATable
-        :data-source="retailerState"
+        :data-source="stateRecords"
         :columns="columns"
         :loading="tableLoading"
         :pagination="false"
@@ -69,19 +69,47 @@
 <script lang="ts" setup>
 import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
-import { useRetailerTable } from '@/composable/table/useRetailerTable';
+import { columns } from './column';
+import { retailerApis } from '@/apis/core/retailer/retailer.api';
+import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
+import { EApiId } from '@/enums/request.enum';
 
 const RetailerCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/RetailerCreateUpdateModal.vue'));
 
+const fetch = async (optional?: SearchRetailerQueryParams) => {
+  const fallback = {
+    records: [],
+    current_page: optional?.page ?? 1,
+    total_page: 10,
+    total_records: 0,
+  };
+  const params = { ...optional };
+
+  const res = await retailerApis.search(params);
+
+  if (!(res && res.data) || res.data.retailers.length === 0) {
+    return fallback;
+  }
+
+  return {
+    records: res.data.retailers,
+    current_page: res.data.current_page ?? 1,
+    total_page: res.data.total_page,
+    total_records: res.data.total_records,
+  };
+};
+
 const {
-  columns,
-  retailerState,
+  stateRecords,
   tableLoading,
   paginationState,
   queriesState,
   search,
   reload,
-} = useRetailerTable();
+} = useCommonTableMethod(
+  EApiId.RETAILER_SEARCH,
+  fetch,
+);
 
 const openModel = (retailerId?: string) => {
   Modal.info({

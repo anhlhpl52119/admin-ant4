@@ -31,7 +31,7 @@
     </section>
     <section class="card">
       <ATable
-        :data-source="groupDriverState"
+        :data-source="stateRecords"
         :columns="columns"
         :loading="tableLoading"
         :pagination="false"
@@ -69,19 +69,47 @@
 <script lang="ts" setup>
 import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
-import { useGroupDriverTable } from '@/composable/table/useGroupDriverTable';
+import { columns } from './column';
+import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
+import { groupDriverApis } from '@/apis/core/group-driver/group-driver.api';
+import { EApiId } from '@/enums/request.enum';
 
 const GroupDriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/GroupDriverCreateUpdateModal.vue'));
 
+const fetch = async (optional?: SearchGroupDriverQueryParams) => {
+  const fallback = {
+    records: [],
+    current_page: optional?.page ?? 1,
+    total_page: 10,
+    total_records: 0,
+  };
+  const params = { ...optional };
+
+  const res = await groupDriverApis.search(params);
+
+  if (!(res && res.data) || res.data.group_drivers.length === 0) {
+    return fallback;
+  }
+
+  return {
+    records: res.data.group_drivers,
+    current_page: res.data.current_page ?? 1,
+    total_page: res.data.total_page,
+    total_records: res.data.total_records,
+  };
+};
+
 const {
-  columns,
-  groupDriverState,
+  stateRecords,
   tableLoading,
   paginationState,
   queriesState,
   search,
   reload,
-} = useGroupDriverTable();
+} = useCommonTableMethod(
+  EApiId.GROUP_DRIVER_SEARCH,
+  fetch,
+);
 
 const openModel = (groupDriverId?: string) => {
   Modal.info({

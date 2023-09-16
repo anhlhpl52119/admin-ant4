@@ -49,7 +49,7 @@
     </section>
     <section class="card h-full">
       <ATable
-        :data-source="branchesState"
+        :data-source="stateRecords"
         :columns="columns"
         :loading="tableLoading"
         :pagination="false"
@@ -87,19 +87,47 @@
 <script lang="ts" setup>
 import { ClearOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
-import { useBranchTable } from '@/composable/table/useBranchTable';
+import { columns } from './column';
+import { branchApis } from '@/apis/core/branch/branch.api';
+import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
+import { EApiId } from '@/enums/request.enum';
 
 const BranchCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/BranchCreateUpdateModal.vue'));
 
+const fetch = async (optional?: SearchBranchQueryParams) => {
+  const fallback = {
+    records: [],
+    current_page: optional?.page ?? 1,
+    total_page: 10,
+    total_records: 0,
+  };
+  const params = { ...optional };
+
+  const res = await branchApis.search(params);
+
+  if (!(res && res.data) || res.data.branches.length === 0) {
+    return fallback;
+  }
+
+  return {
+    records: res.data.branches,
+    current_page: res.data.current_page ?? 1,
+    total_page: res.data.total_page,
+    total_records: res.data.total_records,
+  };
+};
+
 const {
-  columns,
-  branchesState,
+  stateRecords,
   tableLoading,
   paginationState,
   queriesState,
   search,
   reload,
-} = useBranchTable();
+} = useCommonTableMethod(
+  EApiId.BRANCH_SEARCH,
+  fetch,
+);
 
 const openModel = (branchId?: string) => {
   Modal.info({

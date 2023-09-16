@@ -31,7 +31,7 @@
     </section>
     <section class="card">
       <ATable
-        :data-source="driversState"
+        :data-source="stateRecords"
         :columns="columns"
         :loading="tableLoading"
         :pagination="false"
@@ -69,19 +69,47 @@
 <script lang="ts" setup>
 import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
-import { useDriverTable } from '@/composable/table/useDriverTable';
+import { columns } from './column';
+import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
+import { EApiId } from '@/enums/request.enum';
+import { driverApis } from '@/apis/core/driver/driver.api';
 
 const DriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/DriverCreateUpdateModal.vue'));
 
+const fetch = async (optional?: SearchDriverQueryParams) => {
+  const fallback = {
+    records: [],
+    current_page: optional?.page ?? 1,
+    total_page: 10,
+    total_records: 0,
+  };
+  const params = { ...optional };
+
+  const res = await driverApis.search(params);
+
+  if (!(res && res.data) || res.data.drivers.length === 0) {
+    return fallback;
+  }
+
+  return {
+    records: res.data.drivers,
+    current_page: res.data.current_page ?? 1,
+    total_page: res.data.total_page,
+    total_records: res.data.total_records,
+  };
+};
+
 const {
-  columns,
-  driversState,
+  stateRecords,
   tableLoading,
   paginationState,
   queriesState,
   search,
   reload,
-} = useDriverTable();
+} = useCommonTableMethod(
+  EApiId.DRIVER_SEARCH,
+  fetch,
+);
 
 const openModel = (driverId?: string) => {
   Modal.info({
