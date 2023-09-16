@@ -54,38 +54,12 @@
           </template>
         </template>
         <template #title>
-          <div class="flex-b-center mb-16">
-            <ul class="flex gap-5 font-700 items-center">
-              <li><span>Tổng cộng:</span></li>
-              <li><span class="text-primary text-18">{{ paginationState.totalRecord }}</span></li>
-              <li><span>bản ghi được tìm thấy</span></li>
-            </ul>
-            <ul class="flex items-center gap-10">
-              <li>
-                <AButton type="primary" :icon="h(ReloadOutlined)" @click="reload">
-                  Refresh
-                </AButton>
-              </li>
-              <li>
-                <APagination
-                  v-model:current="paginationState.currentPage"
-                  :total="paginationState.totalRecord"
-                  :page-size="paginationState.viewBy"
-                  size="small"
-                  :show-size-changer="false"
-                />
-              </li>
-              <li>
-                <span class="mr-5">Hiển thị</span>
-                <ASelect
-                  v-model:value="paginationState.viewBy"
-                  size="small"
-                  :options="VIEW_BY_OPTIONS"
-                  @change="onPageSizeChange"
-                />
-              </li>
-            </ul>
-          </div>
+          <CommonTableHeader
+            v-model:current-page="paginationState.currentPage"
+            v-model:view-by="paginationState.viewBy"
+            :total-record="paginationState.totalRecord"
+            @reload="reload"
+          />
         </template>
       </ATable>
     </section>
@@ -93,10 +67,9 @@
 </template>
 
 <script lang="ts" setup>
-import { EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons-vue';
+import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { useRetailerTable } from '@/composable/table/useRetailerTable';
-import { VIEW_BY_OPTIONS } from '@/constants/common.constant';
 
 const RetailerCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/RetailerCreateUpdateModal.vue'));
 
@@ -106,7 +79,6 @@ const {
   tableLoading,
   paginationState,
   queriesState,
-  onPageSizeChange,
   search,
   reload,
 } = useRetailerTable();
