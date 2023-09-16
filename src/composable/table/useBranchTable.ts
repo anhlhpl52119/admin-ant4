@@ -62,10 +62,6 @@ export const useBranchTable = () => {
     fetch();
   });
 
-  const onPageSizeChange = () => {
-    paginationState.currentPage = 1;
-  };
-
   const columns: TableColumnType<Branch>[] = [
     {
       title: 'STT',
@@ -111,7 +107,6 @@ export const useBranchTable = () => {
     paginationState,
     queriesState,
 
-    onPageSizeChange,
     reload,
     search,
   };
