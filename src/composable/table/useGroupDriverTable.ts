@@ -62,10 +62,6 @@ export const useGroupDriverTable = () => {
     fetch();
   });
 
-  const onPageSizeChange = () => {
-    paginationState.currentPage = 1;
-  };
-
   const columns: TableColumnType<GroupDriver>[] = [
     {
       title: 'STT',
@@ -111,7 +107,6 @@ export const useGroupDriverTable = () => {
     paginationState,
     queriesState,
 
-    onPageSizeChange,
     reload,
     search,
   };

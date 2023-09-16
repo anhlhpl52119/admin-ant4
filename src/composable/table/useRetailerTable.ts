@@ -62,10 +62,6 @@ export const useRetailerTable = () => {
     fetch();
   });
 
-  const onPageSizeChange = () => {
-    paginationState.currentPage = 1;
-  };
-
   const columns: TableColumnType<Retailer>[] = [
     {
       title: 'STT',
@@ -115,7 +111,6 @@ export const useRetailerTable = () => {
     paginationState,
     queriesState,
 
-    onPageSizeChange,
     reload,
     search,
   };

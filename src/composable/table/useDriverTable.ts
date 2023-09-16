@@ -62,10 +62,6 @@ export const useDriverTable = () => {
     fetch();
   });
 
-  const onPageSizeChange = () => {
-    paginationState.currentPage = 1;
-  };
-
   const columns: TableColumnType<Branch>[] = [
     {
       title: 'STT',
@@ -120,7 +116,6 @@ export const useDriverTable = () => {
     paginationState,
     queriesState,
 
-    onPageSizeChange,
     reload,
     search,
   };
