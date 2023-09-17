@@ -5,42 +5,12 @@
       action-btn-label="Tạo Mới Chi Nhánh"
       @on-click-action="openModel()"
     />
-    <section class="card flex items-end justify-between" @keypress.enter="search">
-      <ul class="flex gap-10 flex-wrap">
-        <CInput v-model:value="queriesState!.name_cont" label="Tìm theo tên:" />
-        <CInput v-model:value="queriesState!.code_cont" label="Tìm theo mã:" />
-        <CInput v-model:value="queriesState!.address_cont" label="Tìm theo địa chỉ:" />
-      </ul>
-      <ul class="justify-self-end flex gap-5 items-center">
-        <li>
-          <AButton
-            size="small"
-            shape="round"
-            danger
-            :loading="tableLoading"
-            class="group"
-            @click="reload"
-          >
-            <span>Xóa bộ lọc</span>
-            <template #icon>
-              <ClearOutlined />
-            </template>
-          </AButton>
-        </li>
-        <li>
-          <AButton
-            type="primary" size="large"
-            :loading="tableLoading"
-            @click="search"
-          >
-            Tìm
-            <template #icon>
-              <SearchOutlined />
-            </template>
-          </AButton>
-        </li>
-      </ul>
-    </section>
+    <CommonTableSearchForm
+      :loading="tableLoading"
+      @search="search"
+      @reset="search"
+    />
+
     <section class="card h-full">
       <ATable
         :data-source="stateRecords"
@@ -82,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ClearOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons-vue';
+import { EditOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { columns } from './column';
 import { branchApis } from '@/apis/core/branch/branch.api';
