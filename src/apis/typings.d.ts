@@ -19,10 +19,6 @@ type ApiPageQuery = {
   all?: boolean;
 };
 
-type ApiRelationShipQuery<T extends string = string> = {
-  includes?: T[];
-};
-
 //
 type ApiAttributeQuery<T> = Partial<RansackQuery<T>>;
 
@@ -39,6 +35,10 @@ type PageResponse<T> = {
 type ObjectResponse<T> = {
   message: string[];
   data: T;
+};
+
+type ApiRelationShipQuery<T extends string = string> = {
+  includes?: T[];
 };
 
 type ApiQuery<T, P extends string = string> = ApiPageQuery &
