@@ -5,6 +5,7 @@
       action-btn-label="Tạo Mới Chi Nhánh"
       @on-click-action="openModel()"
     />
+
     <CommonTableSearchForm
       :loading="tableLoading"
       @search="search"
