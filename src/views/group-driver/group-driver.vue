@@ -1,16 +1,10 @@
 <template>
   <main>
-    <article class="mx-16 my-20 flex-b-center">
-      <span class="text-24 font-700">
-        Nhóm Tài Xế
-      </span>
-      <AButton type="primary" size="large" @click="openModel()">
-        Thêm Nhóm Tài Xế
-        <template #icon>
-          <PlusOutlined />
-        </template>
-      </AButton>
-    </article>
+    <CommonPageTitle
+      title="Nhóm Tài Xế"
+      action-btn-label="Thêm Nhóm Tài Xế"
+      @on-click-action="openModel()"
+    />
     <section class="card flex items-end justify-between" @keypress.enter="search">
       <ul class="flex gap-10 flex-wrap">
         <CInput v-model:value="queriesState!.name_cont" label="Tìm theo tên:" />
@@ -67,7 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
+import { EditOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { columns } from './column';
 import { useCommonTableMethod } from '@/composable/useCommonTableMethod';

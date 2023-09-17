@@ -49,6 +49,7 @@ export const useCommonTableMethod = <T>(
       queriesState.value = { ...optional.query };
     }
   };
+
   const search = () => {
     if (flag.value) {
       return;

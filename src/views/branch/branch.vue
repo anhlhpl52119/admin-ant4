@@ -1,16 +1,10 @@
 <template>
   <main>
-    <article class="mx-16 my-20 flex-b-center">
-      <span class="text-24 font-700">
-        Chi nhánh
-      </span>
-      <AButton type="primary" size="large" @click="openModel()">
-        Tạo Chi nhánh
-        <template #icon>
-          <PlusOutlined />
-        </template>
-      </AButton>
-    </article>
+    <CommonPageTitle
+      title="Chi nhánh"
+      action-btn-label="Tạo Mới Chi Nhánh"
+      @on-click-action="openModel()"
+    />
     <section class="card flex items-end justify-between" @keypress.enter="search">
       <ul class="flex gap-10 flex-wrap">
         <CInput v-model:value="queriesState!.name_cont" label="Tìm theo tên:" />
@@ -56,6 +50,17 @@
         :scroll="{ y: '61rem' }"
         class="my-table"
       >
+        <!-- Table Title -->
+        <template #title>
+          <CommonTableHeader
+            v-model:current-page="paginationState.currentPage"
+            v-model:view-by="paginationState.viewBy"
+            :total-record="paginationState.totalRecord"
+            @reload="reload"
+          />
+        </template>
+
+        <!-- Table Custom -->
         <template #bodyCell="{ index, column, record }">
           <template v-if="column.dataIndex === 'indexNum'">
             {{ index + 1 }}
@@ -71,21 +76,13 @@
             </ATooltip>
           </template>
         </template>
-        <template #title>
-          <CommonTableHeader
-            v-model:current-page="paginationState.currentPage"
-            v-model:view-by="paginationState.viewBy"
-            :total-record="paginationState.totalRecord"
-            @reload="reload"
-          />
-        </template>
       </ATable>
     </section>
   </main>
 </template>
 
 <script lang="ts" setup>
-import { ClearOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
+import { ClearOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { columns } from './column';
 import { branchApis } from '@/apis/core/branch/branch.api';
@@ -118,10 +115,7 @@ const fetch = async (optional?: SearchBranchQueryParams) => {
 };
 
 const {
-  stateRecords,
-  tableLoading,
-  paginationState,
-  queriesState,
+  stateRecords, tableLoading, paginationState, queriesState,
   search,
   reload,
 } = useCommonTableMethod(
