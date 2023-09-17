@@ -7,3 +7,17 @@
     @apply p-0;
   }
 }
+
+// Search form item
+.search-form-items {
+  @apply relative;
+  &:hover > i {
+    @apply opacity-100 ;
+  }
+  & > i {
+    @apply text-18 text-stone-300 opacity-0 absolute right-0 top-0 cursor-pointer transition duration-300;
+    &:hover {
+      @apply text-red;
+    }
+  }
+}
