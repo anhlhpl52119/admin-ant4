@@ -1,6 +1,9 @@
 <template>
   <ALayout class="min-h-screen">
     <ALayoutSider v-model:collapsed="isCollapsed" collapsible :width="250" theme="light">
+      <header class="h-60 flex justify-center">
+        <img src="~@/assets/img/logo-tai-co-colored.png" class="h-full" alt="logo">
+      </header>
       <AMenu
         v-model:openKeys="activeKey"
         :selected-keys="selectedKeys"
@@ -13,7 +16,7 @@
       </AMenu>
     </ALayoutSider>
     <ALayout class="bg-abg">
-      <header class="h-60 bg-white flex-center">
+      <header class="h-64 bg-white flex-center">
         <AButton danger @click="doLogout">
           Log out
         </AButton>
