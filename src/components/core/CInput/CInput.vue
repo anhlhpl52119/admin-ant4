@@ -67,7 +67,7 @@ const reRexFactory: { [k in RegexTypes]: (v: string) => string } = {
  * */
 const onInput = (e: any) => {
   const firstSpace = /^\s/;
-  // remove empty space character ahead of string
+  // prevent empty space character ahead of string
   const val = e?.target?.value?.replace(firstSpace, '') ?? '';
 
   if (!props.acceptedOnly) {
