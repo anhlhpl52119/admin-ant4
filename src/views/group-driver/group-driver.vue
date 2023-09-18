@@ -5,24 +5,13 @@
       action-btn-label="Thêm Nhóm Tài Xế"
       @on-click-action="openModel()"
     />
-    <section class="card flex items-end justify-between" @keypress.enter="search">
-      <ul class="flex gap-10 flex-wrap">
-        <CInput v-model:value="queriesState!.name_cont" label="Tìm theo tên:" />
-        <CInput v-model:value="queriesState!.code_cont" label="Tìm theo mã:" />
-        <CInput v-model:value="queriesState!.address_cont" label="Tìm theo địa chỉ:" />
-      </ul>
-      <AButton
-        type="primary" size="large"
-        :loading="tableLoading"
-        class="justify-self-end"
-        @click="search"
-      >
-        Tìm
-        <template #icon>
-          <SearchOutlined />
-        </template>
-      </AButton>
-    </section>
+
+    <CommonTableSearchForm
+      :loading="tableLoading"
+      @search="search"
+      @reset="search"
+    />
+
     <section class="card">
       <ATable
         :data-source="stateRecords"
@@ -61,7 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { EditOutlined, SearchOutlined } from '@ant-design/icons-vue';
+import { EditOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { columns } from './column';
 import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
@@ -97,7 +86,6 @@ const {
   stateRecords,
   tableLoading,
   paginationState,
-  queriesState,
   search,
   reload,
 } = useCommonTableMethod(
