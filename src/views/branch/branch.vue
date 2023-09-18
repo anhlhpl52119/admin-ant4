@@ -86,7 +86,7 @@ const fetch = async (optional?: SearchBranchQueryParams) => {
 };
 
 const {
-  stateRecords, tableLoading, paginationState, queriesState,
+  stateRecords, tableLoading, paginationState,
   search,
   reload,
 } = useCommonTableMethod(
