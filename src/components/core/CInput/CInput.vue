@@ -9,7 +9,11 @@
       v-bind="{ ...$attrs, ...props }"
       @input="onInput"
     />
-    <AInput v-else :maxlength="10" v-bind="{ ...$attrs, ...props }" @input="onInput" />
+    <AInput v-else :maxlength="10" v-bind="{ ...$attrs, ...props }" @input="onInput">
+      <template v-for="(_, key) in $slots" #[key]>
+        <slot :name="key" />
+      </template>
+    </AInput>
   </div>
 </template>
 
