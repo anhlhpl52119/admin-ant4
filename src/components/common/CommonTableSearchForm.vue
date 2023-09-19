@@ -1,9 +1,10 @@
 <template>
-  <section class="card flex items-end justify-between" @keypress.enter="$emit('search')">
+  <section class="card flex items-end justify-between" @keypress.enter="onSearch">
     <CInput
       v-model:value="searchNameVal"
       placeholder="Nhập tên để tìm kiếm..."
       size="large"
+      :maxlength="100"
       allow-clear
       class="w-400 self-end"
     >
@@ -42,7 +43,7 @@
         <AButton
           type="primary" size="large"
           :loading="loading"
-          @click="$emit('search')"
+          @click="onSearch"
         >
           Tìm
           <template #icon>
@@ -116,6 +117,10 @@ const remove = (key: string) => {
   state.value = state.value.filter(i => i.key !== key);
 };
 
+const onSearch = () => {
+  searchNameVal.value = searchNameVal.value.replace(/ {2,}/g, ' '); // keep 1 space on search conditions
+  emits('search', {});
+};
 const clearAll = () => {
   state.value = [];
   emits('reset');
