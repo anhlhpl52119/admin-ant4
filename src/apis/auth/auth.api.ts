@@ -1,4 +1,4 @@
-import { ERequestMethod } from '@/enums/request.enum';
+import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const authApis = {
@@ -12,6 +12,7 @@ export const authApis = {
         body,
       },
       {
+        id: EApiId.LOGIN,
         successMsg: 'Đăng nhập thành công',
         isShowLoading: true,
         getDataDirectly: false,
