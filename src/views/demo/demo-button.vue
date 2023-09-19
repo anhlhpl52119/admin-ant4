@@ -1,7 +1,5 @@
 <template>
   <main>
-    <NewCompTwo foo="sd" />
-    <ProductCardInfo />
     <div class="gap-16 flex-center">
       <AButton danger type="primary">
         Error
