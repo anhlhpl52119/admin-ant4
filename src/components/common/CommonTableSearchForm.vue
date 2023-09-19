@@ -1,7 +1,7 @@
 <template>
   <section class="card flex items-end justify-between" @keypress.enter="$emit('search')">
     <CInput
-      v-model:value="vvv"
+      v-model:value="searchNameVal"
       placeholder="Nhập tên để tìm kiếm..."
       size="large"
       allow-clear
@@ -23,7 +23,7 @@
       </AButton>
     </TransitionGroup>
     <ul class="justify-self-end flex gap-5 items-center">
-      <li>
+      <li v-if="state.length !== 0">
         <AButton
           size="small"
           shape="round"
@@ -76,7 +76,7 @@ interface TestVl {
   value: string | number
 }
 
-const vvv = ref('');
+const searchNameVal = ref('');
 
 const data: TestVl[] = [
   {
