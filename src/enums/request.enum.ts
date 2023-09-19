@@ -10,8 +10,8 @@ export enum EStatusCode {
   UNKNOWN = 999,
 }
 export enum EApiId {
-  API1,
-  API2,
+  LOGIN = 999,
+
   BRANCH_SEARCH,
   BRANCH_DETAILS,
   BRANCH_UPDATE,
