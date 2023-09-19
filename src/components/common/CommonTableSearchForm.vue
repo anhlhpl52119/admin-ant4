@@ -1,16 +1,27 @@
 <template>
   <section class="card flex items-end justify-between" @keypress.enter="$emit('search')">
+    <CInput
+      v-model:value="vvv"
+      placeholder="Nhập tên để tìm kiếm..."
+      size="large"
+      allow-clear
+      class="w-400 self-end"
+    >
+      <template #suffix>
+        <SearchOutlined />
+      </template>
+    </CInput>
     <TransitionGroup name="fade" tag="ul" class="flex gap-10 flex-wrap">
       <template v-for="item in state" :key="item.key">
         <li class="search-form-items">
-          <CInput v-model:value="item.value" :label="item.label" size="small" />
+          <CInput v-model:value="item.value" :label="item.label" size="small" class="rounded-full" />
           <i class="i-ic:baseline-cancel" @click="remove(item.key)" />
         </li>
       </template>
+      <AButton shape="round" size="small" class="self-end" @click="addNew">
+        + Thêm bộ lọc
+      </AButton>
     </TransitionGroup>
-    <AButton shape="round" size="small" @click="addNew">
-      + Thêm
-    </AButton>
     <ul class="justify-self-end flex gap-5 items-center">
       <li>
         <AButton
@@ -64,6 +75,9 @@ interface TestVl {
   label: string
   value: string | number
 }
+
+const vvv = ref('');
+
 const data: TestVl[] = [
   {
     key: 'name_cont',
