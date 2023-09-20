@@ -137,8 +137,11 @@ const remove = (key: string) => {
 };
 
 const onSearch = () => {
+  if (loading.value) {
+    return;
+  }
   searchNameVal.value = searchNameVal.value.replace(/ {2,}/g, ' '); // keep 1 space on search conditions
-  emits('search', {});
+  emits('search', { name_cont: searchNameVal.value } as unknown as ApiAttributeQuery<T>);
 };
 
 const clearAll = () => {
