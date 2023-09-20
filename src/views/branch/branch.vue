@@ -8,7 +8,7 @@
 
     <CommonTableSearchForm
       :loading="tableLoading"
-      @search="search"
+      @search="queriesState = $event"
       @reset="search"
     />
 
@@ -86,7 +86,7 @@ const fetch = async (optional?: SearchBranchQueryParams) => {
 };
 
 const {
-  stateRecords, tableLoading, paginationState,
+  stateRecords, tableLoading, paginationState, queriesState,
   search,
   reload,
 } = useCommonTableMethod(
