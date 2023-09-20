@@ -7,4 +7,6 @@ declare global {
   type Camelize<T> = CamelCasedPropertiesDeep<T>;
   type DeepPartial<T> = PartialDeep<T>;
   type DeepRequired<T> = RequiredDeep<T>;
+
+  type WidenLiteral<T> = T extends string | number | boolean ? ReturnType<T['valueOf']> : T;
 }
