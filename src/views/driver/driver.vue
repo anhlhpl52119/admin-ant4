@@ -8,7 +8,7 @@
 
     <CommonTableSearchForm
       :loading="tableLoading"
-      @search="search"
+      @search="queriesState = $event"
       @reset="search"
     />
 
@@ -86,6 +86,7 @@ const {
   stateRecords,
   tableLoading,
   paginationState,
+  queriesState,
   search,
   reload,
 } = useCommonTableMethod(
