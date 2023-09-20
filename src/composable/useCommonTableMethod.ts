@@ -14,7 +14,7 @@ export const useCommonTableMethod = <T>(
 
   const stateRecords = ref<T[]>([]) as Ref<T[]>;
 
-  const queriesState = ref<ApiQuery<T>['query']>({}) as Ref<ApiQuery<T>['query']>;
+  const queriesState = ref<ApiAttributeQuery<T>>({}) as Ref<ApiAttributeQuery<T>>;
 
   const flag = ref<boolean>(false);
 
@@ -50,11 +50,11 @@ export const useCommonTableMethod = <T>(
     }
   };
 
-  const search = () => {
+  const search = (queries?: ApiAttributeQuery<T>) => {
     if (flag.value) {
       return;
     }
-    fetch();
+    fetch({ query: queries });
   };
 
   const reload = () => {
