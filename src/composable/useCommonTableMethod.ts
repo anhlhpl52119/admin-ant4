@@ -16,8 +16,6 @@ export const useCommonTableMethod = <T>(
 
   const queriesState = ref<ApiAttributeQuery<T>>({}) as Ref<ApiAttributeQuery<T>>;
 
-  const flag = ref<boolean>(false);
-
   const tableLoading = computed(() => appStore.loadingAppState.has(loadingNameSpace));
 
   const paginationState = reactive({
@@ -51,9 +49,6 @@ export const useCommonTableMethod = <T>(
   };
 
   const search = (queries?: ApiAttributeQuery<T>) => {
-    if (flag.value) {
-      return;
-    }
     fetch({ query: queries });
   };
 
