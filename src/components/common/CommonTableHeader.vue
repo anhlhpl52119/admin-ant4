@@ -42,7 +42,7 @@
               </AMenuItem>
               <AMenuItem key="2">
                 <div class="flex gap-5 items-center">
-                  <i class="i-mdi:sort-calendar-descending w25 h25 text-danger" />
+                  <i class="i-mdi:sort-calendar-descending w25 h25 text-red" />
                   <span>Ngày tạo xa nhất</span>
                 </div>
               </AMenuItem>
