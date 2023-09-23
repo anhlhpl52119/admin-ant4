@@ -31,7 +31,7 @@
         />
       </li>
       <li>
-        <ADropdown>
+        <ADropdown trigger="click">
           <template #overlay>
             <AMenu @click="$emit('onSort')">
               <AMenuItem key="1">
@@ -43,13 +43,13 @@
               <AMenuItem key="2">
                 <div class="flex gap-5 items-center">
                   <i class="i-mdi:sort-calendar-descending w25 h25 text-red" />
-                  <span>Ngày tạo xa nhất</span>
+                  <span>Ngày tạo</span>
                 </div>
               </AMenuItem>
               <AMenuItem key="3">
                 <div class="flex gap-5 items-center">
                   <i class="i-mdi:sort-calendar-ascending w25 h25 text-primary" />
-                  <span>Ngày sửa đổi gần nhất</span>
+                  <span>Ngày sửa đổi</span>
                 </div>
               </AMenuItem>
             </AMenu>
@@ -78,6 +78,9 @@ const emits = defineEmits<{
   reload: [v: void]
   onSort: [v: void]
 }>();
+
+const value1 = ref<string>('asc');
+
 const { currentPage, totalRecord, viewBy } = toRefs(props);
 
 const onChangePageSize = (size: number) => {
