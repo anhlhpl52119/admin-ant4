@@ -8,8 +8,8 @@ import { ERole } from '@/enums/common.enum';
 
 export const useUserStore = defineStore('user-store', () => {
   // state
-  const token = ref<string>(BrowserStorage.get(EStorage.ACCESS_TOKEN));
-  const userInfo = ref<any>({ role: 'sd' });
+  const token = ref<string>(BrowserStorage.getCookie(EStorage.ACCESS_TOKEN));
+  const userInfo = ref<UserLoginInfo | null>();
   const userMenu = ref<CustomRoute[]>([]);
 
   // getter
@@ -44,10 +44,15 @@ export const useUserStore = defineStore('user-store', () => {
     userMenu.value = routeToMenu(menus);
   };
 
-  const login = async (user: LoginRequestBody) => {
-    const auth = await authApis.login(user);
-    if (typeof auth.headers.getAuthorization === 'function') {
-      const token = auth.headers.getAuthorization();
+  const login = async (loginBody: LoginRequestBody) => {
+    const res = await authApis.login(loginBody);
+    if (!res) {
+      return;
+    }
+    userInfo.value = res?.data?.status?.data?.user;
+    // get token in header
+    if (typeof res.headers.getAuthorization === 'function') {
+      const token = res.headers.getAuthorization();
       BrowserStorage.setCookie(EStorage.ACCESS_TOKEN, token);
     }
     await setupUserMenu();

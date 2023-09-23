@@ -52,9 +52,8 @@ const activeKey = ref<string[]>(
 const selectedKeys = computed(() => [routes?.name?.toString() ?? ERouteName.DASHBOARD]);
 
 const doLogout = async () => {
-  await authApis.logout();
   BrowserStorage.removeCookie(EStorage.ACCESS_TOKEN);
-  location.reload();
+  await authApis.logout();
 };
 
 function findParentRouteName(
