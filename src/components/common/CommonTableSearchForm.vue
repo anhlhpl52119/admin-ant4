@@ -1,18 +1,35 @@
 <template>
   <section class="card grid gap-10" @keypress.enter="onSearch">
     <div class="flex items-center justify-between">
-      <CInput
-        v-model:value="searchNameVal"
-        placeholder="Nhập tên để tìm kiếm..."
-        size="large"
-        :maxlength="100"
-        allow-clear
-        class="w-400 self-end"
-      >
-        <template #suffix>
-          <SearchOutlined />
-        </template>
-      </CInput>
+      <ul class="flex gap-5">
+        <li>
+          <CInput
+            v-model:value="searchNameVal"
+            placeholder="Nhập tên để tìm kiếm..."
+            size="large"
+            :maxlength="100"
+            allow-clear
+            class="w-400 self-end"
+          >
+            <template #suffix>
+              <SearchOutlined />
+            </template>
+          </CInput>
+        </li>
+        <li>
+          <AButton
+            type="primary" size="large"
+            :loading="loading"
+            @click="onSearch"
+          >
+            Tìm
+            <template #icon>
+              <SearchOutlined />
+            </template>
+          </AButton>
+        </li>
+      </ul>
+
       <ul class="justify-self-end flex gap-5 items-center">
         <li v-if="state.length !== 0">
           <AButton
@@ -30,19 +47,9 @@
           </AButton>
         </li>
         <li>
-          <AButton shape="round" size="small" class="self-end" @click="addNew">
-            + Thêm bộ lọc
-          </AButton>
-        </li>
-        <li>
-          <AButton
-            type="primary" size="large"
-            :loading="loading"
-            @click="onSearch"
-          >
-            Tìm
+          <AButton size="large" class="self-end" @click="addNewSearchItem">
             <template #icon>
-              <SearchOutlined />
+              <i class="i-ic:round-filter-alt text-20 block" />
             </template>
           </AButton>
         </li>
@@ -53,7 +60,7 @@
         <template v-for="item in state" :key="item.key">
           <li class="search-form-items shrink-0 basis-170">
             <CInput v-model:value="item.value" :label="item.label" size="small" class="rounded-full" />
-            <i class="i-ic:baseline-cancel" @click="remove(item.key)" />
+            <i class="i-ic:baseline-cancel" @click="removeSearchItem(item.key)" />
           </li>
         </template>
       </TransitionGroup>
@@ -80,44 +87,49 @@ const scrollElement = ref<HTMLElement>();
 
 const { loading } = toRefs(props);
 interface TestVl {
-  key: string
+  key: keyof RansackQuery<T>
   label: string
   value: string | number
+  isShow: boolean
 }
 
 const searchNameVal = ref('');
 
-const data: TestVl[] = [
+const data = ref<TestVl[]>([
   {
     key: 'name_cont',
     label: 'Tìm theo tên',
     value: '',
+    isShow: false,
   },
   {
-    key: 'email_cont',
-    label: 'Tìm theo Email',
+    key: 'code_cont',
+    label: 'Tìm theo mã',
     value: '',
+    isShow: false,
   },
   {
-    key: 'email_eq',
-    label: 'Tìm theo Email',
+    key: 'phone_cont',
+    label: 'Tìm theo số điện thoại',
     value: '',
+    isShow: false,
   },
   {
-    key: 'email_dfdfdf',
-    label: 'Tìm theo Email',
+    key: 'address_cont',
+    label: 'Tìm theo địa chỉ',
     value: '',
+    isShow: false,
   },
-  {
-    key: 'email_dfdf',
-    label: 'Tìm theo Email',
-    value: '',
-  },
-];
+]);
+
+// watch(data, (val: any) => {
+//   console.log(val);
+// }, { deep: true });
+
 const state = ref<TestVl[]>([]);
 
-const addNew = async () => {
-  const data2 = randomPick(data);
+const addNewSearchItem = async () => {
+  const data2 = randomPick(data.value);
   state.value.push(data2);
 
   await sleepFor(100);
@@ -132,7 +144,17 @@ const addNew = async () => {
   });
 };
 
-const remove = (key: string) => {
+const tr = () => {
+  const result = data.value.reduce((map, obj) => {
+    const a = obj.key.toString() as keyof RansackQuery<T>;
+    map[a] = obj.value;
+
+    return map;
+  }, {} as ApiAttributeQuery<T>);
+  emits('search', result);
+};
+
+const removeSearchItem = (key: string) => {
   state.value = state.value.filter(i => i.key !== key);
 };
 
