@@ -15,7 +15,7 @@ declare global {
     source_updated_at: string;
     user_id: string;
     group_drivers?: GroupDriver[];
-    retailer?: Retailer;
+    retailers?: Retailer[];
   };
 
   type SearchDriverResponse = {

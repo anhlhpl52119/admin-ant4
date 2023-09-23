@@ -11,7 +11,7 @@ declare global {
     status: string;
     source: string;
     group_drivers?: GroupDriver[];
-    drivers?: Driver;
+    drivers?: Driver[];
   };
 
   type SearchRetailerResponse = {
