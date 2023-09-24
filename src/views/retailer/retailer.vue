@@ -59,7 +59,7 @@ import { EApiId } from '@/enums/request.enum';
 
 const RetailerCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/RetailerCreateUpdateModal.vue'));
 
-const fetch = async (optional?: SearchRetailerQueryParams) => {
+const fetch = async (optional?: API.SearchRetailerQueryParams) => {
   const fallback = {
     records: [],
     current_page: optional?.page ?? 1,

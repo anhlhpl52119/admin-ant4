@@ -74,12 +74,12 @@ import { randomPick, sleepFor } from '@/utils/common.util';
 
 const props = defineProps<{
   loading: boolean
-  queries?: ApiAttributeQuery<T>
+  queries?: ApiQueryAttr<T>
   options?: any[]
 }>();
 
 const emits = defineEmits<{
-  search: [v: ApiAttributeQuery<T>]
+  search: [v: ApiQueryAttr<T>]
   reset: [v: void]
 }>();
 
@@ -87,7 +87,7 @@ const scrollElement = ref<HTMLElement>();
 
 const { loading } = toRefs(props);
 interface TestVl {
-  key: keyof RansackQuery<T>
+  key: keyof ApiQueryAttr<T>
   label: string
   value: string | number
   isShow: boolean
@@ -146,11 +146,11 @@ const addNewSearchItem = async () => {
 
 const tr = () => {
   const result = data.value.reduce((map, obj) => {
-    const a = obj.key.toString() as keyof RansackQuery<T>;
+    const a = obj.key.toString() as keyof ApiQueryAttr<T>;
     map[a] = obj.value;
 
     return map;
-  }, {} as ApiAttributeQuery<T>);
+  }, {} as ApiQueryAttr<T>);
   emits('search', result);
 };
 
@@ -163,7 +163,7 @@ const onSearch = () => {
     return;
   }
   searchNameVal.value = searchNameVal.value.replace(/ {2,}/g, ' '); // keep 1 space on search conditions
-  emits('search', { name_cont: searchNameVal.value } as unknown as ApiAttributeQuery<T>);
+  emits('search', { name_cont: searchNameVal.value } as unknown as ApiQueryAttr<T>);
 };
 
 const clearAll = () => {
