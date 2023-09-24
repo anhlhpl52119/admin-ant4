@@ -1,5 +1,4 @@
-export {};
-declare global {
+declare namespace API {
   type Branch = {
     id: string;
     name: string;
@@ -23,9 +22,9 @@ declare global {
 
   type BranchRelationShip = 'retailer';
 
-  type SearchBranchQueryParams = ApiQuery<Branch, BranchRelationShip>;
+  type SearchBranchQueryParams = ApiCoreQuery<Branch, BranchRelationShip>;
 
-  type GetBranchDetailResponse = ObjectResponse<Branch>;
+  type GetBranchDetailResponse = ApiObjectResponse<Branch>;
 
   type CreateBranchRequestBody = {
     name: string;

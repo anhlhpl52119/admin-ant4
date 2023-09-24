@@ -1,5 +1,4 @@
-export {};
-declare global {
+declare namespace API {
   type GroupDriver = {
     id: string;
     name: string;
@@ -13,7 +12,7 @@ declare global {
     source_created_at: string;
     source_updated_at: string;
     retailer_id: string;
-    retailer?: any; //TODO: add retailer
+    retailer?: Retailer;
     drivers?: Driver[];
   };
 
@@ -21,11 +20,14 @@ declare global {
     group_drivers: GroupDriver[];
   };
 
-  type GroupDriverRelationship = 'retailer' | 'drivers';
+  type GroupDriverRelationship = "retailer" | "drivers";
 
-  type GetGroupDriverDetailResponse = ObjectResponse<GroupDriver>;
+  type GetGroupDriverDetailResponse = ApiObjectResponse<GroupDriver>;
 
-  type SearchGroupDriverQueryParams = ApiQuery<GroupDriver, GroupDriverRelationship>;
+  type SearchGroupDriverQueryParams = ApiCoreQuery<
+    GroupDriver,
+    GroupDriverRelationship
+  >;
 
   type CreateGroupDriverRequestBody = {
     name: string;

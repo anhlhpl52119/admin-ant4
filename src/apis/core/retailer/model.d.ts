@@ -1,5 +1,4 @@
-export {};
-declare global {
+declare namespace API {
   type Retailer = {
     id: string;
     name: string;
@@ -20,9 +19,9 @@ declare global {
 
   type RetailerRelationship = 'group_drivers' | 'drivers';
 
-  type SearchRetailerQueryParams = ApiQuery<Retailer, RetailerRelationship>;
+  type SearchRetailerQueryParams = ApiCoreQuery<Retailer, RetailerRelationship>;
 
-  type GetRetailerDetailResponse = ObjectResponse<Retailer>;
+  type GetRetailerDetailResponse = ApiObjectResponse<Retailer>;
 
   type CreateRetailerRequestBody = {
     name: string;
