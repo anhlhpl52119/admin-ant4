@@ -7,7 +7,6 @@ import type {
 } from 'axios';
 import { message as $message } from 'ant-design-vue';
 import { uniqueSlash } from '@/utils/url.util';
-import { ERole } from '@/enums/common.enum';
 import { EStatusCode } from '@/enums/request.enum';
 import type { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { BrowserStorage } from '@/utils/storage.util';
@@ -23,7 +22,7 @@ interface Config {
 }
 interface RequestOptions {
   id?: EApiId
-  permitRoles?: Array<keyof typeof ERole>
+  permitRoles?: Array<API.UserRole>
   isAuth?: boolean
   successMsg?: string
   errorMsg?: string
@@ -98,7 +97,8 @@ export const request = async <T>(
   } = options;
 
   // current role has no accessible to execute api request
-  if (permitRoles && permitRoles.includes(ERole.GUEST)) {
+  // TODO: get current user roles
+  if (permitRoles && permitRoles.includes('user')) {
     return $message.error('Bạn không có quyền truy cập tính năng này!');
   }
 

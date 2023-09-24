@@ -1,7 +1,6 @@
 import type { CustomRoute } from '@/router/typing';
 import { ERouteName } from '@/enums/router.enum';
 import PageContent from '@/layout/page-content/index.vue';
-import { ERole } from '@/enums/common.enum';
 
 const routes: CustomRoute[] = [
   {
@@ -13,7 +12,7 @@ const routes: CustomRoute[] = [
       hiddenInMenu: false,
       title: 'Demo',
       icon: 'i-game-icons:soap-experiment',
-      permit: [ERole.ADMIN],
+      permit: ['sys'],
     },
     children: [
       {
