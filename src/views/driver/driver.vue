@@ -59,7 +59,7 @@ import { driverApis } from '@/apis/core/driver/driver.api';
 
 const DriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/DriverCreateUpdateModal.vue'));
 
-const fetch = async (optional?: SearchDriverQueryParams) => {
+const fetch = async (optional?: API.SearchDriverQueryParams) => {
   const fallback = {
     records: [],
     current_page: optional?.page ?? 1,

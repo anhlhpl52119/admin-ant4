@@ -2,10 +2,10 @@ import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const authApis = {
-  login: (bodyParams: LoginRequestBody) => {
+  login: (bodyParams: API.LoginRequestBody) => {
     const body = { user: { ...bodyParams } };
 
-    return request<LoginResponse>(
+    return request<API.LoginResponse>(
       {
         url: '/login',
         method: ERequestMethod.POST,
@@ -15,8 +15,8 @@ export const authApis = {
         id: EApiId.LOGIN,
         successMsg: 'Đăng nhập thành công',
         isShowLoading: true,
-        getDataDirectly: false,
         isAuth: true,
+        getDataDirectly: false,
       },
     );
   },

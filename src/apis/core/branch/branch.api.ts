@@ -2,8 +2,8 @@ import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const branchApis = {
-  search: (params?: SearchBranchQueryParams) => {
-    return request<PageResponse<SearchBranchResponse>>(
+  search: (params?: API.SearchBranchQueryParams) => {
+    return request<ApiPageResponse<API.SearchBranchResponse>>(
       {
         url: '/core/branch',
         method: ERequestMethod.GET,
@@ -16,7 +16,7 @@ export const branchApis = {
       },
     );
   },
-  create: (rqBody: CreateBranchRequestBody) => {
+  create: (rqBody: API.CreateBranchRequestBody) => {
     const body = { branch: { ...rqBody } };
 
     return request(
@@ -33,7 +33,7 @@ export const branchApis = {
     );
   },
   getDetails: (branchId: string) => {
-    return request<GetBranchDetailResponse>(
+    return request<API.GetBranchDetailResponse>(
       {
         url: `/core/branch/${branchId}`,
         method: ERequestMethod.GET,
@@ -44,7 +44,7 @@ export const branchApis = {
       },
     );
   },
-  update: (branchId: string, rqBody: UpdateBranchRequestBody) => {
+  update: (branchId: string, rqBody: API.UpdateBranchRequestBody) => {
     const body = { branch: { ...rqBody } };
 
     return request(

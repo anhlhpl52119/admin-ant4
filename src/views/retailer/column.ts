@@ -1,6 +1,6 @@
 import type { TableColumnType } from 'ant-design-vue';
 
-export const columns: TableColumnType<Retailer>[] = [
+export const columns: TableColumnType<API.Retailer>[] = [
   {
     title: 'STT',
     dataIndex: 'indexNum',

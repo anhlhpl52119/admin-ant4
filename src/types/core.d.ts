@@ -1,3 +1,4 @@
+import type { AxiosResponse } from 'axios';
 import type { CamelCasedPropertiesDeep, PartialDeep, RequiredDeep } from 'type-fest';
 
 export {};

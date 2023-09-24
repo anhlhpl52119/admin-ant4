@@ -1,9 +1,7 @@
-import type { ERole } from "@/enums/common.enum";
-import type { AxiosResponse } from "axios";
+declare namespace API {
 
-export {};
-declare global {
   type UserRole = 'sys' | 'manager' | 'user' |  'driver'
+
   type LoginRequestBody = {
     email: string;
     password: string;
@@ -14,7 +12,7 @@ declare global {
     id: string;
     email: string;
     name: string;
-    role: ERole;
+    role: UserRole;
   };
 
   type UserLogin = {
@@ -27,5 +25,5 @@ declare global {
     };
   };
 
-  type LoginResponse = AxiosResponse<UserLogin>;
+  type LoginResponse = ApiRawResponse<UserLogin>;
 }

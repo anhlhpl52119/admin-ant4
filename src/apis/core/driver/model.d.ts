@@ -1,5 +1,4 @@
-export {};
-declare global {
+declare namespace API {
   type Driver = {
     id: string;
     name: string;
@@ -21,12 +20,12 @@ declare global {
   type SearchDriverResponse = {
     drivers: Driver[];
   };
-  type DriverRelationShip = 'group_drivers' | 'retailer';
+  type DriverRelationShip = "group_drivers" | "retailer";
 
-  type SearchDriverQueryParams = ApiQuery<Driver, DriverRelationShip>;
+  type SearchDriverQueryParams = ApiCoreQuery<Driver, DriverRelationShip>;
 
-  type GetDriverDetailResponse = ObjectResponse<Driver>
-  
+  type GetDriverDetailResponse = ApiObjectResponse<Driver>;
+
   type CreateDriverRequestBody = {
     name: string;
     code: string;

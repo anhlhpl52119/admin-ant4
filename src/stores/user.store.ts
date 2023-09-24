@@ -4,18 +4,17 @@ import { EStorage } from '@/enums/cache.enum';
 import type { CustomRoute } from '@/router/typing';
 import { dynamicRouterGenerator } from '@/router/router-factory';
 import { authApis } from '@/apis/auth/auth.api';
-import { ERole } from '@/enums/common.enum';
 
 export const useUserStore = defineStore('user-store', () => {
   // state
   const token = ref<string>(BrowserStorage.getCookie(EStorage.ACCESS_TOKEN));
-  const userInfo = ref<UserLoginInfo | null>();
+  const userInfo = ref<API.UserLoginInfo | null>();
   const userMenu = ref<CustomRoute[]>([]);
 
   // getter
   const getToken = computed(() => token.value);
   const getUserInfo = computed(() => userInfo.value);
-  const getUserRole = computed(() => ERole.ADMIN);
+  const getUserRole = computed<API.UserRole>(() => 'sys'); // TODO: update later
 
   // action
   const routeToMenu = (arr: CustomRoute[]) => {
@@ -44,7 +43,7 @@ export const useUserStore = defineStore('user-store', () => {
     userMenu.value = routeToMenu(menus);
   };
 
-  const login = async (loginBody: LoginRequestBody) => {
+  const login = async (loginBody: API.LoginRequestBody) => {
     const res = await authApis.login(loginBody);
     if (!res) {
       return;
