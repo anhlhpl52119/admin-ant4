@@ -1,6 +1,11 @@
 <template>
   <ALayout class="min-h-screen">
-    <ALayoutSider v-model:collapsed="isCollapsed" collapsible :width="250" theme="light">
+    <ALayoutSider
+      v-model:collapsed="isCollapsed"
+      collapsible :width="250"
+      theme="light"
+      breakpoint="lg"
+    >
       <header class="h-60 flex justify-center p-7">
         <img src="~@/assets/img/logo-tai-co-vertical-text.png" class="h-full" alt="logo">
       </header>
