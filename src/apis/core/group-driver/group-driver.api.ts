@@ -2,8 +2,8 @@ import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const groupDriverApis = {
-  search: (params: SearchGroupDriverQueryParams) => {
-    return request<PageResponse<SearchGroupDriverResponse>>(
+  search: (params: API.SearchGroupDriverQueryParams) => {
+    return request<ApiPageResponse<API.SearchGroupDriverResponse>>(
       {
         url: '/core/group_driver',
         method: ERequestMethod.GET,
@@ -16,7 +16,7 @@ export const groupDriverApis = {
       },
     );
   },
-  create: (rqBody: CreateGroupDriverRequestBody) => {
+  create: (rqBody: API.CreateGroupDriverRequestBody) => {
     const body = { group_driver: { ...rqBody } };
 
     return request(
@@ -33,7 +33,7 @@ export const groupDriverApis = {
     );
   },
   getDetails: (driverId: string) => {
-    return request<GetGroupDriverDetailResponse>(
+    return request<API.GetGroupDriverDetailResponse>(
       {
         url: `/core/group_driver/${driverId}`,
         method: ERequestMethod.GET,
@@ -45,10 +45,10 @@ export const groupDriverApis = {
       },
     );
   },
-  update: (driverId: string, rqBody: UpdateGroupDriverRequestBody) => {
+  update: (driverId: string, rqBody: API.UpdateGroupDriverRequestBody) => {
     const body = { group_driver: { ...rqBody } };
 
-    return request<GetDriverDetailResponse>(
+    return request<API.GetDriverDetailResponse>(
       {
         url: `/core/group_driver/${driverId}`,
         method: ERequestMethod.PUT,
