@@ -1,4 +1,3 @@
-import type { ERole } from '@/enums/common.enum';
 import type { ERouteName } from '@/enums/router.enum';
 import type { RouteComponent, RouteRecordRaw } from 'vue-router';
 
@@ -6,7 +5,7 @@ export type RouteMeta = {
   icon?: string;
   title: string;
   hiddenInMenu: boolean;
-  permit?: ERole[];
+  permit?: API.UserRole[];
 };
 
 export type CustomRoute = RouteRecordRaw & {

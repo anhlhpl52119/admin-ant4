@@ -59,7 +59,7 @@ import { EApiId } from '@/enums/request.enum';
 
 const GroupDriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/GroupDriverCreateUpdateModal.vue'));
 
-const fetch = async (optional?: SearchGroupDriverQueryParams) => {
+const fetch = async (optional?: API.SearchGroupDriverQueryParams) => {
   const fallback = {
     records: [],
     current_page: optional?.page ?? 1,

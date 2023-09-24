@@ -1,6 +1,6 @@
 import type { TableColumnType } from 'ant-design-vue';
 
-export const columns: TableColumnType<GroupDriver>[] = [
+export const columns: TableColumnType<API.GroupDriver>[] = [
   {
     title: 'STT',
     dataIndex: 'indexNum',

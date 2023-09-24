@@ -10,12 +10,12 @@ interface Res<T> {
 
 export const useCommonTableMethod = <T>(
   loadingNameSpace: EApiId,
-  api: (optional?: ApiQuery<T, any>) => Promise<Res<T>>) => {
+  api: (optional?: ApiCoreQuery<T, any>) => Promise<Res<T>>) => {
   const appStore = useApplicationStore();
 
   const stateRecords = ref<T[]>([]) as Ref<T[]>;
 
-  const queriesState = ref<ApiAttributeQuery<T>>({}) as Ref<ApiAttributeQuery<T>>;
+  const queriesState = ref<ApiQueryAttr<T>>({}) as Ref<ApiQueryAttr<T>>;
 
   const tableLoading = computed(() => appStore.loadingAppState.has(loadingNameSpace));
 
@@ -31,9 +31,9 @@ export const useCommonTableMethod = <T>(
     items: 10,
   });
 
-  const queriesFinal = ref<ApiAttributeQuery<T>>({}) as Ref<ApiAttributeQuery<T>>;
+  const queriesFinal = ref<ApiQueryAttr<T>>({}) as Ref<ApiQueryAttr<T>>;
 
-  const fetchPr = computed<ApiQuery<T>>(() => ({
+  const fetchPr = computed<ApiCoreQuery<T>>(() => ({
     ...paginationSS,
     query: { ...queriesFinal.value },
   }));
@@ -46,7 +46,7 @@ export const useCommonTableMethod = <T>(
     page: number
     items: number
   }
-  const fetch2 = async (forceOptions?: ApiQuery<T>) => {
+  const fetch2 = async (forceOptions?: ApiCoreQuery<T>) => {
     const page: Page = { ...fetchPr2.value.paging };
 
     stateRecords.value = [];
@@ -69,13 +69,13 @@ export const useCommonTableMethod = <T>(
     fetch2();
   });
 
-  const fetchQueriesParams = computed<ApiQuery<T>>(() => ({
+  const fetchQueriesParams = computed<ApiCoreQuery<T>>(() => ({
     page: paginationState.currentPage,
     items: paginationState.viewBy,
     query: queriesState.value,
-  }) as ApiQuery<T>);
+  }) as ApiCoreQuery<T>);
 
-  const fetch = async (optional?: ApiQuery<T>) => {
+  const fetch = async (optional?: ApiCoreQuery<T>) => {
     stateRecords.value = [];
     const params = { ...fetchQueriesParams.value, ...optional };
 
@@ -92,7 +92,7 @@ export const useCommonTableMethod = <T>(
     }
   };
 
-  const search = (queries?: ApiAttributeQuery<T>) => {
+  const search = (queries?: ApiQueryAttr<T>) => {
     fetch({ page: 1, query: queries });
   };
 

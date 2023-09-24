@@ -1,10 +1,9 @@
 import type { CustomRoute } from './typing';
-import type { ERole } from '@/enums/common.enum';
 import router from '@/router';
 import { commonRoutes } from '@/router/module/common';
 import { ERouteName } from '@/enums/router.enum';
 
-const filterRoutesByRole = (arr: CustomRoute[], userRole: ERole) => {
+const filterRoutesByRole = (arr: CustomRoute[], userRole: API.UserRole) => {
   const result: CustomRoute[] = [];
   arr.forEach((i) => {
     if (!i.meta.permit || i.meta.permit.length === 0) {
@@ -36,7 +35,7 @@ const filterRoutesByRole = (arr: CustomRoute[], userRole: ERole) => {
   return result;
 };
 
-export const dynamicRouterGenerator = async (userRole: ERole) => {
+export const dynamicRouterGenerator = async (userRole: API.UserRole) => {
   try {
     const layout = commonRoutes.find(item => item.name === ERouteName.MAIN_LAYOUT)!;
     const userRoutes = filterRoutesByRole(layout.children || [], userRole);
