@@ -2,8 +2,8 @@ import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const driverApis = {
-  search: (params?: SearchDriverQueryParams) => {
-    return request<PageResponse<SearchDriverResponse>>(
+  search: (params?: API.SearchDriverQueryParams) => {
+    return request<ApiPageResponse<API.SearchDriverResponse>>(
       {
         url: '/core/driver',
         method: ERequestMethod.GET,
@@ -16,10 +16,10 @@ export const driverApis = {
       },
     );
   },
-  create: (rqBody: CreateDriverRequestBody) => {
+  create: (rqBody: API.CreateDriverRequestBody) => {
     const body = { driver: { ...rqBody } };
 
-    return request<PageResponse<SearchDriverResponse>>(
+    return request<ApiPageResponse<API.SearchDriverResponse>>(
       {
         url: '/core/driver',
         method: ERequestMethod.POST,
@@ -33,7 +33,7 @@ export const driverApis = {
     );
   },
   getDetails: (driverId: string) => {
-    return request<GetDriverDetailResponse>(
+    return request<API.GetDriverDetailResponse>(
       {
         url: `/core/driver/${driverId}`,
         method: ERequestMethod.GET,
@@ -45,10 +45,10 @@ export const driverApis = {
       },
     );
   },
-  update: (driverId: string, rqBody: UpdateDriverRequestBody) => {
+  update: (driverId: string, rqBody: API.UpdateDriverRequestBody) => {
     const body = { driver: { ...rqBody } };
 
-    return request<GetDriverDetailResponse>(
+    return request<API.GetDriverDetailResponse>(
       {
         url: `/core/driver/${driverId}`,
         method: ERequestMethod.PUT,
