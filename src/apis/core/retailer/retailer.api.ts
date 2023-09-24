@@ -2,8 +2,8 @@ import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const retailerApis = {
-  search: (params: SearchRetailerQueryParams) => {
-    return request<PageResponse<SearchRetailerResponse>>(
+  search: (params: API.SearchRetailerQueryParams) => {
+    return request<ApiPageResponse<API.SearchRetailerResponse>>(
       {
         url: '/core/retailer',
         method: ERequestMethod.GET,
@@ -16,10 +16,10 @@ export const retailerApis = {
       },
     );
   },
-  create: (rqBody: CreateRetailerRequestBody) => {
+  create: (rqBody: API.CreateRetailerRequestBody) => {
     const body = { retailer: { ...rqBody } };
 
-    return request<PageResponse<SearchRetailerResponse>>(
+    return request<ApiPageResponse<API.SearchRetailerResponse>>(
       {
         url: '/core/retailer',
         method: ERequestMethod.POST,
@@ -33,7 +33,7 @@ export const retailerApis = {
     );
   },
   getDetails: (retailerId: string) => {
-    return request<GetRetailerDetailResponse>(
+    return request<API.GetRetailerDetailResponse>(
       {
         url: `/core/retailer/${retailerId}`,
         method: ERequestMethod.GET,
@@ -45,10 +45,10 @@ export const retailerApis = {
       },
     );
   },
-  update: (retailerId: string, rqBody: UpdateRetailerRequestBody) => {
+  update: (retailerId: string, rqBody: API.UpdateRetailerRequestBody) => {
     const body = { retailer: { ...rqBody } };
 
-    return request<GetRetailerDetailResponse>(
+    return request<API.GetRetailerDetailResponse>(
       {
         url: `/core/retailer/${retailerId}`,
         method: ERequestMethod.PUT,
