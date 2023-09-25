@@ -62,7 +62,7 @@ import { EApiId } from '@/enums/request.enum';
 
 const BranchCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/BranchCreateUpdateModal.vue'));
 
-const fetch = async (optional?: SearchBranchQueryParams) => {
+const fetch = async (optional?: API.SearchBranchQueryParams) => {
   const fallback = {
     records: [],
     current_page: optional?.page ?? 1,
