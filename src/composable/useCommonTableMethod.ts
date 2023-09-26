@@ -1,11 +1,17 @@
 import { useApplicationStore } from '@/stores/application.store';
 import type { EApiId } from '@/enums/request.enum';
 
-interface Res<T> {
+export interface Res<T> {
   records: T[]
   current_page: number
   total_page: number
   total_records: number
+}
+
+export interface QueriesRaw<T> {
+  label: string
+  key: keyof RansackQuery<T>
+  value: string
 }
 
 export const useCommonTableMethod = <T>(
@@ -13,104 +19,79 @@ export const useCommonTableMethod = <T>(
   api: (optional?: ApiCoreQuery<T, any>) => Promise<Res<T>>) => {
   const appStore = useApplicationStore();
 
-  const stateRecords = ref<T[]>([]) as Ref<T[]>;
-
-  const queriesState = ref<ApiQueryAttr<T>>({}) as Ref<ApiQueryAttr<T>>;
-
-  const tableLoading = computed(() => appStore.loadingAppState.has(loadingNameSpace));
-
+  const rawQueries = ref<QueriesRaw<T>[]>([]);
+  const recordsState = ref<T[]>([]) as Ref<T[]>;
+  const totalRecords = ref<number>(0);
   const paginationState = reactive({
-    totalRecord: 0,
-    totalPage: 1,
+    recordsPerPage: 10,
     currentPage: 1,
-    viewBy: 10,
+    totalPage: 1,
   });
 
-  const paginationSS = reactive({
-    page: 1,
-    items: 10,
-  });
-
-  const queriesFinal = ref<ApiQueryAttr<T>>({}) as Ref<ApiQueryAttr<T>>;
-
-  const fetchPr = computed<ApiCoreQuery<T>>(() => ({
-    ...paginationSS,
-    query: { ...queriesFinal.value },
-  }));
-
-  const fetchPr2 = computed(() => ({
-    paging: { ...paginationSS },
-    queries: { ...queriesState.value },
-  }));
-  interface Page {
-    page: number
-    items: number
-  }
-  const fetch2 = async (forceOptions?: ApiCoreQuery<T>) => {
-    const page: Page = { ...fetchPr2.value.paging };
-
-    stateRecords.value = [];
-
-    const params = { ...fetchPr.value, ...forceOptions };
-
-    const resApi = await api(params);
-
-    paginationState.viewBy = params?.items ?? 10;
-
-    stateRecords.value = resApi.records;
-    paginationState.totalRecord = resApi.total_records;
-    paginationState.totalPage = resApi.total_page;
-
-    if (forceOptions?.query) {
-      queriesState.value = { ...forceOptions.query };
-    }
-  };
-  watch(paginationSS, () => {
-    fetch2();
-  });
-
-  const fetchQueriesParams = computed<ApiCoreQuery<T>>(() => ({
+  const pageQuery = computed<ApiPaginationQuery>(() => ({
+    items: paginationState.recordsPerPage,
     page: paginationState.currentPage,
-    items: paginationState.viewBy,
-    query: queriesState.value,
-  }) as ApiCoreQuery<T>);
+  }));
 
-  const fetch = async (optional?: ApiCoreQuery<T>) => {
-    stateRecords.value = [];
-    const params = { ...fetchQueriesParams.value, ...optional };
+  const isTableLoading = computed(() => appStore.loadingAppState.has(loadingNameSpace));
 
-    const resApi = await api(params);
+  const searchQueries = computed<ApiQueryAttr<T>>(() => {
+    const temp: ApiQueryAttr<T> = {};
+    rawQueries.value.forEach(({ value, key }) => {
+      if (value) {
+        Object.assign(temp, { [key]: value });
+      }
+    });
 
-    paginationState.viewBy = params?.items ?? 10;
+    return temp;
+  });
 
-    stateRecords.value = resApi.records;
-    paginationState.totalRecord = resApi.total_records;
-    paginationState.totalPage = resApi.total_page;
+  const triggerChange = async (forcePage: Partial<ApiPaginationQuery> = {}) => {
+    const page = { ...pageQuery.value, ...forcePage };
 
-    if (optional?.query) {
-      queriesState.value = { ...optional.query };
+    const {
+      current_page,
+      records,
+      total_page,
+      total_records,
+    } = await api({ ...page, query: searchQueries.value });
+
+    // handle fetch empty page record
+    if (current_page > 1 && records.length === 0) {
+      triggerChange({ page: current_page - 1 });
+
+      return;
     }
+
+    recordsState.value = records;
+    totalRecords.value = total_records;
+    paginationState.totalPage = total_page;
   };
 
-  const search = (queries?: ApiQueryAttr<T>) => {
-    fetch({ page: 1, query: queries });
+  const search = () => {
+    triggerChange({ page: 1 });
   };
 
   const reload = () => {
-    fetch();
+    triggerChange();
   };
 
-  watch(fetchQueriesParams, () => {
-    fetch();
+  watch(pageQuery, (val: ApiPaginationQuery, old: ApiPaginationQuery) => {
+    // TODO: refactor
+    if (Object.values(val).sort() === Object.values(old).sort()) {
+      return;
+    }
+    triggerChange();
   });
 
-  fetch();
+  triggerChange();
 
   return {
-    tableLoading,
-    stateRecords,
+    isTableLoading,
+    recordsState,
     paginationState,
-    queriesState,
+    rawQueries,
+    totalRecords,
 
     reload,
     search,
