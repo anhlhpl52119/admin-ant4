@@ -25,17 +25,7 @@ declare global {
 
   /*******__API-QUERY__**********/
   /** compose query types model compatible to Ransack object */
-  type ApiQueryAttr<T> = {
-    [K in keyof T as `${string & K}${T[K] extends string | null | boolean
-      ? "_eq" | "_cont"
-      : T[K] extends Date | null
-      ? "_lteq" | "_gteq" | "_gt" | "_lt"
-      : T[K] extends boolean | null
-      ? "_true" | "_false"
-      : never}`]?: T[K];
-  } & {
-    [key: string]: any;
-  };
+  type ApiQueryAttr<T> = Partial<RansackQuery<T>>;
 
   /** Query Object relationship */
   type ApiRelationshipQuery<T extends string = string> = {
