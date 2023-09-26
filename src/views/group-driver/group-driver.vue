@@ -7,16 +7,17 @@
     />
 
     <CommonTableSearchForm
-      :loading="tableLoading"
-      @search="queriesState = $event"
+      :raw="searchFilterRaw"
+      :loading="isTableLoading"
+      @search="rawQueries = $event"
       @reset="search"
     />
 
     <section class="card">
       <ATable
-        :data-source="stateRecords"
+        :data-source="recordsState"
         :columns="columns"
-        :loading="tableLoading"
+        :loading="isTableLoading"
         :pagination="false"
         :scroll="{ y: '61rem' }"
         class="my-table"
@@ -39,8 +40,8 @@
         <template #title>
           <CommonTableHeader
             v-model:current-page="paginationState.currentPage"
-            v-model:view-by="paginationState.viewBy"
-            :total-record="paginationState.totalRecord"
+            v-model:record-per-page="paginationState.recordsPerPage"
+            :total-record="totalRecords"
             @reload="reload"
           />
         </template>
@@ -52,7 +53,7 @@
 <script lang="ts" setup>
 import { EditOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
-import { columns } from './column';
+import { columns, searchFilterRaw } from './column';
 import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { groupDriverApis } from '@/apis/core/group-driver/group-driver.api';
 import { EApiId } from '@/enums/request.enum';
@@ -83,10 +84,12 @@ const fetch = async (optional?: API.SearchGroupDriverQueryParams) => {
 };
 
 const {
-  stateRecords,
-  tableLoading,
+  isTableLoading,
+  rawQueries,
   paginationState,
-  queriesState,
+  recordsState,
+  totalRecords,
+
   search,
   reload,
 } = useCommonTableMethod(
