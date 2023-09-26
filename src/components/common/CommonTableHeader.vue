@@ -16,7 +16,7 @@
           size="small"
           :current="currentPage"
           :total="totalRecord"
-          :page-size="viewBy"
+          :page-size="recordPerPage"
           :show-size-changer="false"
           @change="$emit('update:currentPage', $event)"
         />
@@ -25,7 +25,7 @@
         <span class="mr-5">Hiển thị</span>
         <ASelect
           size="small"
-          :value="viewBy"
+          :value="recordPerPage"
           :options="VIEW_BY_OPTIONS"
           @change="onChangePageSize($event as number)"
         />
@@ -70,21 +70,21 @@ import { VIEW_BY_OPTIONS } from '@/constants/common.constant';
 const props = defineProps<{
   totalRecord: number
   currentPage: number
-  viewBy: number
+  recordPerPage: number
 }>();
 const emits = defineEmits<{
   'update:currentPage': [v: number]
-  'update:viewBy': [v: number]
+  'update:recordPerPage': [v: number]
   reload: [v: void]
   onSort: [v: void]
 }>();
 
 const value1 = ref<string>('asc');
 
-const { currentPage, totalRecord, viewBy } = toRefs(props);
+const { currentPage, totalRecord, recordPerPage } = toRefs(props);
 
 const onChangePageSize = (size: number) => {
   emits('update:currentPage', 1);
-  emits('update:viewBy', size);
+  emits('update:recordPerPage', size);
 };
 </script>
