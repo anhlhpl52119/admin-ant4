@@ -7,7 +7,7 @@
             v-model:value="searchNameVal"
             placeholder="Nhập tên để tìm kiếm..."
             size="large"
-            :maxlength="100"
+            :maxlength="70"
             allow-clear
             class="w-400 self-end"
           >
@@ -49,7 +49,7 @@
         <li>
           <AButton size="large" class="self-end" @click="addNewSearchItem">
             <template #icon>
-              <i class="i-ic:round-filter-alt text-20 block" />
+              <FilterFilled />
             </template>
           </AButton>
         </li>
@@ -69,67 +69,34 @@
 </template>
 
 <script lang="ts" setup generic="T">
-import { ClearOutlined, SearchOutlined } from '@ant-design/icons-vue';
+import { ClearOutlined, FilterFilled, SearchOutlined } from '@ant-design/icons-vue';
 import { randomPick, sleepFor } from '@/utils/common.util';
+import type { QueriesRaw } from '@/composable/useCommonTableMethod';
 
 const props = defineProps<{
   loading: boolean
   queries?: ApiQueryAttr<T>
   options?: any[]
+  raw: QueriesRaw<T>[]
 }>();
 
 const emits = defineEmits<{
-  search: [v: ApiQueryAttr<T>]
+  search: [v: QueriesRaw<T>[]]
   reset: [v: void]
 }>();
+
+const rawData = props.raw;
+const state = ref<QueriesRaw<T>[]>([]) as Ref<QueriesRaw<T>[]>;
 
 const scrollElement = ref<HTMLElement>();
 
 const { loading } = toRefs(props);
-interface TestVl {
-  key: keyof ApiQueryAttr<T>
-  label: string
-  value: string | number
-  isShow: boolean
-}
 
 const searchNameVal = ref('');
 
-const data = ref<TestVl[]>([
-  {
-    key: 'name_cont',
-    label: 'Tìm theo tên',
-    value: '',
-    isShow: false,
-  },
-  {
-    key: 'code_cont',
-    label: 'Tìm theo mã',
-    value: '',
-    isShow: false,
-  },
-  {
-    key: 'phone_cont',
-    label: 'Tìm theo số điện thoại',
-    value: '',
-    isShow: false,
-  },
-  {
-    key: 'address_cont',
-    label: 'Tìm theo địa chỉ',
-    value: '',
-    isShow: false,
-  },
-]);
-
-// watch(data, (val: any) => {
-//   console.log(val);
-// }, { deep: true });
-
-const state = ref<TestVl[]>([]);
-
 const addNewSearchItem = async () => {
-  const data2 = randomPick(data.value);
+  const stateKey = state.value.map(({ key }) => key);
+  const data2 = randomPick(rawData.filter(({ key }) => !stateKey.includes(key)));
   state.value.push(data2);
 
   await sleepFor(100);
@@ -144,30 +111,32 @@ const addNewSearchItem = async () => {
   });
 };
 
-const tr = () => {
-  const result = data.value.reduce((map, obj) => {
-    const a = obj.key.toString() as keyof ApiQueryAttr<T>;
-    map[a] = obj.value;
-
-    return map;
-  }, {} as ApiQueryAttr<T>);
-  emits('search', result);
-};
-
-const removeSearchItem = (key: string) => {
-  state.value = state.value.filter(i => i.key !== key);
-};
-
 const onSearch = () => {
   if (loading.value) {
     return;
   }
-  searchNameVal.value = searchNameVal.value.replace(/ {2,}/g, ' '); // keep 1 space on search conditions
-  emits('search', { name_cont: searchNameVal.value } as unknown as ApiQueryAttr<T>);
+  const queryRaw = [...state.value];
+  if (searchNameVal.value) {
+    searchNameVal.value = searchNameVal.value.replace(/ {2,}/g, ' '); // keep 1 space on search conditions
+    queryRaw.push({ key: 'name_cont' as keyof RansackQuery<T>, label: '', value: searchNameVal.value });
+  }
+  emits('search', queryRaw);
+};
+
+const removeSearchItem = (removeKey: any) => {
+  const item = state.value.find(({ key }) => key === removeKey);
+  if (!item) {
+    return;
+  }
+  state.value = state.value.filter(i => i.key !== removeKey);
+  if (item.value) {
+    onSearch();
+  }
 };
 
 const clearAll = () => {
   state.value = [];
-  emits('reset');
+  searchNameVal.value = '';
+  emits('search', []);
 };
 </script>
