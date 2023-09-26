@@ -1,4 +1,5 @@
 import type { TableColumnType } from 'ant-design-vue';
+import type { QueriesRaw } from '@/composable/useCommonTableMethod';
 
 export const columns: TableColumnType<API.Branch>[] = [
   {
@@ -42,5 +43,24 @@ export const columns: TableColumnType<API.Branch>[] = [
     dataIndex: 'edit',
     width: '6rem',
     fixed: 'right',
+  },
+];
+
+export const searchFilterRaw: QueriesRaw<API.Driver>[] = [
+
+  {
+    label: 'Tìm theo mã',
+    key: 'code_cont',
+    value: '',
+  },
+  {
+    label: 'Tìm theo email',
+    key: 'email_cont',
+    value: '',
+  },
+  {
+    label: 'Tìm theo địa chỉ',
+    key: 'address_cont',
+    value: '',
   },
 ];
