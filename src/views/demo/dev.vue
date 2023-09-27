@@ -29,9 +29,7 @@
 
 <script lang="ts" setup>
 // import { authApis } from '@/apis/auth/auth.api';
-import { useUserStore } from '@/stores/user.store';
 
-const userStore = useUserStore();
 const a = ref('');
 const b = ref<number>(1);
 
