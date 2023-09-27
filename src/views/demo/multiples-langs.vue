@@ -211,17 +211,14 @@ const steps: TourProps['steps'] = [
   {
     title: 'Upload File',
     description: 'Put your files here.',
-    target: () => ref1.value && ref1.value.$el,
   },
   {
     title: 'Save',
     description: 'Save your changes.',
-    target: () => ref2.value && ref2.value.$el,
   },
   {
     title: 'Other Actions',
     description: 'Click to see other actions.',
-    target: () => ref3.value && ref3.value.$el,
   },
 ];
 </script>
