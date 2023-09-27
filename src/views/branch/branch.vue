@@ -20,7 +20,7 @@
         :loading="isTableLoading"
         :pagination="false"
         :scroll="{ y: '61rem' }"
-        class="my-table"
+        class="core-table"
       >
         <!-- Table Title -->
         <template #title>
