@@ -79,8 +79,6 @@ const emits = defineEmits<{
   onSort: [v: void]
 }>();
 
-const value1 = ref<string>('asc');
-
 const { currentPage, totalRecord, recordPerPage } = toRefs(props);
 
 const onChangePageSize = (size: number) => {
