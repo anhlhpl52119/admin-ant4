@@ -16,7 +16,7 @@ export const authApis = {
         successMsg: 'Đăng nhập thành công',
         isShowLoading: true,
         isAuth: true,
-        getDataDirectly: false,
+        getDataDirectly: false, // response raw axios with header Authorization
       },
     );
   },
@@ -27,7 +27,6 @@ export const authApis = {
         method: ERequestMethod.DELETE,
       },
       {
-        getDataDirectly: false,
         isAuth: true,
       },
     );
