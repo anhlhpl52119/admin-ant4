@@ -1,3 +1,4 @@
+import { COMMON_ERROR_MSG, COMMON_SUCCESS_MSG } from '@/constants/common.constant';
 import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
@@ -11,8 +12,6 @@ export const driverApis = {
       },
       {
         id: EApiId.DRIVER_SEARCH,
-        successMsg: 'Thành Công',
-        isShowLoading: false,
       },
     );
   },
@@ -27,8 +26,9 @@ export const driverApis = {
       },
       {
         id: EApiId.DRIVER_CREATE,
-        successMsg: 'Thành Công',
-        isShowLoading: false,
+        successMsg: COMMON_SUCCESS_MSG.create,
+        errorMsg: COMMON_ERROR_MSG.create,
+        isShowLoading: true,
       },
     );
   },
@@ -40,8 +40,6 @@ export const driverApis = {
       },
       {
         id: EApiId.DRIVER_DETAILS,
-        successMsg: 'Thành Công',
-        isShowLoading: false,
       },
     );
   },
@@ -56,8 +54,9 @@ export const driverApis = {
       },
       {
         id: EApiId.DRIVER_UPDATE,
-        successMsg: 'Thành Công',
-        isShowLoading: false,
+        successMsg: COMMON_SUCCESS_MSG.update,
+        errorMsg: COMMON_ERROR_MSG.update,
+        isShowLoading: true,
       },
     );
   },
