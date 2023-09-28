@@ -53,9 +53,9 @@
 <script lang="ts" setup>
 import { EditOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
-import { columns } from './column';
+import { columns, searchFilterRaw } from './column';
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
-import { searchFilterRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
+import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 
 const RetailerCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/RetailerCreateUpdateModal.vue'));
