@@ -5,12 +5,14 @@ export enum ERequestMethod {
   DELETE = 'DELETE',
   PATCH = 'PATCH',
 }
+
 export enum EStatusCode {
   UNAUTHORIZED = 401,
   UNKNOWN = 999,
 }
+
 export enum EApiId {
-  LOGIN = 999,
+  LOGIN = 1,
 
   BRANCH_SEARCH,
   BRANCH_DETAILS,
@@ -31,4 +33,9 @@ export enum EApiId {
   RETAILER_DETAILS,
   RETAILER_UPDATE,
   RETAILER_CREATE,
+
+  RETAILER_CONFIG_SEARCH,
+  RETAILER_CONFIG_DETAILS,
+  RETAILER_CONFIG_UPDATE,
+  RETAILER_CONFIG_CREATE,
 };
