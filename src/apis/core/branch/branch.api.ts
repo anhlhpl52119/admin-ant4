@@ -1,3 +1,4 @@
+import { COMMON_ERROR_MSG, COMMON_SUCCESS_MSG } from '@/constants/common.constant';
 import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
@@ -11,8 +12,6 @@ export const branchApis = {
       },
       {
         id: EApiId.BRANCH_SEARCH,
-        successMsg: 'Tải chi nhánh thành công',
-        isShowLoading: false,
       },
     );
   },
@@ -27,7 +26,8 @@ export const branchApis = {
       },
       {
         id: EApiId.BRANCH_CREATE,
-        successMsg: 'Tạo Thành Công',
+        successMsg: COMMON_SUCCESS_MSG.create,
+        errorMsg: COMMON_ERROR_MSG.create,
         isShowLoading: true,
       },
     );
@@ -40,7 +40,6 @@ export const branchApis = {
       },
       {
         id: EApiId.BRANCH_DETAILS,
-        isShowLoading: false,
       },
     );
   },
@@ -55,7 +54,9 @@ export const branchApis = {
       },
       {
         id: EApiId.BRANCH_UPDATE,
-        isShowLoading: false,
+        successMsg: COMMON_SUCCESS_MSG.update,
+        errorMsg: COMMON_ERROR_MSG.update,
+        isShowLoading: true,
       },
     );
   },
