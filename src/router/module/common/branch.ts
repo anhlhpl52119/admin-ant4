@@ -10,7 +10,7 @@ const routes: CustomRoute[] = [
     redirect: '/branch/branch-management',
     meta: {
       hiddenInMenu: false,
-      title: 'Chi Nhánh',
+      title: 'Chi nhánh',
       icon: 'i-mdi:store-marker-outline',
     },
     children: [
@@ -20,7 +20,7 @@ const routes: CustomRoute[] = [
         component: () => import('@/views/branch/branch.vue'),
         meta: {
           hiddenInMenu: false,
-          title: 'Quản Lý Chi Nhánh',
+          title: 'Quản lý chi nhánh',
         },
       },
     ],
