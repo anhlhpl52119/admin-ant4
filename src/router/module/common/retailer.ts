@@ -20,7 +20,7 @@ const routes: CustomRoute[] = [
         component: () => import('@/views/retailer/retailer.vue'),
         meta: {
           hiddenInMenu: false,
-          title: 'Quản Lý Nhà bán lẻ',
+          title: 'Quản lý nhà bán lẻ',
         },
       },
     ],
