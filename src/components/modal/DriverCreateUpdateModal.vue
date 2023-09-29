@@ -46,7 +46,7 @@ const modalState = reactive({
   okBtnText: 'Tạo',
 });
 
-const createUpdateBodyState = reactive<CreateDriverRequestBody>({
+const createUpdateBodyState = reactive<API.CreateDriverRequestBody>({
   name: 'Tài xế Hùng Anh',
   code: '521199',
   address: '1213 st Hung Vuong',
