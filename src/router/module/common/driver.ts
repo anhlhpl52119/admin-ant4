@@ -10,7 +10,7 @@ const routes: CustomRoute[] = [
     redirect: '/driver/driver-management',
     meta: {
       hiddenInMenu: false,
-      title: 'Tài Xế',
+      title: 'Tài xế',
       icon: 'i-healthicons:truck-driver',
     },
     children: [
@@ -20,7 +20,7 @@ const routes: CustomRoute[] = [
         component: () => import('@/views/driver/driver.vue'),
         meta: {
           hiddenInMenu: false,
-          title: 'Quản Lý Tài Xế',
+          title: 'Quản lý tài xế',
         },
       },
       {
