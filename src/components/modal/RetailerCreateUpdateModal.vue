@@ -45,7 +45,7 @@ const modalState = reactive({
   okBtnText: 'Tạo',
 });
 
-const createUpdateBodyState = reactive<CreateRetailerRequestBody>({
+const createUpdateBodyState = reactive<API.CreateRetailerRequestBody>({
   name: 'Nhà bán lẻ Hùng Anh',
   code: '521199',
   address: '1213 st Hung Vuong',
