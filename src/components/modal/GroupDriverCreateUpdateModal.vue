@@ -52,7 +52,7 @@ const modalState = reactive({
   okBtnText: 'Tạo',
 });
 
-const createUpdateBodyState = reactive<CreateGroupDriverRequestBody>({
+const createUpdateBodyState = reactive<API.CreateGroupDriverRequestBody>({
   name: 'Nhóm Tài Xế Hùng Anh',
   code: '521199',
   address: '1213 st Hung Vuong',
@@ -67,7 +67,7 @@ const isSubmitLoading = computed(() =>
 
 const isUpdateMode = computed(() => !!props.groupDriverId);
 
-const composeRetailerOption = async (query?: ApiAttributeQuery<Retailer>) => {
+const composeRetailerOption = async (query?: ApiQueryAttr<API.Retailer>) => {
   const rs = await retailerApis.search({ query });
   if (!rs || rs.data.retailers.length === 0) {
     return [];
