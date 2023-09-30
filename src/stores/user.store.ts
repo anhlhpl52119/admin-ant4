@@ -1,4 +1,3 @@
-import { defineStore } from 'pinia';
 import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
 import type { CustomRoute } from '@/router/typing';
