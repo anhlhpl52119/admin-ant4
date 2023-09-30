@@ -55,8 +55,8 @@
         </li>
       </ul>
     </div>
-    <div v-if="state.length !== 0" ref="scrollElement" class="max-w-full overflow-x-auto overflow-y-hidden">
-      <TransitionGroup name="fade" tag="ul" class="flex gap-10 my-7">
+    <div v-if="state.length !== 0" ref="scrollElement" class="max-w-full overflow-x-auto overflow-y-hidden bg-slate-100 rounded-10 p-5">
+      <TransitionGroup name="fade" tag="ul" class="flex gap-10 mt-7">
         <template v-for="item in state" :key="item.key">
           <li class="search-form-items shrink-0 basis-170">
             <CInput v-model:value="item.value" :label="item.label" size="small" class="rounded-full" />
