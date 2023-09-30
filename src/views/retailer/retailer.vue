@@ -9,7 +9,7 @@
     <CommonTableSearchForm
       :raw="searchFilterRaw"
       :loading="isTableLoading"
-      @search="rawQueries = $event"
+      @search="onSearch"
       @reset="search"
     />
 
@@ -27,7 +27,10 @@
             {{ index + 1 }}
           </template>
           <template v-if="column.dataIndex === 'name'">
-            <AButton type="link">
+            <AButton
+              type="link"
+              @click="$router.push({ name: ERouteName.RETAILER_DETAILS_OVERVIEW, params: { id: record.id } })"
+            >
               {{ record.name }}
             </AButton>
           </template>
@@ -55,8 +58,9 @@ import { EditOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { columns, searchFilterRaw } from './column';
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
-import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
+import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
+import { ERouteName } from '@/enums/router.enum';
 
 const RetailerCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/RetailerCreateUpdateModal.vue'));
 
@@ -96,7 +100,10 @@ const {
   EApiId.RETAILER_SEARCH,
   fetch,
 );
-
+const onSearch = (e: QueriesRaw<API.Retailer>[]) => {
+  rawQueries.value = e;
+  search();
+};
 const openModel = (retailerId?: string) => {
   Modal.info({
     content: h(RetailerCreateUpdateModal, {
