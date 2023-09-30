@@ -26,6 +26,8 @@ export enum ERouteName {
   /** Driver Routes */
   RETAILER = 'retailer',
   RETAILER_MANAGEMENT = 'retailer-management',
+  RETAILER_DETAILS = 'retailer-details',
+  RETAILER_DETAILS_OVERVIEW = 'retailer-details-overview',
 
   /** White List Routes */
   WHITE_LIST = 'white-list',
