@@ -1,25 +1,20 @@
 <template>
   <ADrawer
+    v-model:open="isAppDrawerVisible"
     message="toto"
-    title="Basic Drawer"
+    size="large"
+    title="Details"
     placement="right"
-    :open="false"
-    :get-container="false"
-    class="absolute"
+    destroy-on-close
   >
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
+    <div class="p-20">
+      <Component :is="drawerComponent" />
+    </div>
   </ADrawer>
 </template>
 
 <script lang="ts" setup>
-// const props = defineProps<{
-//   foo: string
-//   bar: string
-// }>();
-// const emits = defineEmits<{
-//   foo: [v: string]
-//   bar: [v: string]
-// }>();
+import { useApplicationStore } from '@/stores/application.store';
+
+const { drawerComponent, isAppDrawerVisible } = storeToRefs(useApplicationStore());
 </script>
