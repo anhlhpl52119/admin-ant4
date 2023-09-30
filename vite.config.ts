@@ -31,7 +31,7 @@ export default defineConfig({
     }),
     AutoImport({
       dts: './auto/auto-imports.d.ts',
-      imports: ['vue', 'vue-router'],
+      imports: ['vue', 'vue-router', 'pinia'],
       vueTemplate: true,
     }),
     UnoCSS({
