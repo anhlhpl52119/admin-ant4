@@ -32,3 +32,10 @@ export const VIEW_BY_OPTIONS: SelectProps['options'] = [
     label: '40 / Trang',
   },
 ];
+
+export const FALLBACK_PAGINATION_API_RESPONSE = {
+  records: [],
+  current_page: 1,
+  total_page: 10,
+  total_records: 0,
+};
