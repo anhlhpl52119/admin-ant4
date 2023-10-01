@@ -9,7 +9,7 @@
     <CommonTableSearchForm
       :raw="searchFilterRaw"
       :loading="isTableLoading"
-      @search="rawQueries = $event"
+      @search="onSearch"
       @reset="search"
     />
 
@@ -57,22 +57,15 @@ import { columns, searchFilterRaw } from './column';
 import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { groupDriverApis } from '@/apis/core/group-driver/group-driver.api';
 import { EApiId } from '@/enums/request.enum';
+import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 
 const GroupDriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/GroupDriverCreateUpdateModal.vue'));
 
-const fetch = async (optional?: API.SearchGroupDriverQueryParams) => {
-  const fallback = {
-    records: [],
-    current_page: optional?.page ?? 1,
-    total_page: 10,
-    total_records: 0,
-  };
-  const params = { ...optional };
-
+const fetch = async (params?: API.SearchGroupDriverQueryParams) => {
   const res = await groupDriverApis.search(params);
 
   if (!(res && res.data) || res.data.group_drivers.length === 0) {
-    return fallback;
+    return FALLBACK_PAGINATION_API_RESPONSE;
   }
 
   return {
@@ -96,6 +89,12 @@ const {
   EApiId.GROUP_DRIVER_SEARCH,
   fetch,
 );
+
+// TODO: refactor any type
+const onSearch = (e: any) => {
+  rawQueries.value = e;
+  search();
+};
 
 const openModel = (groupDriverId?: string) => {
   Modal.info({

@@ -57,22 +57,15 @@ import { columns, searchFilterRaw } from './column';
 import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { driverApis } from '@/apis/core/driver/driver.api';
+import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 
 const DriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/DriverCreateUpdateModal.vue'));
 
-const fetch = async (optional?: API.SearchDriverQueryParams) => {
-  const fallback = {
-    records: [],
-    current_page: optional?.page ?? 1,
-    total_page: 10,
-    total_records: 0,
-  };
-  const params = { ...optional };
-
+const fetch = async (params?: API.SearchDriverQueryParams) => {
   const res = await driverApis.search(params);
 
   if (!(res && res.data) || res.data.drivers.length === 0) {
-    return fallback;
+    return FALLBACK_PAGINATION_API_RESPONSE;
   }
 
   return {
@@ -96,10 +89,13 @@ const {
   EApiId.DRIVER_SEARCH,
   fetch,
 );
+
+// TODO: refactor any type
 const onSearch = (e: any) => {
   rawQueries.value = e;
   search();
 };
+
 const openModel = (driverId?: string) => {
   Modal.info({
     content: h(DriverCreateUpdateModal, {

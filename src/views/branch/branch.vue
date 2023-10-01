@@ -9,7 +9,7 @@
     <CommonTableSearchForm
       :raw="searchFilterRaw"
       :loading="isTableLoading"
-      @search="rawQueries = $event"
+      @search="onSearch"
       @reset="search"
     />
 
@@ -38,7 +38,7 @@
             {{ index + 1 }}
           </template>
           <template v-if="column.dataIndex === 'name'">
-            <AButton type="link">
+            <AButton type="link" @click="onShowDrawerDetails(record as API.Branch)">
               {{ record.name }}
             </AButton>
           </template>
@@ -50,6 +50,12 @@
         </template>
       </ATable>
     </section>
+    <BranchDetailDrawer
+      v-model:is-open="detailsDrawerState.isOpen"
+      :branch-item="detailsDrawerState.item"
+      :title="detailsDrawerState.title"
+      @close="onCloseDetailDrawer"
+    />
   </main>
 </template>
 
@@ -60,22 +66,27 @@ import { columns, searchFilterRaw } from './column';
 import { branchApis } from '@/apis/core/branch/branch.api';
 import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
+import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
+import { useTableCache } from '@/composable/useTableCache';
 
+// Async component
 const BranchCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/BranchCreateUpdateModal.vue'));
+const BranchDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/BranchDetailDrawer.vue'));
 
-const fetch = async (optional?: API.SearchBranchQueryParams) => {
-  const fallback = {
-    records: [],
-    current_page: optional?.page ?? 1,
-    total_page: 10,
-    total_records: 0,
-  };
-  const params = { ...optional };
+const { getDetails, setDetails } = useTableCache<API.Branch>();
 
+// State
+const detailsDrawerState = reactive({
+  isOpen: false,
+  title: '',
+  item: null as API.Branch | null,
+});
+
+const fetch = async (params?: API.SearchBranchQueryParams) => {
   const res = await branchApis.search(params);
 
   if (!(res && res.data) || res.data.branches.length === 0) {
-    return fallback;
+    return FALLBACK_PAGINATION_API_RESPONSE;
   }
 
   return {
@@ -84,6 +95,35 @@ const fetch = async (optional?: API.SearchBranchQueryParams) => {
     total_page: res.data.total_page,
     total_records: res.data.total_records,
   };
+};
+
+const onShowDrawerDetails = async (item: API.Branch) => {
+  if (!item.id) {
+    return;
+  }
+  detailsDrawerState.title = item.name;
+  detailsDrawerState.isOpen = true;
+  // check cache
+  const cacheItem = getDetails(item.id);
+  if (cacheItem) {
+    detailsDrawerState.item = cacheItem;
+
+    return;
+  }
+  // fetch
+  const res = await branchApis.getDetails(item.id, { includes: ['retailer'] });
+  if (!(res && res.data.retailer)) {
+    return;
+  }
+  // cache
+  setDetails(item.id, res.data);
+  detailsDrawerState.item = res.data;
+};
+
+const onCloseDetailDrawer = () => {
+  detailsDrawerState.item = null;
+  detailsDrawerState.title = '';
+  detailsDrawerState.isOpen = false;
 };
 
 const {
@@ -99,6 +139,12 @@ const {
   EApiId.BRANCH_SEARCH,
   fetch,
 );
+
+// TODO: refactor any type
+const onSearch = (e: any) => {
+  rawQueries.value = e;
+  search();
+};
 
 const openModel = (branchId?: string) => {
   Modal.info({

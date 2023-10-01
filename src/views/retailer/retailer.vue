@@ -61,22 +61,15 @@ import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { ERouteName } from '@/enums/router.enum';
+import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 
 const RetailerCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/RetailerCreateUpdateModal.vue'));
 
-const fetch = async (optional?: API.SearchRetailerQueryParams) => {
-  const fallback = {
-    records: [],
-    current_page: optional?.page ?? 1,
-    total_page: 10,
-    total_records: 0,
-  };
-  const params = { ...optional };
-
+const fetch = async (params?: API.SearchRetailerQueryParams) => {
   const res = await retailerApis.search(params);
 
   if (!(res && res.data) || res.data.retailers.length === 0) {
-    return fallback;
+    return FALLBACK_PAGINATION_API_RESPONSE;
   }
 
   return {
@@ -100,6 +93,8 @@ const {
   EApiId.RETAILER_SEARCH,
   fetch,
 );
+
+// TODO: refactor any type
 const onSearch = (e: QueriesRaw<API.Retailer>[]) => {
   rawQueries.value = e;
   search();
