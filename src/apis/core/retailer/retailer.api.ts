@@ -3,7 +3,7 @@ import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const retailerApis = {
-  search: (params: API.SearchRetailerQueryParams) => {
+  search: (params?: API.SearchRetailerQueryParams) => {
     return request<ApiPageResponse<API.SearchRetailerResponse>>(
       {
         url: '/core/retailer',
@@ -32,10 +32,11 @@ export const retailerApis = {
       },
     );
   },
-  getDetails: (retailerId: string) => {
+  getDetails: (retailerId: string, relationShip?: ApiRelationshipQuery<API.RetailerRelationship>) => {
     return request<API.GetRetailerDetailResponse>(
       {
         url: `/core/retailer/${retailerId}`,
+        params: relationShip,
         method: ERequestMethod.GET,
       },
       {

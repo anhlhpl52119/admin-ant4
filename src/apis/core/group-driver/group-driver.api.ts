@@ -3,7 +3,7 @@ import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const groupDriverApis = {
-  search: (params: API.SearchGroupDriverQueryParams) => {
+  search: (params?: API.SearchGroupDriverQueryParams) => {
     return request<ApiPageResponse<API.SearchGroupDriverResponse>>(
       {
         url: '/core/group_driver',

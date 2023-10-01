@@ -32,10 +32,11 @@ export const driverApis = {
       },
     );
   },
-  getDetails: (driverId: string) => {
+  getDetails: (driverId: string, relationShip?: ApiRelationshipQuery<API.BranchRelationShip>) => {
     return request<API.GetDriverDetailResponse>(
       {
         url: `/core/driver/${driverId}`,
+        params: relationShip,
         method: ERequestMethod.GET,
       },
       {

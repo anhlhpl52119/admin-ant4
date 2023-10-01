@@ -32,10 +32,11 @@ export const retailerConfigApis = {
       },
     );
   },
-  getDetails: (retailerId: string) => {
+  getDetails: (retailerId: string, relationShip?: ApiRelationshipQuery<API.RetailerConfigRelationship>) => {
     return request<API.GetRetailerConfigDetailResponse>(
       {
         url: `/core/retailer_config/${retailerId}`,
+        params: relationShip,
         method: ERequestMethod.GET,
       },
       {
