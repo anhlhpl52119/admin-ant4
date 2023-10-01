@@ -91,7 +91,7 @@ const VNodes = defineComponent({
   },
 });
 
-const fetchOptions = async (v?: ApiAttributeQuery<T>) => {
+const fetchOptions = async (v?: ApiQueryAttr<T>) => {
   isFetching.value = true;
   optionsRef.value = [];
 
@@ -126,7 +126,7 @@ const onTypeToSearch = (typingVal: string) => {
 
   delayOnInput = setTimeout(() => {
     const qr = `${props.labelKey.toString()}_cont`;
-    fetchOptions({ [qr]: typingVal } as ApiAttributeQuery<T>);
+    fetchOptions({ [qr]: typingVal } as ApiQueryAttr<T>);
     delayOnInput = null;
   }, 500);
 };
@@ -143,7 +143,7 @@ const onFocus = () => {
 
 const init = async () => {
   if (initialValue?.value) {
-    await fetchOptions({ id_eq: initialValue.value } as any as ApiAttributeQuery<T>);
+    await fetchOptions({ id_eq: initialValue.value } as any as ApiQueryAttr<T>);
   }
 
   if (optionsRef.value[0]?.value) {
