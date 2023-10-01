@@ -32,10 +32,11 @@ export const branchApis = {
       },
     );
   },
-  getDetails: (branchId: string) => {
+  getDetails: (branchId: string, relationShip?: ApiRelationshipQuery<API.BranchRelationShip>) => {
     return request<API.GetBranchDetailResponse>(
       {
         url: `/core/branch/${branchId}`,
+        params: relationShip,
         method: ERequestMethod.GET,
       },
       {
