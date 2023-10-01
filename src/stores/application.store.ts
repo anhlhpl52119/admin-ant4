@@ -1,4 +1,3 @@
-import { defineStore } from 'pinia';
 import type { EApiId } from '@/enums/request.enum';
 
 const currentFetching = reactive<Set<EApiId>>(new Set());
