@@ -12,7 +12,6 @@
       @search="onSearch"
       @reset="search"
     />
-
     <section class="card h-full">
       <ATable
         :data-source="recordsState"
@@ -74,7 +73,6 @@ const BranchCreateUpdateModal = defineAsyncComponent(() => import('@/components/
 const BranchDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/BranchDetailDrawer.vue'));
 
 const { getDetails, setDetails } = useTableCache<API.Branch>();
-
 // State
 const detailsDrawerState = reactive({
   isOpen: false,

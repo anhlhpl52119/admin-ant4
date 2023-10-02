@@ -29,7 +29,7 @@
           <template v-if="column.dataIndex === 'name'">
             <AButton
               type="link"
-              @click="$router.push({ name: ERouteName.RETAILER_DETAILS_OVERVIEW, params: { id: record.id } })"
+              @click="onShowDrawerDetails(record as API.Retailer)"
             >
               {{ record.name }}
             </AButton>
@@ -50,6 +50,12 @@
         </template>
       </ATable>
     </section>
+    <RetailerDetailDrawer
+      v-model:is-open="detailsDrawerState.isOpen"
+      :retailer-item="detailsDrawerState.item"
+      :title="detailsDrawerState.title"
+      @close="onCloseDetailDrawer"
+    />
   </main>
 </template>
 
@@ -60,10 +66,20 @@ import { columns, searchFilterRaw } from './column';
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
-import { ERouteName } from '@/enums/router.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
+import { useTableCache } from '@/composable/useTableCache';
 
 const RetailerCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/RetailerCreateUpdateModal.vue'));
+const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
+
+const { getDetails, setDetails } = useTableCache<API.Retailer>();
+
+// State
+const detailsDrawerState = reactive({
+  isOpen: false,
+  title: '',
+  item: null as API.Retailer | null,
+});
 
 const fetch = async (params?: API.SearchRetailerQueryParams) => {
   const res = await retailerApis.search(params);
@@ -78,6 +94,35 @@ const fetch = async (params?: API.SearchRetailerQueryParams) => {
     total_page: res.data.total_page,
     total_records: res.data.total_records,
   };
+};
+
+const onShowDrawerDetails = async (item: API.Retailer) => {
+  if (!item.id) {
+    return;
+  }
+  detailsDrawerState.title = item.name;
+  detailsDrawerState.isOpen = true;
+  // check cache
+  const cacheItem = getDetails(item.id);
+  if (cacheItem) {
+    detailsDrawerState.item = cacheItem;
+
+    return;
+  }
+  // fetch
+  const res = await retailerApis.getDetails(item.id, { includes: ['drivers', 'group_drivers'] });
+  if (!(res && res.data.drivers && res.data.group_drivers)) {
+    return;
+  }
+  // cache
+  setDetails(item.id, res.data);
+  detailsDrawerState.item = res.data;
+};
+
+const onCloseDetailDrawer = () => {
+  detailsDrawerState.item = null;
+  detailsDrawerState.title = '';
+  detailsDrawerState.isOpen = false;
 };
 
 const {
