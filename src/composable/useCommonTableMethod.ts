@@ -36,17 +36,17 @@ export const useCommonTableMethod = <T>(
   const isTableLoading = computed(() => appStore.loadingAppState.has(loadingNameSpace));
 
   const searchQueries = computed<ApiQueryAttr<T>>(() => {
-    const temp: ApiQueryAttr<T> = {};
+    const queries: ApiQueryAttr<T> = {};
     rawQueries.value.forEach(({ value, key }) => {
       if (value) {
-        Object.assign(temp, { [key]: value });
+        Object.assign(queries, { [key]: value });
       }
     });
 
-    return temp;
+    return queries;
   });
 
-  const triggerChange = async (forcePage: Partial<ApiPaginationQuery> = {}) => {
+  const fetchTableRecords = async (forcePage: Partial<ApiPaginationQuery> = {}) => {
     const page = { ...pageQuery.value, ...forcePage };
 
     const {
@@ -58,7 +58,7 @@ export const useCommonTableMethod = <T>(
 
     // handle fetch empty page record
     if (current_page > 1 && records.length === 0) {
-      triggerChange({ page: current_page - 1 });
+      fetchTableRecords({ page: current_page - 1 });
 
       return;
     }
@@ -69,22 +69,18 @@ export const useCommonTableMethod = <T>(
   };
 
   const search = () => {
-    triggerChange({ page: 1 });
+    fetchTableRecords({ page: 1 });
   };
 
   const reload = () => {
-    triggerChange();
+    fetchTableRecords();
   };
 
-  watch(pageQuery, (val: ApiPaginationQuery, old: ApiPaginationQuery) => {
-    // TODO: refactor
-    if (Object.values(val).sort() === Object.values(old).sort()) {
-      return;
-    }
-    triggerChange();
+  watch(pageQuery, () => {
+    fetchTableRecords();
   });
 
-  triggerChange();
+  fetchTableRecords();
 
   return {
     isTableLoading,

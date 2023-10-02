@@ -19,8 +19,8 @@
         :columns="columns"
         :loading="isTableLoading"
         :pagination="false"
+        size="small"
         :scroll="{ y: '61rem' }"
-        class="core-table"
       >
         <!-- Table Title -->
         <template #title>

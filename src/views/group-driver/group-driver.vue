@@ -20,7 +20,7 @@
         :loading="isTableLoading"
         :pagination="false"
         :scroll="{ y: '61rem' }"
-        class="core-table"
+        size="small"
       >
         <template #bodyCell="{ index, column, record }">
           <template v-if="column.dataIndex === 'indexNum'">

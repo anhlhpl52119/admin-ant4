@@ -34,7 +34,7 @@ const userStore = useUserStore();
 const isLoading = ref<boolean>(false);
 
 // TODO: remove hard code
-const formState = reactive<LoginRequestBody>({
+const formState = reactive<API.LoginRequestBody>({
   email: 'admin@takeit.vn',
   password: '123123A@',
   refresh: true,
