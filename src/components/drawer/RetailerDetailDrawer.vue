@@ -7,67 +7,142 @@
     destroy-on-close
     @close="$emit('close')"
   >
-    <div v-if="!branchItem" class="text-center h-full">
+    <div v-if="!retailerItem" class="text-center h-full">
       <ASpin size="large" />
     </div>
     <template v-else>
       <ADescriptions title="Thông tin Chi nhánh" bordered size="small">
         <ADescriptionsItem label="Tên">
-          {{ branchItem?.name || '' }}
+          {{ retailerItem?.name || '' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Mô tả">
-          {{ branchItem?.description || '' }}
+          {{ retailerItem?.description || '' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Trạng thái">
-          {{ branchItem?.status || '' }}
+          {{ retailerItem?.status || '' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Liên hệ">
-          {{ branchItem?.phone ?? '' }}
+          {{ retailerItem?.phone ?? '' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Địa chỉ">
-          {{ branchItem?.address || '' }}
+          {{ retailerItem?.address || '' }}
         </ADescriptionsItem>
       </ADescriptions>
       <ADivider />
-      <ADescriptions title="Thông tin nhà bán lẻ của chi nhánh" bordered size="small">
-        <ADescriptionsItem label="Tên">
-          {{ retailerInfo?.name || '' }}
-        </ADescriptionsItem>
-        <ADescriptionsItem label="Mô tả">
-          {{ retailerInfo?.description || '' }}
-        </ADescriptionsItem>
-        <ADescriptionsItem label="Trạng thái">
-          {{ retailerInfo?.status || '' }}
-        </ADescriptionsItem>
-        <ADescriptionsItem label="Liên hệ">
-          {{ retailerInfo?.phone ?? '' }}
-        </ADescriptionsItem>
-        <ADescriptionsItem label="Nguồn">
-          {{ retailerInfo?.source || '' }}
-        </ADescriptionsItem>
-      </ADescriptions>
+      <AList
+        :data-source="retailerDrivers"
+        bordered
+        class="max-h-300 overflow-y-scroll"
+      >
+        <template #renderItem="{ item } : {item: API.Driver}">
+          <AListItem :key="item.id">
+            <template #actions>
+              <a>View Profile</a>
+            </template>
+            <AListItemMeta :description="item.description">
+              <template #title>
+                <a href="">{{ item.name }}</a>
+              </template>
+              <template #avatar>
+                <AAvatar src="" />
+              </template>
+            </AListItemMeta>
+          </AListItem>
+        </template>
+      </AList>
+      <ADivider />
+      <AList
+        :data-source="retailerGroupDrivers"
+        bordered
+        class="max-h-300 overflow-y-scroll"
+      >
+        <template #renderItem="{ item }: {item: API.GroupDriver}">
+          <AListItem :key="item.id">
+            <template #actions>
+              <a>View Profile</a>
+            </template>
+            <AListItemMeta :description="item.description">
+              <template #title>
+                <a href="">{{ item.name }}</a>
+              </template>
+              <template #avatar>
+                <AAvatar src="" />
+              </template>
+            </AListItemMeta>
+          </AListItem>
+        </template>
+      </AList>
+      <ADivider />
+      <AList
+        :data-source="retailerConfig"
+        bordered
+        class="max-h-300 overflow-y-scroll"
+      >
+        <template #renderItem="{ item }: {item: API.RetailerConfig}">
+          <AListItem :key="item.id">
+            <template #actions>
+              <a>View Profile</a>
+            </template>
+            <AListItemMeta :description="item.description">
+              <template #title>
+                <a href="">{{ item.name }}</a>
+              </template>
+              <!-- <template #avatar>
+                <AAvatar src="" />
+              </template> -->
+            </AListItemMeta>
+          </AListItem>
+        </template>
+      </AList>
     </template>
   </ADrawer>
 </template>
 
 <script lang="ts" setup>
+import { retailerConfigApis } from '@/apis/core/retailer-config/retailer-config.api';
+
 const props = defineProps<{
   isOpen: boolean
   title: string
-  branchItem: API.Retailer | null
+  retailerItem: API.Retailer | null
 }>();
 
 defineEmits<{
   close: [v: void]
 }>();
 
-const { branchItem, isOpen } = toRefs(props);
+const { retailerItem, isOpen } = toRefs(props);
+const retailerConfig = ref<API.RetailerConfig[]>([]);
 
-const retailerInfo = computed(() => {
-  if (!branchItem.value?.retailer) {
-    return null;
+const retailerDrivers = computed(() => {
+  if (!retailerItem.value?.drivers || retailerItem.value?.drivers.length === 0) {
+    return [];
   }
 
-  return branchItem.value.retailer;
+  return retailerItem.value.drivers;
 });
+const retailerGroupDrivers = computed(() => {
+  if (!retailerItem.value?.group_drivers || retailerItem.value?.group_drivers.length === 0) {
+    return [];
+  }
+
+  return retailerItem.value.group_drivers;
+});
+
+const loadRetailerConfig = async () => {
+  if (!retailerItem.value?.id) {
+    return;
+  }
+  const rs = await retailerConfigApis.search({ query: { retailer_id_eq: retailerItem.value.id } });
+  if (!rs || rs.data.retailer_configs.length === 0) {
+    return;
+  }
+  retailerConfig.value = rs.data.retailer_configs;
+};
+
+watch([isOpen, retailerItem], (val) => {
+  if (val) {
+    loadRetailerConfig();
+  }
+}, { immediate: true });
 </script>
