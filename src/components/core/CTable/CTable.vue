@@ -3,9 +3,9 @@
     :data-source="branchesState"
     :columns="columns"
     :loading="tableLoading"
+    size="small"
     :pagination="false"
     :scroll="{ y: '61rem' }"
-    class="core-table"
   >
     <template #bodyCell="{ index, column, record }">
       <template v-if="column.dataIndex === 'indexNum'">
