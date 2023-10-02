@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AAvatar: typeof import('ant-design-vue/es')['Avatar']
     ABreadcrumb: (typeof import('ant-design-vue/es'))['Breadcrumb']
     ABreadcrumbItem: (typeof import('ant-design-vue/es'))['BreadcrumbItem']
     AButton: typeof import('ant-design-vue/es')['Button']
@@ -32,6 +33,9 @@ declare module 'vue' {
     ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent']
     ALayoutFooter: (typeof import('ant-design-vue/es'))['LayoutFooter']
     ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']
+    AList: typeof import('ant-design-vue/es')['List']
+    AListItem: typeof import('ant-design-vue/es')['ListItem']
+    AListItemMeta: typeof import('ant-design-vue/es')['ListItemMeta']
     AMenu: typeof import('ant-design-vue/es')['Menu']
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
     AModal: typeof import('ant-design-vue/es')['Modal']
@@ -76,6 +80,7 @@ declare module 'vue' {
     QuantityItemControl: typeof import('./../src/components/common/QuantityItemControl.vue')['default']
     QuantityNumberControl: (typeof import('./../src/components/ecom/QuantityNumberControl.vue'))['default']
     RetailerCreateUpdateModal: typeof import('./../src/components/modal/RetailerCreateUpdateModal.vue')['default']
+    RetailerDetailDrawer: typeof import('./../src/components/drawer/RetailerDetailDrawer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UnitConverionOptions: (typeof import('./../src/components/common/UnitConverionOptions.vue'))['default']

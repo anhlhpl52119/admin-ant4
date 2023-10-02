@@ -17,7 +17,7 @@ declare namespace API {
 
   type RetailerConfigRelationship = 'retailer';
 
-  type SearchRetailerConfigQueryParams = ApiCoreQuery<Retailer, RetailerConfigRelationship>;
+  type SearchRetailerConfigQueryParams = ApiCoreQuery<RetailerConfig, RetailerConfigRelationship>;
 
   type GetRetailerConfigDetailResponse = ApiObjectResponse<RetailerConfig>;
 
