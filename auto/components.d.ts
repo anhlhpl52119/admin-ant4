@@ -79,6 +79,7 @@ declare module 'vue' {
     ProductCardInfo: typeof import('./../src/components/common/ProductCardInfo.vue')['default']
     QuantityItemControl: typeof import('./../src/components/common/QuantityItemControl.vue')['default']
     QuantityNumberControl: (typeof import('./../src/components/ecom/QuantityNumberControl.vue'))['default']
+    RetailerCreateUpdateForm: typeof import('./../src/components/form/RetailerCreateUpdateForm.vue')['default']
     RetailerCreateUpdateModal: typeof import('./../src/components/modal/RetailerCreateUpdateModal.vue')['default']
     RetailerDetailDrawer: typeof import('./../src/components/drawer/RetailerDetailDrawer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
