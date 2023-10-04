@@ -29,6 +29,7 @@
       <ALayoutContent class="relative p-15 h-full">
         <PageContent />
         <AppDrawer />
+        <AppModal />
       </ALayoutContent>
     </ALayout>
   </ALayout>
