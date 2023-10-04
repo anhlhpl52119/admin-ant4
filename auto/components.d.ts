@@ -43,6 +43,7 @@ declare module 'vue' {
     APagination: typeof import('ant-design-vue/es')['Pagination']
     APopconfirm: typeof import('ant-design-vue/es')['Popconfirm']
     AppDrawer: typeof import('./../src/components/common/app-drawer/AppDrawer.vue')['default']
+    AppModal: typeof import('./../src/components/common/app-modal/AppModal.vue')['default']
     ARadioButton: typeof import('ant-design-vue/es')['RadioButton']
     ARadioGroup: typeof import('ant-design-vue/es')['RadioGroup']
     ARangePicker: typeof import('ant-design-vue/es')['RangePicker']
