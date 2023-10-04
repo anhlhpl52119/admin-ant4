@@ -1,10 +1,25 @@
-import type { Component } from 'vue';
+import type { Component, ComponentOptions } from 'vue';
 
-export const useAppModal = () => {
-  const component = shallowRef<Component>();
-  const modalTitle = ref<string>('');
+interface AppModal {
+  component?: Component | undefined
+  props?: ComponentProps<any> | undefined
+  emitEvent?: ComponentOptions<any>['emits'] | undefined
+  isOpen: boolean
+}
+export const visibleModalState = ref<AppModal>({ isOpen: false });
 
-  return {
-    component,
+export const showModal = <T extends ComponentOptions<any>>(modalContent: ComponentGenericCapture<T>) => {
+  const { component, emits, props } = modalContent;
+  if (!component) {
+    return;
+  }
+  visibleModalState.value = {
+    component: shallowRef(component),
+    props,
+    emitEvent: emits ?? {},
+    isOpen: true,
   };
+};
+export const closeModal = () => {
+  visibleModalState.value = { isOpen: false };
 };
