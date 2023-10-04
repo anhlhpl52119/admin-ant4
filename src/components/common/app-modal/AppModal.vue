@@ -1,14 +1,18 @@
 <template>
   <AModal
-    v-model:open="openModal"
+    :open="visibleModalState.isOpen"
     destroy-on-close
     title="Basic Modal"
-    @ok="handleOk"
+    @cancel="closeModal"
   >
-    <Component :is="comp" v-bind="bindTest" v-on="vOnTest" />
+    <Component
+      :is="visibleModalState.component"
+      v-bind="visibleModalState.props"
+      v-on="visibleModalState?.emitEvent ?? {}"
+    />
   </AModal>
 </template>
 
 <script lang="ts" setup>
-const handleOk = () => {};
+import { closeModal, visibleModalState } from '@/composable/useAppModal';
 </script>
