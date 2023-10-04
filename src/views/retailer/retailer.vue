@@ -56,24 +56,19 @@
       :title="detailsDrawerState.title"
       @close="onCloseDetailDrawer"
     />
-    <AModal v-model:open="openModal" destroy-on-close title="Basic Modal" @ok="handleOk">
-      <Component :is="comp" v-bind="bindTest" v-on="vOnTest" />
-    </AModal>
   </main>
 </template>
 
 <script lang="ts" setup>
 import { EditOutlined } from '@ant-design/icons-vue';
-import type { Component } from 'vue';
 import { columns, searchFilterRaw } from './column';
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
+import { showModal } from '@/composable/useAppModal';
 
-// import RetailerCreateUpdateForm from '@/components/form/RetailerCreateUpdateForm.vue';
-// const RetailerCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/RetailerCreateUpdateModal.vue'));
 const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
 const RetailerCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerCreateUpdateForm.vue'));
 
@@ -85,10 +80,6 @@ const detailsDrawerState = reactive({
   title: '',
   item: null as API.Retailer | null,
 });
-const openModal = ref(false);
-const comp = shallowRef<Component>();
-const bindTest = ref<any>();
-const vOnTest = ref<any>();
 
 const fetch = async (params?: API.SearchRetailerQueryParams) => {
   const res = await retailerApis.search(params);
@@ -158,16 +149,14 @@ const handleOk = (v: string) => {
 };
 
 const openModel = (retailerId?: string) => {
-  const sth: ComponentGenericCapture<typeof RetailerCreateUpdateForm> = {
+  showModal({
     component: RetailerCreateUpdateForm,
-    emits: { cli: (v: string) => handleOk(v) },
     props: {
       retailerId: retailerId ?? '',
     },
-  };
-  openModal.value = true;
-  comp.value = sth.component;
-  bindTest.value = sth.props;
-  vOnTest.value = sth.emits;
+    emits: {
+      cli: (v: string) => handleOk(v),
+    },
+  });
 };
 </script>
