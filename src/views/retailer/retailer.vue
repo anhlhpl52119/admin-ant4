@@ -155,7 +155,6 @@ const openModel = (retailerId?: string) => {
     modalTitle: title,
     props: {
       retailerId: retailerId ?? '',
-      class: 'w-700',
     },
     emits: {
       cli: (v: string) => handleOk(v),
