@@ -149,10 +149,13 @@ const handleOk = (v: string) => {
 };
 
 const openModel = (retailerId?: string) => {
+  const title = retailerId ? 'Cập nhật thông tin nhà bán lẻ' : 'Tạo mới nhà bán lẻ';
   showModal({
     component: RetailerCreateUpdateForm,
+    modalTitle: title,
     props: {
       retailerId: retailerId ?? '',
+      class: 'w-700',
     },
     emits: {
       cli: (v: string) => handleOk(v),
