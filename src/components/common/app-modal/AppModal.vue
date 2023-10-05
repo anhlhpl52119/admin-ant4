@@ -2,6 +2,7 @@
   <AModal
     :open="visibleModalState.isOpen"
     destroy-on-close
+    centered
     :title="visibleModalState.modalTitle ?? ''"
     @cancel="closeModal"
   >
