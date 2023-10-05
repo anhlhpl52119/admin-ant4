@@ -145,7 +145,6 @@ const onSearch = (e: QueriesRaw<API.Retailer>[]) => {
 };
 
 const handleOk = (v: string) => {
-  console.log('sdad', v);
   closeModal();
 };
 
