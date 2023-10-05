@@ -2,7 +2,7 @@
   <AModal
     :open="visibleModalState.isOpen"
     destroy-on-close
-    title="Basic Modal"
+    :title="visibleModalState.modalTitle ?? ''"
     @cancel="closeModal"
   >
     <Component
@@ -10,6 +10,9 @@
       v-bind="visibleModalState.props"
       v-on="visibleModalState?.emitEvent ?? {}"
     />
+    <template #footer>
+      <div class="hidden" />
+    </template>
   </AModal>
 </template>
 
