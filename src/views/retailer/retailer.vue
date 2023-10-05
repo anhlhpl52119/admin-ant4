@@ -67,7 +67,7 @@ import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTab
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
-import { showModal } from '@/composable/useAppModal';
+import { closeModal, showModal } from '@/composable/useAppModal';
 
 const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
 const RetailerCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerCreateUpdateForm.vue'));
@@ -146,6 +146,7 @@ const onSearch = (e: QueriesRaw<API.Retailer>[]) => {
 
 const handleOk = (v: string) => {
   console.log('sdad', v);
+  closeModal();
 };
 
 const openModel = (retailerId?: string) => {
