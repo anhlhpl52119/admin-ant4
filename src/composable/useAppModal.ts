@@ -1,6 +1,7 @@
 import type { Component, ComponentOptions } from 'vue';
 
 interface AppModal {
+  modalTitle?: string
   component?: Component | undefined
   props?: ComponentProps<any> | undefined
   emitEvent?: ComponentOptions<any>['emits'] | undefined
@@ -8,8 +9,8 @@ interface AppModal {
 }
 export const visibleModalState = ref<AppModal>({ isOpen: false });
 
-export const showModal = <T extends ComponentOptions<any>>(modalContent: ComponentGenericCapture<T>) => {
-  const { component, emits, props } = modalContent;
+export const showModal = <T extends ComponentOptions<any>>(modalContent: ComponentGenericCapture<T> & { modalTitle?: string }) => {
+  const { component, emits, props, modalTitle } = modalContent;
   if (!component) {
     return;
   }
@@ -18,6 +19,7 @@ export const showModal = <T extends ComponentOptions<any>>(modalContent: Compone
     props,
     emitEvent: emits ?? {},
     isOpen: true,
+    modalTitle,
   };
 };
 export const closeModal = () => {
