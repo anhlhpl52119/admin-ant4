@@ -1,5 +1,5 @@
 <template>
-  <div class="grid gap-15 w-full">
+  <div class="grid gap-15 mt-16">
     <ASpin
       v-if="appStore.loadingAppState.has(EApiId.RETAILER_DETAILS)"
       size="large"
@@ -49,12 +49,14 @@
           />
         </AFormItem>
         <AFormItem :wrapper-col="{ span: 14, offset: 4 }">
-          <AButton type="primary" @click.prevent="onSubmit">
-            Create
-          </AButton>
-          <AButton style="margin-left: 10px" @click="$emit('cli', 'hello this is emt')">
-            Reset
-          </AButton>
+          <div class="flex justify-center gap-10">
+            <AButton type="primary" @click.prevent="onSubmit">
+              Tạo
+            </AButton>
+            <AButton style="margin-left: 10px" @click="$emit('cli', 'hello this is emt')">
+              Đóng
+            </AButton>
+          </div>
         </AFormItem>
       </AForm>
     </template>
