@@ -1,6 +1,6 @@
 <template>
   <section class="card grid gap-10" @keypress.enter="onSearch">
-    <div class="flex items-center justify-between">
+    <div class="flex-btw-center">
       <ul class="flex gap-5">
         <li>
           <CInput
