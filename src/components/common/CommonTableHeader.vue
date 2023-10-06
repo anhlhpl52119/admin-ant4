@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-b-center">
+  <div class="flex-btw-center">
     <ul class="flex gap-5 font-700 items-center">
       <li><span>Tổng cộng:</span></li>
       <li><span class="text-primary text-18">{{ totalRecord }}</span></li>

@@ -1,5 +1,5 @@
 <template>
-  <article class="mx-16 my-20 flex-b-center">
+  <article class="mx-16 my-20 flex-btw-center">
     <span class="text-24 font-700">
       {{ title }}
     </span>
