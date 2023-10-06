@@ -1,0 +1,11 @@
+// Table
+.ant-table {
+  &-title {
+    @apply i_px-0 i_py-12;
+  }
+}
+
+// Drawer
+.ant-drawer .ant-drawer-body {
+  @apply p-15;
+}
