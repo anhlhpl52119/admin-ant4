@@ -1,15 +1,6 @@
+// card with border and box shadow
 .card {
   @apply rounded-12 p-12 shadow-md bg-white my-12;
-}
-
-.ant-table {
-  &-title {
-    @apply i_px-0 i_py-20;
-  }
-}
-
-.ant-drawer .ant-drawer-body {
-  @apply p-15;
 }
 
 // Search form item
@@ -25,4 +16,3 @@
     }
   }
 }
-
