@@ -146,8 +146,6 @@ const { resetFields, validate, validateInfos } = useForm(createUpdateBodyState, 
 const onSubmit = () => {
   validate()
     .then(() => {
-      console.log();
-
       console.log(toRaw(createUpdateBodyState));
     })
     .catch((err) => {
