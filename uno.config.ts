@@ -19,14 +19,14 @@ export default defineConfig({
     colors: {
       abd: '#dcdfe5', // app border,
       abg: '#f8faff', // app background
-      // primary: '#1677ff',
       primary: '#12a38e',
       secondary: '#64748B',
-      success: '#48A9A6',
-      info: '#4281A4',
-      warning: '#D4B483',
+      success: '#52c41a',
+      info: '#1677ff',
+      warning: '#faad14',
       danger: '#ff4d4f',
-      plain: '#6c757d',
+      hint: '#94a3b8',
+      disabled: '#e2e8f0',
     },
     breakpoints: {
       'xs': '0px',
@@ -38,22 +38,19 @@ export default defineConfig({
     },
   },
   shortcuts: [
-    ['absolute-full', 'absolute top-0 left-0 right-0 bottom-0 w-full h-full'],
-    ['absolute-tl', 'absolute top-0 left-0'],
-    ['absolute-tr', 'absolute top-0 right-0'],
-    ['absolute-bl', 'absolute bottom-0 left-0'],
-    ['absolute-br', 'absolute bottom-0 right-0'],
     ['absolute-center', 'absolute top-1/2 left-1/2 translate--1/2'],
-    ['absolute-t-center', 'absolute top-0 left-1/2 translate-x--1/2'],
-    ['absolute-r-center', 'absolute right-0 top-1/2 translate-y--1/2'],
-    ['absolute-b-center', 'absolute bottom-0 left-1/2 translate-x--1/2'],
-    ['absolute-l-center', 'absolute left-0 top-1/2 translate-y--1/2'],
+    // Fixed
     ['fixed-full', 'fixed top-0 left-0 right-0 bottom-0 w-screen h-screen'],
     ['fixed-tl', 'fixed top-0 left-0'],
     ['fixed-center', 'fixed top-1/2 left-1/2 translate--1/2'],
+    // Flex
     ['flex-center', 'flex items-center justify-center'],
-    ['flex-b-center', 'flex items-center justify-between'],
+    ['flex-btw-center', 'flex items-center justify-between'],
+    // Grid
     ['grid-center', 'grid items-center justify-items-center'],
+    // Text
+    ['text-spotlight', 'font-700 text-16'],
+    ['text-desc', 'font-700 text-14 text-slate-400'],
   ],
   postprocess: (util: UtilObject) => {
     // 1 => 0.1rem (ex: p-1)
