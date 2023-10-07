@@ -1,22 +1,34 @@
 import type { ComponentOptions } from 'vue';
+import { v1 as uuid } from 'uuid';
 
-export const visibleModalState = ref<CoreAppModal>({ isOpen: false });
+export const modalState = reactive<Map<string, CoreAppModal>>(new Map());
 
 export const coreModal = {
-  show: <T extends ComponentOptions<any>>(modalContent: ComponentGenericCapture<T> & { modalTitle?: string }) => {
-    const { component, emits, props, modalTitle } = modalContent;
-    if (!component) {
-      return;
+  show: <T extends ComponentOptions<any>>(modalContent: CoreModalProps<T>) => {
+    const { component, emits, props, title, maskCloseable = false } = modalContent;
+    const id = uuid();
+    if (component) {
+      const setState: CoreAppModal = {
+        id,
+        maskCloseable,
+        component: shallowRef(component),
+        headerTitle: title ?? '',
+        props: props ?? {},
+        event: emits ?? {},
+        isOpen: true,
+      };
+      modalState.set(id, setState);
     }
-    visibleModalState.value = {
-      component: shallowRef(component),
-      props,
-      emitEvent: emits ?? {},
-      isOpen: true,
-      modalTitle,
-    };
+
+    return id; // use for handle state close
   },
-  close: () => {
-    visibleModalState.value = { isOpen: false };
+  close: (id: string) => {
+    const modal = modalState.get(id);
+    if (modal) {
+      modal.isOpen = false;
+    }
+  },
+  destroyAll: () => {
+    modalState.clear();
   },
 };
