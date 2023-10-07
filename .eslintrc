@@ -13,10 +13,10 @@
         "registeredComponentsOnly": false
       }
     ],
-    "vue/component-tags-order": [
+    "vue/block-order": [
       "error",
       {
-        "order": ["template", "script", "style"]
+        "order": [["script", "template"], "style"]
       }
     ],
     "semi": [2, "always"],
@@ -30,6 +30,17 @@
     ],
     "antfu/top-level-function": "off",
     "@typescript-eslint/semi": ["off"],
-    "curly": ["error", "multi-line"]
+    "curly": ["error", "multi-line"],
+    "vue/prop-name-casing": ["error", "camelCase"],
+    "vue/attribute-hyphenation": ["error", "never", { "ignore": [] }],
+    "vue/v-on-event-hyphenation": [
+      "error",
+      "never",
+      {
+        "autofix": true,
+        "ignore": []
+      }
+    ],
+    "no-console": "warn"
   }
 }
