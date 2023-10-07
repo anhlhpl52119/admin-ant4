@@ -1,22 +1,27 @@
 <template>
-  <AModal
-    :open="visibleModalState.isOpen"
-    destroyOnClose
-    centered
-    :title="visibleModalState.modalTitle ?? ''"
-    @cancel="coreModal.close()"
-  >
-    <Component
-      :is="visibleModalState.component"
-      v-bind="visibleModalState.props"
-      v-on="visibleModalState?.emitEvent ?? {}"
-    />
-    <template #footer>
-      <div class="hidden" />
-    </template>
-  </AModal>
+  <template v-for="(value, id) in state" :key="id">
+    <AModal
+      :open="value.isOpen"
+      destroyOnClose
+      centered
+      :maskClosable="value.maskCloseable ?? false"
+      :title="value.headerTitle ?? ''"
+      @cancel="coreModal.close(id.toString())"
+    >
+      <Component
+        :is="value.component"
+        v-bind="value?.props ?? {}"
+        v-on="value?.event ?? {}"
+      />
+      <template #footer>
+        <div class="hidden" />
+      </template>
+    </AModal>
+  </template>
 </template>
 
 <script lang="ts" setup>
-import { coreModal, visibleModalState } from '@/composable/useAppModal';
+import { coreModal, modalState } from '@/composable/useAppModal';
+
+const state = computed(() => Object.fromEntries(modalState));
 </script>
