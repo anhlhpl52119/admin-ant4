@@ -2,8 +2,8 @@
   <main>
     <CommonPageTitle
       title="Chi nhánh"
-      action-btn-label="Tạo Mới Chi Nhánh"
-      @on-click-action="openModel()"
+      actionBtnLabel="Tạo Mới Chi Nhánh"
+      @onClickAction="openModel()"
     />
 
     <CommonTableSearchForm
@@ -26,7 +26,7 @@
           <CommonTableHeader
             v-model:current-page="paginationState.currentPage"
             v-model:record-per-page="paginationState.recordsPerPage"
-            :total-record="totalRecords"
+            :totalRecord="totalRecords"
             @reload="reload"
           />
         </template>
@@ -51,7 +51,7 @@
     </section>
     <BranchDetailDrawer
       v-model:is-open="detailsDrawerState.isOpen"
-      :branch-item="detailsDrawerState.item"
+      :branchItem="detailsDrawerState.item"
       :title="detailsDrawerState.title"
       @close="onCloseDetailDrawer"
     />

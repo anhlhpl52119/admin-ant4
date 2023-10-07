@@ -4,7 +4,7 @@
       <CInput
         v-model:value="formState.email"
         label="Email"
-        accepted-only="userLogin"
+        acceptedOnly="userLogin"
         :maxlength="60"
       />
       <CInput v-model:value="formState.password" password label="Password" />

@@ -42,7 +42,7 @@ const emits = defineEmits<{
  * define where is label placement base on props
  *
  * @return {string} - class of tailwind
- * */
+ */
 const labelWhere = computed(() => {
   switch (props.labelPlacement) {
     case 'right':
@@ -68,7 +68,7 @@ const reRexFactory: { [k in RegexTypes]: (v: string) => string } = {
  * Trigger when typing on input
  * remove first space character
  *
- * */
+ */
 const onInput = (e: any) => {
   const firstSpace = /^\s/;
   // prevent empty space character ahead of string

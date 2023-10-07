@@ -20,9 +20,9 @@
         borderTop: `1px solid ${token.colorBorder}`,
       }"
     >
-      <APagination :total="50" show-size-changer />
+      <APagination :total="50" showSizeChanger />
       <ASpace wrap>
-        <ASelect show-search style="width: 200px">
+        <ASelect showSearch style="width: 200px">
           <ASelectOption value="jack">
             jack
           </ASelectOption>
@@ -50,8 +50,8 @@
       </ASpace>
       <ATransfer
         :data-source="[]"
-        show-search
-        :target-keys="[]"
+        showSearch
+        :targetKeys="[]"
         :render="(item) => item.title"
       />
       <div
@@ -66,9 +66,9 @@
       <AForm
         name="basic"
         :model="formModel"
-        auto-complete="off"
-        :label-col="{ sm: { span: 4 } }"
-        :wrapper-col="{ span: 6 }"
+        autoComplete="off"
+        :labelCol="{ sm: { span: 4 } }"
+        :wrapperCol="{ span: 6 }"
       >
         <AFormItem label="UserName" name="username" :rules="[{ required: true }]">
           <AInput v-model:value="formModel.username" :width="200" />
@@ -76,8 +76,8 @@
         <AFormItem label="Age" name="age" :rules="[{ type: 'number', min: 0, max: 99 }]">
           <AInputNumber v-model:value="formModel.age" :width="200" />
         </AFormItem>
-        <AFormItem :wrapper-col="{ offset: 2, span: 6 }">
-          <AButton type="primary" html-type="submit">
+        <AFormItem :wrapperCol="{ offset: 2, span: 6 }">
+          <AButton type="primary" htmlType="submit">
             submit
           </AButton>
         </AFormItem>
@@ -97,7 +97,7 @@
           src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
         />
       </ASpace>
-      <AUpload list-type="picture-card" :file-list="fileList" />
+      <AUpload listType="picture-card" :fileList="fileList" />
       <ADivider orientation="left">
         Tour
       </ADivider>

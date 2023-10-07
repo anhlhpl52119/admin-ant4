@@ -2,8 +2,8 @@
   <main>
     <CommonPageTitle
       title="Nhà Bán lẻ"
-      action-btn-label="Thêm Nhà Bán Lẻ"
-      @on-click-action="openModel()"
+      actionBtnLabel="Thêm Nhà Bán Lẻ"
+      @onClickAction="openModel()"
     />
 
     <CommonTableSearchForm
@@ -44,7 +44,7 @@
           <CommonTableHeader
             v-model:current-page="paginationState.currentPage"
             v-model:record-per-page="paginationState.recordsPerPage"
-            :total-record="totalRecords"
+            :totalRecord="totalRecords"
             @reload="reload"
           />
         </template>
@@ -52,7 +52,7 @@
     </section>
     <RetailerDetailDrawer
       v-model:is-open="detailsDrawerState.isOpen"
-      :retailer-item="detailsDrawerState.item"
+      :retailerItem="detailsDrawerState.item"
       :title="detailsDrawerState.title"
       @close="onCloseDetailDrawer"
     />
@@ -67,7 +67,7 @@ import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTab
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
-import { closeModal, showModal } from '@/composable/useAppModal';
+import { coreModal } from '@/composable/useAppModal';
 
 const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
 const RetailerCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerCreateUpdateForm.vue'));
@@ -144,20 +144,22 @@ const onSearch = (e: QueriesRaw<API.Retailer>[]) => {
   search();
 };
 
-const handleOk = (v: string) => {
-  closeModal();
+const handleSuccess = () => {
+  coreModal.close();
+  search();
 };
 
 const openModel = (retailerId?: string) => {
   const title = retailerId ? 'Cập nhật thông tin nhà bán lẻ' : 'Tạo mới nhà bán lẻ';
-  showModal({
+  coreModal.show({
     component: RetailerCreateUpdateForm,
     modalTitle: title,
     props: {
       retailerId: retailerId ?? '',
     },
     emits: {
-      cli: (v: string) => handleOk(v),
+      success: () => handleSuccess(),
+      cancel: () => coreModal.close(),
     },
   });
 };

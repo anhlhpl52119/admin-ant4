@@ -1,10 +1,10 @@
 <template>
   <AModal
     :open="visibleModalState.isOpen"
-    destroy-on-close
+    destroyOnClose
     centered
     :title="visibleModalState.modalTitle ?? ''"
-    @cancel="closeModal"
+    @cancel="coreModal.close()"
   >
     <Component
       :is="visibleModalState.component"
@@ -18,5 +18,5 @@
 </template>
 
 <script lang="ts" setup>
-import { closeModal, visibleModalState } from '@/composable/useAppModal';
+import { coreModal, visibleModalState } from '@/composable/useAppModal';
 </script>

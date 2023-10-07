@@ -3,7 +3,7 @@
     <CInput
       v-model:value="a"
       :maxlength="10"
-      accepted-only="text"
+      acceptedOnly="text"
       label="This is label from outside"
       placeholder="todo"
     />

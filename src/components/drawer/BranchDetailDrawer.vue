@@ -4,7 +4,7 @@
     width="90rem"
     :title="title"
     placement="right"
-    destroy-on-close
+    destroyOnClose
     @close="$emit('close')"
   >
     <div v-if="!branchItem" class="text-center h-full">

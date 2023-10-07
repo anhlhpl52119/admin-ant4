@@ -8,7 +8,7 @@
             placeholder="Nhập tên để tìm kiếm..."
             size="large"
             :maxlength="70"
-            allow-clear
+            allowClear
             class="w-400 self-end"
           >
             <template #suffix>

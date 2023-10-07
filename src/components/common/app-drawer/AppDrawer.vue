@@ -5,7 +5,7 @@
     size="large"
     title="Details"
     placement="right"
-    destroy-on-close
+    destroyOnClose
   >
     <div class="p-20">
       <Component :is="drawerComponent" />

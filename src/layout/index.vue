@@ -11,7 +11,7 @@
       </header>
       <AMenu
         v-model:openKeys="activeKey"
-        :selected-keys="selectedKeys"
+        :selectedKeys="selectedKeys"
         theme="light"
         mode="inline"
       >

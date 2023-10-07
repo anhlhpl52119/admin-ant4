@@ -2,11 +2,11 @@
   <AModal
     :open="open"
     :title="modalState.title"
-    :ok-button-props="{ disabled: false }"
-    :cancel-button-props="{ disabled: false }"
-    :mask-closable="false"
-    :confirm-loading="isSubmitLoading"
-    :ok-text="modalState.okBtnText"
+    :okButtonProps="{ disabled: false }"
+    :cancelButtonProps="{ disabled: false }"
+    :maskClosable="false"
+    :confirmLoading="isSubmitLoading"
+    :okText="modalState.okBtnText"
     @ok="onSubmit"
     @cancel="onCloseModal()"
   >

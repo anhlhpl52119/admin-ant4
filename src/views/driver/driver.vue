@@ -2,8 +2,8 @@
   <div>
     <CommonPageTitle
       title="Tài Xế"
-      action-btn-label="Thêm Tài Xế"
-      @on-click-action="openModel()"
+      actionBtnLabel="Thêm Tài Xế"
+      @onClickAction="openModel()"
     />
 
     <CommonTableSearchForm
@@ -41,7 +41,7 @@
           <CommonTableHeader
             v-model:current-page="paginationState.currentPage"
             v-model:record-per-page="paginationState.recordsPerPage"
-            :total-record="totalRecords"
+            :totalRecord="totalRecords"
             @reload="reload"
           />
         </template>

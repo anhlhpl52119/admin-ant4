@@ -2,11 +2,11 @@
   <AModal
     :open="open"
     :title="modalState.title"
-    :ok-button-props="{ disabled: false }"
-    :cancel-button-props="{ disabled: false }"
-    :mask-closable="false"
-    :confirm-loading="isSubmitLoading"
-    :ok-text="modalState.okBtnText"
+    :okButtonProps="{ disabled: false }"
+    :cancelButtonProps="{ disabled: false }"
+    :maskClosable="false"
+    :confirmLoading="isSubmitLoading"
+    :okText="modalState.okBtnText"
     @ok="onSubmit"
     @cancel="onCloseModal()"
   >
@@ -26,8 +26,8 @@
         <CFetchOption
           v-model:initial-value="createUpdateBodyState.retailer_id"
           label="Người sở hữu"
-          :request-data="composeRetailerOption"
-          label-key="name"
+          :requestData="composeRetailerOption"
+          labelKey="name"
         />
       </template>
     </div>

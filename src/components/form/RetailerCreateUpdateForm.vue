@@ -48,16 +48,22 @@
             label="Email"
           />
         </AFormItem>
-        <AFormItem :wrapper-col="{ span: 14, offset: 4 }">
-          <div class="flex justify-center gap-10">
-            <AButton type="primary" @click.prevent="onSubmit">
-              Tạo
-            </AButton>
-            <AButton style="margin-left: 10px" @click="$emit('cli', 'hello this is emt')">
-              Đóng
-            </AButton>
-          </div>
+        <AFormItem>
+          <CInput
+            v-model:value="createUpdateBodyState.source_ids"
+            label="Source Id Temp"
+          />
         </AFormItem>
+        <!-- <AFormItem> -->
+        <div class="flex justify-center gap-10">
+          <AButton type="primary" :loading="loading" @click.prevent="onSubmit">
+            Tạo
+          </AButton>
+          <AButton style="margin-left: 10px" @click="$emit('cancel', undefined)">
+            Đóng
+          </AButton>
+        </div>
+        <!-- </AFormItem> -->
       </AForm>
     </template>
   </div>
@@ -65,14 +71,18 @@
 
 <script lang="ts" setup>
 import { Form } from 'ant-design-vue';
+import { v4 as uuid } from 'uuid';
 import { useApplicationStore } from '@/stores/application.store';
 import { EApiId } from '@/enums/request.enum';
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
 
 const props = defineProps<{ retailerId: string; sth?: string }>();
 const emits = defineEmits<{
-  cli: [v: string]
+  success: [v: undefined]
+  cancel: [v: undefined]
 }>();
+
+const isUpdateMode = computed(() => !!props.retailerId);
 
 const appStore = useApplicationStore();
 
@@ -93,12 +103,13 @@ const modalState = reactive({
 });
 
 const createUpdateBodyState = reactive<API.CreateRetailerRequestBody>({
-  name: 'Nhà bán lẻ Hùng Anh',
-  code: '521199',
-  address: '1213 st Hung Vuong',
-  phone: '0528661429',
-  description: 'Hung Anh test',
-  email: 'nhabanleanhlhpl@taixe.vn',
+  name: '',
+  code: '',
+  address: '',
+  phone: '',
+  description: '',
+  email: '',
+  source_ids: uuid(),
 });
 
 const useForm = Form.useForm;
@@ -142,15 +153,24 @@ const rulesRef = reactive({
   ],
 });
 const { resetFields, validate, validateInfos } = useForm(createUpdateBodyState, rulesRef);
+const loading = ref(false);
+const onSubmit = async () => {
+  try {
+    loading.value = true;
+    await validate();
+    const rs = isUpdateMode.value
+      ? await retailerApis.update(props.retailerId!, createUpdateBodyState)
+      : await retailerApis.create(createUpdateBodyState);
 
-const onSubmit = () => {
-  validate()
-    .then(() => {
-      console.log(toRaw(createUpdateBodyState));
-    })
-    .catch((err) => {
-      console.log('error', err);
-    });
+    if (!rs) {
+      return;
+    }
+    emits('success', undefined);
+  }
+  catch (e) { return; }
+  finally {
+    loading.value = false;
+  }
 };
 
 const init = async () => {

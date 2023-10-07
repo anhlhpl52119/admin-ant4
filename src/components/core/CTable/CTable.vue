@@ -88,9 +88,9 @@
         </ul>
       </div> -->
       <CommonTableHeader
-        :current-page="paginationState.currentPage"
-        :view-by="paginationState.viewBy"
-        :total-record="paginationState.totalRecord"
+        :currentPage="paginationState.currentPage"
+        :viewBy="paginationState.viewBy"
+        :totalRecord="paginationState.totalRecord"
         @change-page-size="onPageSizeChange"
         @reload="reload"
       />
