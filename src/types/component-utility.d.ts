@@ -1,4 +1,4 @@
-import type { ComponentOptions, VNodeProps } from "vue";
+import type { ComponentOptions, VNodeProps, Component } from "vue";
 
 export {};
 
@@ -12,4 +12,12 @@ declare global {
     emits: T["emits"];
     props: ComponentProps<T>;
   };
+
+  type CoreAppModal = {
+    modalTitle?: string
+    component?: Component | undefined
+    props?: ComponentProps<any> | undefined
+    emitEvent?: ComponentOptions<any>['emits'] | undefined
+    isOpen: boolean
+  }
 }
