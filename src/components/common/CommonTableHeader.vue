@@ -16,8 +16,8 @@
           size="small"
           :current="currentPage"
           :total="totalRecord"
-          :page-size="recordPerPage"
-          :show-size-changer="false"
+          :pageSize="recordPerPage"
+          :showSizeChanger="false"
           @change="$emit('update:currentPage', $event)"
         />
       </li>
