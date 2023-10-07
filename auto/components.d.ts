@@ -72,6 +72,7 @@ declare module 'vue' {
     CTable: typeof import('./../src/components/core/CTable/CTable.vue')['default']
     CTableFilterDropdown: typeof import('./../src/components/core/CTableFilterDropdown.vue')['default']
     CustomInput: (typeof import('./../src/components/common/CustomInput.vue'))['default']
+    DriverCreateUpdateForm: typeof import('./../src/components/form/DriverCreateUpdateForm.vue')['default']
     DriverCreateUpdateModal: typeof import('./../src/components/modal/DriverCreateUpdateModal.vue')['default']
     GroupDriverCreateUpdateModal: typeof import('./../src/components/modal/GroupDriverCreateUpdateModal.vue')['default']
     HelloComp: typeof import('./../src/components/common/HelloComp.vue')['default']
