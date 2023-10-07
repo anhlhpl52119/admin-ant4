@@ -10,9 +10,10 @@ declare namespace API {
     status: string;
     source: string;
     source_id: string;
-    source_created_at: string;
-    source_updated_at: string;
     retailer_id: string;
+    created_at?: Date;
+    updated_at?: Date;
+    // relationship
     retailer?: Retailer;
   };
 

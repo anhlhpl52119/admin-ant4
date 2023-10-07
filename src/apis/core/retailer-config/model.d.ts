@@ -5,8 +5,8 @@ declare namespace API {
     code: string;
     value: string;
     description: string;
-    created_at: string;
-    updated_at: string;
+    created_at: Date;
+    updated_at: Date;
     retailer_id: string;
     retailer?: Retailer;
   };

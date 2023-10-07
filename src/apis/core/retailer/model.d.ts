@@ -9,6 +9,11 @@ declare namespace API {
     address: string;
     status: string;
     source: string;
+    created_at?: Date;
+    updated_at?: Date;
+    subdomain_api?: string;
+    subdomain_fe?: string;
+    // relationship
     group_drivers?: GroupDriver[];
     drivers?: Driver[];
   };

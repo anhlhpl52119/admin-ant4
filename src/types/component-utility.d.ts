@@ -9,15 +9,23 @@ declare global {
 
   type ComponentGenericCapture<T extends ComponentOptions<any>> = {
     component: T;
-    emits: T["emits"];
+    emits?: T["emits"];
     props: ComponentProps<T>;
   };
 
+  type CoreModalProps<T extends ComponentOptions<any>> =
+    ComponentGenericCapture<T> & {
+      title?: string;
+      maskCloseable?: boolean;
+    };
+
   type CoreAppModal = {
-    modalTitle?: string
-    component?: Component | undefined
-    props?: ComponentProps<any> | undefined
-    emitEvent?: ComponentOptions<any>['emits'] | undefined
-    isOpen: boolean
-  }
+    id: string;
+    headerTitle?: string;
+    component: Component;
+    props: ComponentProps<any>;
+    event: ComponentOptions<any>["emits"];
+    isOpen: boolean;
+    maskCloseable?: boolean;
+  };
 }
