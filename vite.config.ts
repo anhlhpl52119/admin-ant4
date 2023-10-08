@@ -32,7 +32,7 @@ export default defineConfig({
     AutoImport({
       dts: './auto/auto-imports.d.ts',
       dirs: [
-        './src/composable',
+        './src/composable/core',
       ],
       imports: ['vue', 'vue-router', 'pinia'],
       vueTemplate: true,
