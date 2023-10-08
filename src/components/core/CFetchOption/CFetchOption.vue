@@ -12,7 +12,7 @@
       :disabled="isLoadingOnInit"
       :filterOption="false"
       @search="onTypeToSearch"
-      @change="$emit('update:initialValue', $event)"
+      @change="$emit('update:initialValue', $event?.toString() ?? '')"
       @focus="onFocus"
     >
       <!-- show loading when input search -->
