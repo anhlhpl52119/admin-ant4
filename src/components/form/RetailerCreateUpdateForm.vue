@@ -1,90 +1,99 @@
 <template>
   <div class="grid gap-15 mt-16">
     <ASpin
-      v-if="appStore.loadingAppState.has(EApiId.RETAILER_DETAILS)"
+      v-if="loadingAppState.has(EApiId.RETAILER_DETAILS)"
       size="large"
       tip="Đang tải..."
       class="m-30"
     />
     <template v-else>
-      <AForm v-bind="formItemLayout">
-        <AFormItem v-bind="validateInfos.name" class="w-full">
+      <AForm
+        v-bind="formItemLayout"
+        :rules="rules"
+        :model="createUpdateBodyState"
+        @finish="onValidateSuccess"
+        @finishFailed="handleFinishFailed"
+      >
+        <AFormItem name="name" class="w-full">
           <CInput
             v-model:value="createUpdateBodyState.name"
+            :maxlength="50"
             label="Tên Nhà Bán Lẻ"
-
-            @blur="validate('name', { trigger: 'blur' }).catch(() => {})"
           />
         </AFormItem>
-        <AFormItem v-bind="validateInfos.code">
+        <AFormItem name="code">
           <CInput
             v-model:value="createUpdateBodyState.code"
+            :maxlength="20"
             label="Mã Nhà Bán Lẻ"
-            @blur="validate('code', { trigger: 'blur' }).catch(() => {})"
           />
         </AFormItem>
-        <AFormItem v-bind="validateInfos.phone">
+        <AFormItem hasFeedback name="phone">
           <CInput
             v-model:value="createUpdateBodyState.phone"
+            :maxlength="12"
             label="Số điện thoại"
-            @blur="validate('phone', { trigger: 'input' }).catch(() => {})"
           />
         </AFormItem>
         <AFormItem>
           <CInput
             v-model:value="createUpdateBodyState.address"
+            :maxlength="250"
             label="Địa chỉ"
           />
         </AFormItem>
         <AFormItem>
           <CInput
             v-model:value="createUpdateBodyState.description"
+            :maxlength="300"
             label="Mô tả"
           />
         </AFormItem>
         <AFormItem>
           <CInput
             v-model:value="createUpdateBodyState.email"
+            :maxlength="80"
             label="Email"
           />
         </AFormItem>
-        <AFormItem>
-          <CInput
-            v-model:value="createUpdateBodyState.source_ids"
-            label="Source Id Temp"
-          />
-        </AFormItem>
-        <!-- <AFormItem> -->
         <div class="flex justify-center gap-10">
-          <AButton type="primary" :loading="loading" @click.prevent="onSubmit">
+          <AButton
+            type="primary"
+            :loading="loadingAppState.has(EApiId.RETAILER_CREATE || EApiId.RETAILER_UPDATE)"
+            htmlType="submit"
+          >
             Tạo
           </AButton>
           <AButton style="margin-left: 10px" @click="$emit('cancel', undefined)">
             Đóng
           </AButton>
         </div>
-        <!-- </AFormItem> -->
       </AForm>
     </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Form } from 'ant-design-vue';
-import { v4 as uuid } from 'uuid';
+import type { Rule } from 'ant-design-vue/es/form';
 import { useApplicationStore } from '@/stores/application.store';
 import { EApiId } from '@/enums/request.enum';
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
+import { useFieldValidation } from '@/composable/useFieldValidation';
 
 const props = defineProps<{ retailerId: string; sth?: string }>();
 const emits = defineEmits<{
-  success: [v: undefined]
-  cancel: [v: undefined]
+  success: [v?: any]
+  cancel: [v?: any]
 }>();
 
-const isUpdateMode = computed(() => !!props.retailerId);
+const { loadingAppState } = storeToRefs(useApplicationStore());
+const { checkCode, checkName, checkPhoneNumber } = useFieldValidation();
 
-const appStore = useApplicationStore();
+const rules: Record<string, Rule[]> = {
+  name: [{ validator: checkName, trigger: 'blur' }],
+  code: [{ validator: checkCode, trigger: 'blur' }],
+  phone: [{ validator: checkPhoneNumber, trigger: ['blur', 'change'] }],
+};
 
 const formItemLayout = {
   labelCol: {
@@ -97,11 +106,6 @@ const formItemLayout = {
   },
 };
 
-const modalState = reactive({
-  title: 'Tạo mới nhà bán lẻ',
-  okBtnText: 'Tạo',
-});
-
 const createUpdateBodyState = reactive<API.CreateRetailerRequestBody>({
   name: '',
   code: '',
@@ -109,76 +113,29 @@ const createUpdateBodyState = reactive<API.CreateRetailerRequestBody>({
   phone: '',
   description: '',
   email: '',
-  source_ids: uuid(),
 });
 
-const useForm = Form.useForm;
+const isUpdateMode = computed(() => !!props.retailerId);
 
-const rulesRef = reactive({
-  name: [
-    {
-      required: true,
-      message: 'Tên không được để trống',
-    },
-    {
-      min: 5,
-      max: 30,
-      message: 'Tên ít nhất có từ 5 đến 30 ký tự',
-      trigger: 'blur',
-    },
-  ],
-  code: [
-    {
-      required: true,
-      message: 'Hãy nhập mã',
-    },
-    {
-      min: 5,
-      max: 30,
-      message: 'Mã ít nhất có từ 5 đến 30 ký tự',
-      trigger: 'blur',
-    },
-  ],
-  phone: [
-    {
-      required: true,
-      message: 'Hãy nhập số điện thoại',
-    },
-    {
-      min: 9,
-      max: 12,
-      message: 'số điện thoại ít nhất có từ 9 đến 12 ký tự',
-      trigger: 'input',
-    },
-  ],
-});
-const { resetFields, validate, validateInfos } = useForm(createUpdateBodyState, rulesRef);
-const loading = ref(false);
-const onSubmit = async () => {
-  try {
-    loading.value = true;
-    await validate();
-    const rs = isUpdateMode.value
-      ? await retailerApis.update(props.retailerId!, createUpdateBodyState)
-      : await retailerApis.create(createUpdateBodyState);
+const handleFinishFailed = (errors: any) => {
+  console.log('false', errors);
+};
 
-    if (!rs) {
-      return;
-    }
-    emits('success', undefined);
+const onValidateSuccess = async () => {
+  const rs = isUpdateMode.value
+    ? await retailerApis.update(props.retailerId!, createUpdateBodyState)
+    : await retailerApis.create(createUpdateBodyState);
+
+  if (!rs) {
+    return;
   }
-  catch (e) { return; }
-  finally {
-    loading.value = false;
-  }
+  emits('success');
 };
 
 const init = async () => {
   if (!props.retailerId) {
     return;
   }
-  modalState.okBtnText = 'Update';
-  modalState.title = 'Chỉnh sửa Thông tin';
   const res = await retailerApis.getDetails(props.retailerId);
   if (!(res && res.data)) {
     return;
