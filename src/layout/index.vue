@@ -28,8 +28,8 @@
       </header>
       <ALayoutContent class="relative p-15 h-full">
         <PageContent />
-        <AppDrawer />
-        <AppModal />
+        <CAppDrawer />
+        <CAppModal />
       </ALayoutContent>
     </ALayout>
   </ALayout>
