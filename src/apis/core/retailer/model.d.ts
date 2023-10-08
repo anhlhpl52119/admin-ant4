@@ -35,7 +35,6 @@ declare namespace API {
     phone: string;
     email: string;
     address: string;
-    source_ids: string //  TODO: remove this when api update temp
   };
 
   type UpdateRetailerRequestBody = {
