@@ -12,7 +12,6 @@
       @search="onSearch"
       @reset="search"
     />
-
     <section class="card">
       <ATable
         :data-source="recordsState"
@@ -67,7 +66,6 @@ import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTab
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
-import { coreModal } from '@/composable/useAppModal';
 
 const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
 const RetailerCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerCreateUpdateForm.vue'));
@@ -144,22 +142,22 @@ const onSearch = (e: QueriesRaw<API.Retailer>[]) => {
   search();
 };
 
-const handleSuccess = () => {
-  coreModal.close();
+const handleSuccess = (modalId: string) => {
+  coreModal.close(modalId);
   search();
 };
 
 const openModel = (retailerId?: string) => {
   const title = retailerId ? 'Cập nhật thông tin nhà bán lẻ' : 'Tạo mới nhà bán lẻ';
-  coreModal.show({
+  const modalId = coreModal.show({
     component: RetailerCreateUpdateForm,
-    modalTitle: title,
+    title,
     props: {
       retailerId: retailerId ?? '',
     },
     emits: {
-      success: () => handleSuccess(),
-      cancel: () => coreModal.close(),
+      success: () => handleSuccess(modalId),
+      cancel: () => coreModal.close(modalId),
     },
   });
 };
