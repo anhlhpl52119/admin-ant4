@@ -8,6 +8,6 @@ export interface PropTypes<T> {
   initialValue?: string
   isReadOnly?: boolean
   disabledOptions?: string[]
-  requestData: (v?: ApiAttributeQuery<T>) => Promise<T[]>
+  requestData: (v?: ApiQueryAttr<T>) => Promise<T[]>
   labelKey: keyof T
 }
