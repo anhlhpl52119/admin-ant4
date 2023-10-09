@@ -11,6 +11,7 @@ import { ERouteName } from '@/enums/router.enum';
 export const beforeEach = (router: Router) => {
   const userStore = useUserStore();
   router.beforeEach(async (to, _, next) => {
+    coreModal.destroyAll();
     Modal.destroyAll();
 
     const token = BrowserStorage.getCookie(EStorage.ACCESS_TOKEN);
