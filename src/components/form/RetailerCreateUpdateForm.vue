@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-15 mt-16">
     <ASpin
-      v-if="loadingAppState.has(EApiId.RETAILER_DETAILS)"
+      v-if="loadingIds.has(EApiId.RETAILER_DETAILS)"
       size="large"
       tip="Đang tải..."
       class="m-30"
@@ -59,7 +59,7 @@
         <div class="flex justify-center gap-10">
           <AButton
             type="primary"
-            :loading="loadingAppState.has(EApiId.RETAILER_CREATE || EApiId.RETAILER_UPDATE)"
+            :loading="loadingIds.has(EApiId.RETAILER_CREATE) || loadingIds.has(EApiId.RETAILER_UPDATE)"
             htmlType="submit"
           >
             Tạo
@@ -75,7 +75,7 @@
 
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form';
-import { useApplicationStore } from '@/stores/application.store';
+import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { useFieldValidation } from '@/composable/useFieldValidation';
@@ -86,7 +86,7 @@ const emits = defineEmits<{
   cancel: [v?: any]
 }>();
 
-const { loadingAppState } = storeToRefs(useApplicationStore());
+const { loadingIds } = storeToRefs(useVisibilityStore());
 const { checkCode, checkName, checkPhoneNumber } = useFieldValidation();
 
 const rules: Record<string, Rule[]> = {
