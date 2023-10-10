@@ -12,7 +12,7 @@
   >
     <div class="grid gap-15">
       <ASpin
-        v-if="appStore.loadingAppState.has(EApiId.BRANCH_DETAILS)"
+        v-if="loadingIds.has(EApiId.BRANCH_DETAILS)"
         size="large"
         tip="Đang tải..."
         class="m-30 block"
@@ -38,12 +38,12 @@
 <script lang="ts" setup>
 import { Modal } from 'ant-design-vue';
 import { branchApis } from '@/apis/core/branch/branch.api';
-import { useApplicationStore } from '@/stores/application.store';
+import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
 
 const props = defineProps<{ branchId?: string }>();
-const appStore = useApplicationStore();
+const { loadingIds } = storeToRefs(useVisibilityStore());
 
 const open = ref<boolean>(true);
 const modalState = reactive({
@@ -62,8 +62,8 @@ const createUpdateBodyState = reactive<API.CreateBranchRequestBody>({
 });
 
 const isSubmitLoading = computed(() =>
-  appStore.loadingAppState.has(EApiId.BRANCH_CREATE)
- || appStore.loadingAppState.has(EApiId.BRANCH_UPDATE));
+  loadingIds.value.has(EApiId.BRANCH_CREATE)
+ || loadingIds.value.has(EApiId.BRANCH_UPDATE));
 
 const isUpdateMode = computed(() => !!props.branchId);
 
