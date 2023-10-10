@@ -1,75 +1,75 @@
 <template>
-  <div class="grid gap-15 mt-16">
+  <div class="grid gap-15 mt-16 min-h-400 items-center">
     <ASpin
-      v-if="loadingIds.has(EApiId.RETAILER_DETAILS)"
       size="large"
       tip="Đang tải..."
-      class="m-30"
-    />
-    <template v-else>
-      <AForm
-        v-bind="formItemLayout"
-        :rules="rules"
-        :model="createUpdateBodyState"
-        @finish="onValidateSuccess"
-        @finishFailed="handleFinishFailed"
-      >
-        <AFormItem name="name" class="w-full">
-          <CInput
-            v-model:value="createUpdateBodyState.name"
-            :maxlength="50"
-            label="Tên Nhà Bán Lẻ"
-          />
-        </AFormItem>
-        <AFormItem name="code">
-          <CInput
-            v-model:value="createUpdateBodyState.code"
-            :maxlength="20"
-            label="Mã Nhà Bán Lẻ"
-          />
-        </AFormItem>
-        <AFormItem hasFeedback name="phone">
-          <CInput
-            v-model:value="createUpdateBodyState.phone"
-            :maxlength="12"
-            label="Số điện thoại"
-          />
-        </AFormItem>
-        <AFormItem>
-          <CInput
-            v-model:value="createUpdateBodyState.address"
-            :maxlength="250"
-            label="Địa chỉ"
-          />
-        </AFormItem>
-        <AFormItem>
-          <CInput
-            v-model:value="createUpdateBodyState.description"
-            :maxlength="300"
-            label="Mô tả"
-          />
-        </AFormItem>
-        <AFormItem>
-          <CInput
-            v-model:value="createUpdateBodyState.email"
-            :maxlength="80"
-            label="Email"
-          />
-        </AFormItem>
-        <div class="flex justify-center gap-10">
-          <AButton
-            type="primary"
-            :loading="loadingIds.has(EApiId.RETAILER_CREATE) || loadingIds.has(EApiId.RETAILER_UPDATE)"
-            htmlType="submit"
-          >
-            Tạo
-          </AButton>
-          <AButton style="margin-left: 10px" @click="$emit('cancel', undefined)">
-            Đóng
-          </AButton>
-        </div>
-      </AForm>
-    </template>
+      :spinning="loadingIds.has(EApiId.RETAILER_DETAILS) || loadingIds.has(EApiId.RETAILER_UPDATE) || loadingIds.has(EApiId.RETAILER_CREATE)"
+    >
+      <template v-if="!loadingIds.has(EApiId.RETAILER_DETAILS)">
+        <AForm
+          v-bind="formItemLayout"
+          :rules="rules"
+          :model="createUpdateBodyState"
+          @finish="onValidateSuccess"
+          @finishFailed="handleFinishFailed"
+        >
+          <AFormItem name="name" class="w-full">
+            <CInput
+              v-model:value="createUpdateBodyState.name"
+              :maxlength="50"
+              label="Tên Nhà Bán Lẻ"
+            />
+          </AFormItem>
+          <AFormItem name="code">
+            <CInput
+              v-model:value="createUpdateBodyState.code"
+              :maxlength="20"
+              label="Mã Nhà Bán Lẻ"
+            />
+          </AFormItem>
+          <AFormItem name="phone">
+            <CInput
+              v-model:value="createUpdateBodyState.phone"
+              :maxlength="12"
+              label="Số điện thoại"
+            />
+          </AFormItem>
+          <AFormItem>
+            <CInput
+              v-model:value="createUpdateBodyState.address"
+              :maxlength="250"
+              label="Địa chỉ"
+            />
+          </AFormItem>
+          <AFormItem>
+            <CInput
+              v-model:value="createUpdateBodyState.description"
+              :maxlength="300"
+              label="Mô tả"
+            />
+          </AFormItem>
+          <AFormItem>
+            <CInput
+              v-model:value="createUpdateBodyState.email"
+              :maxlength="80"
+              label="Email"
+            />
+          </AFormItem>
+          <div class="flex justify-center gap-10">
+            <AButton
+              type="primary"
+              :loading="loadingIds.has(EApiId.RETAILER_CREATE) || loadingIds.has(EApiId.RETAILER_UPDATE)"
+              htmlType="submit"
+            >
+              Xác nhận
+            </AButton>
+            <AButton style="margin-left: 10px" @click="$emit('cancel', undefined)">
+              Đóng
+            </AButton>
+          </div>
+        </AForm>
+      </template>
+    </ASpin>
   </div>
 </template>
 
@@ -81,19 +81,13 @@ import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { useFieldValidation } from '@/composable/useFieldValidation';
 
 const props = defineProps<{ retailerId: string; sth?: string }>();
+
 const emits = defineEmits<{
   success: [v?: any]
   cancel: [v?: any]
 }>();
-
 const { loadingIds } = storeToRefs(useVisibilityStore());
 const { checkCode, checkName, checkPhoneNumber } = useFieldValidation();
-
-const rules: Record<string, Rule[]> = {
-  name: [{ validator: checkName, trigger: 'blur' }],
-  code: [{ validator: checkCode, trigger: 'blur' }],
-  phone: [{ validator: checkPhoneNumber, trigger: ['blur', 'change'] }],
-};
 
 const formItemLayout = {
   labelCol: {
@@ -104,6 +98,12 @@ const formItemLayout = {
     xs: { span: 24 },
     sm: { span: 24 },
   },
+};
+
+const rules: Record<string, Rule[]> = {
+  name: [{ validator: checkName, trigger: 'blur' }],
+  code: [{ validator: checkCode, trigger: 'blur' }],
+  phone: [{ validator: checkPhoneNumber, trigger: ['blur', 'change'] }],
 };
 
 const createUpdateBodyState = reactive<API.CreateRetailerRequestBody>({
