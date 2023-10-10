@@ -1,4 +1,4 @@
-import { useApplicationStore } from '@/stores/application.store';
+import { useVisibilityStore } from '@/stores/visibility.store';
 import type { EApiId } from '@/enums/request.enum';
 
 export interface Res<T> {
@@ -17,7 +17,7 @@ export interface QueriesRaw<T> {
 export const useCommonTableMethod = <T>(
   loadingNameSpace: EApiId,
   api: (optional?: ApiCoreQuery<T, any>) => Promise<Res<T>>) => {
-  const appStore = useApplicationStore();
+  const { loadingIds } = useVisibilityStore();
 
   const rawQueries = ref<QueriesRaw<T>[]>([]);
   const recordsState = ref<T[]>([]) as Ref<T[]>;
@@ -33,7 +33,7 @@ export const useCommonTableMethod = <T>(
     page: paginationState.currentPage,
   }));
 
-  const isTableLoading = computed(() => appStore.loadingAppState.has(loadingNameSpace));
+  const isTableLoading = computed(() => loadingIds.has(loadingNameSpace));
 
   const searchQueries = computed<ApiQueryAttr<T>>(() => {
     const queries: ApiQueryAttr<T> = {};
