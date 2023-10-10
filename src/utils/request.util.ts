@@ -11,7 +11,7 @@ import { EStatusCode } from '@/enums/request.enum';
 import type { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
-import { useApplicationStore } from '@/stores/application.store';
+import { useVisibilityStore } from '@/stores/visibility.store';
 
 interface Config {
   url: string
@@ -58,7 +58,7 @@ service.interceptors.response.use(
   (error: AxiosError<{ message: string[] }>) => {
     const status = error?.response?.status ?? EStatusCode.UNKNOWN;
     if (status === EStatusCode.UNAUTHORIZED) {
-      BrowserStorage.removeCookie(EStorage.ACCESS_TOKEN);
+      BrowserStorage.clearCookie();
       location.reload(); // TODO: add user confirm after reload
     }
 
@@ -75,8 +75,7 @@ export const request = async <T>(
   config: Config,
   options: RequestOptions = {},
 ): Promise<T | null> => {
-  const appStore = useApplicationStore();
-
+  const { setLoadingId, removeLoadingId } = useVisibilityStore();
   // convert request params with 'include' queries
   if (config?.params?.includes && config.params.includes.length > 0) {
     config.params.includes = config.params.includes.toString(); // convert [a,b] to "a,b"
@@ -106,7 +105,7 @@ export const request = async <T>(
   isShowLoading && $message.loading({ content: () => loadingMessage, key: id });
 
   // set application loading
-  id && appStore.setLoadingId(id);
+  id && setLoadingId(id);
 
   // sent request
   try {
@@ -140,6 +139,6 @@ export const request = async <T>(
     if (!successMsg && !errorMsg) {
       $message.destroy(id);
     }
-    appStore.removeLoadingId(id);
+    removeLoadingId(id);
   }
 };
