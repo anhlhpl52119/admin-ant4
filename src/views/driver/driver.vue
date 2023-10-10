@@ -60,6 +60,7 @@ import { driverApis } from '@/apis/core/driver/driver.api';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 
 const DriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/DriverCreateUpdateModal.vue'));
+const DriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/DriverCreateUpdateForm.vue'));
 
 const fetch = async (params?: API.SearchDriverQueryParams) => {
   const res = await driverApis.search(params);
@@ -75,7 +76,9 @@ const fetch = async (params?: API.SearchDriverQueryParams) => {
     total_records: res.data.total_records,
   };
 };
-
+const a : RansackQuery<API.Branch> = {
+  
+}
 const {
   isTableLoading,
   rawQueries,
@@ -95,11 +98,23 @@ const onSearch = (e: QueriesRaw<API.Driver>[]) => {
   search();
 };
 
+const handleSuccess = (modalId: string) => {
+  coreModal.close(modalId);
+  search();
+};
+
 const openModel = (driverId?: string) => {
-  Modal.info({
-    content: h(DriverCreateUpdateModal, {
-      driverId,
-    }),
+  const title = driverId ? 'Cập nhật thông tin nhà bán lẻ' : 'Tạo mới nhà bán lẻ';
+  const modalId = coreModal.show({
+    component: DriverCreateUpdateForm,
+    title,
+    props: {
+      driverId: driverId ?? '',
+    },
+    emits: {
+      success: () => handleSuccess(modalId),
+      cancel: () => coreModal.close(modalId),
+    },
   });
 };
 </script>
