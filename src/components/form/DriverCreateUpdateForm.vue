@@ -1,121 +1,165 @@
 <template>
-  <AForm
-    ref="formRef"
-    name="custom-validation"
-    :model="formState"
-    :rules="rules"
-    v-bind="layout"
-    @finish="handleFinish"
-    @validate="handleValidate"
-    @finishFailed="handleFinishFailed"
-  >
-    <AFormItem hasFeedback label="Password" name="pass">
-      <AInput v-model:value="formState.pass" type="password" autocomplete="off" />
-    </AFormItem>
-    <AFormItem hasFeedback label="Confirm" name="checkPass">
-      <AInput v-model:value="formState.checkPass" type="password" autocomplete="off" />
-    </AFormItem>
-    <AFormItem hasFeedback label="Age" name="age">
-      <AInputNumber v-model:value="formState.age" />
-    </AFormItem>
-    <AButton type="primary" htmlType="submit">
-      Submit
-    </AButton>
-    <AButton style="margin-left: 10px" @click="resetForm">
-      Reset
-    </AButton>
-  </AForm>
+  <div class="grid gap-15 mt-16 min-h-400 items-center">
+    <ASpin
+      size="large"
+      tip="Đang tải..."
+      :spinning="loadingIds.has(EApiId.DRIVER_DETAILS) || loadingIds.has(EApiId.DRIVER_UPDATE) || loadingIds.has(EApiId.DRIVER_CREATE)"
+    >
+      <template v-if="!loadingIds.has(EApiId.DRIVER_DETAILS)">
+        <AForm
+          v-bind="formItemLayout"
+          :rules="rules"
+          :model="createUpdateBodyState"
+          @finish="onValidateSuccess"
+          @finishFailed="handleFinishFailed"
+        >
+          <AFormItem name="name" class="w-full">
+            <CInput
+              v-model:value="createUpdateBodyState.name"
+              :maxlength="50"
+              label="Tên tài xế"
+            />
+          </AFormItem>
+          <AFormItem name="code">
+            <CInput
+              v-model:value="createUpdateBodyState.code"
+              :maxlength="20"
+              label="Mã tài xế"
+            />
+          </AFormItem>
+          <AFormItem name="phone">
+            <CInput
+              v-model:value="createUpdateBodyState.phone"
+              :maxlength="12"
+              label="Số điện thoại"
+            />
+          </AFormItem>
+          <AFormItem>
+            <CInput
+              v-model:value="createUpdateBodyState.address"
+              :maxlength="250"
+              label="Địa chỉ"
+            />
+          </AFormItem>
+          <AFormItem>
+            <CInput
+              v-model:value="createUpdateBodyState.description"
+              :maxlength="300"
+              label="Mô tả"
+            />
+          </AFormItem>
+          <AFormItem name="user_id">
+            <CFetchOption
+              v-model:initial-value="createUpdateBodyState.user_id"
+              label="Người sở hữu"
+              :requestData="composeRetailerOption"
+              labelKey="name"
+            />
+          </AFormItem>
+          <div class="flex justify-center gap-10">
+            <AButton
+              type="primary"
+              :loading="loadingIds.has(EApiId.DRIVER_CREATE) || loadingIds.has(EApiId.DRIVER_UPDATE)"
+              htmlType="submit"
+            >
+              Xác nhận
+            </AButton>
+            <AButton style="margin-left: 10px" @click="$emit('cancel', undefined)">
+              Đóng
+            </AButton>
+          </div>
+        </AForm>
+      </template>
+    </ASpin>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
 import type { Rule } from 'ant-design-vue/es/form';
-import { type FormInstance, Modal } from 'ant-design-vue';
+import { useVisibilityStore } from '@/stores/visibility.store';
+import { EApiId } from '@/enums/request.enum';
+import { retailerApis } from '@/apis/core/retailer/retailer.api';
+import { useFieldValidation } from '@/composable/useFieldValidation';
+import { driverApis } from '@/apis/core/driver/driver.api';
 
-interface FormState {
-  pass: string
-  checkPass: string
-  age: number | undefined
-}
+const props = defineProps<{ driverId: string; sth?: string }>();
 
-const formRef = ref<FormInstance>();
-const formState = reactive<FormState>({
-  pass: '',
-  checkPass: '',
-  age: undefined,
-});
+const emits = defineEmits<{
+  success: [v?: any]
+  cancel: [v?: any]
+}>();
+const { loadingIds } = storeToRefs(useVisibilityStore());
+const { checkCode, checkName, checkPhoneNumber } = useFieldValidation();
 
-const FormTest = defineAsyncComponent(() => import('@/components/form/RetailerCreateUpdateForm.vue'));
-
-const checkAge = async (_rule: Rule, value: number) => {
-  if (!value) {
-    return Promise.reject(new Error('Please input the age'));
-  }
-  if (!Number.isInteger(value)) {
-    return Promise.reject(new Error('Please input digits'));
-  }
-  else {
-    if (value < 18) {
-      return Promise.reject(new Error('Age must be greater than 18'));
-    }
-    else {
-      return Promise.resolve();
-    }
-  }
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 24 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 24 },
+  },
 };
-const validatePass = async (_rule: Rule, value: string) => {
-  if (value === '') {
-    return Promise.reject(new Error('Please input the password'));
-  }
-  else {
-    if (formRef.value && formState.checkPass !== '') {
-      formRef.value.validateFields('checkPass');
-    }
 
-    return Promise.resolve();
+const composeRetailerOption = async (query?: ApiQueryAttr<API.Retailer>) => {
+  const rs = await retailerApis.search({ query });
+  if (!rs || rs.data.retailers.length === 0) {
+    return [];
   }
-};
-const validatePass2 = async (_rule: Rule, value: string) => {
-  if (value === '') {
-    return Promise.reject(new Error('Please input the password again'));
-  }
-  else if (value !== formState.pass) {
-    return Promise.reject(new Error('Two inputs don\'t match!'));
-  }
-  else {
-    return Promise.resolve();
-  }
+
+  return rs.data.retailers;
 };
 
 const rules: Record<string, Rule[]> = {
-  pass: [{ required: true, validator: validatePass, trigger: 'change' }],
-  checkPass: [{ validator: validatePass2, trigger: 'change' }],
-  age: [{ validator: checkAge, trigger: ['blur', 'change'] }],
-};
-const layout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 14 },
+  name: [{ validator: checkName, trigger: ['blur', 'change'] }],
+  code: [{ validator: checkCode, trigger: ['blur', 'change'] }],
+  phone: [{ validator: checkPhoneNumber, trigger: ['blur', 'change'] }],
+  user_id: [{ validator: checkPhoneNumber, trigger: 'change' }],
 };
 
-const handleFinish = (values: FormState) => {
-  console.log('handleFinish', values);
-};
+const createUpdateBodyState = reactive<API.CreateDriverRequestBody>({
+  name: '',
+  code: '',
+  address: '',
+  phone: '',
+  description: '',
+  email: '',
+  user_id: '',
+});
+
+const isUpdateMode = computed(() => !!props.driverId);
+
 const handleFinishFailed = (errors: any) => {
-  console.log('handleFinishFailed', errors);
+  console.log('false', errors);
 };
-const resetForm = () => {
-  coreModal.show({
-    component: FormTest,
-    props: {
-      retailerId: '',
-    },
-    emits: {
-      cancel: () => {},
-      success: () => {},
-    },
-  });
+
+const onValidateSuccess = async () => {
+  const rs = isUpdateMode.value
+    ? await retailerApis.update(props.driverId!, createUpdateBodyState)
+    : await retailerApis.create(createUpdateBodyState);
+
+  if (!rs) {
+    return;
+  }
+  emits('success');
 };
-const handleValidate = (...args: any[]) => {
-  console.log('handleValidate', args);
+
+const init = async () => {
+  if (!props.driverId) {
+    return;
+  }
+  const res = await driverApis.getDetails(props.driverId);
+  if (!(res && res.data)) {
+    return;
+  }
+  createUpdateBodyState.name = res?.data?.name ?? '';
+  createUpdateBodyState.code = res?.data?.code ?? '';
+  createUpdateBodyState.address = res?.data?.address ?? '';
+  createUpdateBodyState.phone = res?.data?.phone ?? '';
+  createUpdateBodyState.description = res?.data?.description ?? '';
+  createUpdateBodyState.email = res?.data?.email ?? '';
+  createUpdateBodyState.user_id = res?.data?.user_id ?? '';
 };
+init();
 </script>
