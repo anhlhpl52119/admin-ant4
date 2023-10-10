@@ -54,7 +54,7 @@
 import { EditOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { columns, searchFilterRaw } from './column';
-import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
+import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { driverApis } from '@/apis/core/driver/driver.api';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
@@ -90,8 +90,7 @@ const {
   fetch,
 );
 
-// TODO: refactor any type
-const onSearch = (e: any) => {
+const onSearch = (e: QueriesRaw<API.Driver>[]) => {
   rawQueries.value = e;
   search();
 };

@@ -99,7 +99,7 @@ export const createStorage = ({ storage = localStorage } = {}) => {
      * @param {string} key
      */
     removeCookie(key: EStorage) {
-      this.setCookie(key, 0, -1);
+      this.setCookie(key, undefined, 0);
     }
 
     /**
@@ -109,7 +109,7 @@ export const createStorage = ({ storage = localStorage } = {}) => {
       const keys = document.cookie.match(/[^ =;]+(?==)/g);
       if (keys) {
         for (let i = keys.length; i--;) {
-          document.cookie = `${keys[i]}=0;expire=${new Date(0).toUTCString()}`;
+          document.cookie = `${keys[i]}=;expire=${new Date(0).toUTCString()}`;
         }
       }
     }

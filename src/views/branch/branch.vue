@@ -63,7 +63,7 @@ import { EditOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { columns, searchFilterRaw } from './column';
 import { branchApis } from '@/apis/core/branch/branch.api';
-import { useCommonTableMethod } from '@/composable/useCommonTableMethod';
+import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
@@ -71,6 +71,7 @@ import { useTableCache } from '@/composable/useTableCache';
 // Async component
 const BranchCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/BranchCreateUpdateModal.vue'));
 const BranchDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/BranchDetailDrawer.vue'));
+const TestForm = defineAsyncComponent(() => import('@/components/form/DriverCreateUpdateForm.vue'));
 
 const { getDetails, setDetails } = useTableCache<API.Branch>();
 // State
@@ -96,26 +97,15 @@ const fetch = async (params?: API.SearchBranchQueryParams) => {
 };
 
 const onShowDrawerDetails = async (item: API.Branch) => {
-  if (!item.id) {
-    return;
-  }
-  detailsDrawerState.title = item.name;
-  detailsDrawerState.isOpen = true;
-  // check cache
-  const cacheItem = getDetails(item.id);
-  if (cacheItem) {
-    detailsDrawerState.item = cacheItem;
-
-    return;
-  }
-  // fetch
-  const res = await branchApis.getDetails(item.id, { includes: ['retailer'] });
-  if (!(res && res.data.retailer)) {
-    return;
-  }
-  // cache
-  setDetails(item.id, res.data);
-  detailsDrawerState.item = res.data;
+  const a = coreModal.show({
+    component: TestForm,
+    title: 'Test update',
+    props: {
+      class: 'w-full',
+    },
+    emits: {},
+  });
+  console.log('object', a);
 };
 
 const onCloseDetailDrawer = () => {
@@ -138,8 +128,7 @@ const {
   fetch,
 );
 
-// TODO: refactor any type
-const onSearch = (e: any) => {
+const onSearch = (e: QueriesRaw<API.Branch>[]) => {
   rawQueries.value = e;
   search();
 };
