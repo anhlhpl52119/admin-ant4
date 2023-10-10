@@ -14,6 +14,5 @@
 </template>
 
 <script lang="ts" setup>
-// import { useApplicationStore } from '@/stores/application.store';
 const visible = ref(false);
 </script>
