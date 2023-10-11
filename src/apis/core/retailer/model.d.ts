@@ -35,6 +35,7 @@ declare namespace API {
     phone: string;
     email: string;
     address: string;
+    source: string;
   };
 
   type UpdateRetailerRequestBody = {
@@ -44,5 +45,17 @@ declare namespace API {
     phone: string;
     email: string;
     address: string;
+    source: string;
   };
+
+  type RetailerType = {
+    id: string;
+    name: string;
+    code: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+  }
+
+  type GetRetailerTypesResponse = ApiArrayResponse<RetailerType>
 }
