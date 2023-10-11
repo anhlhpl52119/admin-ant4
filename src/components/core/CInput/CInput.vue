@@ -20,8 +20,9 @@
 <script lang="ts" setup>
 import InputProp from 'ant-design-vue/es/input/inputProps';
 import type { PropType } from 'vue';
+import { stringWithoutDiacritics } from '@/utils/common.util';
 
-type RegexTypes = 'number' | 'text' | 'userLogin';
+type RegexTypes = 'number' | 'text' | 'userLogin' | 'noSpace';
 type LabelPlacement = 'top' | 'bottom' | 'left' | 'right';
 
 const props = defineProps({
@@ -32,6 +33,8 @@ const props = defineProps({
   label: String,
   labelClass: String,
   password: Boolean,
+  upperCase: Boolean,
+  withoutDiacritics: Boolean,
 });
 
 const emits = defineEmits<{
@@ -62,6 +65,7 @@ const reRexFactory: { [k in RegexTypes]: (v: string) => string } = {
   text: (v: string) => v.replace(/[0-9]/g, ''),
   number: (v: string) => v.replace(/[^0-9]/g, ''),
   userLogin: (v: string) => v.replace(/[~!#$%^&*()\-\+=\[\]{}|\\;:'",<>\/?\s]/g, ''),
+  noSpace: (v: string) => v.replace(/\s/g, ''),
 };
 
 /**
@@ -71,12 +75,19 @@ const reRexFactory: { [k in RegexTypes]: (v: string) => string } = {
  */
 const onInput = (e: any) => {
   const firstSpace = /^\s/;
-  // prevent empty space character ahead of string
-  const val = e?.target?.value?.replace(firstSpace, '') ?? '';
 
-  if (!props.acceptedOnly) {
-    return emits('update:value', val);
+  // prevent empty space character ahead of string
+  let val: string = e?.target?.value?.replace(firstSpace, '') ?? '';
+  if (props.withoutDiacritics) {
+    val = stringWithoutDiacritics(val);
   }
-  emits('update:value', reRexFactory[props.acceptedOnly](val));
+  if (props.acceptedOnly) {
+    val = reRexFactory[props.acceptedOnly](val);
+  }
+  if (props.upperCase) {
+    val = val.toUpperCase();
+  }
+
+  emits('update:value', val);
 };
 </script>
