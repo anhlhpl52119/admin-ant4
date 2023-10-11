@@ -61,4 +61,15 @@ export const retailerApis = {
       },
     );
   },
+  getTypes: () => {
+    return request<API.GetRetailerTypesResponse>(
+      {
+        url: '/core/retailer/retailer_type',
+        method: ERequestMethod.GET,
+      },
+      {
+        id: EApiId.RETAILER_TYPES,
+      },
+    );
+  },
 };
