@@ -23,6 +23,9 @@
           <AFormItem name="code">
             <CInput
               v-model:value="createUpdateBodyState.code"
+              acceptedOnly="noSpace"
+              upperCase
+              withoutDiacritics
               :maxlength="20"
               label="Mã Nhà Bán Lẻ"
             />
@@ -55,10 +58,23 @@
               label="Email"
             />
           </AFormItem>
+          <AFormItem name="source">
+            <p class="font-medium">
+              Chọn Nguồn
+            </p>
+            <ASelect
+              v-model:value="createUpdateBodyState.source"
+              showSearch
+              placeholder="Chọn nguồn"
+              :options="options"
+              :filterOption="filterOption"
+            />
+          </AFormItem>
           <div class="flex justify-center gap-10">
             <AButton
               type="primary"
               :loading="loadingIds.has(EApiId.RETAILER_CREATE) || loadingIds.has(EApiId.RETAILER_UPDATE)"
+              :disabled="false"
               htmlType="submit"
             >
               Xác nhận
@@ -75,10 +91,14 @@
 
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form';
+import type { DefaultOptionType } from 'ant-design-vue/es/select';
+import { Form } from 'ant-design-vue';
+import type { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { useFieldValidation } from '@/composable/useFieldValidation';
+import { useCommonStore } from '@/stores/common.store';
 
 const props = defineProps<{ retailerId: string; sth?: string }>();
 
@@ -86,7 +106,9 @@ const emits = defineEmits<{
   success: [v?: any]
   cancel: [v?: any]
 }>();
+
 const { loadingIds } = storeToRefs(useVisibilityStore());
+const { getRetailerTypes } = useCommonStore();
 const { checkCode, checkName, checkPhoneNumber } = useFieldValidation();
 
 const formItemLayout = {
@@ -100,12 +122,6 @@ const formItemLayout = {
   },
 };
 
-const rules: Record<string, Rule[]> = {
-  name: [{ validator: checkName, trigger: 'blur' }],
-  code: [{ validator: checkCode, trigger: 'blur' }],
-  phone: [{ validator: checkPhoneNumber, trigger: ['blur', 'change'] }],
-};
-
 const createUpdateBodyState = reactive<API.CreateRetailerRequestBody>({
   name: '',
   code: '',
@@ -113,12 +129,26 @@ const createUpdateBodyState = reactive<API.CreateRetailerRequestBody>({
   phone: '',
   description: '',
   email: '',
+  source: '',
 });
+
+const rules: { [k in keyof API.CreateRetailerRequestBody]?: Rule[] } = {
+  name: [{ validator: checkName, trigger: ['blur', 'change'] }],
+  code: [{ validator: checkCode, trigger: ['blur', 'change'] }],
+  phone: [{ validator: checkPhoneNumber, trigger: ['blur', 'change'] }],
+  source: [{ required: true, message: 'Nguồn Không được để trống' }],
+};
+
+const options = ref<DefaultOptionType[]>([]);
 
 const isUpdateMode = computed(() => !!props.retailerId);
 
-const handleFinishFailed = (errors: any) => {
-  console.log('false', errors);
+const handleFinishFailed = async (errors: ValidateErrorEntity) => {
+// TODO: add scroll to first error field to improve user behavior
+};
+
+const filterOption = (input: string, option: any) => {
+  return option.value.toLowerCase().includes(input.toLowerCase()) >= 0;
 };
 
 const onValidateSuccess = async () => {
@@ -132,20 +162,32 @@ const onValidateSuccess = async () => {
   emits('success');
 };
 
+const initOption = async () => {
+  const types = await getRetailerTypes();
+  if (types.length === 0) {
+    return;
+  }
+  options.value = types.map(i => ({ value: i.code, label: i.name }));
+};
+
 const init = async () => {
+  initOption();
+
   if (!props.retailerId) {
     return;
   }
+
   const res = await retailerApis.getDetails(props.retailerId);
   if (!(res && res.data)) {
     return;
   }
-  createUpdateBodyState.name = res?.data?.name ?? '';
-  createUpdateBodyState.code = res?.data?.code ?? '';
-  createUpdateBodyState.address = res?.data?.address ?? '';
-  createUpdateBodyState.phone = res?.data?.phone ?? '';
+  createUpdateBodyState.name = res.data?.name ?? '';
+  createUpdateBodyState.code = res.data?.code ?? '';
+  createUpdateBodyState.address = res.data?.address ?? '';
+  createUpdateBodyState.phone = res.data?.phone ?? '';
   createUpdateBodyState.description = res?.data?.description ?? '';
-  createUpdateBodyState.email = res?.data?.email ?? '';
+  createUpdateBodyState.email = res.data?.email ?? '';
+  createUpdateBodyState.source = res.data?.source ?? '';
 };
 init();
 </script>
