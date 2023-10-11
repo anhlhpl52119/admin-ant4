@@ -30,3 +30,7 @@ export const debounceFor = <T extends (...args: any[]) => any>(func: T, delay: n
     }, delay);
   };
 };
+
+export const stringWithoutDiacritics = (str: string): string => {
+  return str.normalize('NFD').replace(/[\u0300-\u036F]/g, '');
+};
