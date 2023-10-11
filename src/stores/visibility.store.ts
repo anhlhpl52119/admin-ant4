@@ -1,6 +1,6 @@
 import type { EApiId } from '@/enums/request.enum';
 
-export const useVisibilityStore = defineStore('application-store', () => {
+export const useVisibilityStore = defineStore('visibility-store', () => {
   const loadingIdsState = reactive<Set<EApiId>>(new Set());
   // state
   const loadingIds = readonly(loadingIdsState);
