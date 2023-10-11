@@ -17,10 +17,16 @@ declare global {
     };
   };
 
-  /** Api response with pagination */
+  /** Api response with single Object */
   type ApiObjectResponse<T> = {
     message: string[];
     data: T;
+  };
+
+  /** Api response with Array */
+  type ApiArrayResponse<T> = {
+    message: string[];
+    data: T[];
   };
 
   /*******__API-QUERY__**********/
