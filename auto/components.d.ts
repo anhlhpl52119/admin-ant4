@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AAutoComplete: typeof import('ant-design-vue/es')['AutoComplete']
     AAvatar: typeof import('ant-design-vue/es')['Avatar']
     ABreadcrumb: (typeof import('ant-design-vue/es'))['Breadcrumb']
     ABreadcrumbItem: (typeof import('ant-design-vue/es'))['BreadcrumbItem']
@@ -64,6 +65,7 @@ declare module 'vue' {
     BranchDetailDrawer: typeof import('./../src/components/drawer/BranchDetailDrawer.vue')['default']
     CAppDrawer: typeof import('./../src/components/core/CAppDrawer/CAppDrawer.vue')['default']
     CAppModal: typeof import('./../src/components/core/CAppModal/CAppModal.vue')['default']
+    CAutoComplete: typeof import('./../src/components/core/CAutoComplete/CAutoComplete.vue')['default']
     CFetchOption: typeof import('./../src/components/core/CFetchOption/CFetchOption.vue')['default']
     CInput: typeof import('./../src/components/core/CInput/CInput.vue')['default']
     CInputPassword: (typeof import('./../src/components/core/CInputPassword.vue'))['default']
@@ -76,6 +78,7 @@ declare module 'vue' {
     CustomInput: (typeof import('./../src/components/common/CustomInput.vue'))['default']
     DriverCreateUpdateForm: typeof import('./../src/components/form/DriverCreateUpdateForm.vue')['default']
     DriverCreateUpdateModal: typeof import('./../src/components/modal/DriverCreateUpdateModal.vue')['default']
+    EmailAutoComplete: typeof import('./../src/components/common/EmailAutoComplete.vue')['default']
     GroupDriverCreateUpdateModal: typeof import('./../src/components/modal/GroupDriverCreateUpdateModal.vue')['default']
     HelloComp: typeof import('./../src/components/common/HelloComp.vue')['default']
     ModelTest: typeof import('./../src/components/modal/ModelTest.vue')['default']
