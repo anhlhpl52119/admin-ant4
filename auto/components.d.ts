@@ -81,6 +81,7 @@ declare module 'vue' {
     EmailAutoComplete: typeof import('./../src/components/common/EmailAutoComplete.vue')['default']
     GroupDriverCreateUpdateModal: typeof import('./../src/components/modal/GroupDriverCreateUpdateModal.vue')['default']
     HelloComp: typeof import('./../src/components/common/HelloComp.vue')['default']
+    IdentifyFieldInput: typeof import('./../src/components/common/IdentifyFieldInput.vue')['default']
     ModelTest: typeof import('./../src/components/modal/ModelTest.vue')['default']
     NewCompTwo: typeof import('./../src/components/common/NewCompTwo.vue')['default']
     ProductCardInfo: typeof import('./../src/components/common/ProductCardInfo.vue')['default']
