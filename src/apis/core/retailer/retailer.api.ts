@@ -15,7 +15,19 @@ export const retailerApis = {
       },
     );
   },
-  create: (rqBody: API.CreateRetailerRequestBody) => {
+  getDetails: (retailerId: string, relationShip?: ApiRelationshipQuery<API.RetailerRelationship>) => {
+    return request<API.GetRetailerDetailResponse>(
+      {
+        url: `/core/retailer/${retailerId}`,
+        params: relationShip,
+        method: ERequestMethod.GET,
+      },
+      {
+        id: EApiId.RETAILER_DETAILS,
+      },
+    );
+  },
+  create: (rqBody: API.CreUpdRetailerRequestBody) => {
     const body = { retailer: { ...rqBody } };
 
     return request<ApiPageResponse<API.SearchRetailerResponse>>(
@@ -32,19 +44,7 @@ export const retailerApis = {
       },
     );
   },
-  getDetails: (retailerId: string, relationShip?: ApiRelationshipQuery<API.RetailerRelationship>) => {
-    return request<API.GetRetailerDetailResponse>(
-      {
-        url: `/core/retailer/${retailerId}`,
-        params: relationShip,
-        method: ERequestMethod.GET,
-      },
-      {
-        id: EApiId.RETAILER_DETAILS,
-      },
-    );
-  },
-  update: (retailerId: string, rqBody: API.UpdateRetailerRequestBody) => {
+  update: (retailerId: string, rqBody: API.CreUpdRetailerRequestBody) => {
     const body = { retailer: { ...rqBody } };
 
     return request<API.GetRetailerDetailResponse>(
