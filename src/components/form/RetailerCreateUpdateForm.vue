@@ -70,8 +70,10 @@
             <ASelect
               v-model:value="createUpdateBodyState.source"
               showSearch
+              :loading="loadingIds.has(EApiId.RETAILER_TYPES)"
               placeholder="Chọn nguồn"
               :options="options"
+              :disabled="loadingIds.has(EApiId.RETAILER_TYPES)"
               :filterOption="filterOption"
             />
           </AFormItem>
@@ -173,6 +175,9 @@ const initOption = async () => {
     return;
   }
   options.value = types.map(i => ({ value: i.code, label: i.name }));
+  if (!(props.retailerId && createUpdateBodyState.source)) {
+    createUpdateBodyState.source = options?.value[0]?.value?.toString() ?? '';
+  }
 };
 
 const init = async () => {
