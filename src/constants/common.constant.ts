@@ -39,3 +39,5 @@ export const FALLBACK_PAGINATION_API_RESPONSE = {
   total_page: 10,
   total_records: 0,
 };
+
+export const GENERAL_EMAIL_DOMAIN = ['gmail.com', 'icloud.com', 'outlook.com', 'facebook.com', 'yahoo.com'];
