@@ -9,10 +9,12 @@ declare namespace API {
     address: string;
     status: string;
     source: string;
+    user_id: string;
     created_at?: Date;
     updated_at?: Date;
     subdomain_api?: string;
     subdomain_fe?: string;
+    sync_status: RetailerSyncStatus
     // relationship
     group_drivers?: GroupDriver[];
     drivers?: Driver[];
@@ -22,13 +24,15 @@ declare namespace API {
     retailers: Retailer[];
   };
 
+  type RetailerSyncStatus = 'not_config' | 'ready_to_sync' | 'synced' | 'sync_failed' | 'webhook_not_enough' | 'full_synced'
+
   type RetailerRelationship = 'group_drivers' | 'drivers';
 
   type SearchRetailerQueryParams = ApiCoreQuery<Retailer, RetailerRelationship>;
 
   type GetRetailerDetailResponse = ApiObjectResponse<Retailer>;
 
-  type CreateRetailerRequestBody = {
+  type CreUpdRetailerRequestBody = {
     name: string;
     code: string;
     description: string;
@@ -36,16 +40,9 @@ declare namespace API {
     email: string;
     address: string;
     source: string;
-  };
-
-  type UpdateRetailerRequestBody = {
-    name: string;
-    code: string;
-    description: string;
-    phone: string;
-    email: string;
-    address: string;
-    source: string;
+    status?: string;
+    subdomain_api?: string;
+    subdomain_fe?: string;
   };
 
   type RetailerType = {
