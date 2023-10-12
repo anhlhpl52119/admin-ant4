@@ -52,11 +52,15 @@
             />
           </AFormItem>
           <AFormItem>
-            <CInput
+            <p class="font-medium">
+              Nhập email
+            </p>
+            <!-- <CInput
               v-model:value="createUpdateBodyState.email"
               :maxlength="80"
               label="Email"
-            />
+            /> -->
+            <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
           </AFormItem>
           <AFormItem name="source">
             <p class="font-medium">
