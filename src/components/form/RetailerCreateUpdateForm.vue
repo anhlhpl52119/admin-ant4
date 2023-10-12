@@ -17,23 +17,27 @@
             <CInput
               v-model:value="createUpdateBodyState.name"
               :maxlength="50"
+              placeholder="Nhập tên"
               label="Tên Nhà Bán Lẻ"
             />
           </AFormItem>
           <AFormItem name="code">
-            <CInput
+            <p class="font-medium">
+              Nhập Mã
+            </p>
+            <IdentifyFieldInput
               v-model:value="createUpdateBodyState.code"
-              acceptedOnly="noSpace"
-              upperCase
-              withoutDiacritics
-              :maxlength="20"
-              label="Mã Nhà Bán Lẻ"
+              case="upperCase"
+              spaceReplacement="underline"
+              placeholder="Nhập Mã"
             />
           </AFormItem>
           <AFormItem name="phone">
             <CInput
               v-model:value="createUpdateBodyState.phone"
               :maxlength="12"
+              placeholder="số điện thoại"
+              acceptedOnly="number"
               label="Số điện thoại"
             />
           </AFormItem>
@@ -41,6 +45,7 @@
             <CInput
               v-model:value="createUpdateBodyState.address"
               :maxlength="250"
+              placeholder="Địa chỉ"
               label="Địa chỉ"
             />
           </AFormItem>
@@ -48,6 +53,7 @@
             <CInput
               v-model:value="createUpdateBodyState.description"
               :maxlength="300"
+              placeholder="Mô tả"
               label="Mô tả"
             />
           </AFormItem>
@@ -55,11 +61,6 @@
             <p class="font-medium">
               Nhập email
             </p>
-            <!-- <CInput
-              v-model:value="createUpdateBodyState.email"
-              :maxlength="80"
-              label="Email"
-            /> -->
             <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
           </AFormItem>
           <AFormItem name="source">
@@ -126,7 +127,7 @@ const formItemLayout = {
   },
 };
 
-const createUpdateBodyState = reactive<API.CreateRetailerRequestBody>({
+const createUpdateBodyState = reactive<API.CreUpdRetailerRequestBody>({
   name: '',
   code: '',
   address: '',
@@ -136,7 +137,7 @@ const createUpdateBodyState = reactive<API.CreateRetailerRequestBody>({
   source: '',
 });
 
-const rules: { [k in keyof API.CreateRetailerRequestBody]?: Rule[] } = {
+const rules: { [k in keyof API.CreUpdRetailerRequestBody]?: Rule[] } = {
   name: [{ validator: checkName, trigger: ['blur', 'change'] }],
   code: [{ validator: checkCode, trigger: ['blur', 'change'] }],
   phone: [{ validator: checkPhoneNumber, trigger: ['blur', 'change'] }],
