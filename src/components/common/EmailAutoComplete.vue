@@ -40,7 +40,7 @@ const domainOptions = ref<Option[]>([]);
 /** handle user typing on input */
 const handleSearch = (inputVal: string) => {
   // remove diacritics all space and 2nd '@' in search value
-  const val = stringWithoutDiacritics(inputVal).replace(/\s/g, '').replace(/^([^@]*@[^@]*)@/, '$1');
+  const val = stringWithoutDiacritics(inputVal).replace(/\s/g, '').replace(/^([^@]*@[^@]*)@/, '$1').toLowerCase();
   emits('update:value', val);
 
   // case user not type '@' yet
