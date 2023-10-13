@@ -32,7 +32,7 @@
               placeholder="Nhập Mã"
             />
           </AFormItem>
-          <AFormItem name="phone">
+          <AFormItem name="phone" v-bind="naPhoneNumber">
             <CInput
               v-model:value="createUpdateBodyState.phone"
               :maxlength="12"
@@ -57,7 +57,7 @@
               label="Mô tả"
             />
           </AFormItem>
-          <AFormItem>
+          <AFormItem name="email">
             <p class="font-medium">
               Nhập email
             </p>
@@ -99,7 +99,6 @@
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form';
 import type { DefaultOptionType } from 'ant-design-vue/es/select';
-import { Form } from 'ant-design-vue';
 import type { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
@@ -116,7 +115,7 @@ const emits = defineEmits<{
 
 const { loadingIds } = storeToRefs(useVisibilityStore());
 const { getRetailerTypes } = useCommonStore();
-const { checkCode, checkName, checkPhoneNumber } = useFieldValidation();
+const { checkCode, checkName, checkPhoneNumber, checkEmail } = useFieldValidation();
 
 const formItemLayout = {
   labelCol: {
@@ -138,11 +137,22 @@ const createUpdateBodyState = reactive<API.CreUpdRetailerRequestBody>({
   email: '',
   source: '',
 });
+const naPhoneNumber = computed(() => {
+  if (createUpdateBodyState.phone.length === 9) {
+    return {
+      validateStatus: 'warning',
+      help: 'Số điện thoại có vẻ không đúng',
+    };
+  }
+
+  return undefined;
+});
 
 const rules: { [k in keyof API.CreUpdRetailerRequestBody]?: Rule[] } = {
   name: [{ validator: checkName, trigger: ['blur', 'change'] }],
   code: [{ validator: checkCode, trigger: ['blur', 'change'] }],
-  phone: [{ validator: checkPhoneNumber, trigger: ['blur', 'change'] }],
+  phone: [{ validator: checkPhoneNumber, trigger: ['blur'] }],
+  email: [{ validator: checkEmail, trigger: 'change' }],
   source: [{ required: true, message: 'Nguồn Không được để trống' }],
 };
 
