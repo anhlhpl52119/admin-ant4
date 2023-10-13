@@ -16,7 +16,7 @@ export const columns: TableColumnType<API.Retailer>[] = [
   },
   {
     title: 'Mã',
-    dataIndex: 'email',
+    dataIndex: 'code',
   },
   {
     title: 'Số điện thoại',
@@ -33,6 +33,10 @@ export const columns: TableColumnType<API.Retailer>[] = [
   {
     title: 'Mô tả',
     dataIndex: 'description',
+  },
+  {
+    title: 'Sync status',
+    dataIndex: 'sync_status',
   },
   {
     dataIndex: 'edit',
