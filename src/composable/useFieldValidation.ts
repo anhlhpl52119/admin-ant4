@@ -43,9 +43,26 @@ export const useFieldValidation = () => {
     return Promise.resolve();
   };
 
+  /** Check email */
+  const checkEmail = async (_rule: Rule, value: string) => {
+    if (!value) {
+      return Promise.reject(new Error('Email không được để trống'));
+    }
+    const validEmailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,6})*$/;
+
+    if (!validEmailRegex.test(value)) {
+      return Promise.reject(
+        new Error('Email không hợp lệ'),
+      );
+    }
+
+    return Promise.resolve();
+  };
+
   return {
     checkName,
     checkCode,
     checkPhoneNumber,
+    checkEmail,
   };
 };
