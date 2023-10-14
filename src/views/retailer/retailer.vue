@@ -38,6 +38,11 @@
               <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
             </ATooltip>
           </template>
+          <template v-if="column.dataIndex === 'sync_status'">
+            <ATag :color="syncStatusTag(record.sync_status).color">
+              {{ syncStatusTag(record.sync_status).content.toUpperCase() }}
+            </ATag>
+          </template>
         </template>
         <template #title>
           <CommonTableHeader
@@ -92,6 +97,25 @@ const fetch = async (params?: API.SearchRetailerQueryParams) => {
     total_page: res.data.total_page,
     total_records: res.data.total_records,
   };
+};
+
+const syncStatusTag = (status: API.RetailerSyncStatus) => {
+  switch (status) {
+    case 'not_config':
+      return { color: 'geekblue', content: 'Chưa config' };
+    case 'full_synced':
+      return { color: 'success', content: 'Full sync' };
+    case 'ready_to_sync':
+      return { color: 'cyan', content: 'Sẵn sàng sync' };
+    case 'sync_failed':
+      return { color: 'magenta', content: 'Sync thất bại' };
+    case 'synced':
+      return { color: 'success', content: 'Đã sync' };
+    case 'webhook_not_enough':
+      return { color: 'purple', content: 'Webhook không đủ' };
+    default:
+      return { color: 'purple', content: 'chưa xác định' };
+  }
 };
 
 const onShowDrawerDetails = async (item: API.Retailer) => {
