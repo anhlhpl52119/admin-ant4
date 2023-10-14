@@ -16,3 +16,11 @@
     }
   }
 }
+
+// Vertical tab
+.vertical-tabs-container {
+  @apply grid grid-cols-[22rpx_1fr] b b-solid b-abd rounded-10 overflow-hidden;
+  & > *:nth-child(1) {
+    @apply bg-gray-50 b-r b-r-solid b-r-abd;
+  }
+}
