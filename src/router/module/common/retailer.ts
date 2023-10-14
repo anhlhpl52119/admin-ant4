@@ -24,17 +24,17 @@ const routes: CustomRoute[] = [
         },
       },
       // {
-      //   path: 'details',
+      //   path: ':id',
       //   name: ERouteName.RETAILER_DETAILS,
       //   component: () => import('@/layout/page-details-content/index.vue'),
-      //   redirect: '/details/:id/overview',
+      //   redirect: '/:id/details',
       //   meta: {
       //     hiddenInMenu: true,
       //     title: 'Chi tiết nhà bán lẻ',
       //   },
       //   children: [
       //     {
-      //       path: ':id/overview',
+      //       path: 'details',
       //       name: ERouteName.RETAILER_DETAILS_OVERVIEW,
       //       component: () => import('@/views/retailer/retailer-details.vue'),
       //       meta: {
@@ -44,6 +44,16 @@ const routes: CustomRoute[] = [
       //     },
       //   ],
       // },
+      {
+        path: ':id/details',
+        name: ERouteName.RETAILER_DETAILS,
+        component: () => import('@/pages/details/retailer-details.vue'),
+        meta: {
+          hiddenInMenu: true,
+          title: 'Chi tiết nhà bán lẻ',
+        },
+        props: route => ({ retailerId: route?.params?.id?.toString() || '' }),
+      },
     ],
   },
 ];
