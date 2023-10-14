@@ -7,6 +7,11 @@
     destroyOnClose
     @close="$emit('close')"
   >
+    <template #extra>
+      <AButton @click="goToDetails">
+        details
+      </AButton>
+    </template>
     <div v-if="!retailerItem" class="text-center h-full">
       <ASpin size="large" />
     </div>
@@ -66,7 +71,7 @@
                 <a href="">{{ item.name }}</a>
               </template>
               <template #avatar>
-                <AAvatar src="" />
+                <AAvatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
               </template>
             </AListItemMeta>
           </AListItem>
@@ -83,13 +88,10 @@
             <template #actions>
               <a>View Profile</a>
             </template>
-            <AListItemMeta :description="item.description">
+            <AListItemMeta :description="item.value">
               <template #title>
                 <a href="">{{ item.name }}</a>
               </template>
-              <!-- <template #avatar>
-                <AAvatar src="" />
-              </template> -->
             </AListItemMeta>
           </AListItem>
         </template>
@@ -100,6 +102,8 @@
 
 <script lang="ts" setup>
 import { retailerConfigApis } from '@/apis/core/retailer-config/retailer-config.api';
+import { ERouteName } from '@/enums/router.enum';
+import router from '@/router';
 
 const props = defineProps<{
   isOpen: boolean
@@ -138,6 +142,10 @@ const loadRetailerConfig = async () => {
     return;
   }
   retailerConfig.value = rs.data.retailer_configs;
+};
+
+const goToDetails = () => {
+  router.push({ name: ERouteName.RETAILER_DETAILS, params: { id: retailerItem.value?.id ?? '' } });
 };
 
 watch([isOpen, retailerItem], (val) => {
