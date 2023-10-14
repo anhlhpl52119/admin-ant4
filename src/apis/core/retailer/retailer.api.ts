@@ -72,4 +72,27 @@ export const retailerApis = {
       },
     );
   },
+  getConfigs: (retailerId: string) => {
+    return request<API.GetRetailerConfigsResponse>(
+      {
+        url: `/core/retailer/${retailerId}/configs`,
+        method: ERequestMethod.GET,
+      },
+      {
+        id: EApiId.RETAILER_CONFIG,
+      },
+    );
+  },
+  updateConfigs: (retailerId: string, body: API.UpdateRetailerConfigsRequestBody) => {
+    return request<API.GetRetailerConfigsResponse>(
+      {
+        url: `/core/retailer/${retailerId}/update_retailer_config`,
+        method: ERequestMethod.PATCH,
+        body,
+      },
+      {
+        id: EApiId.RETAILER_CONFIG_UPDATE,
+      },
+    );
+  },
 };
