@@ -33,10 +33,7 @@ declare namespace API {
     | "webhook_not_enough"
     | "full_synced";
 
-  type RetailerRelationship = 
-  | "group_drivers" 
-  | "drivers" 
-  | "user";
+  type RetailerRelationship = "group_drivers" | "drivers" | "user";
 
   type SearchRetailerQueryParams = ApiCoreQuery<Retailer, RetailerRelationship>;
 
@@ -66,11 +63,10 @@ declare namespace API {
 
   type GetRetailerTypesResponse = ApiArrayResponse<RetailerType>;
 
-
   type RetailerConfig = {
     id: string;
     name: string;
-    code: string;
+    code: KiotVietConfig;
     value: string;
     description: string;
     created_at?: Date;
@@ -81,10 +77,37 @@ declare namespace API {
   type GetRetailerConfigsResponse = ApiArrayResponse<RetailerConfig>;
 
   type UpdateRetailerConfigsRequestBody = {
-    name: string;
-    code: string;
-    description: string;
-    value: string;
-    retailer_id: string;
+    configs: Array<{ code: string; value: string }>;
   };
+
+  type CheckRequireWebHookResponse = {
+    result: boolean;
+    missing_configs: KiotVietWebhookConfig[];
+  };
+
+  type CheckRequireConfigResponse = ApiSuccessResponse<{
+    result: boolean;
+  }>;
+  // type CheckRequireConfigResponse = {
+  //   result: boolean;
+  // };
+
+  type CheckRetailerAuthConfigResponse = {
+    result: boolean;
+    missing_configs: KiotVietCoreConfig[];
+  }
+
+  type KiotVietCoreConfig =
+    | "KIOTVIET_CONNECTION_NAME"
+    | "KIOTVIET_CLIENT_ID"
+    | "KIOTVIET_SECRET_KEY"
+    | "KIOTVIET_SHOP_NAME"
+    | "KIOTVIET_PASSWORD";
+
+  type KiotVietWebhookConfig =
+    | "KIOTVIET_ACCESS_TOKEN_PUBLIC_API"
+    | "KIOTVIET_ACCESS_TOKEN_PRIVATE_API"
+    | "KIOTVIET_COOKIE";
+
+  type KiotVietConfig = KiotVietCoreConfig | KiotVietWebhookConfig;
 }
