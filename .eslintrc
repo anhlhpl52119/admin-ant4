@@ -20,6 +20,8 @@
       }
     ],
     "semi": [2, "always"],
+    "no-console": "warn",
+    // "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "no-extra-semi": "off",
     "func-style": [
       "error",
@@ -41,6 +43,9 @@
         "ignore": []
       }
     ],
-    "no-console": "warn"
+    "vue/no-unused-vars": ["error", {
+      "ignorePattern": "^_"
+  }],
+    
   }
 }
