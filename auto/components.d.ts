@@ -73,6 +73,8 @@ declare module 'vue' {
     CommonPageTitle: typeof import('./../src/components/common/CommonPageTitle.vue')['default']
     CommonTableHeader: typeof import('./../src/components/common/CommonTableHeader.vue')['default']
     CommonTableSearchForm: typeof import('./../src/components/common/CommonTableSearchForm.vue')['default']
+    ConfigCreateUpdateForm: typeof import('./../src/components/form/ConfigCreateUpdateForm.vue')['default']
+    ConfigUpdateForm: typeof import('./../src/components/form/ConfigUpdateForm.vue')['default']
     copy: typeof import('./../src/components/modal/DriverCreateUpdateModal copy.vue')['default']
     CTable: typeof import('./../src/components/core/CTable/CTable.vue')['default']
     CTableFilterDropdown: typeof import('./../src/components/core/CTableFilterDropdown.vue')['default']
