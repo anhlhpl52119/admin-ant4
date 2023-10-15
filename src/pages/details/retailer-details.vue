@@ -43,8 +43,15 @@
         <!-- content -->
         <div class="">
           <div class="b-b b-b-abd b-b-solid p-16">
-            <AButton>Edit</AButton>
-            <AButton>Test</AButton>
+            <AButton @click="onEdit">
+              Edit
+            </AButton>
+            <AButton
+              :loading="loadingIds.has(EApiId.RETAILER_CHECK_REQUIRE_CONFIG)"
+              @click="testCommonConfig"
+            >
+              Test required config
+            </AButton>
           </div>
           <div class="p-16">
             <AList
@@ -54,14 +61,14 @@
               <template #renderItem="{ item } : {item: API.RetailerConfig}">
                 <AListItem :key="item.id">
                   <template #actions>
-                    <a>View Profile</a>
+                    <span>{{ new Date(item?.updated_at!) }}</span>
                   </template>
                   <AListItemMeta>
                     <template #title>
                       {{ item.name }}
                     </template>
                     <template #description>
-                      {{ item.description }}
+                      {{ item?.value || '-' }}
                     </template>
                   </AListItemMeta>
                 </AListItem>
@@ -128,12 +135,16 @@
 import { message } from 'ant-design-vue';
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { driverApis } from '@/apis/core/driver/driver.api';
+import { useVisibilityStore } from '@/stores/visibility.store';
+import { EApiId } from '@/enums/request.enum';
 
 // *this props also passthrough Router, checkout Retailer router module '/details'
 const props = defineProps<{
   retailerId?: string
 }>();
 
+const ConfigUpdateForm = defineAsyncComponent(() => import('@/components/form/ConfigUpdateForm.vue'));
+const { loadingIds } = storeToRefs(useVisibilityStore());
 const { retailerId } = toRefs(props);
 
 const retailerState = ref<API.Retailer>();
@@ -145,6 +156,48 @@ const userRetailer = computed(() => retailerState.value?.user ?? undefined);
 
 const auto = (idx: number) => {
   return `https://i.pravatar.cc/150?img=${idx}`;
+};
+
+const initConfig = async () => {
+  if (!retailerId?.value) {
+    message.error('Thiếu retailerId');
+
+    return;
+  }
+  const res = await retailerApis.getConfigs(retailerId.value);
+  if (!(res && res?.data?.length > 0)) {
+    message.error(`Không tìm thấy retailer với id: ${retailerId.value}`);
+
+    return;
+  }
+  configsState.value = res.data;
+};
+
+const onEditConfigSuccess = (modelId: string) => {
+  coreModal.close(modelId);
+  initConfig();
+};
+const onEdit = () => {
+  const editModal = coreModal.show({
+    component: ConfigUpdateForm,
+    props: {
+      retailerId: retailerId?.value ?? '',
+      onCancel: () => coreModal.close(editModal),
+      onSuccess: () => onEditConfigSuccess(editModal),
+    },
+  });
+};
+const testCommonConfig = async () => {
+  if (!retailerId?.value) {
+    return;
+  }
+  const res = await retailerApis.checkRequireConfigs(retailerId?.value ?? '');
+  if (!res) {
+    message.error('Call api error');
+
+    return;
+  }
+  message.info(res?.message ?? 'missing message');
 };
 // dfdf________________________________________________________________________________________________
 
@@ -177,21 +230,6 @@ const initDetails = async () => {
   }
   selectedValue.value = res.data.group_drivers[0].code;
   retailerState.value = res.data;
-};
-
-const initConfig = async () => {
-  if (!retailerId?.value) {
-    message.error('Thiếu retailerId');
-
-    return;
-  }
-  const res = await retailerApis.getConfigs(retailerId.value);
-  if (!(res && res?.data?.length > 0)) {
-    message.error(`Không tìm thấy retailer với id: ${retailerId.value}`);
-
-    return;
-  }
-  configsState.value = res.data;
 };
 
 const initDriver = async () => {
