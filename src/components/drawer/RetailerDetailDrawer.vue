@@ -44,9 +44,12 @@
             <template #actions>
               <a>View Profile</a>
             </template>
-            <AListItemMeta :description="item.description">
+            <AListItemMeta>
               <template #title>
                 <a href="">{{ item.name }}</a>
+              </template>
+              <template #description>
+                <div>{{ item?.description || '-' }}</div>
               </template>
               <template #avatar>
                 <AAvatar src="" />
@@ -101,7 +104,7 @@
 </template>
 
 <script lang="ts" setup>
-import { retailerConfigApis } from '@/apis/core/retailer-config/retailer-config.api';
+// import { retailerConfigApis } from '@/apis/core/retailer-config/retailer-config.api';
 import { ERouteName } from '@/enums/router.enum';
 import router from '@/router';
 
@@ -133,16 +136,16 @@ const retailerGroupDrivers = computed(() => {
   return retailerItem.value.group_drivers;
 });
 
-const loadRetailerConfig = async () => {
-  if (!retailerItem.value?.id) {
-    return;
-  }
-  const rs = await retailerConfigApis.search({ query: { retailer_id_eq: retailerItem.value.id } });
-  if (!rs || rs.data.retailer_configs.length === 0) {
-    return;
-  }
-  retailerConfig.value = rs.data.retailer_configs;
-};
+// const loadRetailerConfig = async () => {
+//   if (!retailerItem.value?.id) {
+//     return;
+//   }
+//   const rs = await retailerConfigApis.search({ query: { retailer_id_eq: retailerItem.value.id } });
+//   if (!rs || rs.data.retailer_configs.length === 0) {
+//     return;
+//   }
+//   retailerConfig.value = rs.data.retailer_configs;
+// };
 
 const goToDetails = () => {
   router.push({ name: ERouteName.RETAILER_DETAILS, params: { id: retailerItem.value?.id ?? '' } });
@@ -150,7 +153,7 @@ const goToDetails = () => {
 
 watch([isOpen, retailerItem], (val) => {
   if (val) {
-    loadRetailerConfig();
+    // loadRetailerConfig();
   }
 }, { immediate: true });
 </script>
