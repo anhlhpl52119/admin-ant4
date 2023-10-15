@@ -29,6 +29,12 @@ declare global {
     data: T[];
   };
 
+  /** Api response with success or error when delete, update, create */
+  type ApiSuccessResponse<T = any> = {
+    message: string[];
+    data: any;
+  };
+
   /*******__API-QUERY__**********/
   /** compose query types model compatible to Ransack object */
   type ApiQueryAttr<T> = Partial<RansackQuery<T>>;
