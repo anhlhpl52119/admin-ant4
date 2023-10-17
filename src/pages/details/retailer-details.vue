@@ -43,25 +43,28 @@
         <!-- content -->
         <div class="">
           <div class="b-b b-b-abd b-b-solid p-16">
-            <AButton @click="onEdit">
-              Edit
-            </AButton>
-            <AButton
-              :loading="loadingIds.has(EApiId.RETAILER_CHECK_REQUIRE_CONFIG)"
-              @click="testCommonConfig"
-            >
-              Test required config
-            </AButton>
+            <div class="flex justify-end gap-10">
+              <AButton
+                :loading="loadingIds.has(EApiId.RETAILER_CHECK_REQUIRE_CONFIG)"
+                @click="checkCommonConfig"
+              >
+                Test required config
+              </AButton>
+
+              <AButton type="primary" @click="onEdit">
+                Edit
+              </AButton>
+            </div>
           </div>
           <div class="p-16">
             <AList
               :data-source="configsState"
-              class="max-h- overflow-y-scroll"
+              class=""
             >
               <template #renderItem="{ item } : {item: API.RetailerConfig}">
                 <AListItem :key="item.id">
                   <template #actions>
-                    <span>{{ new Date(item?.updated_at!) }}</span>
+                    <span>{{ item?.updated_at || '-' }}</span>
                   </template>
                   <AListItemMeta>
                     <template #title>
@@ -132,7 +135,7 @@
 </template>
 
 <script lang="ts" setup>
-import { message } from 'ant-design-vue';
+import { Modal, message } from 'ant-design-vue';
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { driverApis } from '@/apis/core/driver/driver.api';
 import { useVisibilityStore } from '@/stores/visibility.store';
@@ -143,7 +146,7 @@ const props = defineProps<{
   retailerId?: string
 }>();
 
-const ConfigUpdateForm = defineAsyncComponent(() => import('@/components/form/ConfigUpdateForm.vue'));
+const ConfigUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerConfigUpdateForm.vue'));
 const { loadingIds } = storeToRefs(useVisibilityStore());
 const { retailerId } = toRefs(props);
 
@@ -185,9 +188,10 @@ const onEdit = () => {
       onCancel: () => coreModal.close(editModal),
       onSuccess: () => onEditConfigSuccess(editModal),
     },
+    modalWidth: '90rem',
   });
 };
-const testCommonConfig = async () => {
+const checkCommonConfig = async () => {
   if (!retailerId?.value) {
     return;
   }
@@ -197,7 +201,15 @@ const testCommonConfig = async () => {
 
     return;
   }
-  message.info(res?.message ?? 'missing message');
+  if (res.data?.result) {
+    Modal.success({ content: res?.message ?? 'missing message', title: 'Hoàn tất cấu hình cơ bản!' });
+
+    return;
+  }
+  // TODO: refactor
+  const [title, missingItems] = res.message[0].split(':');
+  const content = missingItems.split(',').map(i => h('div', i));
+  Modal.error({ title, content });
 };
 // dfdf________________________________________________________________________________________________
 
