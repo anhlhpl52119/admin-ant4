@@ -3,6 +3,7 @@
     :value="value"
     v-bind="$attrs"
     :placeholder="placeholder"
+    :size="size ?? 'middle'"
     :maxlength="maxlength ?? 20"
     @input="onTyping"
   />
@@ -19,6 +20,7 @@ const props = defineProps<{
   placeholder?: string
   spaceReplacement?: SpaceReplaceWith
   maxlength?: number
+  size?: 'large' | 'small' | 'middle'
 }>();
 
 const emits = defineEmits<{
