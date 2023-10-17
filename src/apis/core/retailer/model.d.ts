@@ -63,6 +63,22 @@ declare namespace API {
 
   type GetRetailerTypesResponse = ApiArrayResponse<RetailerType>;
 
+  type KiotVietCoreConfig =
+    | "KIOTVIET_CONNECTION_NAME"
+    | "KIOTVIET_CLIENT_ID"
+    | "KIOTVIET_SECRET_KEY"
+    | "KIOTVIET_SHOP_NAME"
+    | "KIOTVIET_USERNAME"
+    | "KIOTVIET_PASSWORD"
+    | "RETAILER_COMMISSION_RATIO";
+
+  type KiotVietWebhookConfig =
+    | "KIOTVIET_ACCESS_TOKEN_PUBLIC_API"
+    | "KIOTVIET_ACCESS_TOKEN_PRIVATE_API"
+    | "KIOTVIET_COOKIE";
+
+  type KiotVietConfig = KiotVietWebhookConfig | KiotVietCoreConfig;
+
   type RetailerConfig = {
     id: string;
     name: string;
@@ -95,19 +111,5 @@ declare namespace API {
   type CheckRetailerAuthConfigResponse = {
     result: boolean;
     missing_configs: KiotVietCoreConfig[];
-  }
-
-  type KiotVietCoreConfig =
-    | "KIOTVIET_CONNECTION_NAME"
-    | "KIOTVIET_CLIENT_ID"
-    | "KIOTVIET_SECRET_KEY"
-    | "KIOTVIET_SHOP_NAME"
-    | "KIOTVIET_PASSWORD";
-
-  type KiotVietWebhookConfig =
-    | "KIOTVIET_ACCESS_TOKEN_PUBLIC_API"
-    | "KIOTVIET_ACCESS_TOKEN_PRIVATE_API"
-    | "KIOTVIET_COOKIE";
-
-  type KiotVietConfig = KiotVietCoreConfig | KiotVietWebhookConfig;
+  };
 }
