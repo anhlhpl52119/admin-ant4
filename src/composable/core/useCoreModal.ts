@@ -3,10 +3,12 @@ import { v4 as uuid } from 'uuid';
 
 export const modalState = reactive<Map<string, CoreAppModal>>(new Map());
 
+type ModalProps<T extends ComponentOptions<any>> = CoreModalProps<T> & { modalWidth?: string | number }
+
 export const coreModal = {
-  show: <T extends ComponentOptions<any>>(modalContent: CoreModalProps<T>) => {
-    const { component, emits, props, title, maskCloseable = false } = modalContent;
+  show: <T extends ComponentOptions<any>>(modalContent: ModalProps<T>) => {
     const id = uuid();
+    const { component, emits, props, title, maskCloseable = false, modalWidth } = modalContent;
     if (component) {
       const setState: CoreAppModal = {
         id,
@@ -16,6 +18,7 @@ export const coreModal = {
         props: props ?? {},
         event: emits ?? {},
         isOpen: true,
+        modalWidth,
       };
       modalState.set(id, setState);
     }
