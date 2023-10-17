@@ -26,6 +26,7 @@ declare global {
     props: ComponentProps<any>;
     event: ComponentOptions<any>["emits"];
     isOpen: boolean;
+    modalWidth?: string | number;
     maskCloseable?: boolean;
   };
 }
