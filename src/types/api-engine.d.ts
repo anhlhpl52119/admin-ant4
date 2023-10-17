@@ -32,7 +32,7 @@ declare global {
   /** Api response with success or error when delete, update, create */
   type ApiSuccessResponse<T = any> = {
     message: string[];
-    data: any;
+    data: T;
   };
 
   /*******__API-QUERY__**********/
