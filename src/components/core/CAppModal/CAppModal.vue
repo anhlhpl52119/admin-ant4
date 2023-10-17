@@ -4,6 +4,7 @@
       :open="value.isOpen"
       destroyOnClose
       centered
+      :width="value.modalWidth"
       :maskClosable="value.maskCloseable ?? false"
       :title="value.headerTitle ?? ''"
       @cancel="coreModal.close(id.toString())"
