@@ -1,5 +1,14 @@
 <template>
-  <section class="card">
+  <section class="card mt-0">
+    <div>
+      <ABadge status="success" dot class="text-20">
+        <AAvatar shape="square" size="large" :src="auto(50)" />
+      </ABadge>
+      <span class="text-spotlight text-20">{{ retailerState?.name || '-' }}</span>
+    </div>
+  </section>
+
+  <section class="card mt-20">
     <ASpin :spinning="!retailerState">
       <ADescriptions title="Tổng quan" bordered>
         <ADescriptionsItem label="Tên">
