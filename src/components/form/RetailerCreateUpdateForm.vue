@@ -18,18 +18,18 @@
               v-model:value="createUpdateBodyState.name"
               :maxlength="50"
               placeholder="Nhập tên"
-              label="Tên Nhà Bán Lẻ"
+              label="Tên nhà bán lẻ"
             />
           </AFormItem>
-          <AFormItem name="code">
+          <AFormItem name="retailer_code">
             <p class="font-medium">
               Nhập Mã
             </p>
             <IdentifyFieldInput
-              v-model:value="createUpdateBodyState.code"
+              v-model:value="createUpdateBodyState.retailer_code"
               case="upperCase"
               spaceReplacement="underline"
-              placeholder="Nhập Mã"
+              placeholder="Mã định danh"
             />
           </AFormItem>
           <AFormItem name="phone" v-bind="naPhoneNumber">
@@ -130,13 +130,14 @@ const formItemLayout = {
 
 const createUpdateBodyState = reactive<API.CreUpdRetailerRequestBody>({
   name: '',
-  code: '',
+  retailer_code: '',
   address: '',
   phone: '',
   description: '',
   email: '',
   source: '',
 });
+
 const naPhoneNumber = computed(() => {
   if (createUpdateBodyState.phone.length === 9) {
     return {
@@ -150,7 +151,7 @@ const naPhoneNumber = computed(() => {
 
 const rules: { [k in keyof API.CreUpdRetailerRequestBody]?: Rule[] } = {
   name: [{ validator: checkName, trigger: ['blur', 'change'] }],
-  code: [{ validator: checkCode, trigger: ['blur', 'change'] }],
+  retailer_code: [{ validator: checkCode, trigger: ['blur', 'change'] }],
   phone: [{ validator: checkPhoneNumber, trigger: ['blur'] }],
   email: [{ validator: checkEmail, trigger: 'change' }],
   source: [{ required: true, message: 'Nguồn Không được để trống' }],
@@ -184,7 +185,7 @@ const initOption = async () => {
   if (types.length === 0) {
     return;
   }
-  options.value = types.map(i => ({ value: i.code, label: i.name }));
+  options.value = types.map(i => ({ value: i.retailer_type_code, label: i.name }));
   if (!(props.retailerId && createUpdateBodyState.source)) {
     createUpdateBodyState.source = options?.value[0]?.value?.toString() ?? '';
   }
@@ -202,7 +203,7 @@ const init = async () => {
     return;
   }
   createUpdateBodyState.name = res.data?.name ?? '';
-  createUpdateBodyState.code = res.data?.code ?? '';
+  createUpdateBodyState.retailer_code = res.data?.retailer_code ?? '';
   createUpdateBodyState.address = res.data?.address ?? '';
   createUpdateBodyState.phone = res.data?.phone ?? '';
   createUpdateBodyState.description = res?.data?.description ?? '';
