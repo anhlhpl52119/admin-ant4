@@ -16,7 +16,7 @@ export const columns: TableColumnType<API.Retailer>[] = [
   },
   {
     title: 'Mã',
-    dataIndex: 'code',
+    dataIndex: 'retailer_code',
   },
   {
     title: 'Số điện thoại',
@@ -49,7 +49,7 @@ export const searchFilterRaw: QueriesRaw<API.Retailer>[] = [
 
   {
     label: 'Tìm theo mã',
-    key: 'code_cont',
+    key: 'retailer_code_cont',
     value: '',
   },
   {
