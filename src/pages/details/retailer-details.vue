@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ASpin :spinning="!retailerState">
+    <ASpin :spinning="loadingIds.has(EApiId.RETAILER_DETAILS) || !retailerState">
       <section class="card mt-0 cursor-default">
         <div class="flex-btw-center">
           <div>
@@ -9,7 +9,23 @@
             </ABadge>
 
             <span class="text-spotlight text-24 ml-7">{{ retailerState?.name || '-' }}</span>
-            <span class="text-desc text-12 ml-7">{{ retailerState?.code || '-' }}</span>
+            <span class="text-desc text-12 ml-7">{{ retailerState?.retailer_code || '' }}</span>
+            <!-- <ATag color="error" class="rounded-10">
+              <div class="flex gap-5 items-center">
+                <i class="i-fluent:plug-disconnected-20-filled text-16 inline-block" />
+                <span>
+                  Terminated
+                </span>
+              </div>
+            </ATag> -->
+            <ATag color="success" class="rounded-10 ml-10">
+              <div class="flex gap-5 items-center">
+                <i class="i-fluent:plug-connected-checkmark-20-regular text-16 inline-block" />
+                <span>
+                  Active
+                </span>
+              </div>
+            </ATag>
           </div>
 
           <AButton size="large" @click="openModel(retailerState?.id ?? '')">
@@ -75,7 +91,7 @@
         >
           <!-- header -->
           <template #header>
-            <div class="p-16 text-18 font-medium">
+            <div class="p-20 text-18 font-medium">
               Cấu hình
             </div>
           </template>
@@ -91,12 +107,12 @@
               <div class="flex justify-end gap-10">
                 <AButton
                   :loading="loadingIds.has(EApiId.RETAILER_CHECK_REQUIRE_CONFIG)"
-                  @click="checkCommonConfig"
+                  @click="checkRequiredConfig"
                 >
-                  Test required config
+                  Kiểm tra cấu hình
                 </AButton>
 
-                <AButton type="primary" @click="onEdit">
+                <AButton type="primary" @click="onEditConfig">
                   Edit
                 </AButton>
               </div>
@@ -204,11 +220,21 @@ const retailerState = ref<API.Retailer>();
 const driversState = ref<API.Driver[]>([]);
 const configsState = ref<API.RetailerConfig[]>([]);
 const retailerType = ref<API.RetailerType[]>([]);
+const selectedValue = ref('');
 
 const groupDriver = computed(() => retailerState.value?.group_drivers ?? []);
 const userRetailer = computed(() => retailerState.value?.user ?? undefined);
 
 const totalDrivers = computed(() => driversState.value.length);
+
+const retailerSourceName = computed(() => {
+  const source = retailerType.value.find(i => i.retailer_type_code === retailerState.value?.source);
+  if (!source) {
+    return 'Chưa có source';
+  }
+
+  return source.name;
+});
 
 const randomAvatar = (idx: number) => {
   return `https://i.pravatar.cc/150?img=${idx}`;
@@ -218,20 +244,10 @@ const copyText = async (val: string) => {
   message.destroy();
   try {
     await navigator.clipboard.writeText(val);
-    message.success(`Copied: ${val}`);
+    message.success({ content: `Copied: ${val}`, duration: 1.2 });
   }
   catch (e) {}
 };
-
-const retailerSourceName = computed(() => {
-  console.log(retailerState.value?.code);
-  const source = retailerType.value.find(i => i.code === retailerState.value?.source);
-  if (!source) {
-    return 'Chưa có source';
-  }
-
-  return source.name;
-});
 
 const syncStatusTag = (status: API.RetailerSyncStatus) => {
   switch (status) {
@@ -267,58 +283,6 @@ const initConfig = async () => {
   configsState.value = res.data;
 };
 
-const onEditConfigSuccess = (modelId: string) => {
-  coreModal.close(modelId);
-  initConfig();
-};
-const onEdit = () => {
-  const editModal = coreModal.show({
-    component: ConfigUpdateForm,
-    props: {
-      retailerId: retailerId?.value ?? '',
-      onCancel: () => coreModal.close(editModal),
-      onSuccess: () => onEditConfigSuccess(editModal),
-    },
-    modalWidth: '90rem',
-  });
-};
-const checkCommonConfig = async () => {
-  if (!retailerId?.value) {
-    return;
-  }
-  const res = await retailerApis.checkRequireConfigs(retailerId?.value ?? '');
-  if (!res) {
-    message.error('Call api error');
-
-    return;
-  }
-  if (res.data?.result) {
-    Modal.success({ content: res?.message ?? 'missing message', title: 'Hoàn tất cấu hình cơ bản!' });
-
-    return;
-  }
-  // TODO: refactor
-  const [title, missingItems] = res.message[0].split(':');
-  const content = missingItems.split(',').map(i => h('div', i));
-  Modal.error({ title, content });
-};
-
-// dfdf________________________________________________________________________________________________
-
-const selectedValue = ref('');
-
-const tabItems = computed(() => {
-  if (!retailerState.value?.group_drivers) {
-    return [];
-  }
-
-  return retailerState.value?.group_drivers.map(i => ({
-    value: i?.code ?? '',
-    label: i?.name ?? '',
-  }));
-});
-const kiotVietOption = [{ label: 'KiotViệt', value: '1' }];
-const selectedPlatform = ref('1');// kiotViet
 const initDetails = async () => {
   retailerType.value = await getRetailerTypes();
   if (!retailerId?.value) {
@@ -337,6 +301,61 @@ const initDetails = async () => {
   retailerState.value = res.data;
 };
 
+const checkRequiredConfig = async () => {
+  if (!retailerId?.value) {
+    return;
+  }
+  const res = await retailerApis.checkRequireConfigs(retailerId?.value ?? '');
+  if (!res) {
+    message.error('Call api error');
+
+    return;
+  }
+  if (res.data?.result) {
+    initDetails();
+    Modal.success({ content: res?.message ?? 'missing message', title: 'Hoàn tất cấu hình cần thiết!' });
+
+    return;
+  }
+  // TODO: refactor
+  const [title, missingItems] = res.message[0].split(':');
+  const content = missingItems.split(',').map(i => h('div', i));
+  Modal.error({ title, content });
+  initDetails();
+};
+
+const onEditConfigSuccess = (modelId: string) => {
+  coreModal.close(modelId);
+  initConfig();
+  checkRequiredConfig();
+};
+
+const onEditConfig = () => {
+  const editModal = coreModal.show({
+    component: ConfigUpdateForm,
+    props: {
+      retailerId: retailerId?.value ?? '',
+      onCancel: () => coreModal.close(editModal),
+      onSuccess: () => onEditConfigSuccess(editModal),
+    },
+  });
+};
+
+// dfdf________________________________________________________________________________________________
+
+const tabItems = computed(() => {
+  if (!retailerState.value?.group_drivers) {
+    return [];
+  }
+
+  return retailerState.value?.group_drivers.map(i => ({
+    value: i?.code ?? '',
+    label: i?.name ?? '',
+  }));
+});
+const kiotVietOption = [{ label: 'KiotViệt', value: '1' }];
+const selectedPlatform = ref('1');// kiotViet
+
 const initDriver = async () => {
   // fetch
   const res = await driverApis.search({ items: 20 });
@@ -348,6 +367,7 @@ const initDriver = async () => {
 
 const handleSuccess = (modalId: string) => {
   coreModal.close(modalId);
+  initDetails();
 };
 
 const openModel = (retailerId?: string) => {
