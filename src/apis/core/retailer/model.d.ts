@@ -2,7 +2,7 @@ declare namespace API {
   type Retailer = {
     id: string;
     name: string;
-    code: string;
+    retailer_code: string;
     phone: string;
     description: string;
     email: string;
@@ -41,7 +41,7 @@ declare namespace API {
 
   type CreUpdRetailerRequestBody = {
     name: string;
-    code: string;
+    retailer_code: string;
     description: string;
     phone: string;
     email: string;
@@ -55,7 +55,7 @@ declare namespace API {
   type RetailerType = {
     id: string;
     name: string;
-    code: string;
+    retailer_type_code: string;
     description: string;
     created_at: string;
     updated_at: string;
@@ -63,13 +63,13 @@ declare namespace API {
 
   type GetRetailerTypesResponse = ApiArrayResponse<RetailerType>;
 
-  type KiotVietCoreConfig =
+  type KiotVietRequireConfig =
     | "KIOTVIET_CONNECTION_NAME"
     | "KIOTVIET_CLIENT_ID"
-    | "KIOTVIET_SECRET_KEY"
     | "KIOTVIET_SHOP_NAME"
     | "KIOTVIET_USERNAME"
     | "KIOTVIET_PASSWORD"
+    | "KIOTVIET_SECRET_KEY"
     | "RETAILER_COMMISSION_RATIO";
 
   type KiotVietWebhookConfig =
@@ -77,12 +77,12 @@ declare namespace API {
     | "KIOTVIET_ACCESS_TOKEN_PRIVATE_API"
     | "KIOTVIET_COOKIE";
 
-  type KiotVietConfig = KiotVietWebhookConfig | KiotVietCoreConfig;
+  type KiotVietConfig = KiotVietWebhookConfig | KiotVietRequireConfig;
 
   type RetailerConfig = {
     id: string;
     name: string;
-    code: KiotVietConfig;
+    retailer_config_code: KiotVietConfig;
     value: string;
     description: string;
     created_at?: Date;
@@ -93,7 +93,7 @@ declare namespace API {
   type GetRetailerConfigsResponse = ApiArrayResponse<RetailerConfig>;
 
   type UpdateRetailerConfigsRequestBody = {
-    configs: Array<{ code: string; value: string }>;
+    configs: Array<{ retailer_config_code: KiotVietConfig; value: string }>;
   };
 
   type CheckRequireWebHookResponse = {
@@ -110,6 +110,6 @@ declare namespace API {
 
   type CheckRetailerAuthConfigResponse = {
     result: boolean;
-    missing_configs: KiotVietCoreConfig[];
+    missing_configs: KiotVietRequireConfig[];
   };
 }
