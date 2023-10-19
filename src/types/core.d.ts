@@ -11,6 +11,10 @@ declare global {
 
   type WidenLiteral<T> = T extends string | number | boolean ? ReturnType<T['valueOf']> : T;
 
+  type PartialRecord<K extends keyof any, T> = {
+    [P in K]?: T;
+  };
+
   type RansackQuery<T> = {
     [K in keyof T as `${string & K}${T[K] extends string | null | boolean
       ? "_eq" | "_cont"
