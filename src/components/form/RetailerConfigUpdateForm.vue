@@ -7,50 +7,68 @@
     >
       <AForm
         v-bind="formItemLayout"
-        :model="configsState"
+        :model="testForm"
         @finish="onValidateSuccess"
       >
-        <div class="flex gap-20">
-          <!-- Form Items -->
-          <section class="flex-1 card">
-            <template v-for="item in requiredConfig" :key="item.code">
-              <AFormItem :name="item.code" :rules="rules[item.code] ?? []">
-                <p class="font-bold">
-                  {{ item.name }}
-                </p>
-                <IdentifyFieldInput
-                  v-model:value="item.value"
-                  case="lowerCase"
-                  :maxlength="40"
-                  size="large"
-                  placeholder="Nhập..."
-                  class="mt-4"
-                />
-              </AFormItem>
-            </template>
-          </section>
-          <section class="flex-1 card">
-            <template v-for="item in webhookConfig" :key="item.code">
-              <AFormItem :name="item.code" :rules="rules[item.code] ?? []">
-                <p class="font-bold">
-                  {{ item.name }}
-                </p>
-                <IdentifyFieldInput
-                  v-model:value="item.value"
-                  case="lowerCase"
-                  size="large"
-                  spaceReplacement="hyphen"
-                  :maxlength="40"
-                  placeholder="Nhập... "
-                  class="mt-4"
-                />
-              </AFormItem>
-            </template>
-          </section>
-        </div>
-
+        <AFormItem :name="EKiotVietConfig.SHOP_NAME">
+          <CInput
+            v-model:value="testForm.KIOTVIET_SHOP_NAME"
+            :maxlength="50"
+            placeholder="Tên shop"
+            label="Tên shop"
+          />
+        </AFormItem>
+        <AFormItem :name="EKiotVietConfig.CONNECTION_NAME">
+          <CInput
+            v-model:value="testForm.KIOTVIET_CONNECTION_NAME"
+            :maxlength="50"
+            placeholder="Tên kết nối"
+            label="Tên kết nối"
+          />
+        </AFormItem>
+        <AFormItem :name="EKiotVietConfig.USERNAME">
+          <CInput
+            v-model:value="testForm.KIOTVIET_USERNAME"
+            :maxlength="50"
+            acceptedOnly="noSpace"
+            placeholder="Tên đăng nhập"
+            label="Tên đăng nhập"
+          />
+        </AFormItem>
+        <AFormItem :name="EKiotVietConfig.PASSWORD">
+          <CInput
+            v-model:value="testForm.KIOTVIET_PASSWORD"
+            :maxlength="50"
+            placeholder="Mật khẩu"
+            label="Mật khẩu"
+          />
+        </AFormItem>
+        <AFormItem :name="EKiotVietConfig.CLIENT_ID">
+          <CInput
+            v-model:value="testForm.KIOTVIET_CLIENT_ID"
+            :maxlength="50"
+            placeholder="Tên client"
+            label="Tên client"
+          />
+        </AFormItem>
+        <AFormItem :name="EKiotVietConfig.COMMISSION_RATIO">
+          <CInput
+            v-model:value="testForm.RETAILER_COMMISSION_RATIO"
+            :maxlength="50"
+            placeholder="Chiết khấu"
+            label="Chiết khấu"
+          />
+        </AFormItem>
+        <AFormItem :name="EKiotVietConfig.SECRET_KEY">
+          <CInput
+            v-model:value="testForm.KIOTVIET_SECRET_KEY"
+            :maxlength="50"
+            placeholder="Secret key"
+            label="Secret key"
+          />
+        </AFormItem>
         <!-- Footer -->
-        <div class="flex justify-end gap-5 mt-10">
+        <div class="flex justify-center gap-10">
           <AButton
             type="primary"
             :loading="loadingIds.has(EApiId.RETAILER_CONFIG_UPDATE)"
@@ -89,21 +107,15 @@ const emits = defineEmits<{
 const { loadingIds } = storeToRefs(useVisibilityStore());
 const { checkName } = useFieldValidation();
 
-const RETAILER_KIOTVIET_REQUIRE_CONFIG: API.KiotVietConfig[] = [
-  EKiotVietConfig.CONNECTION_NAME,
-  EKiotVietConfig.SHOP_NAME,
-  EKiotVietConfig.USERNAME,
-  EKiotVietConfig.PASSWORD,
-  EKiotVietConfig.SECRET_KEY,
-  EKiotVietConfig.CLIENT_ID,
-  EKiotVietConfig.COMMISSION_RATIO,
-];
-
-const RETAILER_KIOTVIET_WEBHOOK_CONFIG: API.KiotVietConfig[] = [
-  EKiotVietConfig.ACCESS_TOKEN_PRIVATE_API,
-  EKiotVietConfig.ACCESS_TOKEN_PUBLIC_API,
-  EKiotVietConfig.COOKIE,
-];
+const testForm = reactive<Record<API.KiotVietRequireConfig, string>>({
+  [EKiotVietConfig.CONNECTION_NAME]: '',
+  [EKiotVietConfig.SHOP_NAME]: '',
+  [EKiotVietConfig.USERNAME]: '',
+  [EKiotVietConfig.PASSWORD]: '',
+  [EKiotVietConfig.CLIENT_ID]: '',
+  [EKiotVietConfig.COMMISSION_RATIO]: '',
+  [EKiotVietConfig.SECRET_KEY]: '',
+});
 
 const formItemLayout = {
   labelCol: {
@@ -118,20 +130,16 @@ const formItemLayout = {
 
 const configsState = ref<API.RetailerConfig[]>([]);
 
-const webhookConfig = computed<API.RetailerConfig[]>(() => configsState.value?.filter(i => RETAILER_KIOTVIET_WEBHOOK_CONFIG.includes(i.code)));
-
-const requiredConfig = computed(() => configsState.value?.filter(i => RETAILER_KIOTVIET_REQUIRE_CONFIG.includes(i.code)));
-
 const updBody = computed<API.UpdateRetailerConfigsRequestBody>(() => {
-  const config = configsState.value.map(({ code, value }) => ({ code, value }));
+  const updatebody = Object.entries(testForm).map(([retailer_config_code, value]) => ({ retailer_config_code, value }));
 
   return {
-    configs: config,
+    configs: updatebody as API.UpdateRetailerConfigsRequestBody['configs'],
   };
 });
 
 const rules: { [k in API.KiotVietConfig]?: Rule[] } = {
-  // [KiotVietConfig.ACCESS_TOKEN_PRIVATE_API]: [{ validator: checkName, trigger: ['blur', 'change'] }],
+  [EKiotVietConfig.ACCESS_TOKEN_PRIVATE_API]: [{ validator: checkName, trigger: ['blur', 'change'] }],
 };
 
 const onValidateSuccess = async () => {
@@ -161,7 +169,17 @@ const init = async () => {
   if (!(res && res.data)) {
     return;
   }
-  configsState.value = res.data;
+
+  const aaa = res.data.reduce((map, obj) => {
+    const keys = Object.keys(testForm);
+    if (keys.includes(obj.retailer_config_code)) {
+      map[obj.retailer_config_code] = obj.value;
+    }
+
+    return map;
+  }, {} as Record<API.KiotVietConfig, string>);
+
+  Object.assign(testForm, aaa);
 };
 init();
 </script>
