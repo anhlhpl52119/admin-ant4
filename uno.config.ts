@@ -1,6 +1,9 @@
 import type { CSSEntries, UtilObject } from 'unocss';
+import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders';
+
 import {
   defineConfig,
+  presetAttributify,
   presetIcons,
   presetUno,
   transformerDirectives,
@@ -104,14 +107,12 @@ export default defineConfig({
     presetUno(),
     presetIcons({
       collections: {
-        // custom: FileSystemIconLoader('./assets/svg', (svg: string) => svg),
+        custom: FileSystemIconLoader('./src/assets/svg', (svg: string) => svg),
       },
-      // extraProperties: {
-      //   'display': 'inline-block',
-      //   'vertical-align': 'middle',
-      // },
       warn: true,
     }),
+    presetAttributify(),
   ],
+
   transformers: [transformerDirectives(), transformerVariantGroup()],
 });
