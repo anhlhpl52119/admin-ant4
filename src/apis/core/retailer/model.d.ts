@@ -18,8 +18,20 @@ declare namespace API {
     // relationship
     group_drivers?: GroupDriver[];
     drivers?: Driver[];
-    user?: any; // TODO
+    user?: RetailerUser;
   };
+
+  type RetailerUser = {
+    id: string;
+    email: string;
+    created_at: string;
+    updated_at: string;
+    name: string;
+    role: string;
+    phone: string;
+    default_password: string;
+    default_password_changed_at?: Date;
+  }
 
   type SearchRetailerResponse = {
     retailers: Retailer[];
