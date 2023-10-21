@@ -8,19 +8,11 @@ import AutoImport from 'unplugin-auto-import/vite';
 import UnoCSS from 'unocss/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 
-// const url = import.meta.env.VITE_BASE_API_URL;
-// const auth = import.meta.env.VITE_API_AUTH_PREFIX;
-// const base = import.meta.env.VITE_API_VERSION_PREFIX;
-// TODO: add from .env
-const url = 'https://dcms-dev.takeit.vn';
-const auth = '/login';
-const logout = '/logout';
-const base = '/api/v1/';
-
 // eslint-disable-next-line n/prefer-global/process
 const CWD = process.cwd();
+
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
-  const { VITE_APP_TITLE } = loadEnv(mode, CWD);
+  const { VITE_API_DESTINATION, VITE_API_SIGNATURE_PREFIX } = loadEnv(mode, CWD);
 
   return {
     plugins: [
@@ -55,16 +47,16 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       port: 5500,
       host: true,
       proxy: {
-        [base]: {
-          target: url,
+        [VITE_API_SIGNATURE_PREFIX]: {
+          target: VITE_API_DESTINATION,
           changeOrigin: true,
         },
-        [auth]: {
-          target: url,
+        '/login': {
+          target: VITE_API_DESTINATION,
           changeOrigin: true,
         },
-        [logout]: {
-          target: url,
+        '/logout': {
+          target: VITE_API_DESTINATION,
           changeOrigin: true,
         },
       },
