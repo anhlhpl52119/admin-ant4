@@ -12,8 +12,15 @@ declare namespace API {
     id: string;
     email: string;
     name: string;
+    created_at: string;
+    updated_at: string;
+    phone: string;
     role: UserRole;
   };
+
+  type UserAuthCheckResponse = ApiObjectResponse<{
+    user: UserLoginInfo
+  }>
 
   type UserLogin = {
     status: {
