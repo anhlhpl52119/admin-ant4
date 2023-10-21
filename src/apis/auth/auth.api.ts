@@ -31,4 +31,15 @@ export const authApis = {
       },
     );
   },
+  currentUser: () => {
+    return request<API.UserAuthCheckResponse>(
+      {
+        url: '/common/user/current',
+        method: ERequestMethod.GET,
+      },
+      {
+        id: EApiId.CURRENT_USER,
+      },
+    );
+  },
 };
