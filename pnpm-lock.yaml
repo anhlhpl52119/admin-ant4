@@ -31,6 +31,9 @@ devDependencies:
   '@antfu/eslint-config':
     specifier: ^0.42.1
     version: 0.42.1(eslint@8.45.0)(typescript@5.0.4)
+  '@iconify/json':
+    specifier: ^2.2.131
+    version: 2.2.131
   '@iconify/utils':
     specifier: ^2.1.11
     version: 2.1.11
@@ -540,6 +543,13 @@ packages:
 
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    dev: true
+
+  /@iconify/json@2.2.131:
+    resolution: {integrity: sha512-KpGOd7EkL+TvCsvlKln0HBvwl/KQyo2jZyLwUaU5mbGCPnIToO8Stxjl4QgYwg3SI1q3Pba0AAqmPxs1nD+g9w==}
+    dependencies:
+      '@iconify/types': 2.0.0
+      pathe: 1.1.1
     dev: true
 
   /@iconify/types@2.0.0:

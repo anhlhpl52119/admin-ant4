@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.42.1",
+    "@iconify/json": "^2.2.131",
     "@iconify/utils": "^2.1.11",
     "@tsconfig/node18": "^2.0.1",
     "@types/node": "^18.16.17",
