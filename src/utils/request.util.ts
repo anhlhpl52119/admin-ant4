@@ -12,29 +12,14 @@ import type { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
 import { useVisibilityStore } from '@/stores/visibility.store';
-
-interface Config {
-  url: string
-  method: ERequestMethod
-  body?: any
-  params?: any
-  timeout?: number
-}
-interface RequestOptions {
-  id?: EApiId
-  permitRoles?: Array<API.UserRole>
-  isAuth?: boolean
-  successMsg?: string
-  errorMsg?: string
-  isShowLoading?: boolean
-  loadingMessage?: string
-  getDataDirectly?: boolean
-}
+import { useUserStore } from '@/stores/user.store';
 
 const UNKNOWN_ERROR = 'Lỗi không xác định';
+const AUTH_PATH_PREFIX = import.meta.env.VITE_API_AUTH_PREFIX;
+const SIGNATURE_PATH_PREFIX = import.meta.env.VITE_API_SIGNATURE_PREFIX;
 
 const service = axios.create({
-  timeout: 6000,
+  timeout: 10000,
 });
 
 service.interceptors.request.use(
@@ -72,10 +57,11 @@ service.interceptors.response.use(
  * @returns {string} return url + object params in string
  */
 export const request = async <T>(
-  config: Config,
+  config: RequestConfig,
   options: RequestOptions = {},
 ): Promise<T | null> => {
   const { setLoadingId, removeLoadingId } = useVisibilityStore();
+  const userStore = useUserStore();
   // convert request params with 'include' queries
   if (config?.params?.includes && config.params.includes.length > 0) {
     config.params.includes = config.params.includes.toString(); // convert [a,b] to "a,b"
@@ -83,7 +69,6 @@ export const request = async <T>(
 
   const axiosConfig: AxiosRequestConfig = { ...config, data: config.body }; // re-assign config 'body' to axios 'data'
 
-  //
   const {
     id,
     errorMsg,
@@ -96,8 +81,7 @@ export const request = async <T>(
   } = options;
 
   // current role has no accessible to execute api request
-  // TODO: get current user roles
-  if (permitRoles && permitRoles.includes('user')) {
+  if (permitRoles && !permitRoles.includes(userStore.getUserRole!)) {
     return $message.error('Bạn không có quyền truy cập tính năng này!');
   }
 
@@ -109,14 +93,16 @@ export const request = async <T>(
 
   // sent request
   try {
-    const targetURL = isAuth ? '/' : '/api/v1';
+    const targetURL = isAuth ? AUTH_PATH_PREFIX : SIGNATURE_PATH_PREFIX;
     axiosConfig.url = uniqueSlash(`${targetURL + config.url}`);
     const response = await service.request(axiosConfig);
 
+    // show success message
     if (successMsg && isShowLoading) {
       $message.success({ content: successMsg, key: id });
     }
 
+    // get axiosReponse.data directly or use raw axios response
     return getDataDirectly ? response.data : response;
   }
   catch (error: any) {
@@ -135,7 +121,6 @@ export const request = async <T>(
     return null as T;
   }
   finally {
-    // await sleepFor(2000);
     if (!successMsg && !errorMsg) {
       $message.destroy(id);
     }
