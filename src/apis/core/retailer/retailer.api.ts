@@ -12,6 +12,7 @@ export const retailerApis = {
       },
       {
         id: EApiId.RETAILER_SEARCH,
+        permitRoles: ['sys'],
       },
     );
   },
@@ -24,6 +25,7 @@ export const retailerApis = {
       },
       {
         id: EApiId.RETAILER_DETAILS,
+        permitRoles: ['sys'],
       },
     );
   },
@@ -41,6 +43,7 @@ export const retailerApis = {
         successMsg: COMMON_SUCCESS_MSG.create,
         errorMsg: COMMON_ERROR_MSG.create,
         isShowLoading: true,
+        permitRoles: ['sys'],
       },
     );
   },
@@ -58,6 +61,7 @@ export const retailerApis = {
         successMsg: COMMON_SUCCESS_MSG.update,
         errorMsg: COMMON_ERROR_MSG.update,
         isShowLoading: true,
+        permitRoles: ['sys'],
       },
     );
   },
@@ -69,6 +73,7 @@ export const retailerApis = {
       },
       {
         id: EApiId.RETAILER_TYPES,
+        permitRoles: ['sys'],
       },
     );
   },
@@ -80,6 +85,7 @@ export const retailerApis = {
       },
       {
         id: EApiId.RETAILER_CONFIG,
+        permitRoles: ['sys'],
       },
     );
   },
@@ -94,6 +100,7 @@ export const retailerApis = {
       },
       {
         id: EApiId.RETAILER_CONFIG_UPDATE,
+        permitRoles: ['sys'],
       },
     );
   },
@@ -105,6 +112,7 @@ export const retailerApis = {
       },
       {
         id: EApiId.RETAILER_CHECK_REQUIRE_CONFIG,
+        permitRoles: ['sys'],
       },
     );
   },
@@ -116,6 +124,7 @@ export const retailerApis = {
       },
       {
         id: EApiId.RETAILER_CHECK_REQUIRE_WEBHOOK,
+        permitRoles: ['sys'],
       },
     );
   },
@@ -127,6 +136,7 @@ export const retailerApis = {
       },
       {
         id: EApiId.RETAILER_CHECK_AUTH_CONFIG,
+        permitRoles: ['sys'],
       },
     );
   },
