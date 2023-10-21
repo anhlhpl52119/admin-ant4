@@ -7,25 +7,9 @@
             <ABadge status="success" dot class="text-20 ml-10">
               <AAvatar shape="square" size="large" :src="randomAvatar(50)" />
             </ABadge>
-
             <span class="text-spotlight text-24 ml-7">{{ retailerState?.name || '-' }}</span>
             <span class="text-desc text-12 ml-7">{{ retailerState?.retailer_code || '' }}</span>
-            <!-- <ATag color="error" class="rounded-10">
-              <div class="flex gap-5 items-center">
-                <i class="i-fluent:plug-disconnected-20-filled text-16 inline-block" />
-                <span>
-                  Terminated
-                </span>
-              </div>
-            </ATag> -->
-            <ATag color="success" class="rounded-10 ml-10">
-              <div class="flex gap-5 items-center">
-                <i class="i-fluent:plug-connected-checkmark-20-regular text-16 inline-block" />
-                <span>
-                  Active
-                </span>
-              </div>
-            </ATag>
+            <ActivationStatusTag :status="retailerState?.status" isLoading class="ml-10" />
           </div>
 
           <AButton size="large" @click="openModel(retailerState?.id ?? '')">
@@ -80,118 +64,126 @@
     </ASpin>
 
     <section class="card mt-20">
-      <ADivider>Cấu hình</ADivider>
-      <!-- Nhóm Tài xế -->
-      <ASpin :spinning="!retailerState">
-        <VerticalTabsContainer
-          v-model="selectedPlatform"
-          :items="kiotVietOption"
-          contentClass=""
-          class="mt-16"
-        >
-          <!-- header -->
-          <template #header>
-            <div class="p-20 text-18 font-medium">
-              Cấu hình
-            </div>
-          </template>
-          <!-- actions -->
-          <template #actions>
-            <div class="text-center p-12">
-              <AButton>+ Thêm mới</AButton>
-            </div>
-          </template>
-          <!-- content -->
-          <div class="">
-            <div class="b-b b-b-abd b-b-solid p-16">
-              <div class="flex justify-end gap-10">
-                <AButton
-                  :loading="loadingIds.has(EApiId.RETAILER_CHECK_REQUIRE_CONFIG)"
-                  @click="checkRequiredConfig"
-                >
-                  Kiểm tra cấu hình
-                </AButton>
-
-                <AButton type="primary" @click="onEditConfig">
-                  Edit
-                </AButton>
-              </div>
-            </div>
-            <div class="p-16">
-              <AList
-                :data-source="configsState"
-                class=""
-              >
-                <template #renderItem="{ item } : {item: API.RetailerConfig}">
-                  <AListItem :key="item.id">
-                    <template #actions>
-                      <span>{{ item?.updated_at || '-' }}</span>
-                    </template>
-                    <AListItemMeta>
-                      <template #title>
-                        {{ item.name }}
-                      </template>
-                      <template #description>
-                        {{ item?.value || '-' }}
-                      </template>
-                    </AListItemMeta>
-                  </AListItem>
-                </template>
-              </AList>
-            </div>
-          </div>
-        </VerticalTabsContainer>
-      </ASpin>
-      <ADivider>Nhóm Tài xế</ADivider>
-      <!-- Nhóm Tài xế -->
-      <ASpin :spinning="!retailerState">
-        <VerticalTabsContainer
-          v-model="selectedValue"
-          :items="tabItems"
-          contentClass="max-h-350 overflow-y-scroll"
-          tabClass="max-h-350 overflow-y-scroll"
-          class="mt-16"
-        >
-          <!-- header -->
-          <template #header>
-            <div class="p-16 text-18 font-medium">
-              Nhóm tài xế
-            </div>
-          </template>
-          <!-- actions -->
-          <template #actions>
-            <div class="text-center p-12">
-              <AButton>+ Thêm mới</AButton>
-            </div>
-          </template>
-          <!-- content -->
-          <div class="p-16">
-            <AList
-              :data-source="driversState"
-              class=""
+      <ATabs v-model:activeKey="activeKey" size="large" type="card">
+        <template #renderTabBar="{ DefaultTabBar, ...props }">
+          <Component :is="DefaultTabBar" v-bind="props" class="h-40" />
+        </template>
+        <ATabPane key="3" tab="Người dùng">
+          <pre> {{ userRetailer }}</pre>
+        </ATabPane>
+        <ATabPane key="1" tab="Cấu hình" class="max-h-400 overflow-y-scroll">
+          <ASpin :spinning="!retailerState">
+            <VerticalTabsContainer
+              v-model="selectedPlatform"
+              :items="kiotVietOption"
+              contentClass=""
+              class="mt-16"
             >
-              <template #renderItem="{ item, index } : {item: API.Driver, index: number}">
-                <AListItem :key="item.id">
-                  <template #actions>
-                    <a>View Profile</a>
-                  </template>
-                  <AListItemMeta>
-                    <template #title>
-                      {{ item.name }}
-                    </template>
-                    <template #avatar>
-                      <AAvatar size="large" :src="randomAvatar(index)" />
-                    </template>
-                    <template #description>
-                      {{ item.description }}
-                    </template>
-                  </AListItemMeta>
-                </AListItem>
+              <!-- header -->
+              <template #header>
+                <div class="p-20 text-18 font-medium">
+                  Cấu hình
+                </div>
               </template>
-            </AList>
-          </div>
-        </VerticalTabsContainer>
-      </ASpin>
+              <!-- actions -->
+              <template #actions>
+                <div class="text-center p-12">
+                  <AButton>+ Thêm mới</AButton>
+                </div>
+              </template>
+              <!-- content -->
+              <div class="">
+                <div class="b-b b-b-abd b-b-solid p-16">
+                  <div class="flex justify-end gap-10">
+                    <AButton
+                      :loading="loadingIds.has(EApiId.RETAILER_CHECK_REQUIRE_CONFIG)"
+                      @click="checkRequiredConfig"
+                    >
+                      Kiểm tra cấu hình
+                    </AButton>
+
+                    <AButton type="primary" @click="onEditConfig">
+                      Edit
+                    </AButton>
+                  </div>
+                </div>
+                <div class="p-16">
+                  <AList
+                    :data-source="configsState"
+                    size="small"
+                  >
+                    <template #renderItem="{ item } : {item: API.RetailerConfig}">
+                      <AListItem :key="item.id">
+                        <template #actions>
+                          <span>{{ item?.updated_at || '-' }}</span>
+                        </template>
+                        <AListItemMeta>
+                          <template #title>
+                            {{ item.name }}
+                          </template>
+                          <template #description>
+                            {{ item?.value || '-' }}
+                          </template>
+                        </AListItemMeta>
+                      </AListItem>
+                    </template>
+                  </AList>
+                </div>
+              </div>
+            </VerticalTabsContainer>
+          </ASpin>
+        </ATabPane>
+        <ATabPane key="2" tab="Tài xế">
+          <ASpin :spinning="!retailerState">
+            <VerticalTabsContainer
+              v-model="selectedValue"
+              :items="tabItems"
+              contentClass="max-h-350 overflow-y-scroll"
+              tabClass="max-h-350 overflow-y-scroll"
+              class="mt-16"
+            >
+              <!-- header -->
+              <template #header>
+                <div class="p-16 text-18 font-medium">
+                  Nhóm tài xế
+                </div>
+              </template>
+              <!-- actions -->
+              <template #actions>
+                <div class="text-center p-12">
+                  <AButton>+ Thêm mới</AButton>
+                </div>
+              </template>
+              <!-- content -->
+              <div class="p-16">
+                <AList
+                  :data-source="driversState"
+                  class=""
+                >
+                  <template #renderItem="{ item, index } : {item: API.Driver, index: number}">
+                    <AListItem :key="item.id">
+                      <template #actions>
+                        <a>View Profile</a>
+                      </template>
+                      <AListItemMeta>
+                        <template #title>
+                          {{ item.name }}
+                        </template>
+                        <template #avatar>
+                          <AAvatar size="large" :src="randomAvatar(index)" />
+                        </template>
+                        <template #description>
+                          {{ item.description }}
+                        </template>
+                      </AListItemMeta>
+                    </AListItem>
+                  </template>
+                </AList>
+              </div>
+            </VerticalTabsContainer>
+          </ASpin>
+        </ATabPane>
+      </ATabs>
     </section>
   </div>
 </template>
@@ -204,7 +196,11 @@ import { useVisibilityStore } from '@/stores/visibility.store';
 import { useCommonStore } from '@/stores/common.store';
 import { EApiId } from '@/enums/request.enum';
 
-// *this props also passthrough Router, checkout Retailer router module '/details'
+// *this ,
+/**
+ * 'retailerId'props also passthrough Router
+ *  Checkout Retailer router module 'src/router/module/common/retailer.ts'
+ */
 const props = defineProps<{
   retailerId?: string
 }>();
@@ -221,9 +217,10 @@ const driversState = ref<API.Driver[]>([]);
 const configsState = ref<API.RetailerConfig[]>([]);
 const retailerType = ref<API.RetailerType[]>([]);
 const selectedValue = ref('');
+const activeKey = ref('1');
 
 const groupDriver = computed(() => retailerState.value?.group_drivers ?? []);
-const userRetailer = computed(() => retailerState.value?.user ?? undefined);
+const userRetailer = computed(() => retailerState.value?.user);
 
 const totalDrivers = computed(() => driversState.value.length);
 
