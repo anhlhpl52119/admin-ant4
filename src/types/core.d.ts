@@ -1,3 +1,4 @@
+import type { EApiId, ERequestMethod } from '@/enums/request.enum';
 import type { AxiosResponse } from 'axios';
 import type { CamelCasedPropertiesDeep, PartialDeep, RequiredDeep } from 'type-fest';
 
@@ -24,4 +25,22 @@ declare global {
       ? "_true" | "_false"
       : never}`]: T[K];
   };
+
+  type RequestConfig = {
+    url: string
+    method: ERequestMethod
+    body?: any
+    params?: any
+    timeout?: number
+  }
+  type RequestOptions = {
+    id?: EApiId
+    permitRoles?: Array<API.UserRole>
+    isAuth?: boolean
+    successMsg?: string
+    errorMsg?: string
+    isShowLoading?: boolean
+    loadingMessage?: string
+    getDataDirectly?: boolean
+  }
 }
