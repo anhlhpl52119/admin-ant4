@@ -13,6 +13,7 @@ export enum EStatusCode {
 
 export enum EApiId {
   LOGIN = 1,
+  CURRENT_USER,
 
   BRANCH_SEARCH,
   BRANCH_DETAILS,
