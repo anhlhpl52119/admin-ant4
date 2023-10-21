@@ -12,7 +12,7 @@ const routes: CustomRoute[] = [
     meta: {
       hiddenInMenu: true,
       title: 'User Info',
-      permit: [],
+      permit: ['user'],
       icon: 'i-material-symbols:person-rounded',
     },
     children: [

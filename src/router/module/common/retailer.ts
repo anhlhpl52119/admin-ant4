@@ -12,6 +12,7 @@ const routes: CustomRoute[] = [
       hiddenInMenu: false,
       title: 'Nhà bán lẻ',
       icon: 'i-fluent:building-retail-shield-20-filled',
+      permit: ['sys'],
     },
     children: [
       {
@@ -21,29 +22,9 @@ const routes: CustomRoute[] = [
         meta: {
           hiddenInMenu: false,
           title: 'Quản lý nhà bán lẻ',
+          permit: ['sys'],
         },
       },
-      // {
-      //   path: ':id',
-      //   name: ERouteName.RETAILER_DETAILS,
-      //   component: () => import('@/layout/page-details-content/index.vue'),
-      //   redirect: '/:id/details',
-      //   meta: {
-      //     hiddenInMenu: true,
-      //     title: 'Chi tiết nhà bán lẻ',
-      //   },
-      //   children: [
-      //     {
-      //       path: 'details',
-      //       name: ERouteName.RETAILER_DETAILS_OVERVIEW,
-      //       component: () => import('@/views/retailer/retailer-details.vue'),
-      //       meta: {
-      //         hiddenInMenu: true,
-      //         title: 'Chi tiết nhà bán lẻ',
-      //       },
-      //     },
-      //   ],
-      // },
       {
         path: ':id/details',
         name: ERouteName.RETAILER_DETAILS,
@@ -51,6 +32,7 @@ const routes: CustomRoute[] = [
         meta: {
           hiddenInMenu: true,
           title: 'Chi tiết nhà bán lẻ',
+          permit: ['sys'],
         },
         props: route => ({ retailerId: route?.params?.id?.toString() || '' }),
       },

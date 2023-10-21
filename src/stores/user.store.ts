@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user-store', () => {
   // getter
   const getToken = computed(() => token.value);
   const getUserInfo = computed(() => userInfo.value);
-  const getUserRole = computed<API.UserRole>(() => 'sys'); // TODO: update later
+  const getUserRole = computed(() => userInfo.value?.role);
 
   // action
   const routeToMenu = (arr: CustomRoute[]) => {
@@ -34,8 +34,19 @@ export const useUserStore = defineStore('user-store', () => {
     return result;
   };
 
+  const verifyUser = async () => {
+    const res = await authApis.currentUser();
+    if (!(res && res?.data?.user)) {
+      return;
+    }
+    userInfo.value = res.data.user;
+  };
+
   const setupUserMenu = async () => {
     if (!getUserRole.value) {
+      await verifyUser();
+      await setupUserMenu();
+
       return;
     }
     const { menus } = await dynamicRouterGenerator(getUserRole.value);
@@ -62,6 +73,7 @@ export const useUserStore = defineStore('user-store', () => {
     getUserInfo,
     getUserRole,
 
+    verifyUser,
     login,
     setupUserMenu,
   };

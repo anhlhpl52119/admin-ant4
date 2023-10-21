@@ -3,9 +3,10 @@ import router from '@/router';
 import { commonRoutes } from '@/router/module/common';
 import { ERouteName } from '@/enums/router.enum';
 
-const filterRoutesByRole = (arr: CustomRoute[], userRole: API.UserRole) => {
+const filterRoutesByRole = (routes: CustomRoute[], userRole: API.UserRole) => {
   const result: CustomRoute[] = [];
-  arr.forEach((i) => {
+
+  routes.forEach((i) => {
     if (!i.meta.permit || i.meta.permit.length === 0) {
       if (!i.children || i.children.length === 0) {
         result.push(i);
@@ -40,6 +41,7 @@ export const dynamicRouterGenerator = async (userRole: API.UserRole) => {
     const layout = commonRoutes.find(item => item.name === ERouteName.MAIN_LAYOUT)!;
     const userRoutes = filterRoutesByRole(layout.children || [], userRole);
     const menus = [...userRoutes];
+    layout.children = userRoutes;
     router.addRoute(layout);
 
     return Promise.resolve({
