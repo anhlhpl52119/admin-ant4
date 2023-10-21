@@ -107,7 +107,7 @@ export default defineConfig({
     presetUno(),
     presetIcons({
       collections: {
-        custom: FileSystemIconLoader('./src/assets/svg', (svg: string) => svg),
+        svg: FileSystemIconLoader('./src/assets/svg', (svg: string) => svg),
       },
       warn: true,
     }),
