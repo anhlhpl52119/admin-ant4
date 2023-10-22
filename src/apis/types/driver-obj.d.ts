@@ -5,7 +5,7 @@ declare global {
     type Driver = {
       id: string;
       name: string;
-      code: string;
+      driver_code: string;
       description: string;
       phone: string;
       email: string;
@@ -23,7 +23,7 @@ declare global {
     type GroupDriver = {
       id: string;
       name: string;
-      code: string;
+      group_driver_code: string;
       description: string;
       email: string;
       address: string;

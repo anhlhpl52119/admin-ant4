@@ -56,8 +56,8 @@ import { Modal } from 'ant-design-vue';
 import { columns, searchFilterRaw } from './column';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
-import { driverApis } from '@/apis/core/driver/driver.api';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
+import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
 
 const DriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/DriverCreateUpdateModal.vue'));
 const DriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/DriverCreateUpdateForm.vue'));
@@ -76,9 +76,7 @@ const fetch = async (params?: API.SearchDriverQueryParams) => {
     total_records: res.data.total_records,
   };
 };
-const a : RansackQuery<API.Branch> = {
-  
-}
+
 const {
   isTableLoading,
   rawQueries,

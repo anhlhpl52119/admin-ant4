@@ -55,9 +55,9 @@ import { EditOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { columns, searchFilterRaw } from './column';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
-import { groupDriverApis } from '@/apis/core/group-driver/group-driver.api';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
+import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
 
 const GroupDriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/GroupDriverCreateUpdateModal.vue'));
 

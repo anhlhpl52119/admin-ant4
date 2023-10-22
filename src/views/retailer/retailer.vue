@@ -66,11 +66,12 @@
 <script lang="ts" setup>
 import { EditOutlined } from '@ant-design/icons-vue';
 import { columns, searchFilterRaw } from './column';
-import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
+import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
+import type { ERetailerSyncStatus } from '@/enums/api.enum';
 
 const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
 const RetailerCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerCreateUpdateForm.vue'));
@@ -99,7 +100,7 @@ const fetch = async (params?: API.SearchRetailerQueryParams) => {
   };
 };
 
-const syncStatusTag = (status: API.RetailerSyncStatus) => {
+const syncStatusTag = (status: `${ERetailerSyncStatus}`) => {
   switch (status) {
     case 'not_config':
       return { color: 'geekblue', content: 'Chưa config' };

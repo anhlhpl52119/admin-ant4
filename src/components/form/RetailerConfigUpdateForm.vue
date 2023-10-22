@@ -90,9 +90,9 @@
 import type { Rule } from 'ant-design-vue/es/form';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
-import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { useFieldValidation } from '@/composable/useFieldValidation';
-import { EKiotVietConfig } from '@/enums/common.enum';
+import { EKiotVietConfig } from '@/enums/api.enum';
+import { retailerConfigApis } from '@/apis/sys-admin/retailer-mgt/retailer-config';
 
 const props = defineProps<{
   retailerId: string
@@ -107,7 +107,8 @@ const emits = defineEmits<{
 const { loadingIds } = storeToRefs(useVisibilityStore());
 const { checkName } = useFieldValidation();
 
-const testForm = reactive<Record<API.KiotVietRequireConfig, string>>({
+// TODO: any name
+const testForm = reactive<any>({
   [EKiotVietConfig.CONNECTION_NAME]: '',
   [EKiotVietConfig.SHOP_NAME]: '',
   [EKiotVietConfig.USERNAME]: '',
@@ -138,7 +139,7 @@ const updBody = computed<API.UpdateRetailerConfigsRequestBody>(() => {
   };
 });
 
-const rules: { [k in API.KiotVietConfig]?: Rule[] } = {
+const rules: { [k in EKiotVietConfig]?: Rule[] } = {
   [EKiotVietConfig.ACCESS_TOKEN_PRIVATE_API]: [{ validator: checkName, trigger: ['blur', 'change'] }],
 };
 
@@ -147,7 +148,8 @@ const onValidateSuccess = async () => {
     return;
   }
 
-  const res = await retailerApis.updateConfigs(props.retailerId, updBody.value);
+  // const asd = retailerConfigApis
+  const res = await retailerConfigApis.update(props.retailerId, updBody.value);
   if (!res) {
     return;
   }
@@ -165,7 +167,7 @@ const init = async () => {
     return;
   }
 
-  const res = await retailerApis.getConfigs(props.retailerId);
+  const res = await retailerConfigApis.getCurrentConfigs(props.retailerId);
   if (!(res && res.data)) {
     return;
   }
@@ -177,7 +179,7 @@ const init = async () => {
     }
 
     return map;
-  }, {} as Record<API.KiotVietConfig, string>);
+  }, {} as { [k in EKiotVietConfig]?: string });
 
   Object.assign(testForm, aaa);
 };

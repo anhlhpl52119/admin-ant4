@@ -1,4 +1,4 @@
-import { retailerApis } from '@/apis/core/retailer/retailer.api';
+import { retailerConfigApis } from '@/apis/sys-admin/retailer-mgt/retailer-config';
 
 export const useCommonStore = defineStore('common-store', () => {
   const retailerTypesState = ref<API.RetailerConfigType[]>([]);
@@ -7,7 +7,8 @@ export const useCommonStore = defineStore('common-store', () => {
     if (retailerTypesState.value.length > 0 && !forceFetch) {
       return retailerTypesState.value;
     }
-    const rs = await retailerApis.getTypes();
+
+    const rs = await retailerConfigApis.getTypeCodes();
     if (!(rs && rs.data) || rs.data.length === 0) {
       return [];
     }

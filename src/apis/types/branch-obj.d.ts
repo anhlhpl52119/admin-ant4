@@ -5,7 +5,7 @@ declare global {
     type Branch = {
       id: string;
       name: string;
-      code: string;
+      branch_code: string;
       contact_number: string;
       description: string;
       email: string;
