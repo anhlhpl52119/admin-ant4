@@ -6,7 +6,7 @@ export const groupDriverApis = {
   search: (params?: API.SearchGroupDriverQueryParams) => {
     return request<ApiPageResponse<API.SearchGroupDriverResponse>>(
       {
-        url: 'retailer/group_driver',
+        url: '/core/group_driver',
         method: ERequestMethod.GET,
         params,
       },
@@ -15,12 +15,12 @@ export const groupDriverApis = {
       },
     );
   },
-  create: (rqBody: API.CreateUpdGroupDriverRequestBody) => {
+  create: (rqBody: API.CreateGroupDriverRequestBody) => {
     const body = { group_driver: { ...rqBody } };
 
-    return request<ApiSuccessResponse>(
+    return request(
       {
-        url: 'retailer/group_driver',
+        url: '/core/group_driver',
         method: ERequestMethod.POST,
         body,
       },
@@ -32,11 +32,10 @@ export const groupDriverApis = {
       },
     );
   },
-  getDetails: (groupId: string, relationShip?: ApiRelationshipQuery<API.GroupDriverRelationship>) => {
+  getDetails: (driverId: string) => {
     return request<API.GetGroupDriverDetailResponse>(
       {
-        url: `retailer/group_driver/${groupId}`,
-        params: relationShip,
+        url: `/core/group_driver/${driverId}`,
         method: ERequestMethod.GET,
       },
       {
@@ -44,12 +43,12 @@ export const groupDriverApis = {
       },
     );
   },
-  update: (groupId: string, rqBody: API.CreateUpdGroupDriverRequestBody) => {
+  update: (driverId: string, rqBody: API.UpdateGroupDriverRequestBody) => {
     const body = { group_driver: { ...rqBody } };
 
-    return request<ApiSuccessResponse>(
+    return request<API.GetDriverDetailResponse>(
       {
-        url: `retailer/group_driver/${groupId}`,
+        url: `/core/group_driver/${driverId}`,
         method: ERequestMethod.PUT,
         body,
       },
@@ -58,31 +57,6 @@ export const groupDriverApis = {
         successMsg: COMMON_SUCCESS_MSG.update,
         errorMsg: COMMON_ERROR_MSG.update,
         isShowLoading: true,
-      },
-    );
-  },
-  delete: (groupId: string) => {
-    return request<ApiSuccessResponse>(
-      {
-        url: `retailer/group_driver/${groupId}`,
-        method: ERequestMethod.DELETE,
-      },
-      {
-        id: EApiId.GROUP_DRIVER_DELETE,
-      },
-    );
-  },
-  addDriver: (groupId: string, rqBody: API.AddDriverToGroupRequestBody) => {
-    const body = { driver: rqBody };
-
-    return request<API.GetGroupDriverDetailResponse>(
-      {
-        url: `retailer/group_driver/${groupId}`,
-        body,
-        method: ERequestMethod.POST,
-      },
-      {
-        id: EApiId.GROUP_DRIVER_ADD_DRIVER,
       },
     );
   },

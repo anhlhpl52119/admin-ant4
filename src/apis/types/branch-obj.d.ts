@@ -12,7 +12,7 @@ declare global {
       address: string;
       status: string;
       source: string;
-      source_id: string;
+      source_id?: string;
       retailer_id: string;
       created_at?: Date;
       updated_at?: Date;

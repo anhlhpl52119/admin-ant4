@@ -2,6 +2,7 @@ import {
   ERetailerSyncStatus,
   EKiotVietConfig,
 } from "@/enums/api.enum";
+import type { ERole } from "@/enums/common.enum";
 
 export {};
 
@@ -35,10 +36,11 @@ declare global {
       created_at: string;
       updated_at: string;
       name: string;
-      role: string;
+      role: `${ERole}`;
       phone: string;
-      default_password: string;
+      default_password?: string;
       default_password_changed_at?: Date;
+      belonged_retailer?: Retailer;
     };
 
     type RetailerConfigType = {

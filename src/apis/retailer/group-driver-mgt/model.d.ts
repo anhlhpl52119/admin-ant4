@@ -17,22 +17,15 @@ declare global {
       GroupDriverRelationship
     >;
 
-    type CreateGroupDriverRequestBody = {
+    type CreateUpdGroupDriverRequestBody = {
       name: string;
-      code: string;
+      code?: string;
       description: string;
       email: string;
       address: string;
-      retailer_id: string;
     };
-
-    type UpdateGroupDriverRequestBody = {
-      name: string;
-      code: string;
-      description: string;
-      email: string;
-      address: string;
-      retailer_id: string;
+    type AddDriverToGroupRequestBody = {
+      id: string;
     };
   }
 }

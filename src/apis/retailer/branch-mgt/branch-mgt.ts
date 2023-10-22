@@ -6,7 +6,7 @@ export const branchApis = {
   search: (params?: API.SearchBranchQueryParams) => {
     return request<ApiPageResponse<API.SearchBranchResponse>>(
       {
-        url: '/core/branch',
+        url: '/retailer/branch',
         method: ERequestMethod.GET,
         params,
       },
@@ -15,27 +15,27 @@ export const branchApis = {
       },
     );
   },
-  create: (rqBody: API.CreateBranchRequestBody) => {
-    const body = { branch: { ...rqBody } };
+  // create: (rqBody: API.CreateBranchRequestBody) => {
+  //   const body = { branch: { ...rqBody } };
 
-    return request(
-      {
-        url: '/core/branch',
-        method: ERequestMethod.POST,
-        body,
-      },
-      {
-        id: EApiId.BRANCH_CREATE,
-        successMsg: COMMON_SUCCESS_MSG.create,
-        errorMsg: COMMON_ERROR_MSG.create,
-        isShowLoading: true,
-      },
-    );
-  },
+  //   return request(
+  //     {
+  //       url: '/retailer/branch',
+  //       method: ERequestMethod.POST,
+  //       body,
+  //     },
+  //     {
+  //       id: EApiId.BRANCH_CREATE,
+  //       successMsg: COMMON_SUCCESS_MSG.create,
+  //       errorMsg: COMMON_ERROR_MSG.create,
+  //       isShowLoading: true,
+  //     },
+  //   );
+  // },
   getDetails: (branchId: string, relationShip?: ApiRelationshipQuery<API.BranchRelationShip>) => {
     return request<API.GetBranchDetailResponse>(
       {
-        url: `/core/branch/${branchId}`,
+        url: `/retailer/branch/${branchId}`,
         params: relationShip,
         method: ERequestMethod.GET,
       },
@@ -44,21 +44,21 @@ export const branchApis = {
       },
     );
   },
-  update: (branchId: string, rqBody: API.UpdateBranchRequestBody) => {
-    const body = { branch: { ...rqBody } };
+  // update: (branchId: string, rqBody: API.UpdateBranchRequestBody) => {
+  //   const body = { branch: { ...rqBody } };
 
-    return request(
-      {
-        url: `/core/branch/${branchId}`,
-        method: ERequestMethod.PUT,
-        body,
-      },
-      {
-        id: EApiId.BRANCH_UPDATE,
-        successMsg: COMMON_SUCCESS_MSG.update,
-        errorMsg: COMMON_ERROR_MSG.update,
-        isShowLoading: true,
-      },
-    );
-  },
+  //   return request(
+  //     {
+  //       url: `/retailer/branch/${branchId}`,
+  //       method: ERequestMethod.PUT,
+  //       body,
+  //     },
+  //     {
+  //       id: EApiId.BRANCH_UPDATE,
+  //       successMsg: COMMON_SUCCESS_MSG.update,
+  //       errorMsg: COMMON_ERROR_MSG.update,
+  //       isShowLoading: true,
+  //     },
+  //   );
+  // },
 };

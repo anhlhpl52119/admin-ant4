@@ -9,6 +9,12 @@ export enum EGroupDriverRelationship {
   DRIVER = 'drivers',
 }
 
+export enum EInvitationRelationship {
+  RETAILER = 'retailer',
+  DRIVER = 'drivers',
+  GROUP_DRIVER = 'group_drivers',
+}
+
 export enum ERetailerSyncStatus {
   NOT_CONFIG = 'not_config',
   READY_SYNC = 'ready_to_sync',

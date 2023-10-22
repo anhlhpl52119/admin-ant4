@@ -1,6 +1,7 @@
 import type { CustomRoute } from '@/router/typing';
 import { ERouteName } from '@/enums/router.enum';
 import PageContent from '@/layout/page-content/index.vue';
+import { ERole } from '@/enums/common.enum';
 
 const routes: CustomRoute[] = [
   {
@@ -12,6 +13,7 @@ const routes: CustomRoute[] = [
       hiddenInMenu: false,
       title: 'Chi nhánh',
       icon: 'i-svg:store',
+      permit: [ERole.RETAILER_MANAGER],
     },
     children: [
       {
@@ -21,6 +23,7 @@ const routes: CustomRoute[] = [
         meta: {
           hiddenInMenu: false,
           title: 'Quản lý chi nhánh',
+          permit: [ERole.RETAILER_MANAGER],
         },
       },
     ],
