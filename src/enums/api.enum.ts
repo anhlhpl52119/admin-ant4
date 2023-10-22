@@ -9,7 +9,6 @@ export enum EGroupDriverRelationship {
   DRIVER = 'drivers',
 }
 
-
 export enum ERetailerSyncStatus {
   NOT_CONFIG = 'not_config',
   READY_SYNC = 'ready_to_sync',
