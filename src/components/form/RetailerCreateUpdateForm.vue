@@ -102,9 +102,9 @@ import type { DefaultOptionType } from 'ant-design-vue/es/select';
 import type { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
-import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { useFieldValidation } from '@/composable/useFieldValidation';
 import { useCommonStore } from '@/stores/common.store';
+import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
 
 const props = defineProps<{ retailerId: string; sth?: string }>();
 

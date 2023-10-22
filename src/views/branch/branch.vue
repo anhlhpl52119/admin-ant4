@@ -62,11 +62,11 @@
 import { EditOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
 import { columns, searchFilterRaw } from './column';
-import { branchApis } from '@/apis/core/branch/branch.api';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
+import { branchApis } from '@/apis/retailer/branch-mgt/branch-mgt';
 
 // Async component
 const BranchCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/BranchCreateUpdateModal.vue'));
@@ -97,15 +97,16 @@ const fetch = async (params?: API.SearchBranchQueryParams) => {
 };
 
 const onShowDrawerDetails = async (item: API.Branch) => {
-  const a = coreModal.show({
-    component: TestForm,
-    title: 'Test update',
-    props: {
-      class: 'w-full',
-    },
-    emits: {},
-  });
-  console.log('object', a);
+  // const a = coreModal.show({
+  //   component: TestForm,
+  //   title: 'Test update',
+  //   props: {
+  //     class: 'w-full',
+  //   },
+  //   emits: {},
+  // });
+  // console.log('object', a);
+  console.log(item);
 };
 
 const onCloseDetailDrawer = () => {

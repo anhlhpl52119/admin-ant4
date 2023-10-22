@@ -190,15 +190,17 @@
 
 <script lang="ts" setup>
 import { Modal, message } from 'ant-design-vue';
-import { retailerApis } from '@/apis/core/retailer/retailer.api';
-import { driverApis } from '@/apis/core/driver/driver.api';
+
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { useCommonStore } from '@/stores/common.store';
-import { EApiId } from '@/enums/request.enum';
+import { EApiId, ERequestMethod } from '@/enums/request.enum';
+import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
+import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
+import type { ERetailerSyncStatus } from '@/enums/api.enum';
+import { retailerConfigApis } from '@/apis/sys-admin/retailer-mgt/retailer-config';
 
-// *this ,
 /**
- * 'retailerId'props also passthrough Router
+ * 'retailerId' props also passthrough Router
  *  Checkout Retailer router module 'src/router/module/common/retailer.ts'
  */
 const props = defineProps<{
@@ -215,7 +217,7 @@ const { getRetailerTypes } = useCommonStore();
 const retailerState = ref<API.Retailer>();
 const driversState = ref<API.Driver[]>([]);
 const configsState = ref<API.RetailerConfig[]>([]);
-const retailerType = ref<API.RetailerType[]>([]);
+const retailerType = ref<API.RetailerConfigType[]>([]);
 const selectedValue = ref('');
 const activeKey = ref('1');
 
@@ -246,7 +248,7 @@ const copyText = async (val: string) => {
   catch (e) {}
 };
 
-const syncStatusTag = (status: API.RetailerSyncStatus) => {
+const syncStatusTag = (status: `${ERetailerSyncStatus}`) => {
   switch (status) {
     case 'not_config':
       return { color: 'geekblue', content: 'Chưa config' };
@@ -271,7 +273,8 @@ const initConfig = async () => {
 
     return;
   }
-  const res = await retailerApis.getConfigs(retailerId.value);
+
+  const res = await retailerConfigApis.getCurrentConfigs(retailerId.value);
   if (!(res && res?.data?.length > 0)) {
     message.error(`Không tìm thấy retailer với id: ${retailerId.value}`);
 
@@ -302,7 +305,7 @@ const checkRequiredConfig = async () => {
   if (!retailerId?.value) {
     return;
   }
-  const res = await retailerApis.checkRequireConfigs(retailerId?.value ?? '');
+  const res = await retailerConfigApis.checkRequireConfigs(retailerId?.value ?? '');
   if (!res) {
     message.error('Call api error');
 
