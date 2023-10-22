@@ -3,34 +3,22 @@ import router from '@/router';
 import { commonRoutes } from '@/router/module/common';
 import { ERouteName } from '@/enums/router.enum';
 
-const filterRoutesByRole = (routes: CustomRoute[], userRole: API.UserRole) => {
+const filterRoutesByRole = (routes: CustomRoute[], role: API.UserRole) => {
   const result: CustomRoute[] = [];
 
-  routes.forEach((i) => {
-    if (!i.meta.permit || i.meta.permit.length === 0) {
-      if (!i.children || i.children.length === 0) {
-        result.push(i);
+  routes.forEach((route) => {
+    const perms = route.meta.permit;
+    const childRoutes = route.children;
 
-        return;
+    // no permit roles specify for current routes
+    if (!perms || perms.length === 0 || perms.includes(role)) {
+      if (childRoutes && childRoutes.length > 0) {
+        // deep filter
+        route.children = filterRoutesByRole(route.children, role);
       }
-      i.children = filterRoutesByRole(i.children, userRole);
-      result.push(i);
 
-      return;
+      result.push(route);
     }
-
-    if (!i.meta.permit.includes(userRole)) {
-      return;
-    }
-
-    if (!i.children || i.children.length === 0) {
-      result.push(i);
-
-      return;
-    }
-
-    i.children = filterRoutesByRole(i.children, userRole);
-    result.push(i);
   });
 
   return result;
@@ -50,6 +38,6 @@ export const dynamicRouterGenerator = async (userRole: API.UserRole) => {
     });
   }
   catch (error) {
-    return Promise.reject(error);
+    return Promise.reject(new Error('Router error'));
   }
 };

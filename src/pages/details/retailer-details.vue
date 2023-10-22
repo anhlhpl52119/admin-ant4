@@ -194,7 +194,7 @@ import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { driverApis } from '@/apis/core/driver/driver.api';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { useCommonStore } from '@/stores/common.store';
-import { EApiId } from '@/enums/request.enum';
+import { EApiId, ERequestMethod } from '@/enums/request.enum';
 
 // *this ,
 /**
@@ -215,7 +215,7 @@ const { getRetailerTypes } = useCommonStore();
 const retailerState = ref<API.Retailer>();
 const driversState = ref<API.Driver[]>([]);
 const configsState = ref<API.RetailerConfig[]>([]);
-const retailerType = ref<API.RetailerType[]>([]);
+const retailerType = ref<API.RetailerConfigType[]>([]);
 const selectedValue = ref('');
 const activeKey = ref('1');
 

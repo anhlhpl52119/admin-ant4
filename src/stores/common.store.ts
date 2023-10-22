@@ -1,7 +1,7 @@
 import { retailerApis } from '@/apis/core/retailer/retailer.api';
 
 export const useCommonStore = defineStore('common-store', () => {
-  const retailerTypesState = ref<API.RetailerType[]>([]);
+  const retailerTypesState = ref<API.RetailerConfigType[]>([]);
 
   const getRetailerTypes = async (forceFetch?: boolean) => {
     if (retailerTypesState.value.length > 0 && !forceFetch) {
