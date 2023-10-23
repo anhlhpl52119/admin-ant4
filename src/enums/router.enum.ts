@@ -57,4 +57,11 @@ export enum ERouteName {
   MANAGEMENT_PAGE5 = 'management-page5',
   MANAGEMENT_PAGE6 = 'management-page6',
 
+  RETAILER_USER = 'retailer-user',
+  RETAILER_USER_MANAGEMENT = 'retailer-user-management',
+  RETAILER_USER_DETAIL = 'retailer-user-detail',
+
+  RETAILER_BRANCH = 'retailer-branch',
+  RETAILER_BRANCH_MANAGEMENT = 'retailer-branch-management',
+  RETAILER_BRANCH_DETAIL = 'retailer-branch-detail',
 }
