@@ -1,6 +1,7 @@
 import type { CustomRoute } from '@/router/typing';
 import { ERouteName } from '@/enums/router.enum';
 import PageContent from '@/layout/page-content/index.vue';
+import { ERole } from '@/enums/common.enum';
 
 const routes: CustomRoute[] = [
   {
@@ -12,7 +13,7 @@ const routes: CustomRoute[] = [
       hiddenInMenu: false,
       title: 'Nhà bán lẻ',
       icon: 'i-fluent:building-retail-shield-20-filled',
-      permit: ['sys'],
+      permit: [ERole.ADMIN],
     },
     children: [
       {
@@ -22,7 +23,6 @@ const routes: CustomRoute[] = [
         meta: {
           hiddenInMenu: false,
           title: 'Quản lý nhà bán lẻ',
-          permit: ['sys'],
         },
       },
       {
@@ -32,7 +32,6 @@ const routes: CustomRoute[] = [
         meta: {
           hiddenInMenu: true,
           title: 'Chi tiết nhà bán lẻ',
-          permit: ['sys'],
         },
         props: route => ({ retailerId: route?.params?.id?.toString() || '' }),
       },

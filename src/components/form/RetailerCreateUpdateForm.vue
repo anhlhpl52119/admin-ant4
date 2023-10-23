@@ -106,7 +106,7 @@ import { useFieldValidation } from '@/composable/useFieldValidation';
 import { useCommonStore } from '@/stores/common.store';
 import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
 
-const props = defineProps<{ retailerId: string; sth?: string }>();
+const props = defineProps<{ retailerId: string }>();
 
 const emits = defineEmits<{
   success: [v?: any]
