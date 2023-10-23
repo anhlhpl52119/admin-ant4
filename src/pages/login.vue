@@ -35,9 +35,12 @@ const isLoading = ref<boolean>(false);
 
 // TODO: remove hard code
 const formState = reactive<API.LoginRequestBody>({
-  email: 'admin@takeit.vn',
-  password: '123123A@',
+  email: 'banle0@gmail.com',
+  password: '852007',
   refresh: true,
+  // email: 'admin@takeit.vn',
+  // password: '123123A@',
+  // refresh: true,
 });
 
 const isDisabledLogin = computed(
