@@ -46,6 +46,8 @@ import type { CustomRoute } from '@/router/typing';
 import { authApis } from '@/apis/auth/auth.api';
 
 const routes = useRoute();
+const route = useRoute();
+
 const userStore = useUserStore();
 
 const isCollapsed = ref<boolean>(false);
@@ -56,10 +58,12 @@ const activeKey = ref<string[]>(
   ),
 );
 const selectedKeys = computed(() => [routes?.name?.toString() ?? ERouteName.DASHBOARD]);
+const _test = computed(() => route.matched);
 
 const doLogout = async () => {
   BrowserStorage.removeCookie(EStorage.ACCESS_TOKEN);
   await authApis.logout();
+  location.reload();
 };
 
 function findParentRouteName(

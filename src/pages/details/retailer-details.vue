@@ -297,7 +297,7 @@ const initDetails = async () => {
 
     return;
   }
-  selectedValue.value = res.data.group_drivers[0].code;
+  selectedValue.value = res.data.group_drivers[0].group_driver_code;
   retailerState.value = res.data;
 };
 
@@ -349,7 +349,7 @@ const tabItems = computed(() => {
   }
 
   return retailerState.value?.group_drivers.map(i => ({
-    value: i?.code ?? '',
+    value: i?.group_driver_code ?? '',
     label: i?.name ?? '',
   }));
 });

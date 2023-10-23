@@ -16,7 +16,8 @@ export const whiteListRoutes: CustomRoute[] = [
       {
         path: '/sign-in',
         name: ERouteName.LOGIN,
-        component: () => import('@/pages/login.vue'),
+        // component: () => import('@/pages/login.vue'),
+        component: () => import('@/pages/test/index.vue'),
         meta: {
           title: 'Login',
           hiddenInMenu: true,

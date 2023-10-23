@@ -8,7 +8,6 @@ import type {
 import { message as $message } from 'ant-design-vue';
 import { uniqueSlash } from '@/utils/url.util';
 import { EStatusCode } from '@/enums/request.enum';
-import type { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
 import { useVisibilityStore } from '@/stores/visibility.store';
@@ -25,7 +24,7 @@ const service = axios.create({
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = BrowserStorage.getCookie(EStorage.ACCESS_TOKEN);
-    if (token !== '' && config.headers) {
+    if (token && config.headers) {
       config.headers.Authorization = token;
     }
 

@@ -12,7 +12,6 @@ import {
 
 export default defineConfig({
   include: [
-    // /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
     /\.ts$/,
     /\.vue$/,
     /\.vue\?vue/, // .vue
@@ -58,13 +57,13 @@ export default defineConfig({
   postprocess: (util: UtilObject) => {
     // 1 => 0.1rem (ex: p-1)
     {
-      const remRE = /(-?[\.\d]+)rem/g;
+      const remRegex = /(-?[\.\d]+)rem/g;
 
       util.entries.forEach((i: [string, string | number | undefined]) => {
         const value = i[1];
 
-        if (value && typeof value === 'string' && remRE.test(value)) {
-          i[1] = value.replace(remRE, (_: string, p1: string) => `${(+p1 * 4) / 10}rem`);
+        if (value && typeof value === 'string' && remRegex.test(value)) {
+          i[1] = value.replace(remRegex, (_: string, p1: string) => `${(+p1 * 4) / 10}rem`);
         }
       });
     }
