@@ -15,6 +15,18 @@ export const groupDriverApis = {
       },
     );
   },
+  getDetails: (groupId: string, relationShip?: ApiRelationshipQuery<API.GroupDriverRelationship>) => {
+    return request<API.GetGroupDriverDetailResponse>(
+      {
+        url: `retailer/group_driver/${groupId}`,
+        params: relationShip,
+        method: ERequestMethod.GET,
+      },
+      {
+        id: EApiId.GROUP_DRIVER_DETAILS,
+      },
+    );
+  },
   create: (rqBody: API.CreateUpdGroupDriverRequestBody) => {
     const body = { group_driver: { ...rqBody } };
 
@@ -29,18 +41,6 @@ export const groupDriverApis = {
         successMsg: COMMON_SUCCESS_MSG.create,
         errorMsg: COMMON_ERROR_MSG.create,
         isShowLoading: true,
-      },
-    );
-  },
-  getDetails: (groupId: string, relationShip?: ApiRelationshipQuery<API.GroupDriverRelationship>) => {
-    return request<API.GetGroupDriverDetailResponse>(
-      {
-        url: `retailer/group_driver/${groupId}`,
-        params: relationShip,
-        method: ERequestMethod.GET,
-      },
-      {
-        id: EApiId.GROUP_DRIVER_DETAILS,
       },
     );
   },
@@ -69,6 +69,8 @@ export const groupDriverApis = {
       },
       {
         id: EApiId.GROUP_DRIVER_DELETE,
+        successMsg: 'Xóa nhóm tài xế thành công!',
+        isShowLoading: true,
       },
     );
   },
