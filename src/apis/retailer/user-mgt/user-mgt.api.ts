@@ -2,7 +2,7 @@ import { COMMON_ERROR_MSG, COMMON_SUCCESS_MSG } from '@/constants/common.constan
 import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
-export const driverApis = {
+export const retailerUserApis = {
   search: (params?: API.SearchRetailerUserQueryParams) => {
     return request<ApiPageResponse<API.SearchRetailerUserResponse>>(
       {
@@ -44,23 +44,23 @@ export const driverApis = {
       },
     );
   },
-  // update: (driverId: string, rqBody: API.UpdateDriverRequestBody) => {
-  //   const body = { driver: { ...rqBody } };
+  update: (userId: string, rqBody: API.CreateUpdRetailerUserRequestBody) => {
+    const body = { driver: { ...rqBody } };
 
-  //   return request<API.GetDriverDetailResponse>(
-  //     {
-  //       url: `/core/driver/${driverId}`,
-  //       method: ERequestMethod.PUT,
-  //       body,
-  //     },
-  //     {
-  //       id: EApiId.DRIVER_UPDATE,
-  //       successMsg: COMMON_SUCCESS_MSG.update,
-  //       errorMsg: COMMON_ERROR_MSG.update,
-  //       isShowLoading: true,
-  //     },
-  //   );
-  // },
+    return request<ApiSuccessResponse>(
+      {
+        url: `/core/driver/${userId}`,
+        method: ERequestMethod.PUT,
+        body,
+      },
+      {
+        id: EApiId.DRIVER_UPDATE,
+        successMsg: COMMON_SUCCESS_MSG.update,
+        errorMsg: COMMON_ERROR_MSG.update,
+        isShowLoading: true,
+      },
+    );
+  },
   delete: (userId: string) => {
     return request<ApiSuccessResponse>(
       {

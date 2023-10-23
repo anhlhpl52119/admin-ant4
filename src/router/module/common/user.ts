@@ -2,51 +2,39 @@ import type { CustomRoute } from '@/router/typing';
 
 import PageContent from '@/layout/page-content/index.vue';
 import { ERouteName } from '@/enums/router.enum';
+import { ERole } from '@/enums/common.enum';
 
 const routes: CustomRoute[] = [
   {
     path: 'user',
-    name: ERouteName.USER,
+    name: ERouteName.RETAILER_USER,
     component: PageContent,
-    redirect: '/user/page1',
+    redirect: '/user/management',
     meta: {
-      hiddenInMenu: true,
+      hiddenInMenu: false,
       title: 'User Info',
-      permit: ['user'],
       icon: 'i-material-symbols:person-rounded',
+      permit: [ERole.RETAILER_MANAGER],
     },
     children: [
       {
-        path: 'page1',
-        name: ERouteName.USER_PAGE1,
-        component: () => import('@/views/demo/demo-button.vue'),
+        path: 'management',
+        name: ERouteName.RETAILER_USER_MANAGEMENT,
+        component: () => import('@/views/retailer-management/user-management.vue'),
         meta: {
-          hiddenInMenu: true,
-          title: 'User Info Menu 1',
-          permit: [],
+          hiddenInMenu: false,
+          title: 'User management',
         },
       },
       {
-        path: 'page2',
-        name: ERouteName.USER_PAGE3,
-        component: () => import('@/views/demo/dev.vue'),
+        path: ':id/details',
+        name: ERouteName.RETAILER_USER_DETAIL,
+        component: () => import('@/views/demo/demo-button.vue'),
         meta: {
-          hiddenInMenu: false,
-          title: 'User Info Menu 2',
-          permit: [],
+          hiddenInMenu: true,
+          title: 'User management',
         },
-        children: [
-          {
-            path: 'page999',
-            name: ERouteName.USER_PAGE5,
-            component: () => import('@/views/demo/dev.vue'),
-            meta: {
-              hiddenInMenu: false,
-              title: 'User Info Menu 5',
-              permit: [],
-            },
-          },
-        ],
+        props: route => ({ userId: route?.params?.id?.toString() || '' }),
       },
     ],
   },
