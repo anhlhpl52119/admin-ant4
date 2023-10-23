@@ -85,7 +85,7 @@ export const request = async <T>(
   }
 
   // show loading
-  isShowLoading && $message.loading({ content: () => loadingMessage, key: id });
+  isShowLoading && $message.loading({ content: loadingMessage, key: id });
 
   // set application loading
   id && setLoadingId(id);
@@ -109,20 +109,22 @@ export const request = async <T>(
     if (errorMsg) {
       $message.error({ content: errorMsg, key: id });
     }
+
+    let errMsg = UNKNOWN_ERROR;
     // show server response message
-    if (error.response.data) {
-      $message.error({ content: error.response.data, key: id });
+    if (error.response.data.message) {
+      [errMsg] = error.response.data.message;
     }
 
-    // show common message
-    $message.error({ content: UNKNOWN_ERROR, key: id });
+    // show error message
+    $message.error({ content: errMsg, key: id });
 
     return null as T;
   }
   finally {
-    if (!successMsg && !errorMsg) {
-      $message.destroy(id);
-    }
+    // if (!successMsg && !errorMsg) {
+    //   $message.destroy(id);
+    // }
     removeLoadingId(id);
   }
 };

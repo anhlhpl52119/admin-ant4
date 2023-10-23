@@ -29,7 +29,7 @@ const routes: CustomRoute[] = [
       {
         path: 'driver-group',
         name: ERouteName.DRIVER_GROUP,
-        component: () => import('@/views/group-driver/group-driver.vue'),
+        component: () => import('@/views/retailer-driver-management/group-driver/group-driver-management.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'Nhóm tài xế',

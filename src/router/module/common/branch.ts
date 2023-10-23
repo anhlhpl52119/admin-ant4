@@ -6,9 +6,9 @@ import { ERole } from '@/enums/common.enum';
 const routes: CustomRoute[] = [
   {
     path: 'branch',
-    name: ERouteName.BRANCH,
+    name: ERouteName.RETAILER_BRANCH,
     component: PageContent,
-    redirect: '/branch/branch-management',
+    redirect: '/branch/management',
     meta: {
       hiddenInMenu: false,
       title: 'Chi nhánh',
@@ -17,14 +17,23 @@ const routes: CustomRoute[] = [
     },
     children: [
       {
-        path: 'branch-management',
-        name: ERouteName.BRANCH_MANAGEMENT,
-        component: () => import('@/views/branch/branch.vue'),
+        path: 'management',
+        name: ERouteName.RETAILER_BRANCH_MANAGEMENT,
+        component: () => import('@/views/retailer-branch-management/branch-management.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'Quản lý chi nhánh',
-          permit: [ERole.RETAILER_MANAGER],
         },
+      },
+      {
+        path: ':id/details',
+        name: ERouteName.RETAILER_BRANCH_DETAIL,
+        component: () => import('@/views/demo/demo-button.vue'),
+        meta: {
+          hiddenInMenu: true,
+          title: 'Branch management',
+        },
+        props: route => ({ branchId: route?.params?.id?.toString() || '' }),
       },
     ],
   },
