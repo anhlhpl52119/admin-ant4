@@ -21,7 +21,6 @@
     ],
     "semi": [2, "always"],
     "no-console": "warn",
-    // "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "no-extra-semi": "off",
     "func-style": [
       "error",
