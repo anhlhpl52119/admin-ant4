@@ -13,22 +13,27 @@ export const columns: TableColumnType<API.GroupDriver>[] = [
     title: 'Tên',
     dataIndex: 'name',
     fixed: 'left',
+    ellipsis: true,
   },
   {
     title: 'Email',
     dataIndex: 'email',
+    ellipsis: true,
   },
   {
     title: 'Địa chỉ',
     dataIndex: 'address',
+    ellipsis: true,
   },
   {
     title: 'Status',
     dataIndex: 'status',
+    ellipsis: true,
   },
   {
     title: 'Mô tả',
     dataIndex: 'description',
+    ellipsis: true,
   },
   {
     dataIndex: 'edit',

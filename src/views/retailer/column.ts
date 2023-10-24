@@ -13,30 +13,37 @@ export const columns: TableColumnType<API.Retailer>[] = [
     title: 'Tên',
     dataIndex: 'name',
     fixed: 'left',
+    ellipsis: true,
   },
   {
     title: 'Mã',
     dataIndex: 'retailer_code',
+    ellipsis: true,
   },
   {
     title: 'Số điện thoại',
     dataIndex: 'phone',
+    ellipsis: true,
   },
   {
     title: 'Email',
     dataIndex: 'email',
+    ellipsis: true,
   },
   {
     title: 'Địa chỉ',
     dataIndex: 'address',
+    ellipsis: true,
   },
   {
     title: 'Mô tả',
     dataIndex: 'description',
+    ellipsis: true,
   },
   {
     title: 'Sync status',
     dataIndex: 'sync_status',
+    ellipsis: true,
   },
   {
     dataIndex: 'edit',
