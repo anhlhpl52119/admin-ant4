@@ -59,7 +59,9 @@
       <TransitionGroup name="fade" tag="ul" class="flex gap-10 mt-7">
         <template v-for="item in state" :key="item.key">
           <li class="search-form-items shrink-0 basis-170">
-            <CInput v-model:value="item.value" :label="item.label" size="small" class="rounded-full" />
+            <FieldTitle :title="item.label">
+              <CInput v-model:value="item.value" size="small" class="rounded-full" />
+            </FieldTitle>
             <i class="i-ic:baseline-cancel" @click="removeSearchItem(item.key)" />
           </li>
         </template>

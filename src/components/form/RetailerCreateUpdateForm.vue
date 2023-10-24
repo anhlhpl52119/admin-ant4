@@ -14,68 +14,69 @@
           @finishFailed="handleFinishFailed"
         >
           <AFormItem name="name" class="w-full">
-            <CInput
-              v-model:value="createUpdateBodyState.name"
-              :maxlength="50"
-              placeholder="Nhập tên"
-              label="Tên nhà bán lẻ"
-            />
+            <FieldTitle title="Tên nhà bán lẻ" required>
+              <CInput
+                v-model:value="createUpdateBodyState.name"
+                :maxlength="50"
+                placeholder="Nhập tên"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="retailer_code">
-            <p class="font-medium">
-              Nhập Mã
-            </p>
-            <IdentifyFieldInput
-              v-model:value="createUpdateBodyState.retailer_code"
-              case="upperCase"
-              spaceReplacement="underline"
-              placeholder="Mã định danh"
-            />
+            <FieldTitle title="Nhập Mã" required>
+              <IdentifyFieldInput
+                v-model:value="createUpdateBodyState.retailer_code"
+                case="upperCase"
+                spaceReplacement="underline"
+                placeholder="Mã định danh"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="phone" v-bind="naPhoneNumber">
-            <CInput
-              v-model:value="createUpdateBodyState.phone"
-              :maxlength="12"
-              placeholder="số điện thoại"
-              acceptedOnly="number"
-              label="Số điện thoại"
-            />
+            <FieldTitle title="Số điện thoại" required>
+              <CInput
+                v-model:value="createUpdateBodyState.phone"
+                :maxlength="12"
+                placeholder="số điện thoại"
+                acceptedOnly="number"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem>
-            <CInput
-              v-model:value="createUpdateBodyState.address"
-              :maxlength="250"
-              placeholder="Địa chỉ"
-              label="Địa chỉ"
-            />
+            <FieldTitle title="Địa chỉ" required>
+              <CInput
+                v-model:value="createUpdateBodyState.address"
+                :maxlength="250"
+                placeholder="Địa chỉ"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem>
-            <CInput
-              v-model:value="createUpdateBodyState.description"
-              :maxlength="300"
-              placeholder="Mô tả"
-              label="Mô tả"
-            />
+            <FieldTitle title="Mô tả" required>
+              <CInput
+                v-model:value="createUpdateBodyState.description"
+                :maxlength="300"
+                placeholder="Mô tả"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="email">
-            <p class="font-medium">
-              Nhập email
-            </p>
-            <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
+            <FieldTitle title="Nhập email" required>
+              <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="source">
-            <p class="font-medium">
-              Chọn Nguồn
-            </p>
-            <ASelect
-              v-model:value="createUpdateBodyState.source"
-              showSearch
-              :loading="loadingIds.has(EApiId.RETAILER_TYPES)"
-              placeholder="Chọn nguồn"
-              :options="options"
-              :disabled="loadingIds.has(EApiId.RETAILER_TYPES)"
-              :filterOption="filterOption"
-            />
+            <FieldTitle title="Chọn Nguồn" required>
+              <ASelect
+                v-model:value="createUpdateBodyState.source"
+                showSearch
+                :loading="loadingIds.has(EApiId.RETAILER_TYPES)"
+                placeholder="Chọn nguồn"
+                :options="options"
+                :disabled="loadingIds.has(EApiId.RETAILER_TYPES)"
+                :filterOption="filterOption"
+              />
+            </FieldTitle>
           </AFormItem>
           <div class="flex justify-center gap-10">
             <AButton

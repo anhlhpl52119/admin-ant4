@@ -14,43 +14,36 @@
           @finishFailed="handleFinishFailed"
         >
           <AFormItem name="name" class="w-full">
-            <CInput
-              v-model:value="createUpdateBodyState.name"
-              :maxlength="50"
-              placeholder="Nhập tên"
-              label="Tên nhóm tài xế"
-            />
+            <FieldTitle title="Tên nhóm tài xế" required>
+              <CInput
+                v-model:value="createUpdateBodyState.name"
+                :maxlength="50"
+                placeholder="Nhập tên"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="description" class="w-full">
-            <CInput
-              v-model:value="createUpdateBodyState.description"
-              :maxlength="50"
-              placeholder="Nhập mô tả"
-              label="Mô tả"
-            />
+            <FieldTitle title="Mô tả" required>
+              <CInput
+                v-model:value="createUpdateBodyState.description"
+                :maxlength="50"
+                placeholder="Nhập mô tả"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="address" class="w-full">
-            <CInput
-              v-model:value="createUpdateBodyState.address"
-              :maxlength="50"
-              placeholder="Nhập địa chỉ"
-              label="Địa chỉ"
-            />
+            <FieldTitle title="Địa chỉ" required>
+              <CInput
+                v-model:value="createUpdateBodyState.address"
+                :maxlength="50"
+                placeholder="Nhập địa chỉ"
+              />
+            </FieldTitle>
           </AFormItem>
-          <!-- <AFormItem name="phone" v-bind="naPhoneNumber">
-            <CInput
-              v-model:value="createUpdateBodyState.phone"
-              :maxlength="12"
-              placeholder="số điện thoại"
-              acceptedOnly="number"
-              label="Số điện thoại"
-            />
-          </AFormItem> -->
           <AFormItem name="email">
-            <p class="font-medium">
-              Nhập email
-            </p>
-            <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
+            <FieldTitle title="Nhập email" required>
+              <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
+            </FieldTitle>
           </AFormItem>
           <div class="flex justify-center gap-10">
             <AButton

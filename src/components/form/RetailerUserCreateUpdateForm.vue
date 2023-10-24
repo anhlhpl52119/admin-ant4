@@ -14,41 +14,41 @@
           @finishFailed="handleFinishFailed"
         >
           <AFormItem name="name" class="w-full">
-            <CInput
-              v-model:value="createUpdateBodyState.name"
-              :maxlength="50"
-              placeholder="Nhập tên"
-              label="Tên nhà bán lẻ"
-            />
+            <FieldTitle title="Tên nhà bán lẻ" required>
+              <CInput
+                v-model:value="createUpdateBodyState.name"
+                :maxlength="50"
+                placeholder="Nhập tên"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="phone" v-bind="naPhoneNumber">
-            <CInput
-              v-model:value="createUpdateBodyState.phone"
-              :maxlength="12"
-              placeholder="số điện thoại"
-              acceptedOnly="number"
-              label="Số điện thoại"
-            />
+            <FieldTitle title="Số điện thoại" required>
+              <CInput
+                v-model:value="createUpdateBodyState.phone"
+                :maxlength="12"
+                placeholder="số điện thoại"
+                acceptedOnly="number"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="email">
-            <p class="font-medium">
-              Nhập email
-            </p>
-            <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
+            <FieldTitle title="Nhập email" required>
+              <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="source">
-            <p class="font-medium">
-              Phân quyền
-            </p>
-            <ASelect
-              v-model:value="createUpdateBodyState.role"
-              showSearch
-              :loading="loadingIds.has(EApiId.RETAILER_TYPES)"
-              placeholder="Phân quyền cho người dùng này"
-              :options="options"
-              :disabled="loadingIds.has(EApiId.RETAILER_TYPES)"
-              :filterOption="filterOption"
-            />
+            <FieldTitle title="Phân quyền" required>
+              <ASelect
+                v-model:value="createUpdateBodyState.role"
+                showSearch
+                :loading="loadingIds.has(EApiId.RETAILER_TYPES)"
+                placeholder="Phân quyền cho người dùng này"
+                :options="options"
+                :disabled="loadingIds.has(EApiId.RETAILER_TYPES)"
+                :filterOption="filterOption"
+              />
+            </FieldTitle>
           </AFormItem>
           <div class="flex justify-center gap-10">
             <AButton

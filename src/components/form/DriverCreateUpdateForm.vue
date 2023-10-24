@@ -14,47 +14,53 @@
           @finishFailed="handleFinishFailed"
         >
           <AFormItem name="name" class="w-full">
-            <CInput
-              v-model:value="createUpdateBodyState.name"
-              :maxlength="50"
-              label="Tên tài xế"
-            />
+            <FieldTitle title="Tên tài xế" required>
+              <CInput
+                v-model:value="createUpdateBodyState.name"
+                :maxlength="50"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="code">
-            <CInput
-              v-model:value="createUpdateBodyState.code"
-              :maxlength="20"
-              label="Mã tài xế"
-            />
+            <FieldTitle title="Mã tài xế" required>
+              <CInput
+                v-model:value="createUpdateBodyState.code"
+                :maxlength="20"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="phone">
-            <CInput
-              v-model:value="createUpdateBodyState.phone"
-              :maxlength="12"
-              label="Số điện thoại"
-            />
+            <FieldTitle title="Số điện thoại" required>
+              <CInput
+                v-model:value="createUpdateBodyState.phone"
+                :maxlength="12"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem>
-            <CInput
-              v-model:value="createUpdateBodyState.address"
-              :maxlength="250"
-              label="Địa chỉ"
-            />
+            <FieldTitle title="Địa chỉ" required>
+              <CInput
+                v-model:value="createUpdateBodyState.address"
+                :maxlength="250"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem>
-            <CInput
-              v-model:value="createUpdateBodyState.description"
-              :maxlength="300"
-              label="Mô tả"
-            />
+            <FieldTitle title="Mô tả" required>
+              <CInput
+                v-model:value="createUpdateBodyState.description"
+                :maxlength="300"
+              />
+            </FieldTitle>
           </AFormItem>
           <AFormItem name="user_id">
-            <CFetchOption
-              v-model:initial-value="createUpdateBodyState.user_id"
-              label="Người sở hữu"
-              :requestData="composeRetailerOption"
-              labelKey="name"
-            />
+            <FieldTitle title="Người sở hữu" required>
+              <CFetchOption
+                v-model:initial-value="createUpdateBodyState.user_id"
+                :requestData="composeRetailerOption"
+                labelKey="name"
+              />
+            </FieldTitle>
           </AFormItem>
           <div class="flex justify-center gap-10">
             <AButton

@@ -11,61 +11,69 @@
         @finish="onValidateSuccess"
       >
         <AFormItem :name="EKiotVietConfig.SHOP_NAME">
-          <CInput
-            v-model:value="testForm.KIOTVIET_SHOP_NAME"
-            :maxlength="50"
-            placeholder="Tên shop"
-            label="Tên shop"
-          />
+          <FieldTitle title="Tên shop" required>
+            <CInput
+              v-model:value="testForm.KIOTVIET_SHOP_NAME"
+              :maxlength="50"
+              placeholder="Tên shop"
+            />
+          </FieldTitle>
         </AFormItem>
         <AFormItem :name="EKiotVietConfig.CONNECTION_NAME">
-          <CInput
-            v-model:value="testForm.KIOTVIET_CONNECTION_NAME"
-            :maxlength="50"
-            placeholder="Tên kết nối"
-            label="Tên kết nối"
-          />
+          <FieldTitle title="Tên kết nối" required>
+            <CInput
+              v-model:value="testForm.KIOTVIET_CONNECTION_NAME"
+              :maxlength="50"
+              placeholder="Tên kết nối"
+            />
+          </FieldTitle>
         </AFormItem>
         <AFormItem :name="EKiotVietConfig.USERNAME">
-          <CInput
-            v-model:value="testForm.KIOTVIET_USERNAME"
-            :maxlength="50"
-            acceptedOnly="noSpace"
-            placeholder="Tên đăng nhập"
-            label="Tên đăng nhập"
-          />
+          <FieldTitle title="Tên đăng nhập" required>
+            <CInput
+              v-model:value="testForm.KIOTVIET_USERNAME"
+              :maxlength="50"
+              acceptedOnly="noSpace"
+              placeholder="Tên đăng nhập"
+              label=""
+            />
+          </FieldTitle>
         </AFormItem>
         <AFormItem :name="EKiotVietConfig.PASSWORD">
-          <CInput
-            v-model:value="testForm.KIOTVIET_PASSWORD"
-            :maxlength="50"
-            placeholder="Mật khẩu"
-            label="Mật khẩu"
-          />
+          <FieldTitle title="Mật khẩu" required>
+            <CInput
+              v-model:value="testForm.KIOTVIET_PASSWORD"
+              :maxlength="50"
+              placeholder="Mật khẩu"
+            />
+          </FieldTitle>
         </AFormItem>
         <AFormItem :name="EKiotVietConfig.CLIENT_ID">
-          <CInput
-            v-model:value="testForm.KIOTVIET_CLIENT_ID"
-            :maxlength="50"
-            placeholder="Tên client"
-            label="Tên client"
-          />
+          <FieldTitle title="Tên client" required>
+            <CInput
+              v-model:value="testForm.KIOTVIET_CLIENT_ID"
+              :maxlength="50"
+              placeholder="Tên client"
+            />
+          </FieldTitle>
         </AFormItem>
         <AFormItem :name="EKiotVietConfig.COMMISSION_RATIO">
-          <CInput
-            v-model:value="testForm.RETAILER_COMMISSION_RATIO"
-            :maxlength="50"
-            placeholder="Chiết khấu"
-            label="Chiết khấu"
-          />
+          <FieldTitle title="Chiết khấu" required>
+            <CInput
+              v-model:value="testForm.RETAILER_COMMISSION_RATIO"
+              :maxlength="50"
+              placeholder="Chiết khấu"
+            />
+          </FieldTitle>
         </AFormItem>
         <AFormItem :name="EKiotVietConfig.SECRET_KEY">
-          <CInput
-            v-model:value="testForm.KIOTVIET_SECRET_KEY"
-            :maxlength="50"
-            placeholder="Secret key"
-            label="Secret key"
-          />
+          <FieldTitle title="Secret key" required>
+            <CInput
+              v-model:value="testForm.KIOTVIET_SECRET_KEY"
+              :maxlength="50"
+              placeholder="Secret key"
+            />
+          </FieldTitle>
         </AFormItem>
         <!-- Footer -->
         <div class="flex justify-center gap-10">
