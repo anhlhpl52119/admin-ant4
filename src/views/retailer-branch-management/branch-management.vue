@@ -20,6 +20,7 @@
         :pagination="false"
         :scroll="{ y: '61rem' }"
         size="small"
+        @resizeColumn="handleResizeColumn"
       >
         <template #bodyCell="{ index, column, record }">
           <template v-if="column.dataIndex === 'indexNum'">
@@ -127,7 +128,7 @@ const {
   search,
   reload,
 } = useCommonTableMethod(
-  EApiId.RETAILER_USER_SEARCH,
+  EApiId.BRANCH_SEARCH,
   fetch,
 );
 
@@ -139,6 +140,10 @@ const onSearch = (e: QueriesRaw<API.Branch>[]) => {
 const handleSuccess = (modalId: string) => {
   coreModal.close(modalId);
   search();
+};
+
+const handleResizeColumn = (w: any, col: any) => {
+  col.width = w;
 };
 
 const openModel = (userId?: string) => {

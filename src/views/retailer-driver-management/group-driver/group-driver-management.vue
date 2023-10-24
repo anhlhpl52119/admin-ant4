@@ -34,10 +34,11 @@
             </AButton>
           </template>
           <template v-if="column.dataIndex === 'edit'">
-            <ATooltip title="Chỉnh sửa">
+            <!-- <ATooltip title="Chỉnh sửa">
               <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
             </ATooltip>
-            <AButton :icon="h(DeleteOutlined)" danger type="primary" @click="handleDelete(record.id)" />
+            <AButton :icon="h(DeleteOutlined)" danger type="primary" @click="handleDelete(record.id)" /> -->
+            <AButton :icon="h(EyeOutlined)" type="primary" @click="handleDelete(record.id)" />
           </template>
         </template>
         <template #title>
@@ -50,17 +51,17 @@
         </template>
       </ATable>
     </section>
-    <!-- <RetailerDetailDrawer
+    <GroupDriverDetailDrawer
       v-model:is-open="detailsDrawerState.isOpen"
-      :retailerItem="detailsDrawerState.item"
+      :groupId="detailsDrawerState.id"
       :title="detailsDrawerState.title"
       @close="onCloseDetailDrawer"
-    /> -->
+    />
   </main>
 </template>
 
 <script lang="ts" setup>
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
+import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons-vue';
 import { Modal, message } from 'ant-design-vue';
 import { columns, searchFilterRaw } from './column';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
@@ -69,7 +70,7 @@ import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
 import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
 
-const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
+const GroupDriverDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/GroupDriverDetailDrawer.vue'));
 const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));
 
 const { getDetails, setDetails } = useTableCache<API.GroupDriver>();
@@ -78,7 +79,7 @@ const { getDetails, setDetails } = useTableCache<API.GroupDriver>();
 const detailsDrawerState = reactive({
   isOpen: false,
   title: '',
-  item: null as API.GroupDriver | null,
+  id: '',
 });
 
 const fetch = async (params?: API.SearchGroupDriverQueryParams) => {
@@ -102,25 +103,26 @@ const onShowDrawerDetails = async (item: API.GroupDriver) => {
   }
   detailsDrawerState.title = item.name;
   detailsDrawerState.isOpen = true;
-  // check cache
-  const cacheItem = getDetails(item.id);
-  if (cacheItem) {
-    detailsDrawerState.item = cacheItem;
+  detailsDrawerState.id = item.id;
+  // // check cache
+  // const cacheItem = getDetails(item.id);
+  // if (cacheItem) {
+  //   detailsDrawerState.item = cacheItem;
 
-    return;
-  }
-  // fetch
-  const res = await groupDriverApis.getDetails(item.id, { includes: ['retailer', 'drivers'] });
-  if (!(res && res.data && res.data.retailer)) {
-    return;
-  }
-  // cache
-  setDetails(item.id, res.data);
-  detailsDrawerState.item = res.data;
+  //   return;
+  // }
+  // // fetch
+  // const res = await groupDriverApis.getDetails(item.id, { includes: ['retailer', 'drivers'] });
+  // if (!(res && res.data && res.data.retailer)) {
+  //   return;
+  // }
+  // // cache
+  // setDetails(item.id, res.data);
+  // detailsDrawerState.item = res.data;
 };
 
 const onCloseDetailDrawer = () => {
-  detailsDrawerState.item = null;
+  detailsDrawerState.id = '';
   detailsDrawerState.title = '';
   detailsDrawerState.isOpen = false;
 };
