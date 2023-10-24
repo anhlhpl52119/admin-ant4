@@ -122,7 +122,7 @@ const rules: { [k in keyof API.CreateUpdRetailerUserRequestBody]?: Rule[] } = {
   name: [{ validator: checkName, trigger: ['blur', 'change'] }],
   phone: [{ validator: checkPhoneNumber, trigger: ['blur'] }],
   email: [{ validator: checkEmail, trigger: 'change' }],
-  role: [{ required: true, message: 'Nguồn Không được để trống' }],
+  role: [{ required: true, message: 'Phân quyền không được để trống' }],
 };
 
 const options = ref<DefaultOptionType[]>([
