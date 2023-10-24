@@ -51,8 +51,8 @@ export default defineConfig({
     // Grid
     ['grid-center', 'grid items-center justify-items-center'],
     // Text
-    ['text-spotlight', 'font-700 text-16'],
-    ['text-desc', 'font-700 text-14 text-slate-400'],
+    ['text-spotlight', 'font-600 text-15'],
+    ['text-desc', 'font-300 text-14 text-slate-400'],
   ],
   postprocess: (util: UtilObject) => {
     // 1 => 0.1rem (ex: p-1)
