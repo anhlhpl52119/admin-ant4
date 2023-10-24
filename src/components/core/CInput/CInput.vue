@@ -1,91 +1,67 @@
 <template>
-  <div :class="labelWhere" class="flex gap-4">
-    <span v-if="label" :class="labelClass" class="font-medium">
-      {{ label }}
-    </span>
-    <AInputPassword
-      v-if="password"
-      :maxlength="50"
-      v-bind="{ ...$attrs, ...props }"
-      @input="onInput"
-    />
-    <AInput v-else :maxlength="50" v-bind="{ ...$attrs, ...props }" @input="onInput">
-      <template v-for="(_, key) in $slots" #[key]>
-        <slot :name="key" />
-      </template>
-    </AInput>
-  </div>
+  <AInput :maxlength="50" v-bind="{ ...$attrs, ...props }" @input="onInput">
+    <template v-for="(_, key) in $slots" #[key]>
+      <slot :name="key" />
+    </template>
+  </AInput>
 </template>
 
 <script lang="ts" setup>
 import InputProp from 'ant-design-vue/es/input/inputProps';
 import type { PropType } from 'vue';
 import { stringWithoutDiacritics } from '@/utils/common.util';
+import { BEGIN_BY_SPACE, INCLUDE_SPACE, MULTIPLE_SPACE_ADJACENT } from '@/constants/regex.constant';
 
-type RegexTypes = 'number' | 'text' | 'userLogin' | 'noSpace';
-type LabelPlacement = 'top' | 'bottom' | 'left' | 'right';
-
+type InputCase = 'upper' | 'lower' | 'default'
 const props = defineProps({
   ...InputProp(),
-  preventKey: Array<string>,
-  acceptedOnly: String as PropType<RegexTypes>,
-  labelPlacement: String as PropType<LabelPlacement>,
-  label: String,
-  labelClass: String,
-  password: Boolean,
-  upperCase: Boolean,
-  withoutDiacritics: Boolean,
+  replaceSymbol: {
+    type: Array<RegExp>,
+    required: false,
+  },
+  inputCase: {
+    type: String as PropType<InputCase>,
+    default: 'default',
+  },
+  noDiacritics: Boolean,
+  noSpace: Boolean,
 });
 
 const emits = defineEmits<{
   'update:value': [v: string]
 }>();
-
-/**
- * define where is label placement base on props
- *
- * @return {string} - class of tailwind
- */
-const labelWhere = computed(() => {
-  switch (props.labelPlacement) {
-    case 'right':
-      return 'flex-row-reverse items-center';
-    case 'bottom':
-      return 'flex-col-reverse';
-    case 'left':
-      return 'item-center';
-    case 'top':
-      return 'flex-col';
+const caseChanger = (val: string, caseType: InputCase): string => {
+  switch (caseType) {
+    case 'lower':
+      return val.toLowerCase();
+    case 'upper':
+      return val.toUpperCase();
     default:
-      return 'flex-col';
+      return val;
   }
-});
-
-const reRexFactory: { [k in RegexTypes]: (v: string) => string } = {
-  text: (v: string) => v.replace(/[0-9]/g, ''),
-  number: (v: string) => v.replace(/[^0-9]/g, ''),
-  userLogin: (v: string) => v.replace(/[~!#$%^&*()\-\+=\[\]{}|\\;:'",<>\/?\s]/g, ''),
-  noSpace: (v: string) => v.replace(/\s/g, ''),
 };
 
-/**
- * Trigger when typing on input
- * remove first space character
- *
- */
 const onInput = (e: any) => {
-  const firstSpace = /^\s/;
-
   // prevent empty space character ahead of string
-  let val: string = e?.target?.value?.replace(firstSpace, '') ?? '';
-  if (props.withoutDiacritics) {
+  let val: string = e?.target?.value?.replace(BEGIN_BY_SPACE, '') ?? '';
+  val = val.replace(MULTIPLE_SPACE_ADJACENT, ' ');
+  if (props.inputCase !== 'default') {
+    val = caseChanger(val, props.inputCase);
+  }
+  if (props?.noSpace) {
+    val = stringWithoutDiacritics(val);
+    val = val.replace(INCLUDE_SPACE, '');
+  };
+  if (props.noDiacritics) {
     val = stringWithoutDiacritics(val);
   }
-  if (props.acceptedOnly) {
-    val = reRexFactory[props.acceptedOnly](val);
-  }
-  if (props.upperCase) {
-    val = val.toUpperCase();
+  if (props?.replaceSymbol && props?.replaceSymbol.length > 0) {
+    props?.replaceSymbol.forEach((i) => {
+      try {
+        val = val.replace(i, '');
+      }
+      catch (error) {}
+    });
   }
 
   emits('update:value', val);
