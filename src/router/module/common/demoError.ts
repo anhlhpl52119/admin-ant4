@@ -16,30 +16,12 @@ const routes: CustomRoute[] = [
     },
     children: [
       {
-        path: 'error-500',
-        name: ERouteName.ERROR_500,
-        component: () => import('@/views/errors/500.vue'),
+        path: 'page1',
+        name: ERouteName.DASHBOARD_PAGE1,
+        component: () => import('@/views/demo/demo-button.vue'),
         meta: {
           hiddenInMenu: false,
-          title: 'Error 500',
-        },
-      },
-      {
-        path: 'error-404',
-        name: ERouteName.DEMO_404,
-        component: () => import('@/views/errors/404.vue'),
-        meta: {
-          hiddenInMenu: false,
-          title: 'Error 404',
-        },
-      },
-      {
-        path: 'error-403',
-        name: ERouteName.ERROR_403,
-        component: () => import('@/views/errors/403.vue'),
-        meta: {
-          hiddenInMenu: false,
-          title: 'Error 304',
+          title: 'Demo page',
         },
       },
       {
@@ -48,7 +30,7 @@ const routes: CustomRoute[] = [
         component: PageContent,
         meta: {
           hiddenInMenu: false,
-          title: 'Demo Component',
+          title: 'Demo Nested Menu',
         },
         children: [
           {
@@ -57,7 +39,7 @@ const routes: CustomRoute[] = [
             component: () => import('@/views/demo/multiples-langs.vue'),
             meta: {
               hiddenInMenu: false,
-              title: 'Multiple languages',
+              title: 'Menu level 2',
             },
           },
         ],

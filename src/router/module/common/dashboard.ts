@@ -15,15 +15,6 @@ const routes: CustomRoute[] = [
     },
     children: [
       {
-        path: 'page1',
-        name: ERouteName.DASHBOARD_PAGE1,
-        component: () => import('@/views/demo/demo-button.vue'),
-        meta: {
-          hiddenInMenu: false,
-          title: 'Dashboard Page 1',
-        },
-      },
-      {
         path: 'page2',
         name: ERouteName.DASHBOARD_PAGE2,
         component: () => import('@/views/demo/dev.vue'),
