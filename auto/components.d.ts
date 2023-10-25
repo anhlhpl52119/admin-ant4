@@ -69,6 +69,7 @@ declare module 'vue' {
     AUpload: typeof import('ant-design-vue/es')['Upload']
     BranchCreateUpdateModal: typeof import('./../src/components/modal/BranchCreateUpdateModal.vue')['default']
     BranchDetailDrawer: typeof import('./../src/components/drawer/BranchDetailDrawer.vue')['default']
+    CAlertModal: typeof import('./../src/components/core/CAlertModal/CAlertModal.vue')['default']
     CAppDrawer: typeof import('./../src/components/core/CAppDrawer/CAppDrawer.vue')['default']
     CAppModal: typeof import('./../src/components/core/CAppModal/CAppModal.vue')['default']
     CAutoComplete: typeof import('./../src/components/core/CAutoComplete/CAutoComplete.vue')['default']
