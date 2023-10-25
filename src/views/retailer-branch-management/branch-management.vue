@@ -45,12 +45,6 @@
         </template>
       </ATable>
     </section>
-    <!-- <RetailerDetailDrawer
-      v-model:is-open="detailsDrawerState.isOpen"
-      :retailerItem="detailsDrawerState.item"
-      :title="detailsDrawerState.title"
-      @close="onCloseDetailDrawer"
-    /> -->
   </main>
 </template>
 
