@@ -4,6 +4,7 @@
       :open="value.isOpen"
       destroyOnClose
       centered
+      :footer="null"
       :width="value.modalWidth"
       :maskClosable="value.maskCloseable ?? false"
       :title="value.headerTitle ?? ''"
@@ -14,9 +15,6 @@
         v-bind="value?.props ?? {}"
         v-on="value?.event ?? {}"
       />
-      <template #footer>
-        <div class="hidden" />
-      </template>
     </AModal>
   </template>
 </template>
