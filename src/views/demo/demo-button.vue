@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="gap-16 flex-center">
-      <AButton danger type="primary">
+      <AButton danger type="primary" @click="showAl">
         Error
       </AButton>
       <AButton type="primary">
@@ -19,18 +19,32 @@
       <i class="i-ph-anchor-simple-thin w30 h30" />
     </div>
     <div class="mt-30">
-      <CUinput
-        v-model:value="inputv"
-        inputCase="upper"
-        :replaceSymbol="[TEXT_ONLY]"
-      />
+      <div>
+        <FieldTitle title="Test" required />
+        <CInput
+          v-model:value="inputv"
+          inputCase="upper"
+          class="w-200"
+          :replaceSymbol="[TEXT_ONLY]"
+        />
+      </div>
     </div>
   </main>
 </template>
 
 <script lang="ts" setup>
+import CAlertModal from '@/components/core/CAlertModal/CAlertModal.vue';
+import { showConfirmAlert } from '@/composable/core/useCoreAlert';
 import { NUMBER_ONLY, TEXT_ONLY } from '@/constants/regex.constant';
 
 const checkBoxState = ref<boolean>(false);
 const inputv = ref('');
+const showAl = async () => {
+  const a = await showConfirmAlert({
+    title: 'hihi title',
+    content: 'test content',
+    severityLevel: 'danger',
+  });
+  console.log(a);
+};
 </script>
