@@ -14,7 +14,7 @@
           @finishFailed="handleFinishFailed"
         >
           <AFormItem name="name" class="w-full">
-            <FieldTitle title="Tên nhà bán lẻ" required>
+            <FieldTitle title="Tên người dùng" required>
               <CInput
                 v-model:value="createUpdateBodyState.name"
                 :maxlength="50"

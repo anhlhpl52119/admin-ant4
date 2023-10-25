@@ -22,15 +22,6 @@
               />
             </FieldTitle>
           </AFormItem>
-          <AFormItem name="description" class="w-full">
-            <FieldTitle title="Mô tả" required>
-              <CInput
-                v-model:value="createUpdateBodyState.description"
-                :maxlength="50"
-                placeholder="Nhập mô tả"
-              />
-            </FieldTitle>
-          </AFormItem>
           <AFormItem name="address" class="w-full">
             <FieldTitle title="Địa chỉ" required>
               <CInput
@@ -40,8 +31,17 @@
               />
             </FieldTitle>
           </AFormItem>
+          <AFormItem name="description" class="w-full">
+            <FieldTitle title="Mô tả">
+              <CInput
+                v-model:value="createUpdateBodyState.description"
+                :maxlength="50"
+                placeholder="Nhập mô tả"
+              />
+            </FieldTitle>
+          </AFormItem>
           <AFormItem name="email">
-            <FieldTitle title="Nhập email" required>
+            <FieldTitle title="Nhập email">
               <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
             </FieldTitle>
           </AFormItem>
@@ -66,7 +66,6 @@
 
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form';
-import type { DefaultOptionType } from 'ant-design-vue/es/select';
 import type { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
@@ -81,7 +80,7 @@ const emits = defineEmits<{
 }>();
 
 const { loadingIds } = storeToRefs(useVisibilityStore());
-const { checkName, checkEmail } = useFieldValidation();
+const { checkName } = useFieldValidation();
 
 const formItemLayout = {
   labelCol: {
@@ -94,16 +93,17 @@ const formItemLayout = {
   },
 };
 
-const createUpdateBodyState = reactive<API.CreateUpdGroupDriverRequestBody>({
+const createUpdateBodyState = reactive<Required<API.CreateUpdGroupDriverRequestBody>>({
   name: '',
   email: '',
   address: '',
   description: '',
+  status: '',
 });
 
 const rules: { [k in keyof API.CreateUpdGroupDriverRequestBody]?: Rule[] } = {
   name: [{ validator: checkName, trigger: ['blur', 'change'] }],
-  email: [{ validator: checkEmail, trigger: 'change' }],
+  address: [{ required: true, message: 'Địa chỉ ko được bỏ trống' }],
 };
 
 const isUpdateMode = computed(() => !!props.groupId);

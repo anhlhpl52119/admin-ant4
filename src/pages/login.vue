@@ -1,13 +1,17 @@
 <template>
   <main class="bg-abd flex-center">
     <div class="w400 h400 flex flex-col gap-10" @keydown.enter="submit">
-      <CInput
-        v-model:value="formState.email"
-        label="Email"
-        acceptedOnly="userLogin"
-        :maxlength="60"
-      />
-      <CInput v-model:value="formState.password" password label="Password" />
+      <FieldTitle title="Email" required>
+        <CInput
+          v-model:value="formState.email"
+          acceptedOnly="userLogin"
+          :maxlength="60"
+        />
+      </FieldTitle>
+
+      <FieldTitle title="Password" required>
+        <CInput v-model:value="formState.password" />
+      </FieldTitle>
       <ACheckbox v-model:value="formState.refresh">
         Remember me
       </ACheckbox>

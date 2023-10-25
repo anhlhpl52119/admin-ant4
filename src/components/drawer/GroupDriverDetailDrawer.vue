@@ -36,6 +36,9 @@
         </ADescriptionsItem>
       </ADescriptions>
       <ADivider />
+      <AButton @click="openAddDriver">
+        Thêm tài xế
+      </AButton>
       <AList
         :data-source="drivers"
         bordered
@@ -78,6 +81,7 @@ const emit = defineEmits<{
 }>();
 
 const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));
+const AddDriver = defineAsyncComponent(() => import('@/components/common/AddDriver.vue'));
 
 const { isOpen, groupId } = toRefs(props);
 const groupDriver = ref<API.GroupDriver>();
@@ -101,6 +105,20 @@ const initGroupDriver = async () => {
 const handleSuccess = (modalId: string) => {
   coreModal.close(modalId);
   initGroupDriver();
+};
+
+const openAddDriver = () => {
+  const modalId = coreModal.show({
+    component: AddDriver,
+    title: 'Thêm tài xế',
+    props: {
+      groupId: groupId.value,
+    },
+    emits: {
+      confirm: (v: string) => console.log('object', v),
+      cancel: () => coreModal.close(modalId),
+    },
+  });
 };
 
 const openModel = () => {

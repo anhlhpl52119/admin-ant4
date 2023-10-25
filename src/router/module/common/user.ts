@@ -20,7 +20,7 @@ const routes: CustomRoute[] = [
       {
         path: 'management',
         name: ERouteName.RETAILER_USER_MANAGEMENT,
-        component: () => import('@/views/retailer-management/user-management.vue'),
+        component: () => import('@/views/retailer-management/user/user-management.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'User management',

@@ -1,0 +1,182 @@
+<template>
+  <main>
+    <CommonPageTitle
+      title="Quản lý người dùng"
+      actionBtnLabel="Thêm người dùng"
+      @onClickAction="openModel()"
+    />
+
+    <CommonTableSearchForm
+      :raw="searchFilterRaw"
+      :loading="isTableLoading"
+      @search="onSearch"
+      @reset="search"
+    />
+    <section class="card">
+      <ATable
+        :data-source="recordsState"
+        :columns="columns"
+        :loading="isTableLoading"
+        :pagination="false"
+        :scroll="{ y: '61rem' }"
+        size="small"
+      >
+        <template #bodyCell="{ index, column, record }">
+          <template v-if="column.dataIndex === 'indexNum'">
+            {{ index + 1 }}
+          </template>
+          <template v-if="column.dataIndex === 'name'">
+            <AButton
+              type="link"
+              @click="onShowDrawerDetails(record as API.RetailerUser)"
+            >
+              {{ record.name }}
+            </AButton>
+          </template>
+          <template v-if="column.dataIndex === 'edit'">
+            <ATooltip title="Chỉnh sửa">
+              <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
+            </ATooltip>
+            <AButton :icon="h(DeleteOutlined)" danger type="primary" @click="onDelete(record.id)" />
+          </template>
+        </template>
+        <template #title>
+          <CommonTableHeader
+            v-model:current-page="paginationState.currentPage"
+            v-model:record-per-page="paginationState.recordsPerPage"
+            :totalRecord="totalRecords"
+            @reload="reload"
+          />
+        </template>
+      </ATable>
+    </section>
+  </main>
+</template>
+
+<script lang="ts" setup>
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
+import { Modal } from 'ant-design-vue';
+import { columns, searchFilterRaw } from './column';
+import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
+import { EApiId } from '@/enums/request.enum';
+import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
+import { useTableCache } from '@/composable/useTableCache';
+import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
+import type { ERetailerSyncStatus } from '@/enums/api.enum';
+import { retailerUserApis } from '@/apis/retailer/user-mgt/user-mgt.api';
+
+const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
+const RetailerUserCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerUserCreateUpdateForm.vue'));
+
+const { getDetails, setDetails } = useTableCache<API.RetailerUser>();
+
+// State
+const detailsDrawerState = reactive({
+  isOpen: false,
+  title: '',
+  item: null as API.RetailerUser | null,
+});
+
+const fetch = async (params?: API.SearchRetailerUserQueryParams) => {
+  const res = await retailerUserApis.search(params);
+
+  if (!(res && res.data) || res.data.users.length === 0) {
+    return FALLBACK_PAGINATION_API_RESPONSE;
+  }
+
+  return {
+    records: res.data.users,
+    current_page: res.data.current_page ?? 1,
+    total_page: res.data.total_page,
+    total_records: res.data.total_records,
+  };
+};
+
+const onShowDrawerDetails = async (item: API.RetailerUser) => {
+  if (!item.id) {
+    return;
+  }
+  detailsDrawerState.title = item.name;
+  detailsDrawerState.isOpen = true;
+  // check cache
+  const cacheItem = getDetails(item.id);
+  if (cacheItem) {
+    detailsDrawerState.item = cacheItem;
+
+    return;
+  }
+  // fetch
+  const res = await retailerUserApis.getDetails(item.id, { includes: ['belonged_retailer'] });
+  if (!(res && res.data && res.data.belonged_retailer)) {
+    return;
+  }
+  // cache
+  setDetails(item.id, res.data);
+  detailsDrawerState.item = res.data;
+};
+
+const onCloseDetailDrawer = () => {
+  detailsDrawerState.item = null;
+  detailsDrawerState.title = '';
+  detailsDrawerState.isOpen = false;
+};
+
+const {
+  isTableLoading,
+  rawQueries,
+  paginationState,
+  recordsState,
+  totalRecords,
+
+  search,
+  reload,
+} = useCommonTableMethod(
+  EApiId.RETAILER_USER_SEARCH,
+  fetch,
+);
+
+const onSearch = (e: QueriesRaw<API.RetailerUser>[]) => {
+  rawQueries.value = e;
+  search();
+};
+
+const handleSuccess = (modalId: string) => {
+  coreModal.close(modalId);
+  reload();
+};
+
+const onDelete = async (id: string) => {
+  if (!id) {
+    Modal.error({ content: 'thiếu id' });
+
+    return;
+  }
+  const confirm = await showConfirmAlert({
+    content: 'bạn có chắc muốn xóa',
+  });
+
+  if (!confirm) {
+    return;
+  }
+  const rs = await retailerUserApis.delete(id);
+  if (rs && rs.data) {
+    Modal.success({ content: 'Thành công!' });
+    reload();
+  }
+};
+
+const openModel = (userId?: string) => {
+  const title = userId ? 'Cập nhật thông nhân viên' : 'Tạo mới nhân viên';
+  const modalId = coreModal.show({
+    component: RetailerUserCreateUpdateForm,
+    title,
+    props: {
+      userId: userId ?? '',
+    },
+    emits: {
+      success: () => handleSuccess(modalId),
+      cancel: () => coreModal.close(modalId),
+    },
+  });
+};
+</script>
