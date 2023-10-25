@@ -22,6 +22,7 @@ declare module 'vue' {
     AConfigProvider: typeof import('ant-design-vue/es')['ConfigProvider']
     ActivationStatusTag: typeof import('./../src/components/common/ActivationStatusTag.vue')['default']
     ADatePicker: typeof import('ant-design-vue/es')['DatePicker']
+    AddDriver: typeof import('./../src/components/common/AddDriver.vue')['default']
     ADescriptions: typeof import('ant-design-vue/es')['Descriptions']
     ADescriptionsItem: typeof import('ant-design-vue/es')['DescriptionsItem']
     ADivider: typeof import('ant-design-vue/es')['Divider']

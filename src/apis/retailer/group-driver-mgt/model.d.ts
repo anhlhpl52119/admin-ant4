@@ -19,10 +19,10 @@ declare global {
 
     type CreateUpdGroupDriverRequestBody = {
       name: string;
-      code?: string;
       description: string;
-      email: string;
-      address: string;
+      email?: string;
+      address?: string;
+      status?: string
     };
     type AddDriverToGroupRequestBody = {
       id: string;
