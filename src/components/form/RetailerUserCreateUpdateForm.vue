@@ -28,7 +28,7 @@
                 v-model:value="createUpdateBodyState.phone"
                 :maxlength="12"
                 placeholder="số điện thoại"
-                acceptedOnly="number"
+                :replaceSymbol="[NUMBER_ONLY]"
               />
             </FieldTitle>
           </AFormItem>
@@ -78,6 +78,7 @@ import { EApiId } from '@/enums/request.enum';
 import { useFieldValidation } from '@/composable/useFieldValidation';
 import { useCommonStore } from '@/stores/common.store';
 import { retailerUserApis } from '@/apis/retailer/user-mgt/user-mgt.api';
+import { NUMBER_ONLY } from '@/constants/regex.constant';
 
 const props = defineProps<{ userId: string }>();
 
@@ -120,7 +121,7 @@ const naPhoneNumber = computed(() => {
 
 const rules: { [k in keyof API.CreateUpdRetailerUserRequestBody]?: Rule[] } = {
   name: [{ validator: checkName, trigger: ['blur', 'change'] }],
-  phone: [{ validator: checkPhoneNumber, trigger: ['blur'] }],
+  phone: [{ validator: checkPhoneNumber, trigger: ['blur', 'change'] }],
   email: [{ validator: checkEmail, trigger: 'change' }],
   role: [{ required: true, message: 'Phân quyền không được để trống' }],
 };
