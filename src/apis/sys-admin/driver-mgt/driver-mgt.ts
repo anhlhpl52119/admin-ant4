@@ -15,7 +15,7 @@ export const driverApis = {
       },
     );
   },
-  create: (rqBody: API.CreateDriverRequestBody) => {
+  create: (rqBody: API.CreateUpdDriverRequestBody) => {
     const body = { driver: { ...rqBody } };
 
     return request<ApiPageResponse<API.SearchDriverResponse>>(
@@ -44,7 +44,7 @@ export const driverApis = {
       },
     );
   },
-  update: (driverId: string, rqBody: API.UpdateDriverRequestBody) => {
+  update: (driverId: string, rqBody: API.CreateUpdDriverRequestBody) => {
     const body = { driver: { ...rqBody } };
 
     return request<API.GetDriverDetailResponse>(
