@@ -79,7 +79,7 @@ export const groupDriverApis = {
 
     return request<API.GetGroupDriverDetailResponse>(
       {
-        url: `retailer/group_driver/${groupId}`,
+        url: `retailer/group_driver/${groupId}/add_driver`,
         body,
         method: ERequestMethod.POST,
       },
