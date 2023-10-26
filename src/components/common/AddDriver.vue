@@ -1,16 +1,25 @@
 <template>
-  <div>
+  <div class="h-150 grid gap-10">
     <CFetchOption
       v-model:initial-value="selectedId"
       :requestData="composeDriverOption"
       labelKey="name"
     />
-    <AButton type="primary" @click="onOk">
-      ok
-    </AButton>
-    <AButton @click="$emit('cancel', '')">
-      cancel
-    </AButton>
+    <div class="text-desc">
+      <p>
+        - Nhập tên tài xế để tìm kiếm
+      </p>
+      <p> - Tài xế thêm vào phải chưa nằm trong nhóm nào</p>
+    </div>
+
+    <div class="mt-20 flex gap-16 justify-center">
+      <AButton type="primary" :disabled="!selectedId" @click="onOk">
+        Ok
+      </AButton>
+      <AButton @click="$emit('cancel', '')">
+        Cancel
+      </AButton>
+    </div>
   </div>
 </template>
 

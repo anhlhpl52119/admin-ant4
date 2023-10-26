@@ -121,12 +121,6 @@ const onShowDrawerDetails = async (item: API.GroupDriver) => {
   // detailsDrawerState.item = res.data;
 };
 
-const onCloseDetailDrawer = () => {
-  detailsDrawerState.id = '';
-  detailsDrawerState.title = '';
-  detailsDrawerState.isOpen = false;
-};
-
 const {
   isTableLoading,
   rawQueries,
@@ -140,6 +134,13 @@ const {
   EApiId.GROUP_DRIVER_SEARCH,
   fetch,
 );
+
+const onCloseDetailDrawer = (needFetch: boolean) => {
+  detailsDrawerState.id = '';
+  detailsDrawerState.title = '';
+  detailsDrawerState.isOpen = false;
+  needFetch && reload();
+};
 
 const onSearch = (e: QueriesRaw<API.GroupDriver>[]) => {
   rawQueries.value = e;

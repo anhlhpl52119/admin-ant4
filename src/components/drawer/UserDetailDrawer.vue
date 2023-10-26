@@ -102,9 +102,6 @@ const pStyle = {
   display: 'block',
   marginBottom: '1.6rem',
 };
-const pStyle2 = {
-  marginBottom: '24px',
-};
 
 const openModel = () => {
   const modalId = coreModal.show({

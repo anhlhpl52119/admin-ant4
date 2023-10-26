@@ -23,15 +23,15 @@ declare global {
     type GroupDriver = {
       id: string;
       name: string;
-      group_driver_code: string;
+      // group_driver_code: string;
       description: string;
       email: string;
       address: string;
       status: string;
       source: string;
-      source_id: string;
-      source_created_at: string;
-      source_updated_at: string;
+      // source_id: string;
+      created_at: string;
+      updated_at: string;
       retailer_id: string;
       retailer?: Retailer;
       drivers?: Driver[];

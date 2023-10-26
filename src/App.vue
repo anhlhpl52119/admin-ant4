@@ -3,7 +3,7 @@
     :theme="{
       token: {
         colorPrimary: '#12a38e',
-        fontFamily: 'Raleway, sans-serif',
+        // fontFamily: 'Raleway, sans-serif',
         // colorSuccess: '#48A9A6',
         // colorWarning: '#D4B483',
         // colorError: '#C1666B',
