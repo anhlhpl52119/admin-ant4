@@ -49,11 +49,9 @@
             </ATag>
           </template>
         </ATableColumn>
-        <ATableColumn key="edit" title="Action" width="8rem" align="center">
+        <ATableColumn key="last-update" title="Cập nhật" width="10rem" align="right">
           <template #default="{ record }: {record: API.Driver}">
-            <ATooltip title="Chỉnh sửa">
-              <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
-            </ATooltip>
+            <span class="text-desc">{{ new Date(record?.updated_at).toLocaleString('vi-VN') || '' }}</span>
           </template>
         </ATableColumn>
 
@@ -85,8 +83,6 @@ import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTab
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
-import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
-import type { ERetailerSyncStatus } from '@/enums/api.enum';
 import { retailerUserApis } from '@/apis/retailer/user-mgt/user-mgt.api';
 
 // const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));

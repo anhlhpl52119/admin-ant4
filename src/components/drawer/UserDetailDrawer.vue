@@ -21,15 +21,32 @@
       <ASpin size="large" />
     </div>
     <template v-else>
-      <ADescriptions title="Thông tin người dùng" bordered size="small">
+      <ADescriptions
+        title="Thông tin người dùng"
+        :labelStyle="{ fontWeight: 500 }"
+        :contentStyle="pStyle"
+        class="cursor-default"
+      >
         <ADescriptionsItem label="Tên">
           {{ userDetail?.name || '' }}
         </ADescriptionsItem>
-        <ADescriptionsItem label="Phân Quyền">
-          {{ userDetail?.role || '' }}
+        <ADescriptionsItem label="Số điện thoại">
+          {{ userDetail?.phone || '' }}
+        </ADescriptionsItem>
+        <ADescriptionsItem label="Phân quyền">
+          <!-- {{  || '' }} -->
+          <ATag color="magenta">
+            {{ userDetail?.role.toUpperCase() ?? '_' }}
+          </ATag>
         </ADescriptionsItem>
         <ADescriptionsItem label="Email">
           {{ userDetail?.email || '' }}
+        </ADescriptionsItem>
+        <ADescriptionsItem label="Ngày tạo">
+          {{ new Date(userDetail?.created_at).toLocaleString('vi-VN') || '' }}
+        </ADescriptionsItem>
+        <ADescriptionsItem label="Ngày chỉnh sửa">
+          {{ new Date(userDetail?.updated_at).toLocaleString('vi-VN') || '' }}
         </ADescriptionsItem>
       </ADescriptions>
       <ADivider />
@@ -76,6 +93,17 @@ const initGroupDriver = async () => {
 const handleSuccess = (modalId: string) => {
   coreModal.close(modalId);
   initGroupDriver();
+};
+
+const pStyle = {
+  fontSize: '1.5rem',
+  color: '#978f8f',
+  lineHeight: '2.4rem',
+  display: 'block',
+  marginBottom: '1.6rem',
+};
+const pStyle2 = {
+  marginBottom: '24px',
 };
 
 const openModel = () => {
