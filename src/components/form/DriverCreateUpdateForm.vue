@@ -21,10 +21,12 @@
               />
             </FieldTitle>
           </AFormItem>
-          <AFormItem name="code">
+          <AFormItem name="driver_code">
             <FieldTitle title="Mã tài xế" required>
               <CInput
-                v-model:value="createUpdateBodyState.code"
+                v-model:value="createUpdateBodyState.driver_code"
+                noSpace
+                inputCase="upper"
                 :maxlength="20"
               />
             </FieldTitle>
@@ -84,9 +86,13 @@
 import type { Rule } from 'ant-design-vue/es/form';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
-import { retailerApis } from '@/apis/core/retailer/retailer.api';
+
+// import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { useFieldValidation } from '@/composable/useFieldValidation';
-import { driverApis } from '@/apis/core/driver/driver.api';
+import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
+import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
+
+// import { driverApis } from '@/apis/core/driver/driver.api';
 
 const props = defineProps<{ driverId: string; sth?: string }>();
 
@@ -119,14 +125,14 @@ const composeRetailerOption = async (query?: ApiQueryAttr<API.Retailer>) => {
 
 const rules: Record<string, Rule[]> = {
   name: [{ validator: checkName, trigger: ['blur', 'change'] }],
-  code: [{ validator: checkCode, trigger: ['blur', 'change'] }],
+  driver_code: [{ validator: checkCode, trigger: ['blur', 'change'] }],
   phone: [{ validator: checkPhoneNumber, trigger: ['blur', 'change'] }],
-  user_id: [{ validator: checkPhoneNumber, trigger: 'change' }],
+  user_id: [{ required: true, message: 'Người sở hữu không được để trống' }],
 };
 
-const createUpdateBodyState = reactive<API.CreateDriverRequestBody>({
+const createUpdateBodyState = reactive<API.CreateUpdDriverRequestBody>({
   name: '',
-  code: '',
+  driver_code: '',
   address: '',
   phone: '',
   description: '',
@@ -142,8 +148,8 @@ const handleFinishFailed = (errors: any) => {
 
 const onValidateSuccess = async () => {
   const rs = isUpdateMode.value
-    ? await retailerApis.update(props.driverId!, createUpdateBodyState)
-    : await retailerApis.create(createUpdateBodyState);
+    ? await driverApis.update(props.driverId!, createUpdateBodyState)
+    : await driverApis.create(createUpdateBodyState);
 
   if (!rs) {
     return;
@@ -160,7 +166,7 @@ const init = async () => {
     return;
   }
   createUpdateBodyState.name = res?.data?.name ?? '';
-  createUpdateBodyState.code = res?.data?.code ?? '';
+  createUpdateBodyState.driver_code = res?.data?.driver_code ?? '';
   createUpdateBodyState.address = res?.data?.address ?? '';
   createUpdateBodyState.phone = res?.data?.phone ?? '';
   createUpdateBodyState.description = res?.data?.description ?? '';
