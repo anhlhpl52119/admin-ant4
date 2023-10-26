@@ -23,7 +23,7 @@ const routes: CustomRoute[] = [
         component: () => import('@/views/retailer-management/user/user-management.vue'),
         meta: {
           hiddenInMenu: false,
-          title: 'User management',
+          title: 'Quản lý người dùng',
         },
       },
       {
@@ -32,7 +32,7 @@ const routes: CustomRoute[] = [
         component: () => import('@/views/demo/demo-button.vue'),
         meta: {
           hiddenInMenu: true,
-          title: 'User management',
+          title: 'Quản lý người dùng',
         },
         props: route => ({ userId: route?.params?.id?.toString() || '' }),
       },

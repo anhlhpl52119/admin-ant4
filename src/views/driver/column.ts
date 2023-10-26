@@ -50,7 +50,7 @@ export const searchFilterRaw: QueriesRaw<API.Driver>[] = [
 
   {
     label: 'Tìm theo mã',
-    key: 'code_cont',
+    key: 'driver_code_cont',
     value: '',
   },
   {

@@ -15,31 +15,48 @@
     <section class="card">
       <ATable
         :data-source="recordsState"
-        :columns="columns"
         :loading="isTableLoading"
         :pagination="false"
         :scroll="{ y: '61rem' }"
         size="small"
       >
-        <template #bodyCell="{ index, column, record }">
-          <template v-if="column.dataIndex === 'indexNum'">
+        <ATableColumn key="index" title="Stt" width="5rem" align="center">
+          <template #default="{ index }">
             {{ index + 1 }}
           </template>
-          <template v-if="column.dataIndex === 'name'">
-            <AButton
-              type="link"
-              @click="onShowDrawerDetails(record as API.RetailerUser)"
-            >
-              {{ record.name }}
+        </ATableColumn>
+        <ATableColumn key="name" title="Tên">
+          <template #default="{ record }: {record: API.RetailerUser}">
+            <AButton type="link" @click="onShowDrawerDetails(record)">
+              {{ record?.name ?? '_' }}
             </AButton>
           </template>
-          <template v-if="column.dataIndex === 'edit'">
+        </ATableColumn>
+        <ATableColumn key="phone" title="Số điện thoại">
+          <template #default="{ record }: {record: API.RetailerUser}">
+            {{ record?.phone ?? '_' }}
+          </template>
+        </ATableColumn>
+        <ATableColumn key="email" title="Email">
+          <template #default="{ record }: {record: API.RetailerUser}">
+            {{ record?.email ?? '_' }}
+          </template>
+        </ATableColumn>
+        <ATableColumn key="role" title="Phân quyền" width="20rem" align="center">
+          <template #default="{ record }: {record: API.RetailerUser}">
+            <ATag color="magenta">
+              {{ record?.role.toUpperCase() ?? '_' }}
+            </ATag>
+          </template>
+        </ATableColumn>
+        <ATableColumn key="edit" title="Action" width="8rem" align="center">
+          <template #default="{ record }: {record: API.Driver}">
             <ATooltip title="Chỉnh sửa">
               <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
             </ATooltip>
-            <AButton :icon="h(DeleteOutlined)" danger type="primary" @click="onDelete(record.id)" />
           </template>
-        </template>
+        </ATableColumn>
+
         <template #title>
           <CommonTableHeader
             v-model:current-page="paginationState.currentPage"
@@ -50,6 +67,13 @@
         </template>
       </ATable>
     </section>
+    <UserDetailDrawer
+      v-model:is-open="detailsDrawerState.isOpen"
+      :userId="detailsDrawerState.id"
+      :title="detailsDrawerState.title"
+      :item="detailsDrawerState.item"
+      @close="onCloseDetailDrawer"
+    />
   </main>
 </template>
 
@@ -65,7 +89,7 @@ import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
 import type { ERetailerSyncStatus } from '@/enums/api.enum';
 import { retailerUserApis } from '@/apis/retailer/user-mgt/user-mgt.api';
 
-const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
+// const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
 const RetailerUserCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerUserCreateUpdateForm.vue'));
 
 const { getDetails, setDetails } = useTableCache<API.RetailerUser>();
@@ -74,7 +98,8 @@ const { getDetails, setDetails } = useTableCache<API.RetailerUser>();
 const detailsDrawerState = reactive({
   isOpen: false,
   title: '',
-  item: null as API.RetailerUser | null,
+  item: undefined as API.RetailerUser | undefined,
+  id: '',
 });
 
 const fetch = async (params?: API.SearchRetailerUserQueryParams) => {
@@ -98,6 +123,7 @@ const onShowDrawerDetails = async (item: API.RetailerUser) => {
   }
   detailsDrawerState.title = item.name;
   detailsDrawerState.isOpen = true;
+  detailsDrawerState.id = item.id;
   // check cache
   const cacheItem = getDetails(item.id);
   if (cacheItem) {
@@ -115,12 +141,6 @@ const onShowDrawerDetails = async (item: API.RetailerUser) => {
   detailsDrawerState.item = res.data;
 };
 
-const onCloseDetailDrawer = () => {
-  detailsDrawerState.item = null;
-  detailsDrawerState.title = '';
-  detailsDrawerState.isOpen = false;
-};
-
 const {
   isTableLoading,
   rawQueries,
@@ -134,6 +154,16 @@ const {
   EApiId.RETAILER_USER_SEARCH,
   fetch,
 );
+
+const onCloseDetailDrawer = (needFetch: boolean) => {
+  detailsDrawerState.item = undefined;
+  detailsDrawerState.title = '';
+  detailsDrawerState.isOpen = false;
+  detailsDrawerState.id = '';
+  if (needFetch) {
+    reload();
+  }
+};
 
 const onSearch = (e: QueriesRaw<API.RetailerUser>[]) => {
   rawQueries.value = e;

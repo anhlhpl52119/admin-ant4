@@ -16,27 +16,11 @@
     <section class="card">
       <ATable
         :data-source="recordsState"
-        :columns="columns"
         size="small"
         :loading="isTableLoading"
         :pagination="false"
-        :scroll="{ y: '61rem' }"
+        :scroll="{ y: 'calc(100rem - 40rem)' }"
       >
-        <template #bodyCell="{ index, column, record }">
-          <template v-if="column.dataIndex === 'indexNum'">
-            {{ index + 1 }}
-          </template>
-          <template v-if="column.dataIndex === 'name'">
-            <AButton type="link">
-              {{ record.name }}
-            </AButton>
-          </template>
-          <template v-if="column.dataIndex === 'edit'">
-            <ATooltip title="Chỉnh sửa">
-              <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
-            </ATooltip>
-          </template>
-        </template>
         <template #title>
           <CommonTableHeader
             v-model:current-page="paginationState.currentPage"
@@ -45,6 +29,50 @@
             @reload="reload"
           />
         </template>
+        <ATableColumn key="index" title="Stt" width="5rem" align="center">
+          <template #default="{ index }">
+            {{ index + 1 }}
+          </template>
+        </ATableColumn>
+        <ATableColumn key="name" title="Tên" data-index="name">
+          <template #default="{ text: name }">
+            <AButton type="link">
+              {{ name }}
+            </AButton>
+          </template>
+        </ATableColumn>
+        <ATableColumn key="code" title="Mã">
+          <template #default="{ record }: {record: API.Driver}">
+            {{ record?.driver_code ?? '_' }}
+          </template>
+        </ATableColumn>
+        <ATableColumn key="phone" title="Số điện thoại">
+          <template #default="{ record }: {record: API.Driver}">
+            {{ record?.phone ?? '_' }}
+          </template>
+        </ATableColumn>
+        <ATableColumn key="address" title="Địa chỉ">
+          <template #default="{ record }: {record: API.Driver}">
+            {{ record?.address ?? '_' }}
+          </template>
+        </ATableColumn>
+        <ATableColumn key="status" title="Status" width="10rem" align="center">
+          <template #default="{ record }: {record: API.Driver}">
+            <ATag color="success">
+              {{ record?.status.toUpperCase() ?? '_' }}
+            </ATag>
+          </template>
+        </ATableColumn>
+        <ATableColumn key="edit" title="Action" width="8rem" align="center">
+          <template #default="{ record }: {record: API.Driver}">
+            <ATooltip title="Chỉnh sửa">
+              <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
+            </ATooltip>
+          </template>
+        </ATableColumn>
+        <template #emptyText>
+          Không tìm thấy tài xế
+        </template>
       </ATable>
     </section>
   </div>
@@ -52,14 +80,12 @@
 
 <script lang="ts" setup>
 import { EditOutlined } from '@ant-design/icons-vue';
-import { Modal } from 'ant-design-vue';
-import { columns, searchFilterRaw } from './column';
+import { searchFilterRaw } from './column';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
 
-const DriverCreateUpdateModal = defineAsyncComponent(() => import('@/components/modal/DriverCreateUpdateModal.vue'));
 const DriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/DriverCreateUpdateForm.vue'));
 
 const fetch = async (params?: API.SearchDriverQueryParams) => {
