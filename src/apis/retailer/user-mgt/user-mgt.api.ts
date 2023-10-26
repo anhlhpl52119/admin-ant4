@@ -49,12 +49,12 @@ export const retailerUserApis = {
 
     return request<ApiSuccessResponse>(
       {
-        url: `/core/driver/${userId}`,
+        url: `/core/user/${userId}`,
         method: ERequestMethod.PUT,
         body,
       },
       {
-        id: EApiId.DRIVER_UPDATE,
+        id: EApiId.RETAILER_USER_UPDATE,
         successMsg: COMMON_SUCCESS_MSG.update,
         errorMsg: COMMON_ERROR_MSG.update,
         isShowLoading: true,
@@ -69,6 +69,8 @@ export const retailerUserApis = {
       },
       {
         id: EApiId.RETAILER_USER_DELETE,
+        isShowLoading: true,
+        successMsg: 'Xóa thành công',
       },
     );
   },
