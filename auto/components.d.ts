@@ -61,6 +61,7 @@ declare module 'vue' {
     ASpin: typeof import('ant-design-vue/es')['Spin']
     ASubMenu: typeof import('ant-design-vue/es')['SubMenu']
     ATable: typeof import('ant-design-vue/es')['Table']
+    ATableColumn: typeof import('ant-design-vue/es')['TableColumn']
     ATabPane: typeof import('ant-design-vue/es')['TabPane']
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATag: typeof import('ant-design-vue/es')['Tag']
@@ -110,6 +111,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./../src/components/common/SvgIcon.vue')['default']
     UnitConverionOptions: (typeof import('./../src/components/common/UnitConverionOptions.vue'))['default']
+    UserDetailDrawer: typeof import('./../src/components/drawer/UserDetailDrawer.vue')['default']
     VerticalTabsContainer: typeof import('./../src/components/common/VerticalTabsContainer.vue')['default']
   }
 }

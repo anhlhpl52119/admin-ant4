@@ -11,19 +11,9 @@ declare global {
 
     type GetDriverDetailResponse = ApiObjectResponse<Driver>;
 
-    type CreateDriverRequestBody = {
+    type CreateUpdDriverRequestBody = {
       name: string;
-      code: string;
-      description: string;
-      phone: string;
-      email: string;
-      address: string;
-      user_id: string;
-    };
-
-    type UpdateDriverRequestBody = {
-      name: string;
-      code: string;
+      driver_code: string;
       description: string;
       phone: string;
       email: string;
