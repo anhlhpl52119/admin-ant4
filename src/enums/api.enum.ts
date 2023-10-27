@@ -35,3 +35,9 @@ export enum EKiotVietConfig {
   ACCESS_TOKEN_PRIVATE_API = 'KIOTVIET_ACCESS_TOKEN_PRIVATE_API',
   COOKIE = 'KIOTVIET_COOKIE',
 }
+
+export enum ETransactionStatus {
+  DONE = 'done',
+  PENDING = 'pending',
+  CANCELLED = 'cancelled',
+}
