@@ -118,7 +118,7 @@ const openModel = () => {
 };
 
 const onDelete = async () => {
-  const confirm = await showConfirmAlert({ content: 'Xóa toàn bộ dữ liệu của người dùng này?' });
+  const confirm = await showAsyncAlert({ content: 'Xóa toàn bộ dữ liệu của người dùng này?' });
   if (!confirm) {
     return;
   }

@@ -41,8 +41,8 @@
             <ADivider type="vertical" class="h-50" />
             <li>
               <p>Số tài xế</p>
-              <div class="mt-10">
-                <span class="text-spotlight">{{ totalDrivers }}</span>
+              <div class="mt-10" @click="activeKey = '2'">
+                <span class="text-spotlight hover:underline cursor-pointer">{{ totalDrivers }}</span>
               </div>
             </li>
             <ADivider type="vertical" class="h-50" />
@@ -71,7 +71,7 @@
         <ATabPane key="3" tab="Người dùng">
           <pre> {{ userRetailer }}</pre>
         </ATabPane>
-        <ATabPane key="1" tab="Cấu hình" class="max-h-400 overflow-y-scroll">
+        <ATabPane key="1" tab="Cấu hình" class="h-800 max-h-800 overflow-y-scroll">
           <ASpin :spinning="!retailerState">
             <VerticalTabsContainer
               v-model="selectedPlatform"
@@ -81,7 +81,7 @@
             >
               <!-- header -->
               <template #header>
-                <div class="p-20 text-18 font-medium">
+                <div class="p-18 text-17 font-medium">
                   Cấu hình
                 </div>
               </template>
@@ -97,7 +97,7 @@
                   <div class="flex justify-end gap-10">
                     <AButton
                       :loading="loadingIds.has(EApiId.RETAILER_CHECK_REQUIRE_CONFIG)"
-                      @click="checkRequiredConfig"
+                      @click="checkRequiredConfig(true)"
                     >
                       Kiểm tra cấu hình
                     </AButton>
@@ -115,7 +115,8 @@
                     <template #renderItem="{ item } : {item: API.RetailerConfig}">
                       <AListItem :key="item.id">
                         <template #actions>
-                          <span>{{ item?.updated_at || '-' }}</span>
+                          <span>{{ new Date(item?.updated_at ?? 0).toLocaleString('vi-VN') || '' }}</span>
+                          <!-- <span>{{ item?.updated_at || '-' }}</span> -->
                         </template>
                         <AListItemMeta>
                           <template #title>
@@ -133,13 +134,13 @@
             </VerticalTabsContainer>
           </ASpin>
         </ATabPane>
-        <ATabPane key="2" tab="Tài xế">
+        <ATabPane key="2" tab="Tài xế" class="h-800 max-h-800">
           <ASpin :spinning="!retailerState">
             <VerticalTabsContainer
               v-model="selectedValue"
               :items="tabItems"
-              contentClass="max-h-350 overflow-y-scroll"
-              tabClass="max-h-350 overflow-y-scroll"
+              contentClass="max-h-600 overflow-y-scroll"
+              tabClass="max-h-600 overflow-y-scroll"
               class="mt-16"
             >
               <!-- header -->
@@ -301,7 +302,25 @@ const initDetails = async () => {
   retailerState.value = res.data;
 };
 
-const checkRequiredConfig = async () => {
+// const checkAuth = async () => {
+//   if (!retailerId?.value) {
+//     return;
+//   }
+//   const res = await retailerConfigApis.checkAuthConnection(retailerId.value);
+//   if (res.data?.result) {
+//     Modal.success({ content: res?.message ?? 'missing message', title: 'Hoàn tất cấu hình cần thiết!' });
+//     initDetails();
+
+//     return;
+//   }
+//   // TODO: refactor
+//   const [title, missingItems] = res.message[0].split(':');
+//   const content = missingItems.split(',').map(i => h('div', i));
+//   Modal.error({ title, content });
+//   initDetails();
+// };
+
+const checkRequiredConfig = async (byBassMsg: boolean) => {
   if (!retailerId?.value) {
     return;
   }
@@ -312,8 +331,9 @@ const checkRequiredConfig = async () => {
     return;
   }
   if (res.data?.result) {
-    initDetails();
     Modal.success({ content: res?.message ?? 'missing message', title: 'Hoàn tất cấu hình cần thiết!' });
+    initDetails();
+    // checkAuth();
 
     return;
   }
@@ -327,7 +347,7 @@ const checkRequiredConfig = async () => {
 const onEditConfigSuccess = (modelId: string) => {
   coreModal.close(modelId);
   initConfig();
-  checkRequiredConfig();
+  checkRequiredConfig(false);
 };
 
 const onEditConfig = () => {

@@ -122,7 +122,7 @@ const onClose = () => {
 };
 
 const onDelete = async () => {
-  const confirm = await showConfirmAlert({ content: 'Xóa toàn bộ dữ liệu của nhóm tài xế này, bao gồm tất cả tài xế trong nhóm?', strictMsg: true });
+  const confirm = await showAsyncAlert({ content: 'Xóa toàn bộ dữ liệu của nhóm tài xế này, bao gồm tất cả tài xế trong nhóm?', strictMsg: true });
   if (!confirm) {
     return;
   }

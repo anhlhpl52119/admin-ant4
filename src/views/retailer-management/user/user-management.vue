@@ -177,7 +177,7 @@ const onDelete = async (id: string) => {
 
     return;
   }
-  const confirm = await showConfirmAlert({
+  const confirm = await showAsyncAlert({
     content: 'bạn có chắc muốn xóa',
   });
 

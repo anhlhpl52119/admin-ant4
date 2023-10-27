@@ -34,13 +34,13 @@
 
 <script lang="ts" setup>
 import CAlertModal from '@/components/core/CAlertModal/CAlertModal.vue';
-import { showConfirmAlert } from '@/composable/core/useCoreAlert';
+import { showAsyncAlert } from '@/composable/core/useAsyncAlert';
 import { NUMBER_ONLY, TEXT_ONLY } from '@/constants/regex.constant';
 
 const checkBoxState = ref<boolean>(false);
 const inputv = ref('');
 const showAl = async () => {
-  const a = await showConfirmAlert({
+  const a = await showAsyncAlert({
     title: 'hihi title',
     content: 'test content',
     severityLevel: 'danger',
@@ -48,3 +48,4 @@ const showAl = async () => {
   console.log(a);
 };
 </script>
+@/composable/core/useAsyncAlert

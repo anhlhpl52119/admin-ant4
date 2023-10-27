@@ -9,7 +9,7 @@
   >
     <template #extra>
       <AButton @click="goToDetails">
-        details
+        Xem chi tiết
       </AButton>
     </template>
     <div v-if="!retailerItem" class="text-center h-full">
@@ -105,6 +105,7 @@
 
 <script lang="ts" setup>
 // import { retailerConfigApis } from '@/apis/core/retailer-config/retailer-config.api';
+import { message } from 'ant-design-vue';
 import { ERouteName } from '@/enums/router.enum';
 import router from '@/router';
 
@@ -148,7 +149,12 @@ const retailerGroupDrivers = computed(() => {
 // };
 
 const goToDetails = () => {
-  router.push({ name: ERouteName.RETAILER_DETAILS, params: { id: retailerItem.value?.id ?? '' } });
+  if (!retailerItem?.value?.id) {
+    message.error('Thiếu Retailer ID');
+
+    return;
+  }
+  router.push({ name: ERouteName.RETAILER_DETAILS, params: { id: retailerItem.value.id } });
 };
 
 watch([isOpen, retailerItem], (val) => {

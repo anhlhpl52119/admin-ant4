@@ -56,9 +56,6 @@ import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
 import { branchApis } from '@/apis/retailer/branch-mgt/branch-mgt';
 
-const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
-const RetailerUserCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerUserCreateUpdateForm.vue'));
-
 const { getDetails, setDetails } = useTableCache<API.Branch>();
 
 // State
@@ -106,11 +103,11 @@ const onShowDrawerDetails = async (item: API.Branch) => {
   detailsDrawerState.item = res.data;
 };
 
-const onCloseDetailDrawer = () => {
-  detailsDrawerState.item = null;
-  detailsDrawerState.title = '';
-  detailsDrawerState.isOpen = false;
-};
+// const onCloseDetailDrawer = () => {
+//   detailsDrawerState.item = null;
+//   detailsDrawerState.title = '';
+//   detailsDrawerState.isOpen = false;
+// };
 
 const {
   isTableLoading,
@@ -131,27 +128,27 @@ const onSearch = (e: QueriesRaw<API.Branch>[]) => {
   search();
 };
 
-const handleSuccess = (modalId: string) => {
-  coreModal.close(modalId);
-  search();
-};
+// const handleSuccess = (modalId: string) => {
+//   coreModal.close(modalId);
+//   search();
+// };
 
 const handleResizeColumn = (w: any, col: any) => {
   col.width = w;
 };
 
 const openModel = (userId?: string) => {
-  const title = userId ? 'Cập nhật thông tin chi nhánh' : 'Tạo mới chi nhánh';
-  const modalId = coreModal.show({
-    component: RetailerUserCreateUpdateForm,
-    title,
-    props: {
-      userId: userId ?? '',
-    },
-    emits: {
-      success: () => handleSuccess(modalId),
-      cancel: () => coreModal.close(modalId),
-    },
-  });
+  // const title = userId ? 'Cập nhật thông tin chi nhánh' : 'Tạo mới chi nhánh';
+  // const modalId = coreModal.show({
+  //   component: RetailerUserCreateUpdateForm,
+  //   title,
+  //   props: {
+  //     userId: userId ?? '',
+  //   },
+  //   emits: {
+  //     success: () => handleSuccess(modalId),
+  //     cancel: () => coreModal.close(modalId),
+  //   },
+  // });
 };
 </script>

@@ -34,8 +34,8 @@
             </AButton>
           </template>
           <template v-if="column.dataIndex === 'edit'">
-            <ATooltip title="Chỉnh sửa">
-              <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
+            <ATooltip title="Chi tiết">
+              <AButton :icon="h(InfoCircleOutlined)" @click="goToDetails(record.id)" />
             </ATooltip>
           </template>
           <template v-if="column.dataIndex === 'sync_status'">
@@ -64,7 +64,8 @@
 </template>
 
 <script lang="ts" setup>
-import { EditOutlined } from '@ant-design/icons-vue';
+import { InfoCircleOutlined } from '@ant-design/icons-vue';
+import { message } from 'ant-design-vue';
 import { columns, searchFilterRaw } from './column';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
@@ -72,11 +73,13 @@ import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
 import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
 import type { ERetailerSyncStatus } from '@/enums/api.enum';
+import { ERouteName } from '@/enums/router.enum';
 
 const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
 const RetailerCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerCreateUpdateForm.vue'));
 
 const { getDetails, setDetails } = useTableCache<API.Retailer>();
+const router = useRouter();
 
 // State
 const detailsDrawerState = reactive({
@@ -170,6 +173,15 @@ const onSearch = (e: QueriesRaw<API.Retailer>[]) => {
 const handleSuccess = (modalId: string) => {
   coreModal.close(modalId);
   search();
+};
+
+const goToDetails = async (id: string) => {
+  if (!id) {
+    message.error('Thiếu Retailer ID');
+
+    return;
+  }
+  await router.push({ name: ERouteName.RETAILER_DETAILS, params: { id } });
 };
 
 const openModel = (retailerId?: string) => {
