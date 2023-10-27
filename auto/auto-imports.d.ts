@@ -7,9 +7,9 @@ export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
-  const closeAlert: typeof import('../src/composable/core/useCoreAlert')['closeAlert']
+  const closeAlert: typeof import('../src/composable/core/useAsyncAlert')['closeAlert']
   const computed: typeof import('vue')['computed']
-  const confirmAlertState: typeof import('../src/composable/core/useCoreAlert')['confirmAlertState']
+  const confirmAlertState: typeof import('../src/composable/core/useAsyncAlert')['confirmAlertState']
   const coreModal: typeof import('../src/composable/core/useCoreModal')['coreModal']
   const createApp: typeof import('vue')['createApp']
   const createPinia: typeof import('pinia')['createPinia']
@@ -60,7 +60,8 @@ declare global {
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
-  const showConfirmAlert: typeof import('../src/composable/core/useCoreAlert')['showConfirmAlert']
+  const showAsyncAlert: typeof import('../src/composable/core/useAsyncAlert')['showAsyncAlert']
+  const showConfirmAlert: typeof import('../src/composable/core/useAsyncAlert')['showConfirmAlert']
   const storeToRefs: typeof import('pinia')['storeToRefs']
   const toRaw: typeof import('vue')['toRaw']
   const toRef: typeof import('vue')['toRef']
@@ -97,9 +98,9 @@ declare module 'vue' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
-    readonly closeAlert: UnwrapRef<typeof import('../src/composable/core/useCoreAlert')['closeAlert']>
+    readonly closeAlert: UnwrapRef<typeof import('../src/composable/core/useAsyncAlert')['closeAlert']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
-    readonly confirmAlertState: UnwrapRef<typeof import('../src/composable/core/useCoreAlert')['confirmAlertState']>
+    readonly confirmAlertState: UnwrapRef<typeof import('../src/composable/core/useAsyncAlert')['confirmAlertState']>
     readonly coreModal: UnwrapRef<typeof import('../src/composable/core/useCoreModal')['coreModal']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
@@ -150,7 +151,7 @@ declare module 'vue' {
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
-    readonly showConfirmAlert: UnwrapRef<typeof import('../src/composable/core/useCoreAlert')['showConfirmAlert']>
+    readonly showAsyncAlert: UnwrapRef<typeof import('../src/composable/core/useAsyncAlert')['showAsyncAlert']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
@@ -175,9 +176,9 @@ declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
-    readonly closeAlert: UnwrapRef<typeof import('../src/composable/core/useCoreAlert')['closeAlert']>
+    readonly closeAlert: UnwrapRef<typeof import('../src/composable/core/useAsyncAlert')['closeAlert']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
-    readonly confirmAlertState: UnwrapRef<typeof import('../src/composable/core/useCoreAlert')['confirmAlertState']>
+    readonly confirmAlertState: UnwrapRef<typeof import('../src/composable/core/useAsyncAlert')['confirmAlertState']>
     readonly coreModal: UnwrapRef<typeof import('../src/composable/core/useCoreModal')['coreModal']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
@@ -228,7 +229,7 @@ declare module '@vue/runtime-core' {
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
-    readonly showConfirmAlert: UnwrapRef<typeof import('../src/composable/core/useCoreAlert')['showConfirmAlert']>
+    readonly showAsyncAlert: UnwrapRef<typeof import('../src/composable/core/useAsyncAlert')['showAsyncAlert']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
