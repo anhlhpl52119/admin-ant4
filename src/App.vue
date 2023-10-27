@@ -1,19 +1,17 @@
 <template>
-  <AConfigProvider
-    :theme="{
-      token: {
-        colorPrimary: '#12a38e',
-        // fontFamily: 'Raleway, sans-serif',
-        // colorSuccess: '#48A9A6',
-        // colorWarning: '#D4B483',
-        // colorError: '#C1666B',
-      },
-    }"
-  >
+  <AConfigProvider :theme="seedTokenGlobalConfig">
     <RouterView v-slot="{ Component }">
       <Component :is="Component" />
     </RouterView>
   </AConfigProvider>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import type { ThemeConfig } from 'ant-design-vue/es/config-provider/context';
+
+const seedTokenGlobalConfig: ThemeConfig = {
+  token: {
+    colorPrimary: '#12a38e',
+  },
+};
+</script>
