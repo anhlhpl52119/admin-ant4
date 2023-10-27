@@ -20,5 +20,19 @@ declare global {
       address: string;
       user_id: string;
     };
+
+
+    type SearchDriverInvitationResponse = {
+      driver_invitations: DriverInvitation[];
+    }
+
+    type DriverInvitationRelationship = 'retailer'  | 'driver' | 'group_driver'
+
+    type SearchDriverInvitationQueryParams = ApiCoreQuery<DriverInvitation, DriverInvitationRelationship>;
+
+    type CreateDriverInvitationRequestBody = {
+      driver_id: string;
+      group_driver_id: string;
+    }
   }
 }
