@@ -2,7 +2,7 @@ import { COMMON_ERROR_MSG, COMMON_SUCCESS_MSG } from '@/constants/common.constan
 import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
-export const groupDriverApis = {
+export const retailerDriverInvitationApis = {
   search: (params?: API.SearchInvitationQueryParams) => {
     return request<ApiPageResponse<API.SearchInvitationResponse>>(
       {
@@ -15,7 +15,7 @@ export const groupDriverApis = {
       },
     );
   },
-  create: (rqBody: API.CreateUpdInvitationRequestBody) => {
+  sendInvite: (rqBody: API.CreateUpdInvitationRequestBody) => {
     const body = { driver_invitation: { ...rqBody } };
 
     return request<ApiSuccessResponse>(
@@ -27,15 +27,15 @@ export const groupDriverApis = {
       {
         id: EApiId.INVITATION_CREATE,
         successMsg: COMMON_SUCCESS_MSG.create,
-        errorMsg: COMMON_ERROR_MSG.create,
+        errorMsg: 'Gửi lời mời thất bại',
         isShowLoading: true,
       },
     );
   },
-  cancel: (inviteId: string) => {
+  cancelInvite: (inviteId: string) => {
     return request<ApiSuccessResponse>(
       {
-        url: `retailer/driver_invitation/${inviteId}`,
+        url: `retailer/driver_invitation/${inviteId}/cancel`,
         method: ERequestMethod.PUT,
       },
       {
