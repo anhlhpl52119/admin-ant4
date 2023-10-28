@@ -16,6 +16,12 @@ declare global {
     [P in K]?: T;
   };
 
+  type OrNull<T> = T | null;
+
+  type OrUndefine<T> = T | undefined;
+
+  type OrNullish<T> = T | undefined | null;
+
   type RansackQuery<T> = {
     [K in keyof T as `${string & K}${T[K] extends string | null | boolean
       ? "_eq" | "_cont"
