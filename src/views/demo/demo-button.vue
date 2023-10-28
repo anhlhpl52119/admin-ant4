@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import CAlertModal from '@/components/core/CAlertModal/CAlertModal.vue';
+import CAsyncAlertDialog from '@/components/core/CAsyncAlertDialog/CAsyncAlertDialog.vue';
 import { showAsyncAlert } from '@/composable/core/useAsyncAlert';
 import { NUMBER_ONLY, TEXT_ONLY } from '@/constants/regex.constant';
 
@@ -48,4 +48,3 @@ const showAl = async () => {
   console.log(a);
 };
 </script>
-@/composable/core/useAsyncAlert

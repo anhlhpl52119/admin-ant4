@@ -199,6 +199,7 @@ import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
 import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
 import type { ERetailerSyncStatus } from '@/enums/api.enum';
 import { retailerConfigApis } from '@/apis/sys-admin/retailer-mgt/retailer-config';
+import { copyText } from '@/utils/common.util';
 
 /**
  * 'retailerId' props also passthrough Router
@@ -238,15 +239,6 @@ const retailerSourceName = computed(() => {
 
 const randomAvatar = (idx: number) => {
   return `https://i.pravatar.cc/150?img=${idx}`;
-};
-
-const copyText = async (val: string) => {
-  message.destroy();
-  try {
-    await navigator.clipboard.writeText(val);
-    message.success({ content: `Copied: ${val}`, duration: 1.2 });
-  }
-  catch (e) {}
 };
 
 const syncStatusTag = (status: `${ERetailerSyncStatus}`) => {

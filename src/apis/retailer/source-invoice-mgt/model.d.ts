@@ -6,11 +6,6 @@ declare global {
       source_invoices: SourceInvoice[];
     };
 
-    type SourceInvoiceRelationship = "";
-
-    type SearchSourceInvoiceQueryParams = ApiCoreQuery<
-      SourceInvoice,
-      SourceInvoiceRelationship
-    >;
+    type SearchSourceInvoiceQueryParams = ApiCoreQuery<SourceInvoice>;
   }
 }

@@ -30,7 +30,7 @@
         <PageContent />
         <CAppDrawer />
         <CAppModal />
-        <CAlertModal />
+        <CAsyncAlertDialog />
       </ALayoutContent>
     </ALayout>
   </ALayout>

@@ -2,11 +2,11 @@ import { COMMON_ERROR_MSG, COMMON_SUCCESS_MSG } from '@/constants/common.constan
 import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
-export const driverApis = {
+export const retailerDriverApis = {
   search: (params?: API.SearchDriverQueryParams) => {
     return request<ApiPageResponse<API.SearchDriverResponse>>(
       {
-        url: '/core/driver',
+        url: '/retailer/retailer/drivers',
         method: ERequestMethod.GET,
         params,
       },
@@ -15,50 +15,50 @@ export const driverApis = {
       },
     );
   },
-  create: (rqBody: API.CreateUpdDriverRequestBody) => {
-    const body = { driver: { ...rqBody } };
+  // create: (rqBody: API.CreateUpdDriverRequestBody) => {
+  //   const body = { driver: { ...rqBody } };
 
-    return request<ApiPageResponse<API.SearchDriverResponse>>(
-      {
-        url: '/core/driver',
-        method: ERequestMethod.POST,
-        body,
-      },
-      {
-        id: EApiId.DRIVER_CREATE,
-        successMsg: COMMON_SUCCESS_MSG.create,
-        errorMsg: COMMON_ERROR_MSG.create,
-        isShowLoading: true,
-      },
-    );
-  },
-  getDetails: (driverId: string, relationShip?: ApiRelationshipQuery<API.DriverRelationShip>) => {
-    return request<API.GetDriverDetailResponse>(
-      {
-        url: `/core/driver/${driverId}`,
-        params: relationShip,
-        method: ERequestMethod.GET,
-      },
-      {
-        id: EApiId.DRIVER_DETAILS,
-      },
-    );
-  },
-  update: (driverId: string, rqBody: API.CreateUpdDriverRequestBody) => {
-    const body = { driver: { ...rqBody } };
+  //   return request<ApiPageResponse<API.SearchDriverResponse>>(
+  //     {
+  //       url: '/core/driver',
+  //       method: ERequestMethod.POST,
+  //       body,
+  //     },
+  //     {
+  //       id: EApiId.DRIVER_CREATE,
+  //       successMsg: COMMON_SUCCESS_MSG.create,
+  //       errorMsg: COMMON_ERROR_MSG.create,
+  //       isShowLoading: true,
+  //     },
+  //   );
+  // },
+  // getDetails: (driverId: string, relationShip?: ApiRelationshipQuery<API.DriverRelationShip>) => {
+  //   return request<API.GetDriverDetailResponse>(
+  //     {
+  //       url: `/core/driver/${driverId}`,
+  //       params: relationShip,
+  //       method: ERequestMethod.GET,
+  //     },
+  //     {
+  //       id: EApiId.DRIVER_DETAILS,
+  //     },
+  //   );
+  // },
+  // update: (driverId: string, rqBody: API.CreateUpdDriverRequestBody) => {
+  //   const body = { driver: { ...rqBody } };
 
-    return request<API.GetDriverDetailResponse>(
-      {
-        url: `/core/driver/${driverId}`,
-        method: ERequestMethod.PUT,
-        body,
-      },
-      {
-        id: EApiId.DRIVER_UPDATE,
-        successMsg: COMMON_SUCCESS_MSG.update,
-        errorMsg: COMMON_ERROR_MSG.update,
-        isShowLoading: true,
-      },
-    );
-  },
+  //   return request<API.GetDriverDetailResponse>(
+  //     {
+  //       url: `/core/driver/${driverId}`,
+  //       method: ERequestMethod.PUT,
+  //       body,
+  //     },
+  //     {
+  //       id: EApiId.DRIVER_UPDATE,
+  //       successMsg: COMMON_SUCCESS_MSG.update,
+  //       errorMsg: COMMON_ERROR_MSG.update,
+  //       isShowLoading: true,
+  //     },
+  //   );
+  // },
 };

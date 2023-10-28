@@ -1,23 +1,24 @@
+import type { ETransactionStatus } from "@/enums/api.enum";
+
 export {};
 
 declare global {
   namespace API {
     type TransactionHistory = {
       id: string;
-      name: string;
-      // branch_code: string;
-      // contact_number: string;
-      // description: string;
-      // email: string;
-      // address: string;
-      // status: string;
-      // source: string;
-      // source_id?: string;
-      // retailer_id: string;
-      // created_at?: Date;
-      // updated_at?: Date;
-      // // relationship
-      // retailer?: Retailer;
+      tax: number;
+      total_amount: number;
+      driver_id: string;
+      retailer_id: string;
+      payment_maker_id: string;
+      transaction_date: string;
+      status: `${ETransactionStatus}`;
+      created_at: string;
+      updated_at: string;
+      transaction_history_code: string;
+      description: string;
+      // relationship
+      source_invoices?: SourceInvoice[];
     };
   }
 }

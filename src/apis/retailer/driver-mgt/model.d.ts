@@ -5,7 +5,7 @@ declare global {
     type SearchDriverResponse = {
       drivers: Driver[];
     };
-    type DriverRelationShip = "group_drivers" | "retailer";
+    type DriverRelationShip = "group_drivers"
 
     type SearchDriverQueryParams = ApiCoreQuery<Driver, DriverRelationShip>;
 

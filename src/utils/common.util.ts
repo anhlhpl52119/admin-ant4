@@ -1,3 +1,5 @@
+import { message } from 'ant-design-vue';
+
 type DebounceFn<T extends (...args: any[]) => any> = (...args: Parameters<T>) => void;
 
 /**
@@ -33,4 +35,13 @@ export const debounceFor = <T extends (...args: any[]) => any>(func: T, delay: n
 
 export const stringWithoutDiacritics = (str: string): string => {
   return str.normalize('NFD').replace(/[\u0300-\u036F]/g, '');
+};
+
+export const copyText = async (text: string) => {
+  message.destroy();
+  try {
+    await navigator.clipboard.writeText(text);
+    message.success({ content: `Copied: ${text}`, duration: 1.2 });
+  }
+  catch (e) {}
 };

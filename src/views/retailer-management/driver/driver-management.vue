@@ -1,8 +1,8 @@
 <template>
-  <main>
+  <div>
     <CommonPageTitle
-      title="Quản lý chi nhánh"
-      actionBtnLabel="Thêm chi nhánh"
+      title="Tài Xế"
+      actionBtnLabel="Thêm Tài Xế"
       @onClickAction="openModel()"
     />
 
@@ -12,34 +12,17 @@
       @search="onSearch"
       @reset="search"
     />
+
     <section class="card">
       <ATable
         :data-source="recordsState"
-        :columns="columns"
+        size="small"
         :loading="isTableLoading"
         :pagination="false"
-        :scroll="{ y: '61rem' }"
-        size="small"
+        class="cursor-default"
+        :scroll="{ y: 'calc(100rem - 40rem)' }"
+        @resizeColumn="handleResizeColumn"
       >
-        <template #bodyCell="{ index, column, record }">
-          <template v-if="column.dataIndex === 'indexNum'">
-            {{ index + 1 }}
-          </template>
-          <template v-if="column.dataIndex === 'name'">
-            <AButton
-              type="link"
-              @click="onShowDrawerDetails(record as API.Branch)"
-            >
-              {{ record.name }}
-            </AButton>
-          </template>
-          <template v-if="column.dataIndex === 'edit'">
-            <ATooltip title="Chỉnh sửa">
-              <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
-            </ATooltip>
-            <AButton :icon="h(DeleteOutlined)" danger type="primary" @click="openModel(record.id)" />
-          </template>
-        </template>
         <template #title>
           <CommonTableHeader
             v-model:current-page="paginationState.currentPage"
@@ -48,82 +31,95 @@
             @reload="reload"
           />
         </template>
+        <ATableColumn key="name" title="Tên tài xế" :resizable="true" :ellipsis="true" :maxWidth="300" :minWidth="100" :width="columnWidthRef.name" fixed="left">
+          <template #default="{ record }: {record: API.Driver}">
+            <AButton type="link" class="p0">
+              {{ record.name }}
+            </AButton>
+          </template>
+        </ATableColumn>
+        <!-- <ATableColumn key="driver_code" title="Mã" width="18rem">
+          <template #default="{ record }: {record: API.Driver}">
+            <span>{{ record?.driver_code ?? '_' }}</span>
+          </template>
+        </ATableColumn> -->
+        <ATableColumn key="phone" title="Số điện thoại" width="15rem" align="center">
+          <template #default="{ record }: {record: API.Driver}">
+            <div
+              class="flex-center gap-5 cursor-pointer hover:text-primary"
+              @click="copyText(record?.phone ?? '_')"
+            >
+              <span>{{ record?.phone ?? '_' }}</span>
+              <i class="i-solar:copy-outline inline-block text-primary" />
+            </div>
+          </template>
+        </ATableColumn>
+        <ATableColumn key="mail" :ellipsis="true" width="20rem">
+          <template #title>
+            <div class=" flex gap-5 items-center">
+              <i class="i-material-symbols:alternate-email-rounded block text-22 text-primary" />
+              <span>Email</span>
+            </div>
+          </template>
+          <template #default="{ record }: {record: API.Driver}">
+            <span>{{ record?.email ?? '_' }}</span>
+          </template>
+        </ATableColumn>
+        <ATableColumn key="address" title="Địa chỉ" :ellipsis="true" class="w-100">
+          <template #default="{ record }: {record: API.Driver}">
+            {{ record?.address ?? '_' }}
+          </template>
+        </ATableColumn>
+        <ATableColumn key="status" title="Status" width="8rem" align="center" fixed="right">
+          <template #default="{ record }: {record: API.Driver}">
+            <ATag color="success">
+              <span class="ml0">  {{ record?.status.toUpperCase() ?? '_' }}</span>
+            </ATag>
+          </template>
+        </ATableColumn>
+        <!-- <ATableColumn key="edit" title="Action" width="8rem" align="center">
+          <template #default="{ record }: {record: API.Driver}">
+            <ATooltip title="Chỉnh sửa">
+              <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
+            </ATooltip>
+          </template>
+        </ATableColumn> -->
+        <template #emptyText>
+          Không tìm thấy tài xế
+        </template>
       </ATable>
     </section>
-    <!-- <RetailerDetailDrawer
-      v-model:is-open="detailsDrawerState.isOpen"
-      :retailerItem="detailsDrawerState.item"
-      :title="detailsDrawerState.title"
-      @close="onCloseDetailDrawer"
-    /> -->
-  </main>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
-import { columns, searchFilterRaw } from './column';
+import { EditOutlined } from '@ant-design/icons-vue';
+import { searchFilterRaw } from './column';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
-import { useTableCache } from '@/composable/useTableCache';
-import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
-import type { ERetailerSyncStatus } from '@/enums/api.enum';
-import { branchApis } from '@/apis/retailer/branch-mgt/branch-mgt';
+import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
+import { copyText } from '@/utils/common.util';
 
-const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
-const RetailerUserCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerUserCreateUpdateForm.vue'));
+const DriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/DriverCreateUpdateForm.vue'));
 
-const { getDetails, setDetails } = useTableCache<API.Branch>();
-
-// State
-const detailsDrawerState = reactive({
-  isOpen: false,
-  title: '',
-  item: null as API.Branch | null,
+const columnWidthRef = reactive<Record<string, number>>({
+  name: 170,
+  address: 400,
 });
+const fetch = async (params?: API.SearchDriverQueryParams) => {
+  const res = await retailerDriverApis.search(params);
 
-const fetch = async (params?: API.SearchBranchQueryParams) => {
-  const res = await branchApis.search(params);
-
-  if (!(res && res.data) || res.data.branches.length === 0) {
+  if (!(res && res.data) || res.data.drivers.length === 0) {
     return FALLBACK_PAGINATION_API_RESPONSE;
   }
 
   return {
-    records: res.data.branches,
+    records: res.data.drivers,
     current_page: res.data.current_page ?? 1,
     total_page: res.data.total_page,
     total_records: res.data.total_records,
   };
-};
-
-const onShowDrawerDetails = async (item: API.Branch) => {
-  if (!item.id) {
-    return;
-  }
-  detailsDrawerState.title = item.name;
-  detailsDrawerState.isOpen = true;
-  // check cache
-  const cacheItem = getDetails(item.id);
-  if (cacheItem) {
-    detailsDrawerState.item = cacheItem;
-
-    return;
-  }
-  // fetch
-  const res = await branchApis.getDetails(item.id, { includes: ['retailer'] });
-  if (!(res && res.data && res.data.retailer)) {
-    return;
-  }
-  // cache
-  setDetails(item.id, res.data);
-  detailsDrawerState.item = res.data;
-};
-
-const onCloseDetailDrawer = () => {
-  detailsDrawerState.item = null;
-  detailsDrawerState.title = '';
-  detailsDrawerState.isOpen = false;
 };
 
 const {
@@ -136,11 +132,11 @@ const {
   search,
   reload,
 } = useCommonTableMethod(
-  EApiId.RETAILER_USER_SEARCH,
+  EApiId.DRIVER_SEARCH,
   fetch,
 );
 
-const onSearch = (e: QueriesRaw<API.Branch>[]) => {
+const onSearch = (e: QueriesRaw<API.Driver>[]) => {
   rawQueries.value = e;
   search();
 };
@@ -150,13 +146,20 @@ const handleSuccess = (modalId: string) => {
   search();
 };
 
-const openModel = (userId?: string) => {
-  const title = userId ? 'Cập nhật thông tin chi nhánh' : 'Tạo mới chi nhánh';
+const handleResizeColumn = (width: number, colInfo: any) => {
+  if (!columnWidthRef[colInfo.key]) {
+    return;
+  }
+  columnWidthRef[colInfo.key] = width;
+};
+
+const openModel = (driverId?: string) => {
+  const title = driverId ? 'Cập nhật thông tin nhà bán lẻ' : 'Tạo mới nhà bán lẻ';
   const modalId = coreModal.show({
-    component: RetailerUserCreateUpdateForm,
+    component: DriverCreateUpdateForm,
     title,
     props: {
-      userId: userId ?? '',
+      driverId: driverId ?? '',
     },
     emits: {
       success: () => handleSuccess(modalId),
