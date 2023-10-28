@@ -1,6 +1,5 @@
+import { DEFAULT_CACHE_TIME } from '@/constants/common.constant';
 import type { EStorage } from '@/enums/cache.enum';
-
-const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7;
 
 /**
  * Create a local cache object
@@ -99,14 +98,14 @@ export const createStorage = ({ storage = localStorage } = {}) => {
      * @param {string} key
      */
     removeCookie(key: EStorage) {
-      this.setCookie(key, undefined, 0);
+      document.cookie = `${key}=; Path=/; Expires=${new Date(0).toUTCString()};`;
     }
 
     /**
      * Empty cookies to invalidate all cookies
      */
     clearCookie(): void {
-      const keys = document.cookie.match(/[^ =;]+(?==)/g);
+      const keys = document.cookie.split(';');
       if (keys) {
         for (let i = keys.length; i--;) {
           document.cookie = `${keys[i]}=;expire=${new Date(0).toUTCString()}`;

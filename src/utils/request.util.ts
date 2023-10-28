@@ -12,8 +12,9 @@ import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { useUserStore } from '@/stores/user.store';
+import { UNHANDLED_SERVER_ERROR } from '@/constants/common.constant';
+import { ERouteName } from '@/enums/router.enum';
 
-const UNKNOWN_ERROR = 'Lỗi không xác định';
 const AUTH_PATH_PREFIX = import.meta.env.VITE_API_AUTH_PREFIX;
 const SIGNATURE_PATH_PREFIX = import.meta.env.VITE_API_SIGNATURE_PREFIX;
 
@@ -24,9 +25,7 @@ const service = axios.create({
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = BrowserStorage.getCookie(EStorage.ACCESS_TOKEN);
-    if (token && config.headers) {
-      config.headers.Authorization = token;
-    }
+    config.headers.Authorization = token ? `Bearer ${token}` : '';
 
     return config;
   },
@@ -43,7 +42,7 @@ service.interceptors.response.use(
     const status = error?.response?.status ?? EStatusCode.UNKNOWN;
     if (status === EStatusCode.UNAUTHORIZED) {
       BrowserStorage.clearCookie();
-      location.reload(); // TODO: add user confirm after reload
+      window.location.reload();
     }
 
     return Promise.reject(error);
@@ -110,14 +109,9 @@ export const request = async <T>(
       $message.error({ content: errorMsg, key: id });
     }
 
-    let errMsg = UNKNOWN_ERROR;
-    // show server response message
-    if (error.response.data.message) {
-      [errMsg] = error.response.data.message;
-    }
-
-    // show error message
-    $message.error({ content: errMsg, key: id });
+    // show server error message
+    const serverErrorMsg: string = error?.response?.data?.message.toString() ?? UNHANDLED_SERVER_ERROR;
+    $message.error({ content: serverErrorMsg, key: id });
 
     return null as T;
   }

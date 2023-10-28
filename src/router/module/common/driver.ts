@@ -16,16 +16,16 @@ const routes: CustomRoute[] = [
       permit: [ERole.RETAILER_MANAGER],
     },
     children: [
-      {
-        path: 'driver-management',
-        name: ERouteName.DRIVER_MANAGEMENT,
-        component: () => import('@/views/retailer-management/driver/driver-management.vue'),
-        meta: {
-          hiddenInMenu: false,
-          title: 'Quản lý tài xế',
-          permit: [ERole.RETAILER_MANAGER],
-        },
-      },
+      // {
+      //   path: 'driver-management',
+      //   name: ERouteName.DRIVER_MANAGEMENT,
+      //   component: () => import('@/views/retailer-management/driver/driver-management.vue'),
+      //   meta: {
+      //     hiddenInMenu: false,
+      //     title: 'Quản lý tài xế',
+      //     permit: [ERole.RETAILER_MANAGER],
+      //   },
+      // },
       {
         path: 'driver-group',
         name: ERouteName.DRIVER_GROUP,

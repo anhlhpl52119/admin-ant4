@@ -15,32 +15,11 @@
     <section class="card">
       <ATable
         :data-source="recordsState"
-        :columns="columns"
         :loading="isTableLoading"
         :pagination="false"
         :scroll="{ y: '61rem' }"
         size="small"
       >
-        <template #bodyCell="{ index, column, record }">
-          <template v-if="column.dataIndex === 'indexNum'">
-            {{ index + 1 }}
-          </template>
-          <template v-if="column.dataIndex === 'name'">
-            <AButton
-              type="link"
-              @click="onShowDrawerDetails(record as API.GroupDriver)"
-            >
-              {{ record.name }}
-            </AButton>
-          </template>
-          <template v-if="column.dataIndex === 'edit'">
-            <!-- <ATooltip title="Chỉnh sửa">
-              <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
-            </ATooltip>
-            <AButton :icon="h(DeleteOutlined)" danger type="primary" @click="handleDelete(record.id)" /> -->
-            <AButton :icon="h(EyeOutlined)" type="primary" @click="handleDelete(record.id)" />
-          </template>
-        </template>
         <template #title>
           <CommonTableHeader
             v-model:current-page="paginationState.currentPage"
@@ -49,6 +28,46 @@
             @reload="reload"
           />
         </template>
+
+        <ATableColumn key="name" title="Tên nhóm" :resizable="true" :ellipsis="true" :width="250" fixed="left">
+          <template #default="{ record }: {record: API.GroupDriver}">
+            <AButton type="link" class="p0">
+              {{ record.name }}
+            </AButton>
+          </template>
+        </ATableColumn>
+
+        <ATableColumn key="address" title="Địa chỉ" :ellipsis="true">
+          <template #default="{ record }: {record: API.GroupDriver}">
+            {{ record.address }}
+          </template>
+        </ATableColumn>
+
+        <ATableColumn key="description" title="Mô tả" :ellipsis="true">
+          <template #default="{ record }: {record: API.GroupDriver}">
+            {{ record.description }}
+          </template>
+        </ATableColumn>
+
+        <ATableColumn key="driver-cnt" title="Số lượng tài xế" align="center" :width="100" fixed="right">
+          <template #default="{ record }: {record: API.GroupDriver}">
+            <span class="font-600">{{ record?.drivers?.length ?? 0 }}</span>
+          </template>
+        </ATableColumn>
+
+        <ATableColumn key="status" title="Status" :width="100" align="center" fixed="right">
+          <template #default="{ record }: {record: API.GroupDriver}">
+            <ATag color="success">
+              <span class="ml0">  {{ record?.status.toUpperCase() ?? '_' }}</span>
+            </ATag>
+          </template>
+        </ATableColumn>
+
+        <ATableColumn key="action" title="Action" :width="100" align="center" fixed="right">
+          <template #default="{ record }: {record: API.GroupDriver}">
+            <AButton :icon="h(UserAddOutlined)" shape="round" @click="onAddDriver(record.id)" />
+          </template>
+        </ATableColumn>
       </ATable>
     </section>
     <GroupDriverDetailDrawer
@@ -61,16 +80,17 @@
 </template>
 
 <script lang="ts" setup>
-import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons-vue';
-import { Modal, message } from 'ant-design-vue';
-import { columns, searchFilterRaw } from './column';
+import { UserAddOutlined } from '@ant-design/icons-vue';
+import { message } from 'ant-design-vue';
+import { searchFilterRaw } from './column';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
 import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
+import { EGroupDriverRelationship } from '@/enums/api.enum';
 
-const GroupDriverDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/GroupDriverDetailDrawer.vue'));
+const DriverInviteForm = defineAsyncComponent(() => import('@/components/form/DriverInviteForm.vue'));
 const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));
 
 const { getDetails, setDetails } = useTableCache<API.GroupDriver>();
@@ -83,7 +103,7 @@ const detailsDrawerState = reactive({
 });
 
 const fetch = async (params?: API.SearchGroupDriverQueryParams) => {
-  const res = await groupDriverApis.search(params);
+  const res = await groupDriverApis.search({ includes: [EGroupDriverRelationship.DRIVER], ...params });
 
   if (!(res && res.data) || res.data.group_drivers.length === 0) {
     return FALLBACK_PAGINATION_API_RESPONSE;
@@ -104,21 +124,6 @@ const onShowDrawerDetails = async (item: API.GroupDriver) => {
   detailsDrawerState.title = item.name;
   detailsDrawerState.isOpen = true;
   detailsDrawerState.id = item.id;
-  // // check cache
-  // const cacheItem = getDetails(item.id);
-  // if (cacheItem) {
-  //   detailsDrawerState.item = cacheItem;
-
-  //   return;
-  // }
-  // // fetch
-  // const res = await groupDriverApis.getDetails(item.id, { includes: ['retailer', 'drivers'] });
-  // if (!(res && res.data && res.data.retailer)) {
-  //   return;
-  // }
-  // // cache
-  // setDetails(item.id, res.data);
-  // detailsDrawerState.item = res.data;
 };
 
 const {
@@ -152,20 +157,22 @@ const handleSuccess = (modalId: string) => {
   search();
 };
 
-const handleDelete = async (id: string) => {
-  const doDelete = async () => {
-    const rs = await groupDriverApis.delete(id);
-    if (!(rs && rs.data)) {
-      return;
-    }
-    reload();
-  };
+const onAddDriver = async (groupId: string) => {
+  if (!groupId) {
+    message.error('Thiếu id nhóm!');
 
-  Modal.confirm({
-    title: 'Xóa nhóm tài xế',
-    content: 'Bạn có muốn xóa nhóm tài xế này?',
-    onOk: async () => await doDelete(),
-    onCancel() {},
+    return;
+  }
+  const modalId = coreModal.show({
+    component: DriverInviteForm,
+    title: 'Mời tài xế vào nhóm',
+    props: {
+      groupId,
+    },
+    emits: {
+      success: () => handleSuccess(modalId),
+      cancel: () => coreModal.close(modalId),
+    },
   });
 };
 
