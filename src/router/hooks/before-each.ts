@@ -15,27 +15,24 @@ export const beforeEach = (router: Router) => {
     Modal.destroyAll();
 
     const token = BrowserStorage.getCookie(EStorage.ACCESS_TOKEN);
+    // un-auth
+    if (!token) {
+      // prevent infinity loop when redirect '/'
+      if (to.name === ERouteName.LOGIN) {
+        next();
+      }
+      next({ name: ERouteName.LOGIN });
+
+      return;
+    }
+
     const hasRoute = router.hasRoute(to.name!);
 
-    // un-authen
-    if (!token || token === '' || token === '0') {
-      if (to.name === ERouteName.LOGIN) {
-        return next();
-      }
-
-      return next({ name: ERouteName.LOGIN });
-    }
-
-    if (!hasRoute) {
+    if (!hasRoute || userStore.userMenu.length === 0) {
       await userStore.setupUserMenu();
+      next({ ...to, replace: true });
 
-      return next({ ...to, replace: true });
-    }
-
-    if (userStore.userMenu.length === 0) {
-      await userStore.setupUserMenu();
-
-      return next({ path: DEFAULT_ROUTE_PATH });
+      return;
     }
 
     next();
