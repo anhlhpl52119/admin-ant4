@@ -41,3 +41,7 @@ export enum ETransactionStatus {
   PENDING = 'pending',
   CANCELLED = 'cancelled',
 }
+
+export enum EActivationCode {
+  ACTIVE = 'active',
+}
