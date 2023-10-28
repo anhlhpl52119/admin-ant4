@@ -12,8 +12,14 @@
         class="w-full"
         :showSearch="true"
         :filterOption="false"
+        :notFoundContent="isSearch ? undefined : null"
         @input="onInputSearch"
       >
+        <template v-if="isSearch" #notFoundContent>
+          <ASpin v-if="isFetch" size="small" />
+          <span v-if="!isFetch && isSearch">Không tìm thấy tài xế</span>
+        </template>
+
         <template v-for="item in driverOptions" :key="item.value">
           <ASelectOption :value="item.value">
             <div class="flex items-center justify-between">
@@ -36,19 +42,22 @@
       <div v-else>
         <ADescriptions size="small">
           <ADescriptionsItem label="Tên" :span="3">
-            {{ selected || '' }}
+            {{ selectedDriver?.name || '' }}
           </ADescriptionsItem>
           <ADescriptionsItem label="Mô tả" :span="3">
-            {{ selected || '' }}
+            {{ selectedDriver?.description || '' }}
           </ADescriptionsItem>
           <ADescriptionsItem label="Trạng thái" :span="3">
-            {{ selected || '' }}
+            {{ selectedDriver?.status || '' }}
           </ADescriptionsItem>
-          <ADescriptionsItem label="Liên hệ" :span="3">
-            {{ selected ?? '' }}
+          <ADescriptionsItem label="Điện thoại" :span="3">
+            {{ selectedDriver?.phone ?? '' }}
           </ADescriptionsItem>
           <ADescriptionsItem label="Địa chỉ" :span="3">
-            {{ selected || '' }}
+            {{ selectedDriver?.address || '' }}
+          </ADescriptionsItem>
+          <ADescriptionsItem label="Email" :span="3">
+            {{ selectedDriver?.email || '' }}
           </ADescriptionsItem>
         </ADescriptions>
       </div>
@@ -62,12 +71,14 @@
 </template>
 
 <script lang="ts" setup>
-// import { type DefaultOptionType } from 'ant-design-vue/es/select/index';
 import { message } from 'ant-design-vue';
+import { debounce } from 'lodash-es';
 import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
 import { BEGIN_BY_SPACE, MULTIPLE_SPACE_ADJACENT, NO_SCRIPT_INJECTION, NO_SPECIAL_SYMBOL } from '@/constants/regex.constant';
 import { stringWithoutDiacritics } from '@/utils/common.util';
 import { retailerDriverInvitationApis } from '@/apis/retailer/invitation-mgt/invitation-mgt';
+import { useVisibilityStore } from '@/stores/visibility.store';
+import { EApiId } from '@/enums/request.enum';
 
 const props = defineProps<{ groupId: string }>();
 
@@ -75,8 +86,6 @@ const emits = defineEmits<{
   success: [v?: any]
   cancel: [v?: any]
 }>();
-
-let delay: ReturnType<typeof setTimeout> | null;
 
 enum SEARCH_QUERY_KEY {
   CODE = 'driver_code',
@@ -93,9 +102,12 @@ const placeholderDesc = {
   [SEARCH_QUERY_KEY.CODE]: '#Mã Tài xế (Vd: TAIXE01...)',
 };
 
+const appStore = useVisibilityStore();
+
 const driversMap = reactive<Map<string, API.Driver>>(new Map()); // driverId => Driver Object
 const selected = ref<OrUndefine<string>>();
 const searchBy = ref<`${SEARCH_QUERY_KEY}`>(SEARCH_QUERY_KEY.CODE);
+const isSearch = ref<boolean>(false);
 
 const driverOptions = computed<CommonOption[]>(() => {
   const drivers = Array.from(driversMap.values());
@@ -105,6 +117,8 @@ const driverOptions = computed<CommonOption[]>(() => {
 
   return drivers.map(i => ({ label: i?.name ?? '', value: i?.id ?? '' }));
 });
+const isFetch = computed(() => appStore.loadingIds.has(EApiId.DRIVER_SEARCH));
+const selectedDriver = computed(() => driversMap.get(selected.value ?? ''));
 
 const fetchDriver = async (keyword?: string) => {
   let queryCond: API.SearchDriverQueryParams['query'] = {};
@@ -140,8 +154,16 @@ const onAddDriver = async () => {
   emits('success');
 };
 
+const debounceFetch = debounce((value) => {
+  driversMap.clear();
+  isSearch.value = true;
+  fetchDriver(value);
+}, 300);
+
 const onInputSearch = (e: any) => {
   if (!e?.target?.value) {
+    isSearch.value = false;
+
     return;
   }
 
@@ -156,24 +178,19 @@ const onInputSearch = (e: any) => {
 
   // upper case input when search by code
   if (searchBy.value === SEARCH_QUERY_KEY.CODE) {
+    val = val.toUpperCase();
     val = val.replace(NO_SPECIAL_SYMBOL, '');
     val = stringWithoutDiacritics(val);
-    val = val.toUpperCase();
   }
 
-  // reassign target value for display search value
   e.target.value = val;
 
   if (!val) {
+    isSearch.value = false;
+
     return;
   }
 
-  // clear input timeout
-  delay && clearTimeout(delay);
-  // debounce
-  delay = setTimeout(() => {
-    fetchDriver(val);
-    delay = null;
-  }, 500);
+  debounceFetch(val);
 };
 </script>

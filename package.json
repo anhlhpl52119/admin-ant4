@@ -14,8 +14,10 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
+    "@types/lodash-es": "^4.17.10",
     "ant-design-vue": "4.0.6",
     "axios": "^1.4.0",
+    "lodash-es": "^4.17.21",
     "perfect-debounce": "^1.0.0",
     "pinia": "^2.1.3",
     "unocss": "^0.53.5",
