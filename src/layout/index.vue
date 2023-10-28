@@ -45,6 +45,7 @@ import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
 import type { CustomRoute } from '@/router/typing';
 import { authApis } from '@/apis/auth/auth.api';
+import { sleepFor } from '@/utils/common.util';
 
 const routes = useRoute();
 const route = useRoute();
@@ -62,8 +63,9 @@ const selectedKeys = computed(() => [routes?.name?.toString() ?? ERouteName.DASH
 const _test = computed(() => route.matched);
 
 const doLogout = async () => {
-  BrowserStorage.removeCookie(EStorage.ACCESS_TOKEN);
   await authApis.logout();
+  BrowserStorage.removeCookie(EStorage.ACCESS_TOKEN);
+  await sleepFor(200); // wait for cpu process clear cookie
   location.reload();
 };
 

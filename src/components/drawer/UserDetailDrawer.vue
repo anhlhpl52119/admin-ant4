@@ -43,10 +43,10 @@
           {{ userDetail?.email || '' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Ngày tạo">
-          {{ new Date(userDetail?.created_at).toLocaleString('vi-VN') || '' }}
+          {{ formatDate(userDetail.created_at) }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Ngày chỉnh sửa">
-          {{ new Date(userDetail?.updated_at).toLocaleString('vi-VN') || '' }}
+          {{ formatDate(userDetail.updated_at) }}
         </ADescriptionsItem>
       </ADescriptions>
       <ADivider />
@@ -57,6 +57,7 @@
 <script lang="ts" setup>
 import { DeleteOutlined } from '@ant-design/icons-vue';
 import { retailerUserApis } from '@/apis/retailer/user-mgt/user-mgt.api';
+import { formatDate } from '@/utils/date.util';
 
 const props = defineProps<{
   isOpen: boolean

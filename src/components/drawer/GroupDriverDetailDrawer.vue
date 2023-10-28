@@ -43,10 +43,10 @@
           </ATag>
         </ADescriptionsItem>
         <ADescriptionsItem label="Ngày tạo">
-          {{ new Date(groupDriver?.created_at).toLocaleString('vi-VN') || '' }}
+          {{ formatDate(groupDriver?.created_at) }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Ngày chỉnh sửa">
-          {{ new Date(groupDriver?.updated_at).toLocaleString('vi-VN') || '' }}
+          {{ formatDate(groupDriver?.updated_at) }}
         </ADescriptionsItem>
       </ADescriptions>
       <ADivider><span class="text-spotlight">Danh sách tài xế</span></ADivider>
@@ -87,7 +87,7 @@
 <script lang="ts" setup>
 import { DeleteOutlined } from '@ant-design/icons-vue';
 import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
-
+import { formatDate } from '@/utils/date.util';
 import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
 
 const props = defineProps<{

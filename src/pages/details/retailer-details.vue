@@ -115,7 +115,7 @@
                     <template #renderItem="{ item } : {item: API.RetailerConfig}">
                       <AListItem :key="item.id">
                         <template #actions>
-                          <span>{{ new Date(item?.updated_at ?? 0).toLocaleString('vi-VN') || '' }}</span>
+                          {{ formatDate(item.updated_at) }}
                           <!-- <span>{{ item?.updated_at || '-' }}</span> -->
                         </template>
                         <AListItemMeta>
@@ -198,6 +198,7 @@ import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
 import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
 import type { ERetailerSyncStatus } from '@/enums/api.enum';
+import { formatDate } from '@/utils/date.util';
 import { retailerConfigApis } from '@/apis/sys-admin/retailer-mgt/retailer-config';
 import { copyText } from '@/utils/common.util';
 

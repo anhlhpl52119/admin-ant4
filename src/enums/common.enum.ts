@@ -9,3 +9,7 @@ export enum ERole {
   DRIVER = 'driver',
 
 }
+
+export enum EDateFormat {
+  DATE_TIME = 'DD-MM-YYYY HH:mm',
+}

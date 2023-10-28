@@ -20,6 +20,8 @@ export const beforeEach = (router: Router) => {
       // prevent infinity loop when redirect '/'
       if (to.name === ERouteName.LOGIN) {
         next();
+
+        return;
       }
       next({ name: ERouteName.LOGIN });
 

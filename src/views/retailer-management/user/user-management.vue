@@ -51,7 +51,7 @@
         </ATableColumn>
         <ATableColumn key="last-update" title="Cập nhật" width="10rem" align="right">
           <template #default="{ record }: {record: API.Driver}">
-            <span class="text-desc">{{ new Date(record?.updated_at).toLocaleString('vi-VN') || '' }}</span>
+            <span class="text-desc">{{ formatDate(record.updated_at) }}</span>
           </template>
         </ATableColumn>
 
@@ -76,16 +76,15 @@
 </template>
 
 <script lang="ts" setup>
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
 import { Modal } from 'ant-design-vue';
-import { columns, searchFilterRaw } from './column';
+import { searchFilterRaw } from './column';
+import { formatDate } from '@/utils/date.util';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
 import { retailerUserApis } from '@/apis/retailer/user-mgt/user-mgt.api';
 
-// const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
 const RetailerUserCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerUserCreateUpdateForm.vue'));
 
 const { getDetails, setDetails } = useTableCache<API.RetailerUser>();
