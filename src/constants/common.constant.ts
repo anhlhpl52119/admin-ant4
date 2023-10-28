@@ -2,6 +2,8 @@ import type { SelectProps } from 'ant-design-vue';
 
 export const DEFAULT_ROUTE_PATH = '/dashboard/page1';
 
+export const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7; // 7 days
+
 export const COMMON_SUCCESS_MSG = {
   update: 'Cập nhật thành công!',
   delete: 'Xóa thành công!',
@@ -41,3 +43,5 @@ export const FALLBACK_PAGINATION_API_RESPONSE = {
 };
 
 export const GENERAL_EMAIL_DOMAIN = ['gmail.com', 'icloud.com', 'outlook.com', 'facebook.com', 'yahoo.com'];
+
+export const UNHANDLED_SERVER_ERROR = 'Lỗi không xác định từ server';
