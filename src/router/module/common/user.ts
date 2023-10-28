@@ -12,8 +12,8 @@ const routes: CustomRoute[] = [
     redirect: '/user/management',
     meta: {
       hiddenInMenu: false,
-      title: 'User Info',
-      icon: 'i-material-symbols:person-rounded',
+      title: 'Quản lý nhân viên',
+      icon: 'i-svg:group-users',
       permit: [ERole.RETAILER_MANAGER],
     },
     children: [
