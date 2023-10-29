@@ -13,11 +13,11 @@
     </div>
 
     <div class="mt-20 flex gap-16 justify-center">
-      <AButton type="primary" :disabled="!selectedId" @click="onOk">
-        Ok
+      <AButton type="primary" :disabled="!selectedId" :loading="loadingIds.has(EApiId.GROUP_DRIVER_ADD_DRIVER)" @click="onSubmit">
+        Thêm
       </AButton>
-      <AButton @click="$emit('cancel', '')">
-        Cancel
+      <AButton @click="$emit('success', false)">
+        Hủy bỏ
       </AButton>
     </div>
   </div>
@@ -26,27 +26,26 @@
 <script lang="ts" setup>
 import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
 import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
+import { EApiId } from '@/enums/request.enum';
+import { useVisibilityStore } from '@/stores/visibility.store';
 
 const props = defineProps<{ groupId: string }>();
 const emits = defineEmits<{
-  confirm: [v: string]
-  cancel: [v: any]
+  success: [v: boolean]
 }>();
+const { loadingIds } = storeToRefs(useVisibilityStore());
 const selectedId = ref('');
 
-const onAddDriver = async () => {
-  if (!(selectedId.value && props.groupId)) {
+const onSubmit = async () => {
+  if (!selectedId.value && props.groupId) {
     return;
   }
   const rs = await groupDriverApis.addDriver(props.groupId, { id: selectedId.value });
-};
 
-const onOk = async () => {
-  if (!selectedId.value) {
+  if (!(rs && rs.data)) {
     return;
   }
-  await onAddDriver();
-  emits('confirm', selectedId.value);
+  emits('success', true);
 };
 
 const composeDriverOption = async (query?: ApiQueryAttr<API.Driver>) => {

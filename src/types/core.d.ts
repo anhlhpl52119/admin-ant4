@@ -24,13 +24,13 @@ declare global {
 
   type RansackQuery<T> = {
     [K in keyof T as `${string & K}${T[K] extends string | null | boolean
-      ? "_eq" | "_cont"
+      ? "_eq" | "_cont" | "_not_eq" | "_null" | "_not_null"
       : T[K] extends Date | null
       ? "_lteq" | "_gteq" | "_gt" | "_lt"
       : T[K] extends boolean | null
       ? "_true" | "_false"
       : never}`]: T[K];
-  };
+  } & {s: string};
 
   type RequestConfig = {
     url: string

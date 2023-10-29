@@ -10,7 +10,6 @@
           <PlusOutlined />
         </template>
       </AButton>
-      <slot />
     </slot>
   </article>
 </template>

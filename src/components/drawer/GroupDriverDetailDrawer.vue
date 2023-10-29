@@ -10,7 +10,7 @@
     <template #extra>
       <div class="flex gap-16">
         <AButton @click="openModel">
-          Edit
+          Sửa
         </AButton>
         <AButton :icon="h(DeleteOutlined)" danger type="primary" @click="onDelete">
           Xóa
@@ -37,7 +37,6 @@
           {{ groupDriver?.address || '_' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Status">
-          {{ groupDriver?.status || '' }}
           <ATag color="success">
             {{ groupDriver?.status.toUpperCase() ?? '_' }}
           </ATag>
@@ -52,12 +51,12 @@
       <ADivider><span class="text-spotlight">Danh sách tài xế</span></ADivider>
       <div class="flex flex-row-reverse mb-16">
         <AButton type="primary" @click="openAddDriver">
-          +  Thêm tài xế
+          +  Thêm tài xế vào nhóm
         </AButton>
       </div>
 
       <AList
-        :data-source="driversState"
+        :data-source="driversInGroup"
         bordered
         class="max-h-500 overflow-y-scroll"
       >
@@ -80,15 +79,50 @@
           </AListItem>
         </template>
       </AList>
+      <div v-if="driverInvitation.length > 0">
+        <ADivider>
+          <span class="text-spotlight">Danh sách mời đang chờ chấp nhận</span>
+        </ADivider>
+        <div class="flex flex-row-reverse mb-16">
+          <AButton type="primary" @click="onAddDriver">
+            +  Tạo lời lời mời
+          </AButton>
+        </div>
+        <AList
+          :data-source="driverInvitation"
+          bordered
+          class="max-h-500 overflow-y-scroll"
+        >
+          <template #renderItem="{ item, index } : {item: API.DriverInvitation, index: number}">
+            <AListItem :key="item.id">
+              <template #actions>
+                <a>Xem chi tiết</a>
+              </template>
+              <AListItemMeta>
+                <template #title>
+                  <a href="">{{ item?.driver?.name ?? '_' }}</a>
+                </template>
+                <template #description>
+                  <div>{{ item?.driver?.description || '-' }}</div>
+                </template>
+                <template #avatar>
+                  <AAvatar size="large" :src="randomAvatar(index)" />
+                </template>
+              </AListItemMeta>
+            </AListItem>
+          </template>
+        </AList>
+      </div>
     </template>
   </ADrawer>
 </template>
 
 <script lang="ts" setup>
 import { DeleteOutlined } from '@ant-design/icons-vue';
+import { message } from 'ant-design-vue';
 import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
 import { formatDate } from '@/utils/date.util';
-import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
+import { retailerDriverInvitationApis } from '@/apis/retailer/invitation-mgt/invitation-mgt';
 
 const props = defineProps<{
   isOpen: boolean
@@ -100,13 +134,15 @@ const emit = defineEmits<{
   close: [v: boolean]
 }>();
 
+const DriverInviteForm = defineAsyncComponent(() => import('@/components/form/DriverInviteForm.vue'));
+
 const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));
 const AddDriver = defineAsyncComponent(() => import('@/components/common/AddDriver.vue'));
 
 const { isOpen, groupId } = toRefs(props);
 const groupDriver = ref<API.GroupDriver>();
-
-const driversState = ref<API.Driver[]>([]);
+const driversInGroup = computed<API.Driver[]>(() => groupDriver.value?.drivers ?? []);
+const driverInvitation = ref<API.DriverInvitation[]>([]);
 
 const pStyle = {
   fontSize: '1.5rem',
@@ -146,22 +182,55 @@ const initGroupDriver = async () => {
   groupDriver.value = rs.data;
 };
 
-const initDriver = async () => {
-  // fetch
-  const res = await driverApis.search({ items: 20 });
-  if (!(res && res.data.drivers)) {
-    return;
-  }
-  driversState.value = res.data.drivers;
-};
-
 const randomAvatar = (idx: number) => {
   return `https://i.pravatar.cc/150?img=${idx}`;
+};
+
+const initDriverInvitation = async () => {
+  const query: API.SearchInvitationQueryParams = {
+    includes: ['driver'],
+    items: 50,
+    query: {
+      group_driver_id_eq: props.groupId,
+      status_not_eq: 'accepted',
+    },
+  };
+  const rs = await retailerDriverInvitationApis.search(query);
+  if (!(rs && rs.data) || rs.data.driver_invitations.length === 0) {
+    return;
+  }
+  driverInvitation.value = rs.data.driver_invitations;
 };
 
 const handleSuccess = (modalId: string) => {
   coreModal.close(modalId);
   initGroupDriver();
+};
+
+const onAddDriverSuccess = (isSuccess: boolean, modalId: string) => {
+  if (isSuccess) {
+    initDriverInvitation();
+  }
+  coreModal.close(modalId);
+};
+
+const onAddDriver = async () => {
+  if (!props.groupId) {
+    message.error('Thiếu id nhóm!');
+
+    return;
+  }
+  const modalId = coreModal.show({
+    component: DriverInviteForm,
+    title: 'Mời tài xế vào nhóm',
+    props: {
+      groupId: props.groupId,
+    },
+    emits: {
+      success: () => onAddDriverSuccess(true, modalId),
+      cancel: () => coreModal.close(modalId),
+    },
+  });
 };
 
 const openAddDriver = () => {
@@ -172,8 +241,7 @@ const openAddDriver = () => {
       groupId: groupId.value,
     },
     emits: {
-      confirm: (v: string) => console.log('object', v),
-      cancel: () => coreModal.close(modalId),
+      success: (isSuccess: boolean) => onAddDriverSuccess(isSuccess, modalId),
     },
   });
 };
@@ -195,7 +263,7 @@ const openModel = () => {
 watch(isOpen, (val) => {
   if (val && !groupDriver.value) {
     initGroupDriver();
-    initDriver();
+    initDriverInvitation();
   }
 });
 </script>

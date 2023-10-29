@@ -138,17 +138,5 @@ const handleResizeColumn = (w: any, col: any) => {
 };
 
 const openModel = (userId?: string) => {
-  // const title = userId ? 'Cập nhật thông tin chi nhánh' : 'Tạo mới chi nhánh';
-  // const modalId = coreModal.show({
-  //   component: RetailerUserCreateUpdateForm,
-  //   title,
-  //   props: {
-  //     userId: userId ?? '',
-  //   },
-  //   emits: {
-  //     success: () => handleSuccess(modalId),
-  //     cancel: () => coreModal.close(modalId),
-  //   },
-  // });
 };
 </script>

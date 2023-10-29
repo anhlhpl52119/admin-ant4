@@ -11,8 +11,8 @@ export enum EGroupDriverRelationship {
 
 export enum EInvitationRelationship {
   RETAILER = 'retailer',
-  DRIVER = 'drivers',
-  GROUP_DRIVER = 'group_drivers',
+  DRIVER = 'driver',
+  GROUP_DRIVER = 'group_driver',
 }
 
 export enum ERetailerSyncStatus {

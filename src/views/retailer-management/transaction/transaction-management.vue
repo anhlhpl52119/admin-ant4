@@ -1,8 +1,8 @@
 <template>
   <main>
     <CommonPageTitle
-      title="Quản lý nhóm tài xế"
-      actionBtnLabel="Thêm mới nhóm tài xế"
+      title="Quản lý lịch sử thanh toán"
+      actionBtnLabel="Tạo mới"
       @onClickAction="openModel()"
     />
 
@@ -17,6 +17,7 @@
         :data-source="recordsState"
         :loading="isTableLoading"
         :pagination="false"
+        class="cursor-default"
         :scroll="{ y: '61rem' }"
         size="small"
       >
@@ -29,42 +30,65 @@
           />
         </template>
 
-        <ATableColumn key="name" title="Tên nhóm" :resizable="true" :ellipsis="true" :width="250" fixed="left">
-          <template #default="{ record }: {record: API.GroupDriver}">
-            <AButton type="link" class="p0" @click="onShowDrawerDetails(record)">
-              {{ record.name }}
+        <ATableColumn key="code" title="Mã thanh toán" :resizable="true" :ellipsis="true" :width="150" fixed="left">
+          <template #default="{ record }: {record: API.TransactionHistory}">
+            <AButton type="link" class="p0">
+              {{ record?.transaction_history_code || '_' }}
             </AButton>
           </template>
         </ATableColumn>
 
-        <ATableColumn key="address" title="Địa chỉ" :ellipsis="true">
-          <template #default="{ record }: {record: API.GroupDriver}">
-            {{ record.address }}
+        <ATableColumn key="driver" title="Tài xế thụ hưởng">
+          <template #default="{ record }: {record: API.TransactionHistory}">
+            <ul>
+              <li>{{ record?.driver?.name || '_' }}</li>
+              <li class="text-desc">
+                #{{ record?.driver?.driver_code || '_' }}
+              </li>
+            </ul>
           </template>
         </ATableColumn>
 
-        <ATableColumn key="description" title="Mô tả" :ellipsis="true">
-          <template #default="{ record }: {record: API.GroupDriver}">
-            {{ record.description }}
+        <ATableColumn key="tax" title="Thuế" align="right" :width="100">
+          <template #default="{ record }: {record: API.TransactionHistory}">
+            {{ vndFormat(record?.tax) }}
           </template>
         </ATableColumn>
 
-        <ATableColumn key="driver-cnt" title="Số lượng tài xế" align="center" :width="100" fixed="right">
-          <template #default="{ record }: {record: API.GroupDriver}">
-            <span class="font-600">{{ record?.drivers?.length ?? 0 }}</span>
+        <ATableColumn key="total_amount" title="Tổng cộng" align="right">
+          <template #default="{ record }: {record: API.TransactionHistory}">
+            {{ vndFormat(record?.total_amount) }}
           </template>
         </ATableColumn>
 
-        <ATableColumn key="status" title="Status" :width="100" align="center" fixed="right">
-          <template #default="{ record }: {record: API.GroupDriver}">
-            <ATag color="success">
-              <span class="ml0">  {{ record?.status.toUpperCase() ?? '_' }}</span>
+        <ATableColumn key="update_date" title="Ngày cập nhật" align="center">
+          <template #default="{ record }: {record: API.TransactionHistory}">
+            <ul>
+              <li>
+                {{ formatDate(record?.updated_at) }}
+              </li>
+              <li class="text-desc">
+                {{ formatDate(record?.created_at) }}
+              </li>
+            </ul>
+          </template>
+        </ATableColumn>
+        <ATableColumn key="transaction_date" title="Ngày giao dịch" align="center">
+          <template #default="{ record }: {record: API.TransactionHistory}">
+            {{ formatDate(record?.transaction_date) }}
+          </template>
+        </ATableColumn>
+
+        <ATableColumn key="status" title="Trạng thái" :width="100" align="center" fixed="right">
+          <template #default="{ record }: {record: API.TransactionHistory}">
+            <ATag :color="statusTag(record.status).color">
+              <span class="ml0"> {{ statusTag(record.status).desc }} </span>
             </ATag>
           </template>
         </ATableColumn>
 
         <ATableColumn key="action" title="Action" :width="100" align="center" fixed="right">
-          <template #default="{ record }: {record: API.GroupDriver}">
+          <template #default="{ record }: {record: API.TransactionHistory}">
             <AButton :icon="h(UserAddOutlined)" shape="round" @click="onAddDriver(record.id)" />
           </template>
         </ATableColumn>
@@ -87,13 +111,15 @@ import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTab
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
-import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
-import { EGroupDriverRelationship } from '@/enums/api.enum';
+import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
+import { vndFormat } from '@/utils/number.util';
+import { formatDate } from '@/utils/date.util';
+import { ETransactionStatus } from '@/enums/api.enum';
 
 const DriverInviteForm = defineAsyncComponent(() => import('@/components/form/DriverInviteForm.vue'));
 const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));
 
-const { getDetails, setDetails } = useTableCache<API.GroupDriver>();
+const { getDetails, setDetails } = useTableCache<API.TransactionHistory>();
 
 // State
 const detailsDrawerState = reactive({
@@ -102,29 +128,58 @@ const detailsDrawerState = reactive({
   id: '',
 });
 
-const fetch = async (params?: API.SearchGroupDriverQueryParams) => {
-  const res = await groupDriverApis.search({ includes: [EGroupDriverRelationship.DRIVER], ...params });
+const fetch = async (params?: API.SearchTransactionQueryParams) => {
+  const res = await transactionHistoryApis.search({ includes: ['driver'], ...params });
 
-  if (!(res && res.data) || res.data.group_drivers.length === 0) {
+  if (!(res && res.data) || res.data.transaction_histories.length === 0) {
     return FALLBACK_PAGINATION_API_RESPONSE;
   }
 
   return {
-    records: res.data.group_drivers,
+    records: res.data.transaction_histories,
     current_page: res.data.current_page ?? 1,
     total_page: res.data.total_page,
     total_records: res.data.total_records,
   };
 };
 
-const onShowDrawerDetails = async (item: API.GroupDriver) => {
-  if (!item.id) {
-    return;
+const statusTag = (status: `${ETransactionStatus}`) => {
+  switch (status) {
+    case ETransactionStatus.CANCELLED:
+
+      return {
+        color: 'default',
+        desc: 'Hủy bỏ',
+      };
+    case ETransactionStatus.DONE:
+
+      return {
+        color: 'success',
+        desc: 'Thành công',
+      };
+    case ETransactionStatus.PENDING:
+
+      return {
+        color: 'purple',
+        desc: 'Đang chờ',
+      };
+
+    default:
+      return {
+        color: 'blue',
+        desc: 'unknown',
+      }; ;
   }
-  detailsDrawerState.title = item.name;
-  detailsDrawerState.isOpen = true;
-  detailsDrawerState.id = item.id;
 };
+
+// const onShowDrawerDetails = async (item: API.TransactionHistory) => {
+//   if (!item.id) {
+//     return;
+//   }
+//   detailsDrawerState.title = item.name;
+//   detailsDrawerState.isOpen = true;
+//   detailsDrawerState.id = item.id;
+// };
 
 const {
   isTableLoading,
@@ -136,7 +191,7 @@ const {
   search,
   reload,
 } = useCommonTableMethod(
-  EApiId.GROUP_DRIVER_SEARCH,
+  EApiId.TRANSACTION_SEARCH,
   fetch,
 );
 
@@ -147,7 +202,7 @@ const onCloseDetailDrawer = (needFetch: boolean) => {
   needFetch && reload();
 };
 
-const onSearch = (e: QueriesRaw<API.GroupDriver>[]) => {
+const onSearch = (e: QueriesRaw<API.TransactionHistory>[]) => {
   rawQueries.value = e;
   search();
 };

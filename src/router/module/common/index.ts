@@ -6,6 +6,7 @@ import demo from './demoError';
 import driver from './driver';
 import branch from './branch';
 import retailer from './retailer';
+import transaction from './transaction';
 import { ERouteName } from '@/enums/router.enum';
 import MainLayout from '@/layout/index.vue';
 import { DEFAULT_ROUTE_PATH } from '@/constants/common.constant';
@@ -23,6 +24,7 @@ export const commonRoutes: CustomRoute[] = [
       permit: [],
     },
     children: [
+      ...transaction,
       ...retailer,
       ...driver,
       ...branch,
