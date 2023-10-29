@@ -5,15 +5,15 @@ export {};
 declare global {
   namespace API {
     type SearchInvitationResponse = {
-      driver_invitations: Invitation[];
+      driver_invitations: DriverInvitation[];
     };
 
     type InvitationRelationship = `${EInvitationRelationship}`;
 
-    type GetInvitationDetailResponse = ApiObjectResponse<Invitation>;
+    type GetInvitationDetailResponse = ApiObjectResponse<DriverInvitation>;
 
     type SearchInvitationQueryParams = ApiCoreQuery<
-      Invitation,
+    DriverInvitation,
       InvitationRelationship
     >;
 

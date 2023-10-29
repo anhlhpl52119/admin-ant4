@@ -85,6 +85,7 @@ export const groupDriverApis = {
       },
       {
         id: EApiId.GROUP_DRIVER_ADD_DRIVER,
+        isShowLoading: true,
       },
     );
   },

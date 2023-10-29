@@ -8,7 +8,7 @@ declare global {
       transaction_histories: TransactionHistory[];
     };
 
-    type TransactionHistoryRelationship = "source_invoices";
+    type TransactionHistoryRelationship = "source_invoices" | "driver";
 
     type SearchTransactionQueryParams = ApiCoreQuery<
       TransactionHistory,

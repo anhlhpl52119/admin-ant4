@@ -22,6 +22,8 @@ declare global {
       source_invoice_code?: string;
       commission_rate?: string;
       transaction_history_id?: string;
+      //relationship
+      driver: Driver
     };
   }
 }

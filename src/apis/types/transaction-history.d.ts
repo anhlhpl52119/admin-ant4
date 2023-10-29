@@ -19,6 +19,7 @@ declare global {
       description: string;
       // relationship
       source_invoices?: SourceInvoice[];
+      driver?: Driver;
     };
   }
 }
