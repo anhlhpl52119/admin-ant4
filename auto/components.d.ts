@@ -89,6 +89,7 @@ declare module 'vue' {
     CustomInput: (typeof import('./../src/components/common/CustomInput.vue'))['default']
     DriverCreateUpdateForm: typeof import('./../src/components/form/DriverCreateUpdateForm.vue')['default']
     DriverCreateUpdateModal: typeof import('./../src/components/modal/DriverCreateUpdateModal.vue')['default']
+    DriverInfo: typeof import('./../src/components/common/DriverInfo.vue')['default']
     DriverInviteForm: typeof import('./../src/components/form/DriverInviteForm.vue')['default']
     EmailAutoComplete: typeof import('./../src/components/common/EmailAutoComplete.vue')['default']
     FieldTitle: typeof import('./../src/components/common/FieldTitle.vue')['default']

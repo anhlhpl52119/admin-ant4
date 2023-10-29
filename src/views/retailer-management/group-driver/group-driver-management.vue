@@ -63,7 +63,7 @@
           </template>
         </ATableColumn>
 
-        <ATableColumn key="action" title="Action" :width="100" align="center" fixed="right">
+        <ATableColumn key="action" title="Tạo lời mời" :width="100" align="center" fixed="right">
           <template #default="{ record }: {record: API.GroupDriver}">
             <AButton :icon="h(UserAddOutlined)" shape="round" @click="onAddDriver(record.id)" />
           </template>

@@ -41,7 +41,11 @@
         <ATableColumn key="driver" title="Tài xế thụ hưởng">
           <template #default="{ record }: {record: API.TransactionHistory}">
             <ul>
-              <li>{{ record?.driver?.name || '_' }}</li>
+              <li>
+                <AButton type="link" class="p0" @click="showDriverInfo(record?.driver?.id ?? '')">
+                  {{ record?.driver?.name || '_' }}
+                </AButton>
+              </li>
               <li class="text-desc">
                 #{{ record?.driver?.driver_code || '_' }}
               </li>
@@ -86,12 +90,6 @@
             </ATag>
           </template>
         </ATableColumn>
-
-        <ATableColumn key="action" title="Action" :width="100" align="center" fixed="right">
-          <template #default="{ record }: {record: API.TransactionHistory}">
-            <AButton :icon="h(UserAddOutlined)" shape="round" @click="onAddDriver(record.id)" />
-          </template>
-        </ATableColumn>
       </ATable>
     </section>
     <GroupDriverDetailDrawer
@@ -116,7 +114,7 @@ import { vndFormat } from '@/utils/number.util';
 import { formatDate } from '@/utils/date.util';
 import { ETransactionStatus } from '@/enums/api.enum';
 
-const DriverInviteForm = defineAsyncComponent(() => import('@/components/form/DriverInviteForm.vue'));
+const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
 const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));
 
 const { getDetails, setDetails } = useTableCache<API.TransactionHistory>();
@@ -172,15 +170,6 @@ const statusTag = (status: `${ETransactionStatus}`) => {
   }
 };
 
-// const onShowDrawerDetails = async (item: API.TransactionHistory) => {
-//   if (!item.id) {
-//     return;
-//   }
-//   detailsDrawerState.title = item.name;
-//   detailsDrawerState.isOpen = true;
-//   detailsDrawerState.id = item.id;
-// };
-
 const {
   isTableLoading,
   rawQueries,
@@ -206,29 +195,22 @@ const onSearch = (e: QueriesRaw<API.TransactionHistory>[]) => {
   rawQueries.value = e;
   search();
 };
+const showDriverInfo = (driverId: string) => {
+  const modalId = coreModal.show({
+    component: DriverInfo,
+    modalWidth: '60rem',
+    props: {
+      driverId,
+    },
+    emits: {
+      close: () => coreModal.close(modalId),
+    },
+  });
+};
 
 const handleSuccess = (modalId: string) => {
   coreModal.close(modalId);
   search();
-};
-
-const onAddDriver = async (groupId: string) => {
-  if (!groupId) {
-    message.error('Thiếu id nhóm!');
-
-    return;
-  }
-  const modalId = coreModal.show({
-    component: DriverInviteForm,
-    title: 'Mời tài xế vào nhóm',
-    props: {
-      groupId,
-    },
-    emits: {
-      success: () => handleSuccess(modalId),
-      cancel: () => coreModal.close(modalId),
-    },
-  });
 };
 
 const openModel = (userId?: string) => {

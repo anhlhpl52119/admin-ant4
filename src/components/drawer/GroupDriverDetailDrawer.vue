@@ -67,7 +67,7 @@
             </template>
             <AListItemMeta>
               <template #title>
-                <a href="">{{ item.name }}</a>
+                <a @click="showDriverInfo(item?.id ?? '')">{{ item.name }}</a>
               </template>
               <template #description>
                 <div>{{ item?.description || '-' }}</div>
@@ -96,14 +96,16 @@
           <template #renderItem="{ item, index } : {item: API.DriverInvitation, index: number}">
             <AListItem :key="item.id">
               <template #actions>
-                <a>Xem chi tiết</a>
+                <AButton shape="round" size="small" danger @click="onCancelInvite(item.id)">
+                  Hủy
+                </AButton>
               </template>
               <AListItemMeta>
                 <template #title>
-                  <a href="">{{ item?.driver?.name ?? '_' }}</a>
+                  <a @click="showDriverInfo(item?.driver?.id ?? '')">{{ item?.driver?.name ?? '_' }}</a>
                 </template>
                 <template #description>
-                  <div>{{ item?.driver?.description || '-' }}</div>
+                  <div>{{ item?.driver?.driver_code || '-' }}</div>
                 </template>
                 <template #avatar>
                   <AAvatar size="large" :src="randomAvatar(index)" />
@@ -137,6 +139,7 @@ const emit = defineEmits<{
 const DriverInviteForm = defineAsyncComponent(() => import('@/components/form/DriverInviteForm.vue'));
 
 const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));
+const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
 const AddDriver = defineAsyncComponent(() => import('@/components/common/AddDriver.vue'));
 
 const { isOpen, groupId } = toRefs(props);
@@ -150,6 +153,19 @@ const pStyle = {
   lineHeight: '2.4rem',
   display: 'block',
   marginBottom: '1.6rem',
+};
+
+const showDriverInfo = (driverId: string) => {
+  const modalId = coreModal.show({
+    component: DriverInfo,
+    modalWidth: '60rem',
+    props: {
+      driverId,
+    },
+    emits: {
+      close: () => coreModal.close(modalId),
+    },
+  });
 };
 
 const onClose = () => {
@@ -260,6 +276,17 @@ const openModel = () => {
   });
 };
 
+const onCancelInvite = async (inviteId: string) => {
+  const confirm = await showAsyncAlert({ content: 'Hủy lời mời đến tài xế nảy' });
+  if (!confirm) {
+    return;
+  }
+  const rs = await retailerDriverInvitationApis.cancelInvite(inviteId);
+  if (!(rs && rs.data)) {
+    return;
+  }
+  initDriverInvitation();
+};
 watch(isOpen, (val) => {
   if (val && !groupDriver.value) {
     initGroupDriver();

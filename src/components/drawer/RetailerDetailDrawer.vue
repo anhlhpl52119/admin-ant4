@@ -104,7 +104,6 @@
 </template>
 
 <script lang="ts" setup>
-// import { retailerConfigApis } from '@/apis/core/retailer-config/retailer-config.api';
 import { message } from 'ant-design-vue';
 import { ERouteName } from '@/enums/router.enum';
 import router from '@/router';

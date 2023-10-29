@@ -40,6 +40,8 @@ export const retailerDriverInvitationApis = {
       },
       {
         id: EApiId.INVITATION_CANCEL,
+        isShowLoading: true,
+        successMsg: 'Hủy thành công!',
       },
     );
   },

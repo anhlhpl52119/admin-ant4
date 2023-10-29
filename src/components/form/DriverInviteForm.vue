@@ -142,7 +142,7 @@ const onAddDriver = async () => {
     return;
   }
 
-  const confirm = await showAsyncAlert({ content: 'Gửi lời mời sẽ đợi tài xế phản hồi?' });
+  const confirm = await showAsyncAlert({ content: 'Lời mời cần được tài xế chấp nhận trước khi được thêm vào nhóm' });
   if (!confirm) {
     return;
   }
