@@ -73,9 +73,9 @@ const findLabel = (status: string) => {
   return statusTextMap[status] ?? status.toUpperCase();
 };
 
-const dynamicTag = {
+const dynamicTag = computed(() => ({
   label: findLabel(status.value),
   color: findColor(status.value),
   icon: statusIconMap[status.value],
-};
+}));
 </script>
