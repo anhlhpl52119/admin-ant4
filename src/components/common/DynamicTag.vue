@@ -52,8 +52,11 @@ const statusIconMap: Record<string, string> = {
 };
 
 const findColor = (status: string) => {
-  const colorObj = Object.entries(statusColorMap);
-  for (const [color, statusList] of colorObj) {
+  if (!status) {
+    return 'default';
+  }
+
+  for (const [color, statusList] of Object.entries(statusColorMap)) {
     if (statusList.includes(status)) {
       return color;
     }
@@ -62,8 +65,16 @@ const findColor = (status: string) => {
   return 'default';
 };
 
+const findLabel = (status: string) => {
+  if (!status) {
+    return 'UNKNOWN';
+  }
+
+  return statusTextMap[status] ?? status.toUpperCase();
+};
+
 const dynamicTag = {
-  label: statusTextMap[status.value] ?? status.value.toUpperCase(),
+  label: findLabel(status.value),
   color: findColor(status.value),
   icon: statusIconMap[status.value],
 };
