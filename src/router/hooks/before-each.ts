@@ -14,16 +14,15 @@ export const beforeEach = (router: Router) => {
     coreModal.destroyAll();
     Modal.destroyAll();
 
-    const token = BrowserStorage.getCookie(EStorage.ACCESS_TOKEN);
+    const token = BrowserStorage.get(EStorage.ACCESS_TOKEN);
     // un-auth
     if (!token) {
-      // prevent infinity loop when redirect '/'
       if (to.name === ERouteName.LOGIN) {
         next();
 
         return;
       }
-      next({ name: ERouteName.LOGIN });
+      next({ name: ERouteName.LOGIN, replace: true });
 
       return;
     }

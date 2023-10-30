@@ -11,7 +11,7 @@ export const useUserStore = defineStore('user-store', () => {
   const userMenu = ref<CustomRoute[]>([]);
 
   // getter
-  const userToken = computed(() => BrowserStorage.getCookie(EStorage.ACCESS_TOKEN));
+  const userToken = computed(() => BrowserStorage.get(EStorage.ACCESS_TOKEN));
   const getUserInfo = computed(() => userInfo.value);
   const getUserRole = computed(() => userInfo.value?.role);
 
@@ -71,7 +71,7 @@ export const useUserStore = defineStore('user-store', () => {
     }
     const rawToken = responseToken.toString().replace(/Bearer\s*/g, ''); // remove "Bearer"
 
-    BrowserStorage.setCookie(EStorage.ACCESS_TOKEN, rawToken);
+    BrowserStorage.set(EStorage.ACCESS_TOKEN, rawToken);
     await setupUserMenu();
   };
 

@@ -64,8 +64,7 @@ const _test = computed(() => route.matched);
 
 const doLogout = async () => {
   await authApis.logout();
-  BrowserStorage.removeCookie(EStorage.ACCESS_TOKEN);
-  await sleepFor(200); // wait for cpu process clear cookie
+  BrowserStorage.clear();
   location.reload();
 };
 

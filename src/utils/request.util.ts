@@ -24,8 +24,10 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = BrowserStorage.getCookie(EStorage.ACCESS_TOKEN);
-    config.headers.Authorization = token ? `Bearer ${token}` : '';
+    const token = BrowserStorage.get(EStorage.ACCESS_TOKEN);
+    if (token) {
+      config.headers.Authorization = token ? `Bearer ${token}` : '';
+    }
 
     return config;
   },
@@ -41,7 +43,7 @@ service.interceptors.response.use(
   (error: AxiosError<{ message: string[] }>) => {
     const status = error?.response?.status ?? EStatusCode.UNKNOWN;
     if (status === EStatusCode.UNAUTHORIZED) {
-      BrowserStorage.clearCookie();
+      BrowserStorage.clear();
       window.location.reload();
     }
 
@@ -110,7 +112,7 @@ export const request = async <T>(
     }
 
     // show server error message
-    const serverErrorMsg: string = error?.response?.data?.message.toString() ?? UNHANDLED_SERVER_ERROR;
+    const serverErrorMsg: string = error?.response?.data?.message?.toString() ?? UNHANDLED_SERVER_ERROR;
     $message.error({ content: serverErrorMsg, key: id });
 
     return null as T;

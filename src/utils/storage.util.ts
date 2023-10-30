@@ -16,7 +16,7 @@ export const createStorage = ({ storage = localStorage } = {}) => {
      * @param {*} value cache value
      * @param expire
      */
-    set(key: EStorage, value: any, expire: number | null = DEFAULT_CACHE_TIME) {
+    set(key: EStorage, value: any, expire: number = DEFAULT_CACHE_TIME) {
       const stringData = JSON.stringify({
         value,
         expire: expire !== null ? new Date().getTime() + expire * 1000 : null,

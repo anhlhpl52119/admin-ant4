@@ -1,3 +1,3 @@
 export enum EStorage {
-  ACCESS_TOKEN = 'AT',
+  ACCESS_TOKEN = 'DCMS_AT',
 }
