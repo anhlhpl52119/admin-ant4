@@ -30,7 +30,7 @@ declare global {
       : T[K] extends boolean | null
       ? "_true" | "_false"
       : never}`]: T[K];
-  } & {s: string};
+  } & {s: string} & {[k in string] : string};
 
   type RequestConfig = {
     url: string

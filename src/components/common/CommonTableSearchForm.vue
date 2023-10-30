@@ -5,7 +5,7 @@
         <li>
           <CInput
             v-model:value="searchNameVal"
-            placeholder="Nhập tên để tìm kiếm..."
+            placeholder="Tìm theo Tên, Mã hoặc Sđt"
             size="large"
             :maxlength="70"
             allowClear
@@ -119,7 +119,6 @@ const onSearch = () => {
   }
   const queryRaw = [...state.value];
   if (searchNameVal.value) {
-    searchNameVal.value = searchNameVal.value.replace(/ {2,}/g, ' '); // keep 1 space on search conditions
     queryRaw.push({ key: 'name_cont' as keyof RansackQuery<T>, label: '', value: searchNameVal.value });
   }
   emits('search', queryRaw);

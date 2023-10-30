@@ -83,7 +83,7 @@
           </template>
         </ATableColumn>
 
-        <ATableColumn key="status" title="Trạng thái" :width="100" align="center" fixed="right">
+        <ATableColumn key="status" title="Trạng thái" :width="100" align="right" fixed="right">
           <template #default="{ record }: {record: API.TransactionHistory}">
             <ATag :color="statusTag(record.status).color">
               <span class="ml0"> {{ statusTag(record.status).desc }} </span>

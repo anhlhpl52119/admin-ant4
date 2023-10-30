@@ -40,8 +40,8 @@ import { DEFAULT_ROUTE_PATH } from '@/constants/common.constant';
 // import { useUserAuth } from '@/stores/auth';
 
 const formState = reactive<API.LoginRequestBody>({
-  email: 'anh@gmail.com',
-  password: 'b0748591',
+  email: 'banle0_manager@takeit.vn',
+  password: '123123A@',
   refresh: true,
   // email: 'admin@takeit.vn',
   // password: '123123A@',
