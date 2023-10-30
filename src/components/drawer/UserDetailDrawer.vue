@@ -34,10 +34,7 @@
           {{ userDetail?.phone || '' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Phân quyền">
-          <!-- {{  || '' }} -->
-          <ATag color="magenta">
-            {{ userDetail?.role.toUpperCase() ?? '_' }}
-          </ATag>
+          <DynamicTag :status="userDetail?.role ?? ''" />
         </ADescriptionsItem>
         <ADescriptionsItem label="Email">
           {{ userDetail?.email || '' }}

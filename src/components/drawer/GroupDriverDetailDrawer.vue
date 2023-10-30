@@ -37,9 +37,7 @@
           {{ groupDriver?.address || '_' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Status">
-          <ATag color="success">
-            {{ groupDriver?.status.toUpperCase() ?? '_' }}
-          </ATag>
+          <DynamicTag :status="groupDriver?.status ?? ''" />
         </ADescriptionsItem>
         <ADescriptionsItem label="Ngày tạo">
           {{ formatDate(groupDriver?.created_at) }}

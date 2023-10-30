@@ -9,7 +9,7 @@
             </ABadge>
             <span class="text-spotlight text-24 ml-7">{{ retailerState?.name || '-' }}</span>
             <span class="text-desc text-12 ml-7">{{ retailerState?.retailer_code || '' }}</span>
-            <ActivationStatusTag :status="retailerState?.status" isLoading class="ml-10" />
+            <DynamicTag :status="retailerState?.status ?? ''" isLoading />
           </div>
 
           <AButton size="large" @click="openModel(retailerState?.id ?? '')">
@@ -52,9 +52,7 @@
                 <span>{{ retailerSourceName }}</span>
               </div>
               <div class="mt-10">
-                <ATag :color="syncStatusTag(retailerState?.sync_status ?? 'not_config').color">
-                  {{ syncStatusTag(retailerState?.sync_status ?? 'not_config').content.toUpperCase() }}
-                </ATag>
+                <DynamicTag :status="retailerState?.sync_status ?? ''" />
               </div>
             </li>
             <ADivider type="vertical" class="h-50" />
@@ -240,25 +238,6 @@ const retailerSourceName = computed(() => {
 
 const randomAvatar = (idx: number) => {
   return `https://i.pravatar.cc/150?img=${idx}`;
-};
-
-const syncStatusTag = (status: `${ERetailerSyncStatus}`) => {
-  switch (status) {
-    case 'not_config':
-      return { color: 'geekblue', content: 'Chưa config' };
-    case 'full_synced':
-      return { color: 'success', content: 'Full sync' };
-    case 'ready_to_sync':
-      return { color: 'cyan', content: 'Sẵn sàng sync' };
-    case 'sync_failed':
-      return { color: 'magenta', content: 'Sync thất bại' };
-    case 'synced':
-      return { color: 'success', content: 'Đã sync' };
-    case 'webhook_not_enough':
-      return { color: 'purple', content: 'Webhook không đủ' };
-    default:
-      return { color: 'purple', content: 'chưa xác định' };
-  }
 };
 
 const initConfig = async () => {

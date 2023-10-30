@@ -57,9 +57,7 @@
 
         <ATableColumn key="status" title="Status" :width="100" align="center" fixed="right">
           <template #default="{ record }: {record: API.GroupDriver}">
-            <ATag color="success">
-              <span class="ml0">  {{ record?.status.toUpperCase() ?? '_' }}</span>
-            </ATag>
+            <DynamicTag :status="record?.status ?? ''" />
           </template>
         </ATableColumn>
 

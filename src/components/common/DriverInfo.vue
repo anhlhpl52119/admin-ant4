@@ -11,9 +11,7 @@
           {{ driverState?.name || '' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Status">
-          <ATag color="success">
-            {{ driverState?.status.toUpperCase() ?? '_' }}
-          </ATag>
+          <DynamicTag :status="driverState?.status ?? ''" />
         </ADescriptionsItem>
         <ADescriptionsItem label="Số điện thoại" :span="2">
           {{ driverState?.phone || '_' }}

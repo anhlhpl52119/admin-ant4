@@ -19,9 +19,7 @@
           <ASelectOption :value="item.value">
             <div class="flex items-center justify-between">
               <span>{{ item.label }}</span>
-              <ATag color="success">
-                <span class="ml0">Active</span>
-              </ATag>
+              <DynamicTag :status="() => 'active'" />
             </div>
           </ASelectOption>
         </template>

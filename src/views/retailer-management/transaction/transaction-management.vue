@@ -85,9 +85,7 @@
 
         <ATableColumn key="status" title="Trạng thái" :width="100" align="right" fixed="right">
           <template #default="{ record }: {record: API.TransactionHistory}">
-            <ATag :color="statusTag(record.status).color">
-              <span class="ml0"> {{ statusTag(record.status).desc }} </span>
-            </ATag>
+            <DynamicTag :status="record?.status ?? ''" />
           </template>
         </ATableColumn>
       </ATable>
@@ -139,35 +137,6 @@ const fetch = async (params?: API.SearchTransactionQueryParams) => {
     total_page: res.data.total_page,
     total_records: res.data.total_records,
   };
-};
-
-const statusTag = (status: `${ETransactionStatus}`) => {
-  switch (status) {
-    case ETransactionStatus.CANCELLED:
-
-      return {
-        color: 'default',
-        desc: 'Hủy bỏ',
-      };
-    case ETransactionStatus.DONE:
-
-      return {
-        color: 'success',
-        desc: 'Thành công',
-      };
-    case ETransactionStatus.PENDING:
-
-      return {
-        color: 'purple',
-        desc: 'Đang chờ',
-      };
-
-    default:
-      return {
-        color: 'blue',
-        desc: 'unknown',
-      }; ;
-  }
 };
 
 const {

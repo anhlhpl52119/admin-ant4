@@ -72,9 +72,7 @@
         </ATableColumn>
         <ATableColumn key="status" title="Status" width="8rem" align="center" fixed="right">
           <template #default="{ record }: {record: API.Driver}">
-            <ATag color="success">
-              <span class="ml0">  {{ record?.status.toUpperCase() ?? '_' }}</span>
-            </ATag>
+            <DynamicTag :status="record?.status ?? ''" />
           </template>
         </ATableColumn>
         <!-- <ATableColumn key="edit" title="Action" width="8rem" align="center">
