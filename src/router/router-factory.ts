@@ -2,6 +2,7 @@ import type { CustomRoute } from './typing';
 import router from '@/router';
 import { commonRoutes } from '@/router/module/common';
 import { ERouteName } from '@/enums/router.enum';
+import { DEFAULT_ROLE_ROUTE } from '@/constants/common.constant';
 
 const filterRoutesByRole = (routes: CustomRoute[], role: API.UserRole) => {
   const result: CustomRoute[] = [];
@@ -29,6 +30,8 @@ export const dynamicRouterGenerator = async (userRole: API.UserRole) => {
     const layout = commonRoutes.find(item => item.name === ERouteName.MAIN_LAYOUT)!;
     const userRoutes = filterRoutesByRole(layout.children || [], userRole);
     layout.children = userRoutes;
+    layout.path = '/';
+    layout.redirect = DEFAULT_ROLE_ROUTE[userRole];
     router.addRoute(layout);
 
     return Promise.resolve({

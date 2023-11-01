@@ -1,8 +1,16 @@
 import type { SelectProps } from 'ant-design-vue';
+import { ERole } from '@/enums/common.enum';
 
 export const DEFAULT_ROUTE_PATH = '/dashboard/page1';
 
 export const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7; // 7 days
+
+export const DEFAULT_ROLE_ROUTE = {
+  [ERole.ADMIN]: '/retailer/management',
+  [ERole.RETAILER_USER]: '/transaction/transaction-management',
+  [ERole.DRIVER]: '/transaction/transaction-management',
+  [ERole.RETAILER_MANAGER]: '/transaction/transaction-management',
+};
 
 export const COMMON_SUCCESS_MSG = {
   update: 'Cập nhật thành công!',

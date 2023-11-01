@@ -35,7 +35,7 @@
 import { reactive } from 'vue';
 import { message } from 'ant-design-vue';
 import { useUserStore } from '@/stores/user.store';
-import { DEFAULT_ROUTE_PATH } from '@/constants/common.constant';
+import { DEFAULT_ROLE_ROUTE, DEFAULT_ROUTE_PATH } from '@/constants/common.constant';
 
 // import { useUserAuth } from '@/stores/auth';
 
@@ -49,6 +49,7 @@ const formState = reactive<API.LoginRequestBody>({
 });
 // const { loginReturnToken } = useUserAuth();
 const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore();
 const loadingState = reactive({
   loginButton: false,
@@ -71,8 +72,10 @@ const handleSubmit = async () => {
       key: 1,
     });
     await userStore.login(formState);
-    // router.replace('/');
-    router.replace(DEFAULT_ROUTE_PATH);
+    if (!userStore.getUserRole) {
+      return;
+    }
+    await router.replace((route.query.redirect as string) ?? DEFAULT_ROLE_ROUTE[userStore.getUserRole]);
   }
   catch (error) {
     classState.formShake = true;
