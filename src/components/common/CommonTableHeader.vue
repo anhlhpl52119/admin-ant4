@@ -34,24 +34,26 @@
         <ADropdown trigger="click">
           <template #overlay>
             <AMenu @click="$emit('onSort')">
-              <AMenuItem key="1">
+              <AMenuItem key="create_at">
                 <div class="flex gap-5 items-center">
-                  <i class="i-mdi:sort-calendar-ascending w25 h25 text-primary" />
-                  <span>Ngày tạo gần nhất</span>
-                </div>
-              </AMenuItem>
-              <AMenuItem key="2">
-                <div class="flex gap-5 items-center">
-                  <i class="i-mdi:sort-calendar-descending w25 h25 text-red" />
+                  <!-- <i class="i-mdi:sort-calendar-ascending w25 h25 text-primary" /> -->
                   <span>Ngày tạo</span>
                 </div>
               </AMenuItem>
-              <AMenuItem key="3">
+              <AMenuItem key="update_at">
                 <div class="flex gap-5 items-center">
-                  <i class="i-mdi:sort-calendar-ascending w25 h25 text-primary" />
+                  <!-- <i class="i-mdi:sort-calendar-ascending w25 h25 text-primary" /> -->
                   <span>Ngày sửa đổi</span>
                 </div>
               </AMenuItem>
+              <ARadioGroup v-model:value="value1" buttonStyle="solid" class="m8">
+                <ARadioButton value="asc">
+                  Tăng dần
+                </ARadioButton>
+                <ARadioButton value="desc">
+                  Giảm dần
+                </ARadioButton>
+              </ARadioGroup>
             </AMenu>
           </template>
           <AButton size="small">
@@ -83,6 +85,8 @@ interface Page {
   currentPage: number
   pageSize: number
 }
+
+const value1 = ref<string>('asc');
 
 const { currentPage, totalRecord, pageSize } = toRefs(props);
 </script>
