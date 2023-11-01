@@ -7,16 +7,17 @@
     />
 
     <CommonTableSearchForm
-      :raw="searchFilterRaw"
-      :loading="isTableLoading"
+      :rawSearchableItems="searchFilterRaw"
+      :loading="isFetching"
+      quickSearchKey="name_cont"
       @search="onSearch"
-      @reset="search"
+      @reset="resetTable"
     />
     <section class="card">
       <ATable
-        :data-source="recordsState"
+        :dataSource="tableRecords"
+        :loading="isFetching"
         :columns="columns"
-        :loading="isTableLoading"
         :pagination="false"
         :scroll="{ y: '61rem' }"
         size="small"
@@ -44,9 +45,10 @@
         </template>
         <template #title>
           <CommonTableHeader
-            v-model:current-page="paginationState.currentPage"
-            v-model:record-per-page="paginationState.recordsPerPage"
-            :totalRecord="totalRecords"
+            :currentPage="tableState.currentPage"
+            :pageSize="tableState.pageSize"
+            :totalRecord="tableState.totalRecords"
+            @pageChange="handlePageChange"
             @reload="reload"
           />
         </template>
@@ -72,6 +74,7 @@ import { useTableCache } from '@/composable/useTableCache';
 import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
 import type { ERetailerSyncStatus } from '@/enums/api.enum';
 import { ERouteName } from '@/enums/router.enum';
+import { useTableMethod } from '@/composable/useTableMethod';
 
 const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
 const RetailerCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerCreateUpdateForm.vue'));
@@ -131,15 +134,15 @@ const onCloseDetailDrawer = () => {
 };
 
 const {
-  isTableLoading,
+  handlePageChange,
+  isFetching,
+  tableRecords,
+  tableState,
   rawQueries,
-  paginationState,
-  recordsState,
-  totalRecords,
-
+  resetTable,
   search,
   reload,
-} = useCommonTableMethod(
+} = useTableMethod(
   EApiId.RETAILER_SEARCH,
   fetch,
 );

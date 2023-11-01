@@ -18,7 +18,7 @@ export const beforeEach = (router: Router) => {
     Modal.destroyAll();
 
     // TODO: refactor
-    let tempRoute = to.path;
+    let tempRoute = '/transaction/transaction-management';
     if (userStore.getUserRole) {
       tempRoute = DEFAULT_ROLE_ROUTE[userStore.getUserRole];
     }

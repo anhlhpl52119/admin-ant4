@@ -7,16 +7,17 @@
     />
 
     <CommonTableSearchForm
-      :raw="searchFilterRaw"
-      :loading="isTableLoading"
+      :rawSearchableItems="searchFilterRaw"
+      :loading="isFetching"
+      quickSearchKey="name_or_branch_code_cont"
       @search="onSearch"
-      @reset="search"
+      @reset="resetTable"
     />
     <section class="card">
       <ATable
-        :data-source="recordsState"
+        :dataSource="tableRecords"
         :columns="columns"
-        :loading="isTableLoading"
+        :loading="isFetching"
         :pagination="false"
         :scroll="{ y: '61rem' }"
         size="small"
@@ -37,9 +38,10 @@
         </template>
         <template #title>
           <CommonTableHeader
-            v-model:current-page="paginationState.currentPage"
-            v-model:record-per-page="paginationState.recordsPerPage"
-            :totalRecord="totalRecords"
+            :currentPage="tableState.currentPage"
+            :pageSize="tableState.pageSize"
+            :totalRecord="tableState.totalRecords"
+            @pageChange="handlePageChange"
             @reload="reload"
           />
         </template>
@@ -55,6 +57,7 @@ import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
 import { branchApis } from '@/apis/retailer/branch-mgt/branch-mgt';
+import { useTableMethod } from '@/composable/useTableMethod';
 
 const { getDetails, setDetails } = useTableCache<API.Branch>();
 
@@ -103,22 +106,16 @@ const onShowDrawerDetails = async (item: API.Branch) => {
   detailsDrawerState.item = res.data;
 };
 
-// const onCloseDetailDrawer = () => {
-//   detailsDrawerState.item = null;
-//   detailsDrawerState.title = '';
-//   detailsDrawerState.isOpen = false;
-// };
-
 const {
-  isTableLoading,
+  handlePageChange,
+  isFetching,
+  tableRecords,
+  tableState,
   rawQueries,
-  paginationState,
-  recordsState,
-  totalRecords,
-
+  resetTable,
   search,
   reload,
-} = useCommonTableMethod(
+} = useTableMethod(
   EApiId.BRANCH_SEARCH,
   fetch,
 );
@@ -127,11 +124,6 @@ const onSearch = (e: QueriesRaw<API.Branch>[]) => {
   rawQueries.value = e;
   search();
 };
-
-// const handleSuccess = (modalId: string) => {
-//   coreModal.close(modalId);
-//   search();
-// };
 
 const handleResizeColumn = (w: any, col: any) => {
   col.width = w;

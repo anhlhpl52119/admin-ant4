@@ -7,15 +7,16 @@
     />
 
     <CommonTableSearchForm
-      :raw="searchFilterRaw"
-      :loading="isTableLoading"
+      :rawSearchableItems="searchFilterRaw"
+      :loading="isFetching"
+      quickSearchKey="name_or_phone_cont"
       @search="onSearch"
-      @reset="search"
+      @reset="resetTable"
     />
     <section class="card">
       <ATable
-        :data-source="recordsState"
-        :loading="isTableLoading"
+        :dataSource="tableRecords"
+        :loading="isFetching"
         :pagination="false"
         :scroll="{ y: '61rem' }"
         size="small"
@@ -55,9 +56,10 @@
 
         <template #title>
           <CommonTableHeader
-            v-model:current-page="paginationState.currentPage"
-            v-model:record-per-page="paginationState.recordsPerPage"
-            :totalRecord="totalRecords"
+            :currentPage="tableState.currentPage"
+            :pageSize="tableState.pageSize"
+            :totalRecord="tableState.totalRecords"
+            @pageChange="handlePageChange"
             @reload="reload"
           />
         </template>
@@ -82,6 +84,7 @@ import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
 import { retailerUserApis } from '@/apis/retailer/user-mgt/user-mgt.api';
+import { useTableMethod } from '@/composable/useTableMethod';
 
 const RetailerUserCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerUserCreateUpdateForm.vue'));
 
@@ -135,15 +138,15 @@ const onShowDrawerDetails = async (item: API.RetailerUser) => {
 };
 
 const {
-  isTableLoading,
+  handlePageChange,
+  isFetching,
+  tableRecords,
+  tableState,
   rawQueries,
-  paginationState,
-  recordsState,
-  totalRecords,
-
+  resetTable,
   search,
   reload,
-} = useCommonTableMethod(
+} = useTableMethod(
   EApiId.RETAILER_USER_SEARCH,
   fetch,
 );

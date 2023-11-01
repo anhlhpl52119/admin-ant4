@@ -7,15 +7,16 @@
     />
 
     <CommonTableSearchForm
-      :raw="searchFilterRaw"
-      :loading="isTableLoading"
+      :rawSearchableItems="searchFilterRaw"
+      :loading="isFetching"
+      quickSearchKey="transaction_history_code_cont"
       @search="onSearch"
-      @reset="search"
+      @reset="resetTable"
     />
     <section class="card">
       <ATable
-        :data-source="recordsState"
-        :loading="isTableLoading"
+        :dataSource="tableRecords"
+        :loading="isFetching"
         :pagination="false"
         class="cursor-default"
         :scroll="{ y: '61rem' }"
@@ -23,9 +24,10 @@
       >
         <template #title>
           <CommonTableHeader
-            v-model:current-page="paginationState.currentPage"
-            v-model:record-per-page="paginationState.recordsPerPage"
-            :totalRecord="totalRecords"
+            :currentPage="tableState.currentPage"
+            :pageSize="tableState.pageSize"
+            :totalRecord="tableState.totalRecords"
+            @pageChange="handlePageChange"
             @reload="reload"
           />
         </template>
@@ -100,22 +102,17 @@
 </template>
 
 <script lang="ts" setup>
-import { UserAddOutlined } from '@ant-design/icons-vue';
-import { message } from 'ant-design-vue';
 import { searchFilterRaw } from './column';
-import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
+import { type QueriesRaw } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
-import { useTableCache } from '@/composable/useTableCache';
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
 import { vndFormat } from '@/utils/number.util';
 import { formatDate } from '@/utils/date.util';
-import { ETransactionStatus } from '@/enums/api.enum';
+import { useTableMethod } from '@/composable/useTableMethod';
 
 const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
 const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));
-
-const { getDetails, setDetails } = useTableCache<API.TransactionHistory>();
 
 // State
 const detailsDrawerState = reactive({
@@ -140,15 +137,15 @@ const fetch = async (params?: API.SearchTransactionQueryParams) => {
 };
 
 const {
-  isTableLoading,
+  handlePageChange,
+  isFetching,
+  tableRecords,
+  tableState,
   rawQueries,
-  paginationState,
-  recordsState,
-  totalRecords,
-
+  resetTable,
   search,
   reload,
-} = useCommonTableMethod(
+} = useTableMethod(
   EApiId.TRANSACTION_SEARCH,
   fetch,
 );

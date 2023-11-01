@@ -86,7 +86,6 @@ import { searchFilterRaw } from './column';
 import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
-import { useTableCache } from '@/composable/useTableCache';
 import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
 import { EGroupDriverRelationship } from '@/enums/api.enum';
 import { useTableMethod } from '@/composable/useTableMethod';
