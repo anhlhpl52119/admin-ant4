@@ -8,7 +8,7 @@ const routes: CustomRoute[] = [
     path: 'transaction',
     name: ERouteName.TRANSACTION_HISTORY,
     component: PageContent,
-    redirect: '/driver/driver-management',
+    redirect: '/transaction/transaction-management',
     meta: {
       hiddenInMenu: false,
       title: 'Giao dịch',

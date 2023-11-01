@@ -28,10 +28,10 @@
       </header>
       <ALayoutContent class="relative p-15 h-full">
         <PageContent />
-        <CAppDrawer />
-        <CAppModal />
-        <CAsyncAlertDialog />
       </ALayoutContent>
+      <CAppDrawer />
+      <CAppModal />
+      <CAsyncAlertDialog />
     </ALayout>
   </ALayout>
 </template>

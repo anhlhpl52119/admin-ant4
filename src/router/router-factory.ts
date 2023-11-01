@@ -28,12 +28,10 @@ export const dynamicRouterGenerator = async (userRole: API.UserRole) => {
   try {
     const layout = commonRoutes.find(item => item.name === ERouteName.MAIN_LAYOUT)!;
     const userRoutes = filterRoutesByRole(layout.children || [], userRole);
-    const menus = [...userRoutes];
     layout.children = userRoutes;
     router.addRoute(layout);
 
     return Promise.resolve({
-      menus,
       routes: layout.children,
     });
   }

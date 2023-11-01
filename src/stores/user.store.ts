@@ -15,7 +15,6 @@ export const useUserStore = defineStore('user-store', () => {
   const getUserInfo = computed(() => userInfo.value);
   const getUserRole = computed(() => userInfo.value?.role);
 
-  // action
   const routeToMenu = (arr: CustomRoute[]) => {
     const result: CustomRoute[] = [];
     arr.forEach((i) => {
@@ -34,23 +33,31 @@ export const useUserStore = defineStore('user-store', () => {
     return result;
   };
 
+  const resetToken = () => {
+    userInfo.value = null;
+    userMenu.value = [];
+    BrowserStorage.clear();
+  };
+
   const verifyUser = async () => {
     const res = await authApis.currentUser();
     if (!(res && res?.data?.user)) {
-      return;
+      return false;
     }
     userInfo.value = res.data.user;
+
+    return true;
   };
 
   const setupUserMenu = async () => {
     if (!getUserRole.value) {
-      await verifyUser();
-      await setupUserMenu();
+      message.error('Không thể định danh người dùng');
+      resetToken();
 
       return;
     }
-    const { menus } = await dynamicRouterGenerator(getUserRole.value);
-    userMenu.value = routeToMenu(menus);
+    const { routes } = await dynamicRouterGenerator(getUserRole.value);
+    userMenu.value = routeToMenu(routes);
   };
 
   const login = async (loginBody: API.LoginRequestBody) => {
@@ -83,6 +90,7 @@ export const useUserStore = defineStore('user-store', () => {
 
     verifyUser,
     login,
+    resetToken,
     setupUserMenu,
   };
 });
