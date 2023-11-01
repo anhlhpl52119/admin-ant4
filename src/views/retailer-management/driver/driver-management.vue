@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <CommonPageTitle
       title="Tài Xế"
@@ -9,6 +9,7 @@
     <CommonTableSearchForm
       :raw="searchFilterRaw"
       :loading="isTableLoading"
+      quickSearchKey=""
       @search="onSearch"
       @reset="search"
     />
@@ -38,11 +39,6 @@
             </AButton>
           </template>
         </ATableColumn>
-        <!-- <ATableColumn key="driver_code" title="Mã" width="18rem">
-          <template #default="{ record }: {record: API.Driver}">
-            <span>{{ record?.driver_code ?? '_' }}</span>
-          </template>
-        </ATableColumn> -->
         <ATableColumn key="phone" title="Số điện thoại" width="15rem" align="center">
           <template #default="{ record }: {record: API.Driver}">
             <div
@@ -75,13 +71,6 @@
             <DynamicTag :status="record?.status ?? ''" />
           </template>
         </ATableColumn>
-        <!-- <ATableColumn key="edit" title="Action" width="8rem" align="center">
-          <template #default="{ record }: {record: API.Driver}">
-            <ATooltip title="Chỉnh sửa">
-              <AButton :icon="h(EditOutlined)" @click="openModel(record.id)" />
-            </ATooltip>
-          </template>
-        </ATableColumn> -->
         <template #emptyText>
           Không tìm thấy tài xế
         </template>
@@ -165,4 +154,4 @@ const openModel = (driverId?: string) => {
     },
   });
 };
-</script>
+</script> -->

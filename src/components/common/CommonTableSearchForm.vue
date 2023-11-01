@@ -4,7 +4,7 @@
       <ul class="flex gap-5">
         <li>
           <CInput
-            v-model:value="searchNameVal"
+            v-model:value="quickSearchVal"
             placeholder="Tìm theo Tên, Mã hoặc Sđt"
             size="large"
             :maxlength="70"
@@ -31,7 +31,7 @@
       </ul>
 
       <ul class="justify-self-end flex gap-5 items-center">
-        <li v-if="state.length !== 0">
+        <li v-if="stateSearchItem.length !== 0">
           <AButton
             size="small"
             shape="round"
@@ -47,7 +47,8 @@
           </AButton>
         </li>
         <li>
-          <AButton size="large" class="self-end" @click="addNewSearchItem">
+          <!-- TODO: add dynamic component for search item and remove disabled after -->
+          <AButton disabled size="large" class="self-end" @click="addNewSearchItem">
             <template #icon>
               <FilterFilled />
             </template>
@@ -55,9 +56,9 @@
         </li>
       </ul>
     </div>
-    <div v-if="state.length !== 0" ref="scrollElement" class="max-w-full overflow-x-auto overflow-y-hidden bg-slate-100 rounded-10 p-5">
+    <div v-if="stateSearchItem.length !== 0" ref="scrollElement" class="max-w-full overflow-x-auto overflow-y-hidden bg-slate-100 rounded-10 p-5">
       <TransitionGroup name="fade" tag="ul" class="flex gap-10 mt-7">
-        <template v-for="item in state" :key="item.key">
+        <template v-for="item in stateSearchItem" :key="item.key">
           <li class="search-form-items shrink-0 basis-170">
             <FieldTitle :title="item.label">
               <CInput v-model:value="item.value" size="small" class="rounded-full" />
@@ -79,7 +80,8 @@ const props = defineProps<{
   loading: boolean
   queries?: ApiQueryAttr<T>
   options?: any[]
-  raw: QueriesRaw<T>[]
+  quickSearchKey: string
+  rawSearchableItems: QueriesRaw<T>[]
 }>();
 
 const emits = defineEmits<{
@@ -87,19 +89,36 @@ const emits = defineEmits<{
   reset: [v: void]
 }>();
 
-const rawData = props.raw;
-const state = ref<QueriesRaw<T>[]>([]) as Ref<QueriesRaw<T>[]>;
-
-const scrollElement = ref<HTMLElement>();
-
 const { loading } = toRefs(props);
 
-const searchNameVal = ref('');
+const stateSearchItem: Ref<QueriesRaw<T>[]> = ref([]);
+const scrollElement = ref<HTMLElement>();
+const quickSearchVal = ref('');
+
+const filteredQueries = computed(() => {
+  const queryItems: QueriesRaw<T>[] = [
+    ...stateSearchItem.value,
+    {
+      key: props.quickSearchKey,
+      label: '',
+      value: quickSearchVal.value,
+    }];
+
+  return queryItems.filter(i => !!i.value);
+});
+
+const onSearch = () => {
+  if (loading.value) {
+    return;
+  }
+  emits('search', filteredQueries.value);
+};
 
 const addNewSearchItem = async () => {
-  const stateKey = state.value.map(({ key }) => key);
-  const data2 = randomPick(rawData.filter(({ key }) => !stateKey.includes(key)));
-  state.value.push(data2);
+  // TODO
+  const stateKey = stateSearchItem.value.map(({ key }) => key);
+  const data2 = randomPick(props.rawSearchableItems.filter(({ key }) => !stateKey.includes(key)));
+  stateSearchItem.value.push(data2);
 
   await sleepFor(100);
   if (!scrollElement.value) {
@@ -113,31 +132,21 @@ const addNewSearchItem = async () => {
   });
 };
 
-const onSearch = () => {
-  if (loading.value) {
-    return;
-  }
-  const queryRaw = [...state.value];
-  if (searchNameVal.value) {
-    queryRaw.push({ key: 'name_cont' as keyof RansackQuery<T>, label: '', value: searchNameVal.value });
-  }
-  emits('search', queryRaw);
-};
-
 const removeSearchItem = (removeKey: any) => {
-  const item = state.value.find(({ key }) => key === removeKey);
+  // TODO
+  const item = stateSearchItem.value.find(({ key }) => key === removeKey);
   if (!item) {
     return;
   }
-  state.value = state.value.filter(i => i.key !== removeKey);
+  stateSearchItem.value = stateSearchItem.value.filter(i => i.key !== removeKey);
   if (item.value) {
     onSearch();
   }
 };
 
 const clearAll = () => {
-  state.value = [];
-  searchNameVal.value = '';
+  stateSearchItem.value = [];
+  quickSearchVal.value = '';
   emits('search', []);
 };
 </script>

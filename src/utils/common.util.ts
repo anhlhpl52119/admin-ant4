@@ -45,3 +45,27 @@ export const copyText = async (text: string) => {
   }
   catch (e) {}
 };
+
+/** merge object values to object target, only pick fields existed in target */
+export const mergeValues = (target: any, values: any) => {
+  if (!(typeof target === 'object' && target && typeof values === 'object' && values)) {
+    return target;
+  }
+
+  Object.entries(values).forEach(([key, value]: any) => {
+    if (!(key in target)) {
+      return;
+    }
+
+    // deep merge object or array
+    if (typeof value === 'object' && value && !Array.isArray(value) && Object.keys(value)?.length > 0) {
+      mergeValues(target[key], value);
+
+      return;
+    }
+
+    target[key] = value;
+  });
+
+  return target;
+};

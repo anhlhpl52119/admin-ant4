@@ -16,18 +16,18 @@
           size="small"
           :current="currentPage"
           :total="totalRecord"
-          :pageSize="recordPerPage"
+          :pageSize="pageSize"
           :showSizeChanger="false"
-          @change="$emit('update:currentPage', $event)"
+          @change="$emit('pageChange', { currentPage: $event })"
         />
       </li>
       <li>
         <span class="mr-5">Hiển thị</span>
         <ASelect
           size="small"
-          :value="recordPerPage"
+          :value="pageSize"
           :options="VIEW_BY_OPTIONS"
-          @change="onChangePageSize($event as number)"
+          @change="$emit('pageChange', { currentPage: 1, pageSize: $event as number })"
         />
       </li>
       <li>
@@ -70,19 +70,19 @@ import { VIEW_BY_OPTIONS } from '@/constants/common.constant';
 const props = defineProps<{
   totalRecord: number
   currentPage: number
-  recordPerPage: number
+  pageSize: number
 }>();
-const emits = defineEmits<{
-  'update:currentPage': [v: number]
-  'update:recordPerPage': [v: number]
+
+defineEmits<{
   reload: [v: void]
   onSort: [v: void]
+  pageChange: [v: Partial<Page>]
 }>();
 
-const { currentPage, totalRecord, recordPerPage } = toRefs(props);
+interface Page {
+  currentPage: number
+  pageSize: number
+}
 
-const onChangePageSize = (size: number) => {
-  emits('update:currentPage', 1);
-  emits('update:recordPerPage', size);
-};
+const { currentPage, totalRecord, pageSize } = toRefs(props);
 </script>

@@ -7,24 +7,26 @@
     />
 
     <CommonTableSearchForm
-      :raw="searchFilterRaw"
-      :loading="isTableLoading"
+      :rawSearchableItems="searchFilterRaw"
+      :loading="isFetching"
+      quickSearchKey="name_or_email_cont"
       @search="onSearch"
-      @reset="search"
+      @reset="resetTable"
     />
     <section class="card">
       <ATable
-        :data-source="recordsState"
-        :loading="isTableLoading"
+        :dataSource="tableRecords"
+        :loading="isFetching"
         :pagination="false"
         :scroll="{ y: '61rem' }"
         size="small"
       >
         <template #title>
           <CommonTableHeader
-            v-model:current-page="paginationState.currentPage"
-            v-model:record-per-page="paginationState.recordsPerPage"
-            :totalRecord="totalRecords"
+            :currentPage="tableState.currentPage"
+            :pageSize="tableState.pageSize"
+            :totalRecord="tableState.totalRecords"
+            @pageChange="handlePageChange"
             @reload="reload"
           />
         </template>
@@ -87,11 +89,10 @@ import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
 import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
 import { EGroupDriverRelationship } from '@/enums/api.enum';
+import { useTableMethod } from '@/composable/useTableMethod';
 
 const DriverInviteForm = defineAsyncComponent(() => import('@/components/form/DriverInviteForm.vue'));
 const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));
-
-const { getDetails, setDetails } = useTableCache<API.GroupDriver>();
 
 // State
 const detailsDrawerState = reactive({
@@ -125,15 +126,15 @@ const onShowDrawerDetails = async (item: API.GroupDriver) => {
 };
 
 const {
-  isTableLoading,
+  handlePageChange,
+  isFetching,
+  tableRecords,
+  tableState,
   rawQueries,
-  paginationState,
-  recordsState,
-  totalRecords,
-
+  resetTable,
   search,
   reload,
-} = useCommonTableMethod(
+} = useTableMethod(
   EApiId.GROUP_DRIVER_SEARCH,
   fetch,
 );
