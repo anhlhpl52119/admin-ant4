@@ -5,7 +5,7 @@
     subTitle="Sorry, you are not authorized to access this page."
   >
     <template #extra>
-      <AButton type="primary">
+      <AButton type="primary" @click="$router.replace('/')">
         Back Home
       </AButton>
     </template>

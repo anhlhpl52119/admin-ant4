@@ -40,12 +40,12 @@ import { DEFAULT_ROLE_ROUTE } from '@/constants/common.constant';
 // import { useUserAuth } from '@/stores/auth';
 
 const formState = reactive<API.LoginRequestBody>({
-  email: 'banle0_manager@takeit.vn',
-  password: '123123A@',
-  refresh: true,
-  // email: 'admin@takeit.vn',
+  // email: 'banle0_manager@takeit.vn',
   // password: '123123A@',
   // refresh: true,
+  email: 'admin@takeit.vn',
+  password: '123123A@',
+  refresh: true,
 });
 // const { loginReturnToken } = useUserAuth();
 const router = useRouter();

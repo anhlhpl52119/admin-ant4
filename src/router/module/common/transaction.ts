@@ -19,7 +19,7 @@ const routes: CustomRoute[] = [
       {
         path: 'transaction-management',
         name: ERouteName.TRANSACTION_HISTORY_MANAGEMENT,
-        component: () => import('@/views/retailer-management/transaction/transaction-management.vue'),
+        component: () => import('@/views/retailer/transaction/transaction-management.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'Quản lý giao dịch',
@@ -29,7 +29,7 @@ const routes: CustomRoute[] = [
       // {
       //   path: 'driver-group',
       //   name: ERouteName.TRANSACTION_HISTORY_de,
-      //   component: () => import('@/views/retailer-management/group-driver/group-driver-management.vue'),
+      //   component: () => import('@/views/retailer/group-driver/group-driver-management.vue'),
       //   meta: {
       //     hiddenInMenu: false,
       //     title: 'Nhóm tài xế',

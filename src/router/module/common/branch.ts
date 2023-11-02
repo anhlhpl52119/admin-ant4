@@ -19,7 +19,7 @@ const routes: CustomRoute[] = [
       {
         path: 'management',
         name: ERouteName.RETAILER_BRANCH_MANAGEMENT,
-        component: () => import('@/views/retailer-management/branch/branch-management.vue'),
+        component: () => import('@/views/retailer/branch/branch-management.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'Quản lý chi nhánh',

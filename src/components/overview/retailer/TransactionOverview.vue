@@ -1,6 +1,6 @@
 <template>
   <div>
-    Nested menu
+    hello
   </div>
 </template>
 

@@ -19,7 +19,7 @@ const routes: CustomRoute[] = [
       // {
       //   path: 'driver-management',
       //   name: ERouteName.DRIVER_MANAGEMENT,
-      //   component: () => import('@/views/retailer-management/driver/driver-management.vue'),
+      //   component: () => import('@/views/retailer/driver/driver-management.vue'),
       //   meta: {
       //     hiddenInMenu: false,
       //     title: 'Quản lý tài xế',
@@ -29,7 +29,7 @@ const routes: CustomRoute[] = [
       {
         path: 'driver-group',
         name: ERouteName.DRIVER_GROUP,
-        component: () => import('@/views/retailer-management/group-driver/group-driver-management.vue'),
+        component: () => import('@/views/retailer/group-driver/group-driver-management.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'Nhóm tài xế',
