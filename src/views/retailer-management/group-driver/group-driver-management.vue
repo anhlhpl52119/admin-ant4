@@ -83,12 +83,11 @@
 import { UserAddOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
 import { searchFilterRaw } from './column';
-import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
 import { EGroupDriverRelationship } from '@/enums/api.enum';
-import { useTableMethod } from '@/composable/useTableMethod';
+import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
 
 const DriverInviteForm = defineAsyncComponent(() => import('@/components/form/DriverInviteForm.vue'));
 const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));

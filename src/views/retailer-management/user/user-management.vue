@@ -79,12 +79,11 @@
 import { Modal } from 'ant-design-vue';
 import { searchFilterRaw } from './column';
 import { formatDate } from '@/utils/date.util';
-import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
 import { retailerUserApis } from '@/apis/retailer/user-mgt/user-mgt.api';
-import { useTableMethod } from '@/composable/useTableMethod';
+import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
 
 const RetailerUserCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerUserCreateUpdateForm.vue'));
 

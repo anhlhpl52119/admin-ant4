@@ -67,7 +67,7 @@
 import { message } from 'ant-design-vue';
 import { debounce } from 'lodash-es';
 import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
-import { BEGIN_BY_SPACE, MULTIPLE_SPACE_ADJACENT, NO_SCRIPT_INJECTION, NO_SPECIAL_SYMBOL } from '@/constants/regex.constant';
+import { BEGIN_BY_SPACE, MULTIPLE_SPACE_ADJACENT, NO_SCRIPT_INJECTION } from '@/constants/regex.constant';
 import { retailerDriverInvitationApis } from '@/apis/retailer/invitation-mgt/invitation-mgt';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';

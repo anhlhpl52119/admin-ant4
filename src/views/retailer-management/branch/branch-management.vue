@@ -52,12 +52,11 @@
 
 <script lang="ts" setup>
 import { columns, searchFilterRaw } from './column';
-import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';
 import { branchApis } from '@/apis/retailer/branch-mgt/branch-mgt';
-import { useTableMethod } from '@/composable/useTableMethod';
+import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
 
 const { getDetails, setDetails } = useTableCache<API.Branch>();
 

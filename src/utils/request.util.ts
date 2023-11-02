@@ -13,7 +13,6 @@ import { EStorage } from '@/enums/cache.enum';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { useUserStore } from '@/stores/user.store';
 import { UNHANDLED_SERVER_ERROR } from '@/constants/common.constant';
-import { ERouteName } from '@/enums/router.enum';
 
 const AUTH_PATH_PREFIX = import.meta.env.VITE_API_AUTH_PREFIX;
 const SIGNATURE_PATH_PREFIX = import.meta.env.VITE_API_SIGNATURE_PREFIX;

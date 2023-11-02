@@ -18,7 +18,7 @@ const routes: CustomRoute[] = [
       {
         path: 'page1',
         name: ERouteName.DASHBOARD_PAGE1,
-        component: () => import('@/views/demo/demo-button.vue'),
+        component: () => import('@/views/sys-admin/demo/demo-button.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'Demo page',
@@ -36,7 +36,7 @@ const routes: CustomRoute[] = [
           {
             path: 'demo-1',
             name: ERouteName.DEMO_PAGE1,
-            component: () => import('@/views/demo/multiples-langs.vue'),
+            component: () => import('@/views/sys-admin/demo/multiples-langs.vue'),
             meta: {
               hiddenInMenu: false,
               title: 'Menu level 2',

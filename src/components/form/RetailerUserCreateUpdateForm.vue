@@ -76,7 +76,6 @@ import type { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { useFieldValidation } from '@/composable/useFieldValidation';
-import { useCommonStore } from '@/stores/common.store';
 import { retailerUserApis } from '@/apis/retailer/user-mgt/user-mgt.api';
 import { NUMBER_ONLY } from '@/constants/regex.constant';
 

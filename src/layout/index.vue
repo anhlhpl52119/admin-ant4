@@ -42,10 +42,8 @@ import PageContent from '@/layout/page-content/index.vue';
 import { useUserStore } from '@/stores/user.store';
 import { ERouteName } from '@/enums/router.enum';
 import { BrowserStorage } from '@/utils/storage.util';
-import { EStorage } from '@/enums/cache.enum';
 import type { CustomRoute } from '@/router/typing';
 import { authApis } from '@/apis/auth/auth.api';
-import { sleepFor } from '@/utils/common.util';
 
 const routes = useRoute();
 const route = useRoute();

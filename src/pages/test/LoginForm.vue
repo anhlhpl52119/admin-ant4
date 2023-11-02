@@ -35,7 +35,7 @@
 import { reactive } from 'vue';
 import { message } from 'ant-design-vue';
 import { useUserStore } from '@/stores/user.store';
-import { DEFAULT_ROLE_ROUTE, DEFAULT_ROUTE_PATH } from '@/constants/common.constant';
+import { DEFAULT_ROLE_ROUTE } from '@/constants/common.constant';
 
 // import { useUserAuth } from '@/stores/auth';
 

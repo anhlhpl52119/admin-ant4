@@ -1,5 +1,5 @@
 import type { TableColumnType } from 'ant-design-vue';
-import type { QueriesRaw } from '@/composable/useCommonTableMethod';
+import type { QueriesRaw } from '@/composable/useTableMethod';
 
 export const columns: TableColumnType<API.GroupDriver>[] = [
   {

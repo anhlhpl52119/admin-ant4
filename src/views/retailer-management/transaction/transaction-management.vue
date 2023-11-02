@@ -103,13 +103,12 @@
 
 <script lang="ts" setup>
 import { searchFilterRaw } from './column';
-import { type QueriesRaw } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
 import { vndFormat } from '@/utils/number.util';
 import { formatDate } from '@/utils/date.util';
-import { useTableMethod } from '@/composable/useTableMethod';
+import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
 
 const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
 const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));

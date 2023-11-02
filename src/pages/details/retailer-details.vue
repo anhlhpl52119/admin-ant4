@@ -192,10 +192,9 @@ import { Modal, message } from 'ant-design-vue';
 
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { useCommonStore } from '@/stores/common.store';
-import { EApiId, ERequestMethod } from '@/enums/request.enum';
+import { EApiId } from '@/enums/request.enum';
 import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
 import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
-import type { ERetailerSyncStatus } from '@/enums/api.enum';
 import { formatDate } from '@/utils/date.util';
 import { retailerConfigApis } from '@/apis/sys-admin/retailer-mgt/retailer-config';
 import { copyText } from '@/utils/common.util';

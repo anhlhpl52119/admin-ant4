@@ -74,7 +74,7 @@
 <script lang="ts" setup generic="T">
 import { ClearOutlined, FilterFilled, SearchOutlined } from '@ant-design/icons-vue';
 import { randomPick, sleepFor } from '@/utils/common.util';
-import type { QueriesRaw } from '@/composable/useCommonTableMethod';
+import type { QueriesRaw } from '@/composable/useTableMethod';
 
 const props = defineProps<{
   loading: boolean

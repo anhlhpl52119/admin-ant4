@@ -19,7 +19,7 @@ const routes: CustomRoute[] = [
       {
         path: 'management',
         name: ERouteName.RETAILER_MANAGEMENT,
-        component: () => import('@/views/retailer/retailer.vue'),
+        component: () => import('@/views/sys-admin/retailer-management/retailer.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'Quản lý nhà bán lẻ',

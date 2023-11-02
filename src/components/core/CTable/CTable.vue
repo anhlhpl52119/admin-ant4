@@ -91,7 +91,7 @@
         :currentPage="paginationState.currentPage"
         :viewBy="paginationState.viewBy"
         :totalRecord="paginationState.totalRecord"
-        @change-page-size="onPageSizeChange"
+        @changePageSize="onPageSizeChange"
         @reload="reload"
       />
     </template>

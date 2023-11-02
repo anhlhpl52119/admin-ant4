@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <main>
     <CommonPageTitle
       title="Chi nhánh"
@@ -21,7 +21,7 @@
         size="small"
         :scroll="{ y: '61rem' }"
       >
-        <!-- Table Title -->
+
         <template #title>
           <CommonTableHeader
             v-model:current-page="paginationState.currentPage"
@@ -31,7 +31,6 @@
           />
         </template>
 
-        <!-- Table Custom -->
         <template #bodyCell="{ index, column, record }">
           <template v-if="column.dataIndex === 'indexNum'">
             {{ index + 1 }}
@@ -141,4 +140,4 @@ const openModel = (branchId?: string) => {
     }),
   });
 };
-</script>
+</script> -->

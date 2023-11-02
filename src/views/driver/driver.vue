@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <CommonPageTitle
       title="Tài Xế"
@@ -139,4 +139,4 @@ const openModel = (driverId?: string) => {
     },
   });
 };
-</script>
+</script> -->

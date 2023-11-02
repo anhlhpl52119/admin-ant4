@@ -1,7 +1,8 @@
 {
   "extends": "@antfu",
   "rules": {
-    "newline-before-return": "error",
+    "newline-before-return": "off",
+    "max-statements-per-line": ["error", { "max": 2 }],
     "padding-line-between-statements": [
       "error",
       { "blankLine": "always", "prev": "function", "next": "function" }
