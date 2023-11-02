@@ -34,7 +34,7 @@
 
         <ATableColumn key="code" title="Mã thanh toán" :resizable="true" :ellipsis="true" :width="150" fixed="left">
           <template #default="{ record }: {record: API.TransactionHistory}">
-            <AButton type="link" class="p0">
+            <AButton type="link" class="p0" @click="showDetails(record.id)">
               {{ record?.transaction_history_code || '_' }}
             </AButton>
           </template>
@@ -111,7 +111,8 @@ import { formatDate } from '@/utils/date.util';
 import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
 
 const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
-const GroupDriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/GroupDriverCreateUpdateForm.vue'));
+const CreateTransaction = defineAsyncComponent(() => import('@/components/form/CreateTransaction.vue'));
+const TransactionOverview = defineAsyncComponent(() => import('@/components/overview/retailer/TransactionOverview.vue'));
 
 // State
 const detailsDrawerState = reactive({
@@ -178,13 +179,26 @@ const handleSuccess = (modalId: string) => {
   search();
 };
 
-const openModel = (userId?: string) => {
-  const title = userId ? 'Cập nhật thông tin nhóm tài xế' : 'Tạo mới nhóm tài xế';
+const showDetails = (id: string) => {
   const modalId = coreModal.show({
-    component: GroupDriverCreateUpdateForm,
-    title,
+    component: TransactionOverview,
     props: {
-      groupId: userId ?? '',
+      id,
+    },
+    modalWidth: '80rem',
+    emits: {
+      success: () => coreModal.close(modalId),
+      forceFetchList: () => reload(),
+    },
+  });
+};
+
+const openModel = (userId?: string) => {
+  const modalId = coreModal.show({
+    component: CreateTransaction,
+    title: 'Tạo mới giao dịch',
+    modalWidth: '70rem',
+    props: {
     },
     emits: {
       success: () => handleSuccess(modalId),

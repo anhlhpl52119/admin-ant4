@@ -1,9 +1,27 @@
 <template>
-  <div class="pt-20">
-    <ASpin :spinning="loading">
+  <div class="">
+    <CFetchOption
+      v-model:initial-value="selectedId"
+      :requestData="composeDriverOption"
+      labelKey="name"
+    />
+    <div>
+      <div v-if="!selectedId" class="text-desc">
+        <p>
+          - Nhập tên tài xế để tìm kiếm
+        </p>
+        <p> - Tài xế thêm vào phải chưa nằm trong nhóm nào</p>
+      </div>
+      <DriverInfo v-else :driverId="selectedId" hideExtraBtn />
+    </div>
+    <ADivider>Danh sách hóa đơn</ADivider>
+    <div>
+      sd
+    </div>
+    <!-- <ASpin :spinning="loading">
       <div class="flex-btw-center">
         <div>
-          <span class="text-spotlight text-24">Mã thanh toán #{{ transactionInfo?.transaction_history_code || '-' }}</span>
+          <span class="text-spotlight text-24">Thanh toán số #{{ transactionInfo?.transaction_history_code || '-' }}</span>
           <span class="text-desc text-12 ml-7">{{ formatDate(transactionInfo?.transaction_date) || '' }}</span>
         </div>
 
@@ -30,7 +48,7 @@
       <ADivider />
       <div>
         <div>
-          <span class="text-spotlight text-primary  text-24 ml-7 hover:underline cursor-pointer" @click="showDriverInfo(transactionInfo?.driver?.id ?? '')">{{ transactionInfo?.driver?.name || '-' }}</span>
+          <span class="text-spotlight text-24 ml-7 hover:underline cursor-pointer" @click="showDriverInfo(transactionInfo?.driver?.id ?? '')">{{ transactionInfo?.driver?.name || '-' }}</span>
           <span class="text-desc text-12 ml-7">({{ transactionInfo?.driver?.phone || '-' }})</span>
         </div>
       </div>
@@ -79,28 +97,42 @@
           </ATableSummary>
         </template>
       </ATable>
-    </ASpin>
+    </ASpin> -->
   </div>
 </template>
 
 <script lang="ts" setup>
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
+import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
 import { formatDate } from '@/utils/date.util';
 import { vndFormat } from '@/utils/number.util';
 
 const props = defineProps<{
-  id: string
+  driverId?: string
 }>();
 
-const emits = defineEmits<{
-  success: [v?: boolean]
-  forceFetchList: [v?: boolean]
-}>();
+// const emits = defineEmits<{
+//   success: [v?: boolean]
+//   forceFetchList: [v?: boolean]
+// }>();
 
 const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
 
+const selectedId = ref('');
+
+const composeDriverOption = async (query?: ApiQueryAttr<API.Driver>) => {
+  const rs = await driverApis.search({ query });
+  if (!rs || rs.data.drivers.length === 0) {
+    return [];
+  }
+
+  return rs.data.drivers;
+};
+
+const driverInfo = ref<OrNull<API.Driver>>(null);
 const transactionInfo = ref<OrNull<API.TransactionHistory>>(null);
 const loading = ref<boolean>(false);
+
 const invoicesList = computed(() => {
   if (!(transactionInfo.value && transactionInfo.value.source_invoices)) {
     return [];
@@ -116,7 +148,6 @@ const showDriverInfo = (driverId: string) => {
     modalWidth: '60rem',
     props: {
       driverId,
-      hideExtraBtn: true,
     },
     emits: {
       close: () => coreModal.close(modalId),
@@ -124,15 +155,15 @@ const showDriverInfo = (driverId: string) => {
   });
 };
 
-const init = async () => {
-  loading.value = true;
-  const rs = await transactionHistoryApis.getDetail(props.id, { includes: ['driver', 'source_invoices'] });
-  if (!(rs && rs.data)) {
-    return;
-  }
-  transactionInfo.value = rs.data;
-  loading.value = false;
-};
+// const init = async () => {
+//   loading.value = true;
+//   const rs = await transactionHistoryApis.getDetail(props.id, { includes: ['driver', 'source_invoices'] });
+//   if (!(rs && rs.data)) {
+//     return;
+//   }
+//   transactionInfo.value = rs.data;
+//   loading.value = false;
+// };
 
 const onChange = async () => {
   const confirm = await showAsyncAlert({ content: 'Sau khi hóa đơn này được dánh dấu là "Hoàn tất" bạn không thể chình sửa', strictMsg: true });
@@ -145,9 +176,9 @@ const onChange = async () => {
     loading.value = false;
     return;
   }
-  init();
+  // init();
   emits('forceFetchList', true);
 };
 
-init();
+// init();
 </script>

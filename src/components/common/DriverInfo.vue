@@ -2,7 +2,7 @@
   <div>
     <ASpin size="large" :spinning="loadingIds.has(EApiId.DRIVER_SEARCH)">
       <ADescriptions
-        title="Thông tin người dùng"
+        title="Thông tin tài xế"
         :bordered="true"
         size="small"
         class="cursor-default"
@@ -24,7 +24,7 @@
         </ADescriptionsItem>
       </ADescriptions>
     </ASpin>
-    <div class="flex flex-row-reverse mt-16">
+    <div v-if="!hideExtraBtn" class="flex flex-row-reverse mt-16">
       <AButton @click="$emit('close')">
         Đóng
       </AButton>
@@ -40,6 +40,7 @@ import { formatDate } from '@/utils/date.util';
 
 const props = defineProps<{
   driverId: string
+  hideExtraBtn?: boolean
 }>();
 
 const emits = defineEmits<{
