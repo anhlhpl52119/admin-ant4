@@ -201,8 +201,8 @@ const openModel = (userId?: string) => {
     props: {
     },
     emits: {
-      success: () => handleSuccess(modalId),
-      cancel: () => coreModal.close(modalId),
+      // success: () => handleSuccess(modalId),
+      // cancel: () => coreModal.close(modalId),
     },
   });
 };
