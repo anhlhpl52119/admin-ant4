@@ -4,16 +4,16 @@ export const isNumeric = (str: string | number) => {
   return !Number.isNaN(parseNum);
 };
 
-export const percentFormat = (num: number): string => {
-  return `${num.toString()}%`;
-};
-
-export const stringToNumber = (strNum: string | null | undefined): number => {
+export const stringToNumber = (strNum: OrNullish<string | number>): number => {
   if (!(strNum && isNumeric(strNum))) {
     return 0;
   }
 
   return Number(strNum);
+};
+
+export const percentFormat = (num: number | string): string => {
+  return `${stringToNumber(num).toString()}%`;
 };
 
 export const vndFormat = (num: OrNullish<number | string>): string => {
