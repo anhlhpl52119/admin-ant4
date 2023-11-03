@@ -24,10 +24,9 @@
           </AFormItem>
           <AFormItem name="retailer_code">
             <FieldTitle title="Nhập Mã" required>
-              <IdentifyFieldInput
+              <CInput
                 v-model:value="createUpdateBodyState.retailer_code"
-                case="upperCase"
-                spaceReplacement="underline"
+                inputCase="upper"
                 placeholder="Mã định danh"
               />
             </FieldTitle>

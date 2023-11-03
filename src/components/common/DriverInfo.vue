@@ -11,7 +11,7 @@
           {{ driverState?.name || '' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Status">
-          <DynamicTag :status="driverState?.status ?? ''" />
+          <DynamicTag :status="driverState?.status" />
         </ADescriptionsItem>
         <ADescriptionsItem label="Số điện thoại" :span="2">
           {{ driverState?.phone || '_' }}

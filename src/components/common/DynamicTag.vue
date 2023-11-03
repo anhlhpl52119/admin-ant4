@@ -1,24 +1,28 @@
 <template>
-  <ATag :color="dynamicTag.color" :bordered="isShowBorder" class="rounded-7">
+  <ATag :color="dynamicTag.color" :bordered="!noBorder" class="rounded-7">
     <div v-if="dynamicTag.icon" class="flex gap-5 items-center">
       <i class="text-16 inline-block" :class="dynamicTag.icon" />
       <span>
-        {{ dynamicTag.label }}
+        {{ dynamicTag.statusText }}
       </span>
     </div>
-    <span v-else>{{ dynamicTag.label }}</span>
+    <span v-else>{{ dynamicTag.statusText }}</span>
   </ATag>
 </template>
 
 <script lang="ts" setup>
+import { useVisibilityStore } from '@/stores/visibility.store';
+
 const props = defineProps<{
-  status: string
+  status: OrNullish<string>
   loading?: boolean
   noBorder?: boolean
 }>();
+
+const { isAppLoading } = useVisibilityStore();
 const { status, loading } = toRefs(props);
 
-const isShowBorder = !props.noBorder;
+const generalLoading = computed(() => !status.value && isAppLoading);
 
 const statusColorMap: Record<string, string[]> = {
   default: ['cancelled'],
@@ -32,7 +36,7 @@ const statusColorMap: Record<string, string[]> = {
 };
 
 const statusTextMap: Record<string, string> = {
-  cancelled: 'Hủy bỏ',
+  cancelled: 'Đã hủy',
   success: 'Thành công',
   pending: 'Đang chờ',
   done: 'Hoàn tất',
@@ -43,15 +47,20 @@ const statusTextMap: Record<string, string> = {
   webhook_not_enough: 'Webhook không đủ',
   synced: 'Đã sync',
   user: 'Nhân viên',
+  processing: 'Đang tải',
 };
 
 const statusIconMap: Record<string, string> = {
   'active': 'i-material-symbols:verified-user-rounded',
   'in-active': 'i-fluent:plug-disconnected-20-filled',
   'unknown': 'i-pajamas:severity-unknown',
+  'processing;': 'i-svg-spinners:tadpole',
 };
 
-const findColor = (status: string) => {
+const findColor = (status: OrNullish<string>) => {
+  if (generalLoading.value || loading.value) {
+    return 'processing';
+  }
   if (!status) {
     return 'default';
   }
@@ -61,21 +70,25 @@ const findColor = (status: string) => {
       return color;
     }
   }
-
-  return 'default';
 };
 
-const findLabel = (status: string) => {
-  if (!status) {
-    return 'UNKNOWN';
+const findLabel = (status: OrNullish<string>) => {
+  if (generalLoading.value || loading.value) {
+    return 'Đang tải';
+  }
+  if (status) {
+    return statusTextMap[status] ?? status.toUpperCase();
   }
 
-  return statusTextMap[status] ?? status.toUpperCase();
+  return 'UNKNOWN';
 };
 
-const dynamicTag = computed(() => ({
-  label: findLabel(status.value),
-  color: findColor(status.value),
-  icon: statusIconMap[status.value],
-}));
+const dynamicTag = computed(() => {
+  const statusText = loading.value ? 'processing' : status.value!;
+  return {
+    statusText: findLabel(statusText),
+    color: findColor(statusText),
+    icon: generalLoading.value ? 'i-svg-spinners:tadpole' : statusIconMap[statusText],
+  };
+});
 </script>

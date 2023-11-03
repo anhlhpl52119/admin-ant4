@@ -37,7 +37,7 @@
           {{ groupDriver?.address || '_' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Status">
-          <DynamicTag :status="groupDriver?.status ?? ''" />
+          <DynamicTag :status="groupDriver?.status" />
         </ADescriptionsItem>
         <ADescriptionsItem label="Ngày tạo">
           {{ formatDate(groupDriver?.created_at) }}

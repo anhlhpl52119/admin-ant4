@@ -7,7 +7,7 @@
     @select="onSelect"
     @keypress.enter="preventEnterToSubmit"
   >
-    <!-- BUG: update ant 4.0.4 to resolve this error message -->
+    <!-- FIXME: update ant 4.0.4 to resolve this error message -->
     <template #option="{ value: val }">
       <span>{{ val.split('@')[0] }}</span>
       <span class="font-medium text-info">

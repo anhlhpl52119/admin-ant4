@@ -9,7 +9,7 @@
             </ABadge>
             <span class="text-spotlight text-24 ml-7">{{ retailerState?.name || '-' }}</span>
             <span class="text-desc text-12 ml-7">{{ retailerState?.retailer_code || '' }}</span>
-            <DynamicTag :status="retailerState?.status ?? ''" isLoading />
+            <DynamicTag :status="retailerState?.status" isLoading />
           </div>
 
           <AButton size="large" @click="openModel(retailerState?.id ?? '')">
@@ -52,7 +52,7 @@
                 <span>{{ retailerSourceName }}</span>
               </div>
               <div class="mt-10">
-                <DynamicTag :status="retailerState?.sync_status ?? ''" />
+                <DynamicTag :status="retailerState?.sync_status" />
               </div>
             </li>
             <ADivider type="vertical" class="h-50" />

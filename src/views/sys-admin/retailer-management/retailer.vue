@@ -40,7 +40,7 @@
             </ATooltip>
           </template>
           <template v-if="column.dataIndex === 'sync_status'">
-            <DynamicTag :status="record?.sync_status ?? ''" />
+            <DynamicTag :status="record?.sync_status" />
           </template>
         </template>
         <template #title>
