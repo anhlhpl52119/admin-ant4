@@ -5,7 +5,7 @@ declare global {
     type SearchSourceInvoiceResponse = {
       source_invoices: SourceInvoice[];
     };
-    type SourceInvoiceRelationship = 'driver';
+    type SourceInvoiceRelationship = 'driver' | 'branch';
 
     type SearchSourceInvoiceQueryParams = ApiCoreQuery<SourceInvoice, SourceInvoiceRelationship>;
   }
