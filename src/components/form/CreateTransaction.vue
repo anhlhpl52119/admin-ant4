@@ -3,6 +3,7 @@
     <CFetchOption
       v-model:initial-value="selectedId"
       :requestData="composeDriverOption"
+      disabled
       labelKey="name"
     />
     <div>
@@ -12,63 +13,38 @@
         </p>
         <p> - Tài xế thêm vào phải chưa nằm trong nhóm nào</p>
       </div>
-      <DriverInfo v-else :driverId="selectedId" hideExtraBtn />
+      <template v-else>
+        <ADivider>Thông tin tài xế</ADivider>
+        <DriverInfo :driverId="selectedId" hideExtraBtn />
+      </template>
     </div>
-    <ADivider>Danh sách hóa đơn</ADivider>
+    <ADivider>Danh sách hóa đơn chưa thanh toán</ADivider>
     <div>
-      sd
-    </div>
-    <!-- <ASpin :spinning="loading">
-      <div class="flex-btw-center">
-        <div>
-          <span class="text-spotlight text-24">Thanh toán số #{{ transactionInfo?.transaction_history_code || '-' }}</span>
-          <span class="text-desc text-12 ml-7">{{ formatDate(transactionInfo?.transaction_date) || '' }}</span>
-        </div>
-
-        <div>
-          <DynamicTag v-if="transactionInfo?.status !== 'pending'" :status="transactionInfo?.status ?? ''" />
-          <div v-else>
-            <span class="mr-5">Đã thanh toán</span>
-            <ATooltip title="Đánh dấu hóa đơn này đã thanh toán" arrowPointAtCenter>
-              <ASwitch :checked="transactionStatus" @change="onChange" />
-            </ATooltip>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <span>Ngày Tạo: <strong>{{ formatDate(transactionInfo?.created_at) }}</strong></span>
-      </div>
-      <div>
-        <span>Chỉnh sửa:  <strong>{{ formatDate(transactionInfo?.updated_at) }}</strong></span>
-      </div>
-      <div>
-        <span class="text-desc text-12"> {{ transactionInfo?.description ?? '' }}</span>
-      </div>
-      <ADivider />
-      <div>
-        <div>
-          <span class="text-spotlight text-24 ml-7 hover:underline cursor-pointer" @click="showDriverInfo(transactionInfo?.driver?.id ?? '')">{{ transactionInfo?.driver?.name || '-' }}</span>
-          <span class="text-desc text-12 ml-7">({{ transactionInfo?.driver?.phone || '-' }})</span>
-        </div>
-      </div>
-
       <ATable
         :dataSource="invoicesList"
-        :pagination="false"
         bordered
         class="cursor-default"
         :scroll="{ y: '20rem' }"
         size="small"
       >
+        <ATableColumn key="check" :ellipsis="true" fixed="left" :width="50" align="center">
+          <template #title>
+            <ATooltip :mouseEnterDelay="0.5" :title="isCheckAll ? 'Chọn tất cả hóa đơn' : 'Bỏ chọn tất cả'" color="blue-inverse">
+              <ACheckbox :checked="isCheckAll" :indeterminate="isIndeterminate" @update:checked="onCheckAll($event)" />
+            </ATooltip>
+          </template>
+          <template #default="{ record }: {record: API.SourceInvoice}">
+            <ACheckbox :checked="selectedInvoiceMap.has(record.id)" @update:checked="onSelectInvoice(record)" />
+          </template>
+        </ATableColumn>
         <ATableColumn key="code" title="Mã hóa đơn" :ellipsis="true" fixed="left" :width="130">
           <template #default="{ record }: {record: API.SourceInvoice}">
             {{ record?.source_invoice_code || '_' }}
           </template>
         </ATableColumn>
-        <ATableColumn key="create_date" title="Ngày thực hiện" :ellipsis="true" align="center">
+        <ATableColumn key="create_date" title="Ngày tạo" :ellipsis="true" align="center">
           <template #default="{ record }: {record: API.SourceInvoice}">
-            {{ formatDate(record?.created_at) || '_' }}
+            {{ formatDate(record?.invoice_date) || '_' }}
           </template>
         </ATableColumn>
         <ATableColumn key="update_date" title="Ngày chi trả" :ellipsis="true" align="center">
@@ -76,51 +52,113 @@
             {{ formatDate(record?.updated_at) || '_' }}
           </template>
         </ATableColumn>
-        <ATableColumn key="amount" title="Tổng tiền" :ellipsis="true" align="right">
+        <ATableColumn key="amount" title="Tổng hóa đơn" :ellipsis="true" align="right">
           <template #default="{ record }: {record: API.SourceInvoice}">
             {{ vndFormat(record?.total_amount) || '_' }}
+          </template>
+        </ATableColumn>
+        <ATableColumn key="roses" title="Hoa hồng" :ellipsis="true" align="right">
+          <template #default="{ record }: {record: API.SourceInvoice}">
+            {{ percentFormat(record?.commission_rate ?? '') }}
+          </template>
+        </ATableColumn>
+        <ATableColumn key="netTake" title="Tổng hưởng" :ellipsis="true" align="right">
+          <template #default="{ record }: {record: API.SourceInvoice}">
+            {{ vndFormat(invoiceNetTake(record)) }}
           </template>
         </ATableColumn>
         <template #summary>
           <ATableSummary fixed>
             <ATableSummaryRow class="bg-#fafafa">
-              <ATableSummaryCell>
-                <span class="text-spotlight">Tổng cộng</span>
+              <ATableSummaryCell :colSpan="2">
+                <span class="text-spotlight">Tạm tính</span>
                 <div class="text-desc">
-                  ({{ invoicesList.length }} hóa đơn)
+                  ({{ selectedInvoiceMap.size }} hóa đơn)
                 </div>
               </ATableSummaryCell>
-              <ATableSummaryCell :colSpan="3" align="right">
-                <span class="text-spotlight"> {{ vndFormat(transactionInfo?.total_amount) }}</span>
+              <ATableSummaryCell :colSpan="5" align="right">
+                <span class="text-spotlight"> {{ vndFormat(total) }}</span>
               </ATableSummaryCell>
             </ATableSummaryRow>
           </ATableSummary>
         </template>
       </ATable>
-    </ASpin> -->
+    </div>
+  <!-- </div> -->
   </div>
 </template>
 
 <script lang="ts" setup>
+import { invoiceApis } from '@/apis/retailer/source-invoice-mgt/source-invoice-mgt';
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
 import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
 import { formatDate } from '@/utils/date.util';
-import { vndFormat } from '@/utils/number.util';
+import { percentFormat, stringToNumber, vndFormat } from '@/utils/number.util';
 
-const props = defineProps<{
-  driverId?: string
-}>();
-
-// const emits = defineEmits<{
-//   success: [v?: boolean]
-//   forceFetchList: [v?: boolean]
+// const props = defineProps<{
+//   driverId?: string
 // }>();
+
+const emits = defineEmits<{
+  cancel: [v: void]
+}>();
 
 const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
 
-const selectedId = ref('');
+const selectedId = ref();
+const invoicesList = ref<API.SourceInvoice[]>([]);
+const selectedInvoiceMap = reactive<Map<string, API.SourceInvoice>>(new Map()); // invoice_id -> invoice item
+
+const isIndeterminate = computed(() => !!selectedInvoiceMap.size && (selectedInvoiceMap.size < invoicesList.value.length));
+const isCheckAll = computed(() => !!invoicesList.value.length && selectedInvoiceMap.size === invoicesList.value.length);
+
+const onSelectInvoice = (item: API.SourceInvoice) => {
+  if (selectedInvoiceMap.has(item.id)) {
+    selectedInvoiceMap.delete(item.id);
+    return;
+  }
+  selectedInvoiceMap.set(item.id, item);
+};
+
+const onCheckAll = (isChecked: boolean) => {
+  if (!isChecked) {
+    selectedInvoiceMap.clear();
+    return;
+  }
+  invoicesList.value.forEach(i => selectedInvoiceMap.set(i.id, i));
+};
+
+const invoiceNetTake = (invoice: API.SourceInvoice) => {
+  const { commission_rate, total_amount, tax, discount } = invoice;
+  if (!total_amount) {
+    return 0;
+  }
+  let amount = Math.round(total_amount);
+  const rate = stringToNumber(commission_rate) / 100;
+  if (rate) {
+    amount = Math.round(amount * rate);
+  }
+  if (tax) {
+    // TODO: prepare for add logic later. this not available right now
+  }
+  if (discount) {
+    // TODO: prepare for add logic later. this not available right now
+  }
+  return amount;
+};
+
+const total = computed(() => {
+  const val = Array.from(selectedInvoiceMap.values());
+  if (val.length === 0) {
+    return 0;
+  }
+  let result = 0;
+  val.forEach(i => result += invoiceNetTake(i));
+  return result;
+});
 
 const composeDriverOption = async (query?: ApiQueryAttr<API.Driver>) => {
+  selectedInvoiceMap.clear();
   const rs = await driverApis.search({ query });
   if (!rs || rs.data.drivers.length === 0) {
     return [];
@@ -129,56 +167,27 @@ const composeDriverOption = async (query?: ApiQueryAttr<API.Driver>) => {
   return rs.data.drivers;
 };
 
-const driverInfo = ref<OrNull<API.Driver>>(null);
-const transactionInfo = ref<OrNull<API.TransactionHistory>>(null);
-const loading = ref<boolean>(false);
+const fetchDriverInvoice = async (driverId: string) => {
+  invoicesList.value = [];
 
-const invoicesList = computed(() => {
-  if (!(transactionInfo.value && transactionInfo.value.source_invoices)) {
-    return [];
-  }
-  return transactionInfo.value.source_invoices;
-});
-
-const transactionStatus = computed(() => transactionInfo?.value?.status !== 'pending');
-
-const showDriverInfo = (driverId: string) => {
-  const modalId = coreModal.show({
-    component: DriverInfo,
-    modalWidth: '60rem',
-    props: {
-      driverId,
-    },
-    emits: {
-      close: () => coreModal.close(modalId),
+  const rs = await invoiceApis.search({
+    items: 50,
+    query: {
+      status_eq: 'active',
+      driver_id_eq: driverId,
+      transaction_history_id_null: 'true',
     },
   });
-};
-
-// const init = async () => {
-//   loading.value = true;
-//   const rs = await transactionHistoryApis.getDetail(props.id, { includes: ['driver', 'source_invoices'] });
-//   if (!(rs && rs.data)) {
-//     return;
-//   }
-//   transactionInfo.value = rs.data;
-//   loading.value = false;
-// };
-
-const onChange = async () => {
-  const confirm = await showAsyncAlert({ content: 'Sau khi hóa đơn này được dánh dấu là "Hoàn tất" bạn không thể chình sửa', strictMsg: true });
-  if (!confirm) {
+  if (!(rs && rs.data && !!rs.data.source_invoices.length)) {
     return;
   }
-  loading.value = true;
-  const rs = await transactionHistoryApis.complete(transactionInfo?.value?.id ?? '');
-  if (!(rs && rs.data)) {
-    loading.value = false;
-    return;
-  }
-  // init();
-  emits('forceFetchList', true);
+  invoicesList.value = rs.data.source_invoices;
 };
+
+watchEffect(() => {
+  if (!selectedId.value) { return; };
+  fetchDriverInvoice(selectedId.value);
+});
 
 // init();
 </script>
