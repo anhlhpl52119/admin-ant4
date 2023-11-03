@@ -2,7 +2,6 @@
   <div>
     <ASpin size="large" :spinning="loadingIds.has(EApiId.DRIVER_SEARCH)">
       <ADescriptions
-        title="Thông tin tài xế"
         :bordered="true"
         size="small"
         class="cursor-default"
@@ -25,7 +24,7 @@
       </ADescriptions>
     </ASpin>
     <div v-if="!hideExtraBtn" class="flex flex-row-reverse mt-16">
-      <AButton @click="$emit('close')">
+      <AButton @click="$emit('cancel')">
         Đóng
       </AButton>
     </div>
@@ -43,9 +42,11 @@ const props = defineProps<{
   hideExtraBtn?: boolean
 }>();
 
-const emits = defineEmits<{
-  close: [v?: any]
+defineEmits<{
+  cancel: [v: void]
 }>();
+
+const { driverId } = toRefs(props);
 
 const driverState = ref<OrNull<API.Driver>>(null);
 
@@ -58,5 +59,9 @@ const init = async () => {
   }
   [driverState.value] = rs.data.drivers;
 };
-init();
+
+watchEffect(() => {
+  if (!driverId.value) { return; }
+  init();
+});
 </script>
