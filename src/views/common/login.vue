@@ -80,6 +80,7 @@ const handleSubmit = async () => {
 
 <style lang="scss" scoped>
 .teeee {
-  @apply bg-[url(../src/assets/svg/login.svg)]
+  // @apply bg-[url(../src/assets/svg/login.svg)]
+  @apply bg-gradient-to-r from-cyan-500 to-blue-500
 }
 </style>

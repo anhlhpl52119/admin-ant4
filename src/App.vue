@@ -1,6 +1,6 @@
 <template>
   <AConfigProvider :locale="viVN" :theme="seedTokenGlobalConfig">
-    <RouterView v-slot="{ Component }">
+    <RouterView #="{ Component }">
       <Component :is="Component" />
     </RouterView>
   </AConfigProvider>
