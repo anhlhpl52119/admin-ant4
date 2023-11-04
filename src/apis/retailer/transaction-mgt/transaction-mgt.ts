@@ -27,9 +27,7 @@ export const transactionHistoryApis = {
       },
     );
   },
-  create: (rqBody?: API.CreateTransactionHistoryRequestBody) => {
-    const body = { transaction_history: rqBody };
-
+  create: (body?: API.CreateTransactionHistoryRequestBody) => {
     return request<ApiSuccessResponse>(
       {
         url: '/retailer/transaction_history',
