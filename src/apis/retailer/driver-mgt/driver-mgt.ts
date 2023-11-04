@@ -5,7 +5,7 @@ export const retailerDriverApis = {
   search: (params?: API.SearchDriverQueryParams) => {
     return request<ApiPageResponse<API.SearchDriverResponse>>(
       {
-        url: '/retailer/retailer/drivers',
+        url: '/retailer/driver',
         method: ERequestMethod.GET,
         params,
       },
