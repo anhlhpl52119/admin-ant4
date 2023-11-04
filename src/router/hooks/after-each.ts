@@ -5,8 +5,11 @@ import { type Router } from 'vue-router';
 // https://www.npmjs.com/package/nprogress
 
 export const afterEach = (router: Router) => {
-  router.afterEach(() => {
-    // TODO: add NProgress done
+  router.afterEach((to, from) => {
+    if (to.path !== from.path) {
+      // TODO: add NProgress done
     // NProgress.done(); // End progress bar
+      document.documentElement.scrollTop = 0;
+    }
   });
 };

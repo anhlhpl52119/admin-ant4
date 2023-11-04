@@ -1,41 +1,42 @@
-<!-- <template>
+<template>
   <div class="flex pt-240 flex-col items-center w-screen h-screen teeee bg-no-repeat bg-cover">
     <div class="card bg-white p-20 grid-center">
       <div class="flex items-center mb-30">
         <img src="~@/assets/img/logo-tai-co-vertical-text.png" width="280">
       </div>
-      <AForm
-        layout="horizontal"
-        class="w-450"
-        :model="state.formInline"
-        @submit.prevent="handleSubmit"
-      >
-        <AFormItem>
-          <AInput v-model:value="state.formInline.email" size="large" placeholder="rootadmin">
-            <template #prefix>
-              <UserOutlined type="user" />
-            </template>
-          </AInput>
-        </AFormItem>
-        <AFormItem>
-          <AInput
-            v-model:value="state.formInline.password"
-            size="large"
-            type="password"
-            placeholder="123456"
-            autocomplete="new-password"
-          >
-            <template #prefix>
-              <LockOutlined type="user" />
-            </template>
-          </AInput>
-        </AFormItem>
-        <AFormItem>
-          <AButton type="primary" htmlType="submit" size="large" :loading="state.loading" block>
-            Đăng nhập
-          </AButton>
-        </AFormItem>
-      </AForm>
+      <div class="w-400">
+        <AForm
+          layout="horizontal"
+          :model="state.formInline"
+          @submit.prevent="handleSubmit"
+        >
+          <AFormItem>
+            <AInput v-model:value="state.formInline.email" size="large" placeholder="rootadmin">
+              <template #prefix>
+                <UserOutlined type="user" />
+              </template>
+            </AInput>
+          </AFormItem>
+          <AFormItem>
+            <AInput
+              v-model:value="state.formInline.password"
+              size="large"
+              type="password"
+              placeholder="123456"
+              autocomplete="new-password"
+            >
+              <template #prefix>
+                <LockOutlined type="user" />
+              </template>
+            </AInput>
+          </AFormItem>
+          <AFormItem>
+            <AButton type="primary" htmlType="submit" size="large" :loading="state.loading" block>
+              Đăng nhập
+            </AButton>
+          </AFormItem>
+        </AForm>
+      </div>
     </div>
   </div>
 </template>
@@ -79,6 +80,6 @@ const handleSubmit = async () => {
 
 <style lang="scss" scoped>
 .teeee {
-  @apply bg-[url(./src/assets/svg/login.svg)]
+  @apply bg-[url(../src/assets/svg/login.svg)]
 }
-</style> -->
+</style>

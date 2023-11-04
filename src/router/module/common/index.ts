@@ -33,6 +33,15 @@ export const commonRoutes: CustomRoute[] = [
       ...management,
       ...error,
       ...demo,
+      {
+        path: '/sign-in',
+        name: ERouteName.LOGIN,
+        component: () => import('@/views/common/login.vue'),
+        meta: {
+          title: 'Login',
+          hiddenInMenu: true,
+        },
+      },
     ],
   },
 ];
