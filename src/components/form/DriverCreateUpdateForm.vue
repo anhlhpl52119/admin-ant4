@@ -11,7 +11,6 @@
           :rules="rules"
           :model="createUpdateBodyState"
           @finish="onValidateSuccess"
-          @finishFailed="handleFinishFailed"
         >
           <AFormItem name="name" class="w-full">
             <FieldTitle title="Tên tài xế" required>
@@ -86,22 +85,19 @@
 import type { Rule } from 'ant-design-vue/es/form';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
-
-// import { retailerApis } from '@/apis/core/retailer/retailer.api';
 import { useFieldValidation } from '@/composable/useFieldValidation';
 import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
 import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
 
-// import { driverApis } from '@/apis/core/driver/driver.api';
-
-const props = defineProps<{ driverId: string; sth?: string }>();
+const props = defineProps<{
+  driverId: string
+  sth?: string
+}>();
 
 const emits = defineEmits<{
   success: [v?: any]
   cancel: [v?: any]
 }>();
-const { loadingIds } = storeToRefs(useVisibilityStore());
-const { checkCode, checkName, checkPhoneNumber } = useFieldValidation();
 
 const formItemLayout = {
   labelCol: {
@@ -114,14 +110,10 @@ const formItemLayout = {
   },
 };
 
-const composeRetailerOption = async (query?: ApiQueryAttr<API.Retailer>) => {
-  const rs = await retailerApis.search({ query });
-  if (!rs || rs.data.retailers.length === 0) {
-    return [];
-  }
+const { loadingIds } = storeToRefs(useVisibilityStore());
+const { checkCode, checkName, checkPhoneNumber } = useFieldValidation();
 
-  return rs.data.retailers;
-};
+const isUpdateMode = computed(() => !!props.driverId);
 
 const rules: Record<string, Rule[]> = {
   name: [{ validator: checkName, trigger: ['blur', 'change'] }],
@@ -140,10 +132,13 @@ const createUpdateBodyState = reactive<API.CreateUpdDriverRequestBody>({
   user_id: '',
 });
 
-const isUpdateMode = computed(() => !!props.driverId);
+const composeRetailerOption = async (query?: ApiQueryAttr<API.Retailer>) => {
+  const rs = await retailerApis.search({ query });
+  if (!rs || rs.data.retailers.length === 0) {
+    return [];
+  }
 
-const handleFinishFailed = (errors: any) => {
-  console.log('false', errors);
+  return rs.data.retailers;
 };
 
 const onValidateSuccess = async () => {

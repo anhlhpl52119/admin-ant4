@@ -3,14 +3,14 @@
     <CommonPageTitle
       title="Quản lý lịch sử thanh toán"
       actionBtnLabel="Tạo mới"
-      @onClickAction="openModel()"
+      @onClickAction="openCreateTransactionModal()"
     />
 
     <CommonTableSearchForm
       :rawSearchableItems="searchFilterRaw"
       :loading="isFetching"
       quickSearchKey="transaction_history_code_cont"
-      @search="onSearch"
+      @search="handleSearchFormTrigger"
       @reset="resetTable"
     />
     <section class="card">
@@ -34,7 +34,7 @@
 
         <ATableColumn key="code" title="Mã thanh toán" :resizable="true" :ellipsis="true" :width="150" fixed="left">
           <template #default="{ record }: {record: API.TransactionHistory}">
-            <AButton type="link" class="p0" @click="showDetails(record.id)">
+            <AButton type="link" class="p0" @click="showTransactionOverview(record.id)">
               {{ record?.transaction_history_code || '_' }}
             </AButton>
           </template>
@@ -92,12 +92,6 @@
         </ATableColumn>
       </ATable>
     </section>
-    <GroupDriverDetailDrawer
-      v-model:is-open="detailsDrawerState.isOpen"
-      :groupId="detailsDrawerState.id"
-      :title="detailsDrawerState.title"
-      @close="onCloseDetailDrawer"
-    />
   </main>
 </template>
 
@@ -113,13 +107,6 @@ import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
 const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
 const CreateTransaction = defineAsyncComponent(() => import('@/components/form/CreateTransaction.vue'));
 const TransactionOverview = defineAsyncComponent(() => import('@/components/overview/retailer/TransactionOverview.vue'));
-
-// State
-const detailsDrawerState = reactive({
-  isOpen: false,
-  title: '',
-  id: '',
-});
 
 const fetch = async (params?: API.SearchTransactionQueryParams) => {
   const res = await transactionHistoryApis.search({ includes: ['driver'], ...params });
@@ -150,21 +137,19 @@ const {
   fetch,
 );
 
-const onCloseDetailDrawer = (needFetch: boolean) => {
-  detailsDrawerState.id = '';
-  detailsDrawerState.title = '';
-  detailsDrawerState.isOpen = false;
-  needFetch && reload();
+const handleCreateTransactionSuccess = (modalId: string) => {
+  coreModal.close(modalId);
+  reload();
 };
 
-const onSearch = (e: QueriesRaw<API.TransactionHistory>[]) => {
+const handleSearchFormTrigger = (e: QueriesRaw<API.TransactionHistory>[]) => {
   rawQueries.value = e;
   search();
 };
+
 const showDriverInfo = (driverId: string) => {
   const modalId = coreModal.show({
     component: DriverInfo,
-    modalWidth: '60rem',
     props: {
       driverId,
     },
@@ -174,12 +159,7 @@ const showDriverInfo = (driverId: string) => {
   });
 };
 
-const handleSuccess = (modalId: string) => {
-  coreModal.close(modalId);
-  search();
-};
-
-const showDetails = (id: string) => {
+const showTransactionOverview = (id: string) => {
   const modalId = coreModal.show({
     component: TransactionOverview,
     props: {
@@ -193,16 +173,15 @@ const showDetails = (id: string) => {
   });
 };
 
-const openModel = (userId?: string) => {
+const openCreateTransactionModal = () => {
   const modalId = coreModal.show({
     component: CreateTransaction,
-    title: 'Tạo mới giao dịch',
-    modalWidth: '70rem',
+    title: 'Tạo mới đợt thanh toán',
+    modalWidth: '80rem',
     props: {
     },
     emits: {
-      // success: () => handleSuccess(modalId),
-      // cancel: () => coreModal.close(modalId),
+      success: () => handleCreateTransactionSuccess(modalId),
     },
   });
 };

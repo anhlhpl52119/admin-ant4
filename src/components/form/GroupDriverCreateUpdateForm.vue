@@ -11,7 +11,6 @@
           :rules="rules"
           :model="createUpdateBodyState"
           @finish="onValidateSuccess"
-          @finishFailed="handleFinishFailed"
         >
           <AFormItem name="name" class="w-full">
             <FieldTitle title="Tên nhóm tài xế" required>
@@ -93,6 +92,11 @@ const formItemLayout = {
   },
 };
 
+const rules: { [k in keyof API.CreateUpdGroupDriverRequestBody]?: Rule[] } = {
+  name: [{ validator: checkName, trigger: ['blur', 'change'] }],
+  address: [{ required: true, message: 'Địa chỉ ko được bỏ trống' }],
+};
+
 const createUpdateBodyState = reactive<Required<API.CreateUpdGroupDriverRequestBody>>({
   name: '',
   email: '',
@@ -101,16 +105,7 @@ const createUpdateBodyState = reactive<Required<API.CreateUpdGroupDriverRequestB
   status: '',
 });
 
-const rules: { [k in keyof API.CreateUpdGroupDriverRequestBody]?: Rule[] } = {
-  name: [{ validator: checkName, trigger: ['blur', 'change'] }],
-  address: [{ required: true, message: 'Địa chỉ ko được bỏ trống' }],
-};
-
 const isUpdateMode = computed(() => !!props.groupId);
-
-const handleFinishFailed = async (errors: ValidateErrorEntity) => {
-// TODO: add scroll to first error field to improve user behavior
-};
 
 const onValidateSuccess = async () => {
   const rs = isUpdateMode.value

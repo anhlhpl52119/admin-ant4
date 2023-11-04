@@ -114,7 +114,6 @@ const fetchDriver = async (keyword?: string) => {
 const onAddDriver = async () => {
   if (!(props.groupId && selected.value)) {
     message.error('Thiếu id');
-
     return;
   }
 
@@ -130,7 +129,7 @@ const onAddDriver = async () => {
   emits('success');
 };
 
-const debounceFetch = debounce(async (value) => {
+const debounceInput = debounce(async (value) => {
   driversMap.clear();
   isSearch.value = true;
   await fetchDriver(value);
@@ -156,6 +155,6 @@ const onInputSearch = (e: any) => {
     return;
   }
 
-  debounceFetch(val.trim());
+  debounceInput(val.trim());
 };
 </script>

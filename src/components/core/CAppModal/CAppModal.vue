@@ -5,13 +5,14 @@
       destroyOnClose
       centered
       :footer="null"
-      :width="value.modalWidth"
+      :width="value.modalWidth ?? 'auto'"
       :maskClosable="value.maskCloseable ?? false"
       :title="value.headerTitle ?? ''"
       @cancel="closeModal(id.toString())"
     >
       <Component
         :is="value.component"
+        :class="{ 'mt-20': !value.headerTitle }"
         v-bind="value?.props ?? {}"
         v-on="value?.event ?? {}"
         @cancel="closeModal(id.toString())"

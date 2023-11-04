@@ -11,7 +11,6 @@
           :rules="rules"
           :model="createUpdateBodyState"
           @finish="onValidateSuccess"
-          @finishFailed="handleFinishFailed"
         >
           <AFormItem name="name" class="w-full">
             <FieldTitle title="Tên người dùng" required>
@@ -37,7 +36,7 @@
               <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
             </FieldTitle>
           </AFormItem>
-          <AFormItem name="source">
+          <!-- <AFormItem name="source">
             <FieldTitle title="Phân quyền" required>
               <ASelect
                 v-model:value="createUpdateBodyState.role"
@@ -49,7 +48,7 @@
                 :filterOption="filterOption"
               />
             </FieldTitle>
-          </AFormItem>
+          </AFormItem> -->
           <div class="flex justify-center gap-10">
             <AButton
               type="primary"
@@ -72,7 +71,6 @@
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form';
 import type { DefaultOptionType } from 'ant-design-vue/es/select';
-import type { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { useFieldValidation } from '@/composable/useFieldValidation';
@@ -125,16 +123,7 @@ const rules: { [k in keyof API.CreateUpdRetailerUserRequestBody]?: Rule[] } = {
   role: [{ required: true, message: 'Phân quyền không được để trống' }],
 };
 
-const options = ref<DefaultOptionType[]>([
-  { value: 'user', label: 'Nhân viên' },
-  { value: 'manager', label: 'Quản lý cửa hàng' },
-]);
-
 const isUpdateMode = computed(() => !!props.userId);
-
-const handleFinishFailed = async (errors: ValidateErrorEntity) => {
-// TODO: add scroll to first error field to improve user behavior
-};
 
 const filterOption = (input: string, option: any) => {
   return option.value.toLowerCase().includes(input.toLowerCase()) >= 0;

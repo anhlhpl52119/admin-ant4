@@ -1,116 +1,148 @@
 <template>
-  <div class="">
+  <div>
     <CFetchOption
-      v-model:initial-value="selectedId"
+      v-model:initial-value="selectedDriverId"
       :requestData="composeDriverOption"
       disabled
       labelKey="name"
+      class="w-400"
     />
-    <div>
-      <div v-if="!selectedId" class="text-desc">
-        <p>
-          - Nhập tên tài xế để tìm kiếm
-        </p>
-        <p> - Tài xế thêm vào phải chưa nằm trong nhóm nào</p>
-      </div>
-      <template v-else>
+    <div v-if="!selectedDriverId" class="text-desc">
+      <p>
+        - Nhập tên tài xế để lọc ra những hóa đơn chưa thanh toán
+      </p>
+    </div>
+    <template v-if="selectedDriverId">
+      <div>
         <ADivider>Thông tin tài xế</ADivider>
-        <DriverInfo :driverId="selectedId" hideExtraBtn />
-      </template>
+        <DriverInfo :driverId="selectedDriverId" hideExtraBtn />
+      </div>
+      <ADivider>Danh sách hóa đơn chưa thanh toán</ADivider>
+      <div>
+        <ATable
+          :dataSource="invoiceState.records"
+          bordered
+          :loading="loadingIds.has(EApiId.INVOICE_SEARCH)"
+          :pagination="false"
+          class="cursor-default"
+          :scroll="{ y: '30rem' }"
+          size="small"
+        >
+          <ATableColumn key="check" :ellipsis="true" fixed="left" :width="50" align="center">
+            <template #title>
+              <ATooltip
+                :mouseEnterDelay="0.5"
+                :title="isCheckAll ? 'Bỏ chọn tất cả' : 'Chọn tất cả hóa đơn'"
+                color="blue-inverse"
+              >
+                <ACheckbox
+                  :checked="isCheckAll"
+                  :indeterminate="isSoftSelect"
+                  :disabled="invoiceState.totalItem === 0"
+                  @update:checked="onCheckAll($event)"
+                />
+              </ATooltip>
+            </template>
+            <template #default="{ record }: {record: API.SourceInvoice}">
+              <ACheckbox :checked="selectedInvoiceMap.has(record.id)" @update:checked="onSelectInvoice(record)" />
+            </template>
+          </ATableColumn>
+          <ATableColumn key="code" title="Mã hóa đơn" :ellipsis="true" fixed="left" :width="130">
+            <template #default="{ record }: {record: API.SourceInvoice}">
+              {{ record?.source_invoice_code || '_' }}
+            </template>
+          </ATableColumn>
+          <ATableColumn key="create_date" title="Ngày lập" :ellipsis="true" align="center">
+            <template #default="{ record }: {record: API.SourceInvoice}">
+              {{ formatDate(record?.invoice_date) || '_' }}
+            </template>
+          </ATableColumn>
+          <ATableColumn key="amount" title="Tổng hóa đơn" :ellipsis="true" align="right">
+            <template #default="{ record }: {record: API.SourceInvoice}">
+              {{ vndFormat(record?.total_amount) || '_' }}
+            </template>
+          </ATableColumn>
+          <ATableColumn key="roses" title="Hoa hồng" :ellipsis="true" align="right">
+            <template #default="{ record }: {record: API.SourceInvoice}">
+              {{ percentFormat(record?.commission_rate ?? '') }}
+            </template>
+          </ATableColumn>
+          <ATableColumn key="netTake" title="Tổng hưởng" :ellipsis="true" align="right">
+            <template #default="{ record }: {record: API.SourceInvoice}">
+              {{ vndFormat(invoiceNetTake(record)) }}
+            </template>
+          </ATableColumn>
+          <template #summary>
+            <ATableSummary fixed>
+              <ATableSummaryRow class="bg-#fafafa">
+                <ATableSummaryCell :colSpan="2">
+                  <ul class="h-40">
+                    <li class="text-spotlight">
+                      Tạm tính
+                    </li>
+                    <li v-if="!!selectedInvoiceMap.size" class="text-desc">
+                      ({{ selectedInvoiceMap.size }} hóa đơn)
+                    </li>
+                  </ul>
+                </ATableSummaryCell>
+                <ATableSummaryCell :colSpan="5" align="right">
+                  <span class="text-spotlight"> {{ vndFormat(totalSelectedInvoicesAmount) }}</span>
+                </ATableSummaryCell>
+              </ATableSummaryRow>
+            </ATableSummary>
+          </template>
+          <template #emptyText>
+            <div class="flex-center h-270">
+              <i class="i-svg:empty text-20 text-desc inline-block mr-8" />
+              <span>Không tìm thấy hóa đơn nào chờ thanh toán cho tài xế </span>
+            </div>
+          </template>
+        </ATable>
+      </div>
+    </template>
+    <div class="mt-16 flex flex-row-reverse">
+      <ATooltip :mouseEnterDelay="0.5" :title="!!selectedInvoiceMap.size ? null : 'Chọn ít nhất 1 hóa đơn'" color="blue-inverse">
+        <AButton :disabled="selectedInvoiceMap.size === 0" :loading="loadingIds.has(EApiId.TRANSACTION_CREATE)" type="primary" @click="onCreate">
+          Tạo
+        </AButton>
+      </ATooltip>
     </div>
-    <ADivider>Danh sách hóa đơn chưa thanh toán</ADivider>
-    <div>
-      <ATable
-        :dataSource="invoicesList"
-        bordered
-        class="cursor-default"
-        :scroll="{ y: '20rem' }"
-        size="small"
-      >
-        <ATableColumn key="check" :ellipsis="true" fixed="left" :width="50" align="center">
-          <template #title>
-            <ATooltip :mouseEnterDelay="0.5" :title="isCheckAll ? 'Chọn tất cả hóa đơn' : 'Bỏ chọn tất cả'" color="blue-inverse">
-              <ACheckbox :checked="isCheckAll" :indeterminate="isIndeterminate" @update:checked="onCheckAll($event)" />
-            </ATooltip>
-          </template>
-          <template #default="{ record }: {record: API.SourceInvoice}">
-            <ACheckbox :checked="selectedInvoiceMap.has(record.id)" @update:checked="onSelectInvoice(record)" />
-          </template>
-        </ATableColumn>
-        <ATableColumn key="code" title="Mã hóa đơn" :ellipsis="true" fixed="left" :width="130">
-          <template #default="{ record }: {record: API.SourceInvoice}">
-            {{ record?.source_invoice_code || '_' }}
-          </template>
-        </ATableColumn>
-        <ATableColumn key="create_date" title="Ngày tạo" :ellipsis="true" align="center">
-          <template #default="{ record }: {record: API.SourceInvoice}">
-            {{ formatDate(record?.invoice_date) || '_' }}
-          </template>
-        </ATableColumn>
-        <ATableColumn key="update_date" title="Ngày chi trả" :ellipsis="true" align="center">
-          <template #default="{ record }: {record: API.SourceInvoice}">
-            {{ formatDate(record?.updated_at) || '_' }}
-          </template>
-        </ATableColumn>
-        <ATableColumn key="amount" title="Tổng hóa đơn" :ellipsis="true" align="right">
-          <template #default="{ record }: {record: API.SourceInvoice}">
-            {{ vndFormat(record?.total_amount) || '_' }}
-          </template>
-        </ATableColumn>
-        <ATableColumn key="roses" title="Hoa hồng" :ellipsis="true" align="right">
-          <template #default="{ record }: {record: API.SourceInvoice}">
-            {{ percentFormat(record?.commission_rate ?? '') }}
-          </template>
-        </ATableColumn>
-        <ATableColumn key="netTake" title="Tổng hưởng" :ellipsis="true" align="right">
-          <template #default="{ record }: {record: API.SourceInvoice}">
-            {{ vndFormat(invoiceNetTake(record)) }}
-          </template>
-        </ATableColumn>
-        <template #summary>
-          <ATableSummary fixed>
-            <ATableSummaryRow class="bg-#fafafa">
-              <ATableSummaryCell :colSpan="2">
-                <span class="text-spotlight">Tạm tính</span>
-                <div class="text-desc">
-                  ({{ selectedInvoiceMap.size }} hóa đơn)
-                </div>
-              </ATableSummaryCell>
-              <ATableSummaryCell :colSpan="5" align="right">
-                <span class="text-spotlight"> {{ vndFormat(total) }}</span>
-              </ATableSummaryCell>
-            </ATableSummaryRow>
-          </ATableSummary>
-        </template>
-      </ATable>
-    </div>
-  <!-- </div> -->
   </div>
 </template>
 
 <script lang="ts" setup>
+import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
 import { invoiceApis } from '@/apis/retailer/source-invoice-mgt/source-invoice-mgt';
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
-import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
+import { ETransactionStatus } from '@/enums/api.enum';
+import { EApiId } from '@/enums/request.enum';
+import { useVisibilityStore } from '@/stores/visibility.store';
 import { formatDate } from '@/utils/date.util';
 import { percentFormat, stringToNumber, vndFormat } from '@/utils/number.util';
 
-// const props = defineProps<{
-//   driverId?: string
-// }>();
+const props = defineProps<{
+  driverId?: string
+}>();
 
 const emits = defineEmits<{
   cancel: [v: void]
+  success: [v?: any]
 }>();
 
 const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
 
-const selectedId = ref();
-const invoicesList = ref<API.SourceInvoice[]>([]);
-const selectedInvoiceMap = reactive<Map<string, API.SourceInvoice>>(new Map()); // invoice_id -> invoice item
+const { loadingIds } = storeToRefs(useVisibilityStore());
 
-const isIndeterminate = computed(() => !!selectedInvoiceMap.size && (selectedInvoiceMap.size < invoicesList.value.length));
-const isCheckAll = computed(() => !!invoicesList.value.length && selectedInvoiceMap.size === invoicesList.value.length);
+const selectedDriverId = ref();
+
+const selectedInvoiceMap = reactive<Map<string, API.SourceInvoice>>(new Map()); // invoice_id -> invoice item
+const invoiceState = reactive({
+  records: [] as API.SourceInvoice[],
+  totalItem: 0,
+});
+
+const isSoftSelect = computed(() => !!selectedInvoiceMap.size && (selectedInvoiceMap.size < invoiceState.records.length));
+const isCheckAll = computed(() => !!invoiceState.records.length && selectedInvoiceMap.size === invoiceState.records.length);
 
 const onSelectInvoice = (item: API.SourceInvoice) => {
   if (selectedInvoiceMap.has(item.id)) {
@@ -125,7 +157,7 @@ const onCheckAll = (isChecked: boolean) => {
     selectedInvoiceMap.clear();
     return;
   }
-  invoicesList.value.forEach(i => selectedInvoiceMap.set(i.id, i));
+  invoiceState.records.forEach(i => selectedInvoiceMap.set(i.id, i));
 };
 
 const invoiceNetTake = (invoice: API.SourceInvoice) => {
@@ -139,27 +171,27 @@ const invoiceNetTake = (invoice: API.SourceInvoice) => {
     amount = Math.round(amount * rate);
   }
   if (tax) {
-    // TODO: prepare for add logic later. this not available right now
+    // TODO: prepare for additional logic later. this not available right now
   }
   if (discount) {
-    // TODO: prepare for add logic later. this not available right now
+    // TODO: prepare for add additional later. this not available right now
   }
   return amount;
 };
 
-const total = computed(() => {
-  const val = Array.from(selectedInvoiceMap.values());
-  if (val.length === 0) {
+const totalSelectedInvoicesAmount = computed(() => {
+  const invoices = Array.from(selectedInvoiceMap.values());
+  if (invoices.length === 0) {
     return 0;
   }
   let result = 0;
-  val.forEach(i => result += invoiceNetTake(i));
+  invoices.forEach(i => result += invoiceNetTake(i));
   return result;
 });
 
 const composeDriverOption = async (query?: ApiQueryAttr<API.Driver>) => {
   selectedInvoiceMap.clear();
-  const rs = await driverApis.search({ query });
+  const rs = await retailerDriverApis.search({ query });
   if (!rs || rs.data.drivers.length === 0) {
     return [];
   }
@@ -167,8 +199,10 @@ const composeDriverOption = async (query?: ApiQueryAttr<API.Driver>) => {
   return rs.data.drivers;
 };
 
-const fetchDriverInvoice = async (driverId: string) => {
-  invoicesList.value = [];
+const fetchDriverInvoices = async (driverId: string) => {
+  invoiceState.records = [];
+  invoiceState.totalItem = 0;
+  selectedInvoiceMap.clear();
 
   const rs = await invoiceApis.search({
     items: 50,
@@ -181,13 +215,41 @@ const fetchDriverInvoice = async (driverId: string) => {
   if (!(rs && rs.data && !!rs.data.source_invoices.length)) {
     return;
   }
-  invoicesList.value = rs.data.source_invoices;
+  invoiceState.records = rs.data.source_invoices;
+  invoiceState.totalItem = rs?.data?.total_records ?? 0;
+};
+
+const onCreate = async () => {
+  if (!selectedDriverId.value) {
+    await showAsyncAlert({ content: 'Cần phải chỉ định tài xế cụ thể cho đợt thanh toán' });
+    return;
+  }
+  if (selectedInvoiceMap.size === 0) {
+    showAsyncAlert({ content: 'Cần phải chọn ít nhất 1 hóa đơn cho đợt thanh toán' });
+    return;
+  }
+  const invoiceIds = Array.from(selectedInvoiceMap.keys());
+
+  // call api create
+  const createBody: API.CreateTransactionHistoryRequestBody = {
+    transaction_history: {
+      tax: 0,
+      driver_id: selectedDriverId.value,
+      status: ETransactionStatus.PENDING,
+      description: '',
+    },
+    source_invoice_ids: invoiceIds,
+  };
+
+  const rs = await transactionHistoryApis.create(createBody);
+  if (!(rs && rs.data)) {
+    return;
+  }
+  emits('success');
 };
 
 watchEffect(() => {
-  if (!selectedId.value) { return; };
-  fetchDriverInvoice(selectedId.value);
+  if (!selectedDriverId.value) { return; };
+  fetchDriverInvoices(selectedDriverId.value);
 });
-
-// init();
 </script>

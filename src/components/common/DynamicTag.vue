@@ -25,14 +25,14 @@ const { status, loading } = toRefs(props);
 const generalLoading = computed(() => !status.value && isAppLoading);
 
 const statusColorMap: Record<string, string[]> = {
-  default: ['cancelled'],
-  success: ['done', 'active', 'full_synced', 'sync_failed', 'synced'],
-  purple: ['pending', 'webhook_not_enough'],
-  error: ['in-active'],
-  processing: ['processing'],
-  geekblue: ['not_config'],
-  cyan: ['ready_to_sync'],
-  magenta: ['user'],
+  default: ['cancelled'], // plain
+  success: ['done', 'full_synced', 'sync_failed', 'synced'], // green
+  purple: ['pending', 'webhook_not_enough'], // bg: #f9f0ff || border: #d3adf7
+  error: ['in-active'], // red
+  processing: ['processing'], // yellow
+  geekblue: ['not_config'], // bg: #f0f5ff || border: #adc6ff
+  cyan: ['ready_to_sync', 'active'], // bg: #e6fffb || border: #87e8de
+  magenta: ['user'], // bg: #fff0f6 || border: #ffadd2
 };
 
 const statusTextMap: Record<string, string> = {
@@ -48,6 +48,7 @@ const statusTextMap: Record<string, string> = {
   synced: 'Đã sync',
   user: 'Nhân viên',
   processing: 'Đang tải',
+  active: 'Đang hoạt động',
 };
 
 const statusIconMap: Record<string, string> = {

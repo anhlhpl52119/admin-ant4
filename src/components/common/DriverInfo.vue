@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="min-w-650">
     <ASpin size="large" :spinning="loadingIds.has(EApiId.DRIVER_SEARCH)">
       <ADescriptions
         :bordered="true"

@@ -6,8 +6,9 @@
       theme="light"
       breakpoint="lg"
     >
-      <header class="h-60 flex justify-center p-7">
-        <img src="~@/assets/img/logo-tai-co-vertical-text.png" class="h-full" alt="logo">
+      <header class="p-5 h-60">
+        <img v-if="isCollapsed" src="~@/assets/img/logo-tai-co-colored.png" class="object-scale-down w-full h-full" alt="logo">
+        <img v-else src="~@/assets/img/logo-tai-co-vertical-text.png" class="object-scale-down w-full h-full" alt="logo">
       </header>
       <AMenu
         v-model:openKeys="activeKey"

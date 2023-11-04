@@ -11,7 +11,6 @@
           :rules="rules"
           :model="createUpdateBodyState"
           @finish="onValidateSuccess"
-          @finishFailed="handleFinishFailed"
         >
           <AFormItem name="name" class="w-full">
             <FieldTitle title="Tên nhà bán lẻ" required>
@@ -160,10 +159,6 @@ const rules: { [k in keyof API.CreUpdRetailerRequestBody]?: Rule[] } = {
 const options = ref<DefaultOptionType[]>([]);
 
 const isUpdateMode = computed(() => !!props.retailerId);
-
-const handleFinishFailed = async (errors: ValidateErrorEntity) => {
-// TODO: add scroll to first error field to improve user behavior
-};
 
 const filterOption = (input: string, option: any) => {
   return option.value.toLowerCase().includes(input.toLowerCase()) >= 0;
