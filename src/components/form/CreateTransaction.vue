@@ -18,8 +18,25 @@
         <DriverInfo :driverId="selectedDriverId" hideExtraBtn />
       </div>
       <ADivider>Danh sách hóa đơn chưa thanh toán</ADivider>
+      <div class="my-16 card">
+        <ARangePicker :presets="rangePresets" :format="FORMAT_COMMON_DATE" @change="onRangeChange" />
+        <div>
+          <span class="mr-5">Thanh toán ngay</span>
+          <ATooltip
+            :title="selectedInvoiceMap.size === 0 ? null : 'Hóa đơn này sẽ được đánh dấu là [Hoàn tất] ngay lập tức sau khi tạo'"
+            arrowPointAtCenter
+          >
+            <ASwitch
+              :checked="markAsDoneAfterCreate"
+              :disabled="selectedInvoiceMap.size === 0"
+              @update:checked="markAsDoneDirectly($event as boolean)"
+            />
+          </ATooltip>
+        </div>
+      </div>
       <div>
         <ATable
+          id="table-fixed-height"
           :dataSource="invoiceState.records"
           bordered
           :loading="loadingIds.has(EApiId.INVOICE_SEARCH)"
@@ -103,7 +120,7 @@
     <div class="mt-16 flex flex-row-reverse">
       <ATooltip :mouseEnterDelay="0.5" :title="!!selectedInvoiceMap.size ? null : 'Chọn ít nhất 1 hóa đơn'" color="blue-inverse">
         <AButton :disabled="selectedInvoiceMap.size === 0" :loading="loadingIds.has(EApiId.TRANSACTION_CREATE)" type="primary" @click="onCreate">
-          Tạo
+          {{ markAsDoneAfterCreate ? 'Thanh toán cho các hóa đơn này' : 'Tạo mới' }}
         </AButton>
       </ATooltip>
     </div>
@@ -111,6 +128,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
 import { invoiceApis } from '@/apis/retailer/source-invoice-mgt/source-invoice-mgt';
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
@@ -119,6 +138,9 @@ import { EApiId } from '@/enums/request.enum';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { formatDate } from '@/utils/date.util';
 import { percentFormat, stringToNumber, vndFormat } from '@/utils/number.util';
+import { FORMAT_COMMON_DATE } from '@/constants/common.constant';
+
+type RangeValue = [Dayjs, Dayjs] | [string, string];
 
 const props = defineProps<{
   driverId?: string
@@ -134,6 +156,7 @@ const DriverInfo = defineAsyncComponent(() => import('@/components/common/Driver
 const { loadingIds } = storeToRefs(useVisibilityStore());
 
 const selectedDriverId = ref();
+const markAsDoneAfterCreate = ref(false);
 
 const selectedInvoiceMap = reactive<Map<string, API.SourceInvoice>>(new Map()); // invoice_id -> invoice item
 const invoiceState = reactive({
@@ -158,6 +181,20 @@ const onCheckAll = (isChecked: boolean) => {
     return;
   }
   invoiceState.records.forEach(i => selectedInvoiceMap.set(i.id, i));
+};
+
+const markAsDoneDirectly = async (isCheck: boolean) => {
+  if (!isCheck) {
+    markAsDoneAfterCreate.value = false;
+    return;
+  }
+  const confirm = await showAsyncAlert({
+    content: 'Bạn có muốn xác nhận thanh toán ngay lập tức cho hóa đơn này sau khi tạo?',
+  });
+
+  if (!confirm) { return; }
+
+  markAsDoneAfterCreate.value = true;
 };
 
 const invoiceNetTake = (invoice: API.SourceInvoice) => {
@@ -199,7 +236,7 @@ const composeDriverOption = async (query?: ApiQueryAttr<API.Driver>) => {
   return rs.data.drivers;
 };
 
-const fetchDriverInvoices = async (driverId: string) => {
+const fetchDriverInvoices = async (driverId: string, rangeDate: Record<string, string> = {}) => {
   invoiceState.records = [];
   invoiceState.totalItem = 0;
   selectedInvoiceMap.clear();
@@ -210,6 +247,8 @@ const fetchDriverInvoices = async (driverId: string) => {
       status_eq: 'active',
       driver_id_eq: driverId,
       transaction_history_id_null: 'true',
+      s: 'invoice_date desc',
+      ...rangeDate,
     },
   });
   if (!(rs && rs.data && !!rs.data.source_invoices.length)) {
@@ -217,6 +256,30 @@ const fetchDriverInvoices = async (driverId: string) => {
   }
   invoiceState.records = rs.data.source_invoices;
   invoiceState.totalItem = rs?.data?.total_records ?? 0;
+};
+
+const rangePresets = ref([
+  { label: '7 ngày gần nhất', value: [dayjs().add(-7, 'd'), dayjs()] },
+  { label: '2 tuần gần nhất', value: [dayjs().add(-14, 'd'), dayjs()] },
+  { label: '1 tháng gần nhất', value: [dayjs().add(-30, 'd'), dayjs()] },
+  { label: '3 tháng gần nhất', value: [dayjs().add(-90, 'd'), dayjs()] },
+]);
+
+const onRangeChange = (dates: RangeValue, dateStrings: [string, string]) => {
+  if (dates) {
+    if (!selectedDriverId.value) {
+      return;
+    }
+    fetchDriverInvoices(selectedDriverId.value, {
+      invoice_date_gteq: dateStrings[0],
+      invoice_date_lteq: dateStrings[1],
+    });
+    // console.log('From: ', dates[0], ', to: ', dates[1]);
+    console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
+  }
+  else {
+    console.log('Clear');
+  }
 };
 
 const onCreate = async () => {
@@ -231,11 +294,12 @@ const onCreate = async () => {
   const invoiceIds = Array.from(selectedInvoiceMap.keys());
 
   // call api create
+  const preCreateStatus = markAsDoneAfterCreate.value ? ETransactionStatus.DONE : ETransactionStatus.PENDING;
   const createBody: API.CreateTransactionHistoryRequestBody = {
     transaction_history: {
       tax: 0,
       driver_id: selectedDriverId.value,
-      status: ETransactionStatus.PENDING,
+      status: preCreateStatus,
       description: '',
     },
     source_invoice_ids: invoiceIds,

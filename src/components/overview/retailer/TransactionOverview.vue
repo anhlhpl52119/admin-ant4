@@ -113,7 +113,6 @@ const transactionStatus = computed(() => transactionInfo?.value?.status !== 'pen
 const showDriverInfo = (driverId: string) => {
   const modalId = coreModal.show({
     component: DriverInfo,
-    modalWidth: '60rem',
     props: {
       driverId,
       hideExtraBtn: true,

@@ -24,7 +24,7 @@ declare global {
 
   type RansackQuery<T> = {
     [K in keyof T as `${string & K}${T[K] extends string | null | boolean | undefined
-      ? "_eq" | "_cont" | "_not_eq" | "_null" | "_not_null"
+      ? "_eq" | "_cont" | "_not_eq" | "_null" | "_not_null" | "_lteq" | "_gteq" | "_gt" | "_lt"
       : T[K] extends Date | null
       ? "_lteq" | "_gteq" | "_gt" | "_lt"
       : T[K] extends boolean | null
