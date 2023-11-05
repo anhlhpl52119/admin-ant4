@@ -1,7 +1,7 @@
 import retailer from './retailer';
 import errorPage from './error';
 import { ERouteName } from '@/enums/router.enum';
-import sysAdminLayout from '@/layout/sys-layout/index.vue';
+import sysAdminLayout from '@/layout/sys-layout/sys-admin-app-layout.vue';
 import type { CustomRoute } from '@/router/typing';
 
 export const sysRoutes: CustomRoute = {

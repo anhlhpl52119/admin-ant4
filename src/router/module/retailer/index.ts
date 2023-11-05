@@ -4,7 +4,7 @@ import transaction from './transaction';
 import retailerUser from './retailer-user';
 import errorPage from './error';
 import { ERouteName } from '@/enums/router.enum';
-import retailerLayout from '@/layout/retailer-layout/index.vue';
+import retailerLayout from '@/layout/retailer-layout/retailer-app-layout.vue';
 import type { CustomRoute } from '@/router/typing';
 
 export const retailerRoutes: CustomRoute = {

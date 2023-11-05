@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <ALayout class="min-h-screen">
     <ALayoutSider
       v-model:collapsed="isCollapsed"
@@ -39,7 +39,7 @@
 
 <script lang="ts" setup>
 import CustomSubMenu from './left-menu/CustomSubMenu.vue';
-import PageContent from '@/layout/sys-layout/page-content/index.vue';
+import PageContent from '@/layout/retailer-layout/page-content/index.vue';
 import { useUserStore } from '@/stores/user.store';
 import { ERouteName } from '@/enums/router.enum';
 import { BrowserStorage } from '@/utils/storage.util';
@@ -86,4 +86,4 @@ function findParentRouteName(
 
   return [];
 }
-</script> -->
+</script>
