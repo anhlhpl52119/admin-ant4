@@ -4,7 +4,7 @@ import { ERouteName } from '@/enums/router.enum';
 const routes: CustomRoute[] = [
   {
     path: '/error',
-    name: ERouteName.DEMO_404,
+    name: ERouteName.ERROR,
     redirect: '/error/404',
     component: () => import('@/layout/sys-layout/page-content/index.vue'),
     meta: {
@@ -14,7 +14,7 @@ const routes: CustomRoute[] = [
     children: [
       {
         path: '404',
-        name: ERouteName.ERROR_500,
+        name: ERouteName.ERROR_404,
         meta: {
           title: '404',
           hiddenInMenu: true,

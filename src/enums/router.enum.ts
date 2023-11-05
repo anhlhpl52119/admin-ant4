@@ -39,6 +39,7 @@ export enum ERouteName {
   DEMO_404 = 'DEMO-404',
 
   /** Error Routes */
+  NOT_FOUND = 'not-found-page',
   ERROR = 'error',
   ERROR_404 = 'error-404',
   ERROR_500 = 'error-500',

@@ -19,7 +19,7 @@ export const sysRoutes: CustomRoute = {
     ...errorPage,
     {
       path: '/:pathMatch(.*)*',
-      name: ERouteName.ERROR_404,
+      name: ERouteName.NOT_FOUND,
       meta: {
         title: 'Not Found Page',
         hiddenInMenu: true,

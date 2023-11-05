@@ -24,7 +24,7 @@ const routes: CustomRoute[] = [
         },
       },
       {
-        path: ':id/details',
+        path: '/:id/details',
         name: ERouteName.RETAILER_DETAILS,
         component: () => import('@/views/sys-admin/retailer-management/retailer-details.vue'),
         meta: {
