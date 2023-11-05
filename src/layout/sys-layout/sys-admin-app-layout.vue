@@ -3,17 +3,17 @@
     <ALayoutSider
       v-model:collapsed="isCollapsed"
       collapsible :width="250"
-      theme="light"
+      theme="dark"
       breakpoint="lg"
     >
       <header class="p-5 h-60">
         <img v-if="isCollapsed" src="~@/assets/img/logo-tai-co-colored.png" class="object-scale-down w-full h-full" alt="logo">
-        <img v-else src="~@/assets/img/logo-tai-co-vertical-text.png" class="object-scale-down w-full h-full" alt="logo">
+        <img v-else src="~@/assets/img/logo-taico-white.png" class="object-scale-down w-full h-full" alt="logo">
       </header>
       <AMenu
         v-model:openKeys="activeKey"
         :selectedKeys="selectedKeys"
-        theme="light"
+        theme="dark"
         mode="inline"
       >
         <template v-for="item in userStore.userMenu" :key="item.name">
