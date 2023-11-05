@@ -1,24 +1,15 @@
-interface Alert {
-  severityLevel?: 'danger' | 'warn' | 'info'
-  strictMsg?: string | boolean
-  title?: string
-  content: string | string[]
-}
-
 export const confirmAlertState = reactive({
-  severityLevel: undefined as string | undefined,
-  strictMsg: undefined as undefined | string | boolean,
-  title: '',
-  content: [''] as string | string[],
+  severity: 'warn',
+  strictMsg: undefined as OrUndefine<string | boolean>,
+  content: '' as string | string[],
   onClose: undefined as any,
   isOpen: false,
 });
 
-export const showAsyncAlert = (props: Alert): Promise<boolean> => {
+export const showAsyncAlert = (props: CoreAsyncAlert): Promise<boolean> => {
   return new Promise((resolve: (value: boolean) => void) => {
-    confirmAlertState.severityLevel = props.severityLevel ?? 'warn';
+    confirmAlertState.severity = props.severity ?? 'warn';
     confirmAlertState.content = props.content ?? '';
-    confirmAlertState.title = props.title ?? '';
     confirmAlertState.strictMsg = props.strictMsg;
     confirmAlertState.isOpen = true;
     confirmAlertState.onClose = resolve ?? '';
@@ -27,9 +18,8 @@ export const showAsyncAlert = (props: Alert): Promise<boolean> => {
 
 export const closeAlert = (isConfirm: boolean) => {
   if (confirmAlertState.isOpen) {
-    confirmAlertState.severityLevel = undefined;
+    confirmAlertState.severity = 'warn';
     confirmAlertState.content = '';
-    confirmAlertState.title = '';
     confirmAlertState.strictMsg = '';
   }
 

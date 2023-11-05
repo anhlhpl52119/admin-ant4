@@ -12,30 +12,36 @@
     @cancel="close(false)"
   >
     <template #title>
-      <div class="flex items-center gap-10">
-        <i class="i-svg:warning block text-30 " />
-        <span class="text-18">{{ state.title }}</span>
+      <div class="flex justify-center">
+        <i class="block text-50" :class="iconMap[state?.severity ?? 'warn']" />
       </div>
     </template>
-    <div>
-      <p class="my-20 text-16">
+    <div class="text-center my-20 text-16">
+      <template v-if="!Array.isArray(state.content)">
         {{ state.content }}
-      </p>
-      <ACheckbox v-if="state.strictMsg" v-model:checked="checked">
-        Tôi đã đọc và muốn tiếp tục
-      </ACheckbox>
+      </template>
+      <ul v-else class="grid-center gap-y-7">
+        <li v-for="(msg, index) in state.content" :key="index">
+          {{ msg }}
+        </li>
+      </ul>
     </div>
+    <ACheckbox v-if="state.strictMsg && state.severity !== 'error'" v-model:checked="isConfirmStrict">
+      <span class="text-desc">{{ strictMsg }}</span>
+    </ACheckbox>
     <template #footer>
-      <AConfigProvider
-        :theme="{ token: { colorPrimary: '#faad14' } }"
-      >
-        <AButton type="primary" :disabled="disabledBtn" @click="close(true)">
-          Ok
-        </AButton>
-        <AButton @click="close(false)">
-          Cancel
-        </AButton>
-      </AConfigProvider>
+      <div class="flex justify-center gap-10 pt-16">
+        <AConfigProvider
+          :theme="{ token: { colorPrimary: colorMap[state?.severity ?? 'warn'] } }"
+        >
+          <AButton type="primary" :disabled="disabledConfirmBtn" @click="close(true)">
+            Xác nhận
+          </AButton>
+          <AButton v-if="state.severity !== 'error'" @click="close(false)">
+            Hủy
+          </AButton>
+        </AConfigProvider>
+      </div>
     </template>
   </AModal>
 </template>
@@ -46,18 +52,38 @@ import { closeAlert, confirmAlertState } from '@/composable/core/useAsyncAlert';
 
 const state = computed(() => confirmAlertState);
 
-const checked = ref(false);
+const iconMap: Record<string, string> = {
+  error: 'i-fluent:error-circle-12-filled text-danger',
+  info: 'i-pepicons-pop:info-circle-filled text-info',
+  warn: 'i-fluent:shield-error-20-filled text-warning',
+  success: 'i-ooui:success text-green',
+};
 
-const disabledBtn = computed(() => {
-  if (state.value.strictMsg && !checked.value) {
+const colorMap: Record<string, string> = {
+  error: '#ff4d4f',
+  info: '#12a38e',
+  warn: '#faad14',
+  success: '#52c41a',
+};
+
+const isConfirmStrict = ref(false);
+
+const strictMsg = computed(() => {
+  if (state.value.strictMsg === true) {
+    return 'Tôi đã đọc và muốn tiếp tục';
+  }
+  return state.value.strictMsg?.toString();
+});
+
+const disabledConfirmBtn = computed(() => {
+  if (state.value.strictMsg && !isConfirmStrict.value) {
     return true;
   }
-
   return false;
 });
 
 const close = (isClose: boolean) => {
-  checked.value = false;
+  isConfirmStrict.value = false;
   closeAlert(isClose);
 };
 </script>

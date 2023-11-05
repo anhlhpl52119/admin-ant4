@@ -29,4 +29,10 @@ declare global {
     modalWidth?: string | number;
     maskCloseable?: boolean;
   };
+
+  type CoreAsyncAlert = {
+    severity?: 'error' | 'warn' | 'info' | 'success'
+    strictMsg?: string | boolean
+    content: string | string[]
+  }
 }
