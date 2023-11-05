@@ -15,9 +15,9 @@ const setupPlugin = () => {
 };
 
 const setupApp = async () => {
+  setupPlugin();
   await setupRouter(app);
+  app.mount('#app');
 };
 
-setupPlugin();
-await setupApp();
-app.mount('#app');
+setupApp();

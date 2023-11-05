@@ -61,8 +61,20 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         },
       },
     },
+    preview: {
+      port: 5000,
+    },
     build: {
-      target: 'esnext',
+      target: 'es2017',
+      minify: 'esbuild',
+      cssTarget: 'chrome79',
+      chunkSizeWarningLimit: 2000,
+    },
+    optimizeDeps: {
+      include: [
+        'lodash-es',
+        'ant-design-vue/es/locale/vi_VN',
+      ],
     },
     resolve: {
       alias: {
