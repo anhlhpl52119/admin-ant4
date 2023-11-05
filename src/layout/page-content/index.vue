@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <RouterView #="{ Component }">
     <Transition
       :name="Object.is(route.meta?.transitionName, false) ? '' : 'fade-transform'"
@@ -16,4 +16,4 @@
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-</script>
+</script> -->

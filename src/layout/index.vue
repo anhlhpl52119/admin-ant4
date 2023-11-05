@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <ALayout class="min-h-screen">
     <ALayoutSider
       v-model:collapsed="isCollapsed"
@@ -86,4 +86,4 @@ function findParentRouteName(
 
   return [];
 }
-</script>
+</script> -->
