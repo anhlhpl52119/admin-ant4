@@ -5,9 +5,6 @@ import { EStorage } from '@/enums/cache.enum';
 
 import { useUserStore } from '@/stores/user.store';
 import { BrowserStorage } from '@/utils/storage.util';
-import {
-  DEFAULT_ROLE_ROUTE,
-} from '@/constants/common.constant';
 import { ERouteName } from '@/enums/router.enum';
 
 export const beforeEach = (router: Router) => {
@@ -17,16 +14,11 @@ export const beforeEach = (router: Router) => {
     coreModal.destroyAll();
     Modal.destroyAll();
 
-    // TODO: refactor
-    let tempRoute = '/transaction/transaction-management';
-    if (userStore.getUserRole) {
-      tempRoute = DEFAULT_ROLE_ROUTE[userStore.getUserRole];
-    }
-
     const token = BrowserStorage.get(EStorage.ACCESS_TOKEN, null);
+
     if (token) {
       if (to.name === ERouteName.LOGIN) {
-        next({ path: tempRoute, replace: true });
+        next({ path: '/', replace: true });
       }
       else {
         const hasRoute = router.hasRoute(to.name!);
@@ -46,7 +38,7 @@ export const beforeEach = (router: Router) => {
             next({ ...to, replace: true });
           }
           else {
-            next();
+            next({ path: '/', replace: true });
           }
         }
         else {
@@ -62,7 +54,7 @@ export const beforeEach = (router: Router) => {
       else {
         next({
           name: ERouteName.LOGIN,
-          query: { redirect: to.fullPath },
+          // query: { redirect: to.fullPath },
           replace: true,
         });
       }

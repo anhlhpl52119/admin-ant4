@@ -55,12 +55,13 @@ const state = reactive({
   captcha: '',
   formInline: {
     email: 'banle0_manager@takeit.vn',
+    // email: 'admin@takeit.vn',
+
     password: '123123A@',
     refresh: true,
   },
 });
 
-const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 
@@ -74,7 +75,7 @@ const handleSubmit = async () => {
   if (!userStore.getUserRole) {
     return;
   }
-  router.replace((route.query.redirect as string) ?? DEFAULT_ROLE_ROUTE[userStore.getUserRole]);
+  router.replace({ path: '/' });
 };
 </script>
 

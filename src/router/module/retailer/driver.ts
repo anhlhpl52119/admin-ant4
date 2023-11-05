@@ -1,6 +1,6 @@
 import type { CustomRoute } from '@/router/typing';
 import { ERouteName } from '@/enums/router.enum';
-import PageContent from '@/layout/page-content/index.vue';
+import PageContent from '@/layout/retailer-layout/page-content/index.vue';
 
 const routes: CustomRoute[] = [
   {
@@ -17,19 +17,19 @@ const routes: CustomRoute[] = [
       {
         path: 'driver-management',
         name: ERouteName.DRIVER_MANAGEMENT,
-        component: () => import('@/views/driver/driver.vue'),
+        component: () => import('@/views/retailer/driver/driver-management.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'Quản lý tài xế',
         },
       },
       {
-        path: 'driver-group',
+        path: 'group-driver',
         name: ERouteName.DRIVER_GROUP,
-        component: () => import('@/views/group-driver/group-driver.vue'),
+        component: () => import('@/views/retailer/group-driver/group-driver-management.vue'),
         meta: {
           hiddenInMenu: false,
-          title: 'Nhóm tài xế',
+          title: 'Quản lý nhóm tài xế',
         },
       },
     ],

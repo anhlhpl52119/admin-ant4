@@ -1,12 +1,11 @@
 import type { CustomRoute } from '@/router/typing';
 import { ERouteName } from '@/enums/router.enum';
-import PageContent from '@/layout/page-content/index.vue';
 
 const routes: CustomRoute[] = [
   {
     path: 'retailer',
     name: ERouteName.RETAILER,
-    component: PageContent,
+    component: () => import('@/layout/sys-layout/page-content/index.vue'),
     redirect: '/retailer/management',
     meta: {
       hiddenInMenu: false,
@@ -18,21 +17,19 @@ const routes: CustomRoute[] = [
       {
         path: 'management',
         name: ERouteName.RETAILER_MANAGEMENT,
-        component: () => import('@/views/retailer/retailer.vue'),
+        component: () => import('@/views/sys-admin/retailer-management/retailer.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'Quản lý nhà bán lẻ',
-          permit: ['sys'],
         },
       },
       {
         path: ':id/details',
         name: ERouteName.RETAILER_DETAILS,
-        component: () => import('@/pages/details/retailer-details.vue'),
+        component: () => import('@/views/sys-admin/retailer-management/retailer-details.vue'),
         meta: {
           hiddenInMenu: true,
           title: 'Chi tiết nhà bán lẻ',
-          permit: ['sys'],
         },
         props: route => ({ retailerId: route?.params?.id?.toString() || '' }),
       },

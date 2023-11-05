@@ -2,7 +2,7 @@ import { message } from 'ant-design-vue';
 import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
 import type { CustomRoute } from '@/router/typing';
-import { dynamicRouterGenerator } from '@/router/router-factory';
+import { dynamicRouterGenerator } from '@/router/hooks/router-generator';
 import { authApis } from '@/apis/auth/auth.api';
 
 export const useUserStore = defineStore('user-store', () => {

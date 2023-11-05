@@ -4,24 +4,12 @@ import App from '@/App.vue';
 
 export const whiteListRoutes: CustomRoute[] = [
   {
-    path: '/',
-    name: ERouteName.MAIN_LAYOUT,
-    component: App,
-    redirect: '/sign-in',
+    path: '/sign-in',
+    name: ERouteName.LOGIN,
+    component: () => import('@/views/common/login.vue'),
     meta: {
+      title: 'Đăng nhập',
       hiddenInMenu: true,
-      title: 'White List',
     },
-    children: [
-      {
-        path: '/sign-in',
-        name: ERouteName.LOGIN,
-        component: () => import('@/views/common/login.vue'),
-        meta: {
-          title: 'Login',
-          hiddenInMenu: true,
-        },
-      },
-    ],
   },
 ];
