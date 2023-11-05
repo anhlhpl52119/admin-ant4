@@ -11,24 +11,32 @@
           @submit.prevent="handleSubmit"
         >
           <AFormItem>
-            <AInput v-model:value="state.formInline.email" size="large" placeholder="rootadmin">
+            <CInput
+              v-model:value="state.formInline.email"
+              size="large"
+              noSpace
+              inputCase="lower"
+              :maxlength="50"
+              placeholder="Email"
+            >
               <template #prefix>
                 <UserOutlined type="user" />
               </template>
-            </AInput>
+            </CInput>
           </AFormItem>
           <AFormItem>
-            <AInput
+            <CInput
               v-model:value="state.formInline.password"
               size="large"
               type="password"
-              placeholder="123456"
+              placeholder="Mật khẩu"
+              :maxlength="36"
               autocomplete="new-password"
             >
               <template #prefix>
                 <LockOutlined type="user" />
               </template>
-            </AInput>
+            </CInput>
           </AFormItem>
           <AFormItem>
             <AButton type="primary" htmlType="submit" size="large" :loading="state.loading" block>
@@ -48,6 +56,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 import { useUserStore } from '@/stores/user.store';
+import { MORE_THAN_ONE_EMAIL_SIGN } from '@/constants/regex.constant';
 
 const state = reactive({
   loading: false,
@@ -64,12 +73,25 @@ const state = reactive({
 const router = useRouter();
 const userStore = useUserStore();
 
+const validation = async () => {
+  if (MORE_THAN_ONE_EMAIL_SIGN.test(state.formInline.email)) {
+    await showAsyncAlert({ content: 'Email đăng nhập không đúng', severity: 'error' });
+    return false;
+  }
+  if (state.formInline.password.length > 36 || state.formInline.password.length < 4) {
+    await showAsyncAlert({ content: 'Sai mật khẩu', severity: 'error' });
+    return false;
+  }
+  return true;
+};
+
 const handleSubmit = async () => {
   const { email, password } = state.formInline;
   if (email.trim() === '' || password.trim() === '') {
     message.warning('Tên đăng nhập và mật khẩu không được để trống！');
     return;
   }
+  if (!await validation()) { return; }
   await userStore.login(state.formInline);
   if (!userStore.getUserRole) {
     return;

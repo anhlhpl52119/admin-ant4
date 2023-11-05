@@ -2,6 +2,9 @@
   <AConfigProvider :locale="viVN" :theme="seedTokenGlobalConfig">
     <RouterView #="{ Component }">
       <Component :is="Component" />
+      <CAppDrawer />
+      <CAppModal />
+      <CAsyncAlertDialog />
     </RouterView>
   </AConfigProvider>
 </template>

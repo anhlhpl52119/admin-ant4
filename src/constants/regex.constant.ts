@@ -6,4 +6,4 @@ export const MULTIPLE_SPACE_ADJACENT = /\s+/g;
 export const VALID_EMAIL_FORMAT = '';
 export const MORE_THAN_ONE_EMAIL_SIGN = /^([^@]*@[^@]*)@/;
 export const NO_SPECIAL_SYMBOL = /[^a-zA-Z0-9_\-\s]/g;
-export const NO_SCRIPT_INJECTION = /[><=^&*]/g;
+export const NO_SCRIPT_INJECTION = /[=<>\?#!&*\\/]/g;

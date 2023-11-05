@@ -10,7 +10,7 @@
 import InputProp from 'ant-design-vue/es/input/inputProps';
 import type { PropType } from 'vue';
 import { stringWithoutDiacritics } from '@/utils/common.util';
-import { BEGIN_BY_SPACE, INCLUDE_SPACE, MULTIPLE_SPACE_ADJACENT } from '@/constants/regex.constant';
+import { BEGIN_BY_SPACE, INCLUDE_SPACE, MULTIPLE_SPACE_ADJACENT, NO_SCRIPT_INJECTION } from '@/constants/regex.constant';
 
 type InputCase = 'upper' | 'lower' | 'default'
 const props = defineProps({
@@ -43,7 +43,8 @@ const caseChanger = (val: string, caseType: InputCase): string => {
 
 const onInput = (e: any) => {
   // prevent empty space character ahead of string
-  let val: string = e?.target?.value?.replace(BEGIN_BY_SPACE, '') ?? '';
+  let val: string = e?.target?.value?.replace(NO_SCRIPT_INJECTION, '') ?? '';
+  val = val.replace(BEGIN_BY_SPACE, '');
   val = val.replace(MULTIPLE_SPACE_ADJACENT, ' ');
   if (props.inputCase !== 'default') {
     val = caseChanger(val, props.inputCase);

@@ -135,7 +135,7 @@ const init = async () => {
 
 const onChange = async () => {
   const confirm = await showAsyncAlert({
-    content: 'Sau khi hóa đơn này được dánh dấu là "Hoàn tất" bạn không thể chình sửa',
+    content: 'Sau khi hóa đơn này được dánh dấu là Hoàn tất bạn không thể chình sửa',
     strictMsg: true,
   });
   if (!confirm) {

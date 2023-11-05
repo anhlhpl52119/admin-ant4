@@ -30,9 +30,6 @@
       <ALayoutContent class="relative p-15 h-full">
         <PageContent />
       </ALayoutContent>
-      <CAppDrawer />
-      <CAppModal />
-      <CAsyncAlertDialog />
     </ALayout>
   </ALayout>
 </template>
