@@ -53,8 +53,8 @@ const state = reactive({
   loading: false,
   captcha: '',
   formInline: {
-    // email: 'banle0_manager@takeit.vn',
-    email: 'admin@takeit.vn',
+    email: 'banle0_manager@takeit.vn',
+    // email: 'admin@takeit.vn',
 
     password: '123123A@',
     refresh: true,
@@ -80,7 +80,6 @@ const handleSubmit = async () => {
 
 <style lang="scss" scoped>
 .teeee {
-  // @apply bg-[url(../src/assets/svg/login.svg)]
   @apply bg-gradient-to-r from-cyan-500 to-blue-500
 }
 </style>
