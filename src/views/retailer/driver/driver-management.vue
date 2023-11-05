@@ -155,3 +155,11 @@ const openModel = (driverId?: string) => {
   });
 };
 </script> -->
+<template>
+  <div>
+    Driver management temp
+  </div>
+</template>
+
+<script lang="ts" setup>
+</script>
