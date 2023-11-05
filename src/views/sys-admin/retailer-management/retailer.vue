@@ -17,49 +17,64 @@
       <ATable
         :dataSource="tableRecords"
         :loading="isFetching"
-        :columns="columns"
         :pagination="false"
-        :scroll="{ y: '61rem' }"
-        size="small"
+        class="cursor-default"
+        :scroll="{ y: 'calc(100rem - 30rem)' }"
       >
-        <template #bodyCell="{ index, column, record }">
-          <template v-if="column.dataIndex === 'indexNum'">
-            {{ index + 1 }}
-          </template>
-          <template v-if="column.dataIndex === 'name'">
-            <AButton
-              type="link"
-              @click="onShowDrawerDetails(record as API.Retailer)"
-            >
+        <ATableColumn key="name" title="Tên nhà bán lẻ" :ellipsis="true" :width="300" fixed="left">
+          <template #default="{ record }: {record: API.Retailer}">
+            <AButton type="link" class="p0" @click="goToDetails(record.id)">
               {{ record.name }}
             </AButton>
           </template>
-          <template v-if="column.dataIndex === 'edit'">
-            <ATooltip title="Chi tiết">
-              <AButton :icon="h(InfoCircleOutlined)" @click="goToDetails(record.id)" />
-            </ATooltip>
+        </ATableColumn>
+
+        <ATableColumn key="code" title="Mã" :ellipsis="true" :width="140">
+          <template #default="{ record }: {record: API.Retailer}">
+            <div @click="copyText(record?.retailer_code ?? '_')">
+              <span class="cursor-pointer hover:text-primary">{{ record.retailer_code }}</span>
+            </div>
           </template>
-          <template v-if="column.dataIndex === 'sync_status'">
-            <DynamicTag :status="record?.sync_status" />
+        </ATableColumn>
+        <ATableColumn key="phone" title="Số điện thoại" width="15rem" align="center">
+          <template #default="{ record }: {record: API.Retailer}">
+            <div
+              class="flex-center gap-5 cursor-pointer hover:text-primary"
+              @click="copyText(record?.phone ?? '_')"
+            >
+              <span>{{ record?.phone ?? '_' }}</span>
+              <i class="i-solar:copy-outline inline-block text-primary" />
+            </div>
           </template>
-        </template>
-        <template #title>
-          <CommonTableHeader
-            :currentPage="tableState.currentPage"
-            :pageSize="tableState.pageSize"
-            :totalRecord="tableState.totalRecords"
-            @pageChange="handlePageChange"
-            @reload="reload"
-          />
-        </template>
+        </ATableColumn>
+        <ATableColumn key="mail" :ellipsis="true" width="20rem">
+          <template #title>
+            <div class=" flex gap-5 items-center">
+              <i class="i-material-symbols:alternate-email-rounded block text-22 text-primary" />
+              <span>Email</span>
+            </div>
+          </template>
+          <template #default="{ record }: {record: API.Retailer}">
+            <span>{{ record?.email ?? '_' }}</span>
+          </template>
+        </ATableColumn>
+        <ATableColumn key="address" title="Địa chỉ" :ellipsis="true">
+          <template #default="{ record }: {record: API.Retailer}">
+            {{ record?.address ?? '_' }}
+          </template>
+        </ATableColumn>
+        <ATableColumn key="config" title="Cấu hình" width="20rem" align="center" fixed="right">
+          <template #default="{ record }: {record: API.Retailer}">
+            <DynamicTag :status="record?.sync_status ?? ''" />
+          </template>
+        </ATableColumn>
+        <ATableColumn key="status" title="Trạng thái" width="17rem" align="center" fixed="right">
+          <template #default="{ record }: {record: API.Retailer}">
+            <DynamicTag :status="record?.status ?? ''" />
+          </template>
+        </ATableColumn>
       </ATable>
     </section>
-    <RetailerDetailDrawer
-      v-model:is-open="detailsDrawerState.isOpen"
-      :retailerItem="detailsDrawerState.item"
-      :title="detailsDrawerState.title"
-      @close="onCloseDetailDrawer"
-    />
   </main>
 </template>
 
@@ -73,8 +88,8 @@ import { useTableCache } from '@/composable/useTableCache';
 import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
 import { ERouteName } from '@/enums/router.enum';
 import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
+import { copyText } from '@/utils/common.util';
 
-const RetailerDetailDrawer = defineAsyncComponent(() => import('@/components/drawer/RetailerDetailDrawer.vue'));
 const RetailerCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerCreateUpdateForm.vue'));
 
 const { getDetails, setDetails } = useTableCache<API.Retailer>();
@@ -158,16 +173,16 @@ const handleSuccess = (modalId: string) => {
 const goToDetails = async (id: string) => {
   if (!id) {
     message.error('Thiếu Retailer ID');
-
     return;
   }
-  await router.push({ name: ERouteName.RETAILER_DETAILS, params: { id } });
+  router.push({ name: ERouteName.RETAILER_DETAILS, params: { id } });
 };
 
 const openModel = (retailerId?: string) => {
   const title = retailerId ? 'Cập nhật thông tin nhà bán lẻ' : 'Tạo mới nhà bán lẻ';
   const modalId = coreModal.show({
     component: RetailerCreateUpdateForm,
+    modalWidth: '50rem',
     title,
     props: {
       retailerId: retailerId ?? '',

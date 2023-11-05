@@ -39,6 +39,7 @@ import { formatDate } from '@/utils/date.util';
 
 const props = defineProps<{
   driverId: string
+  driver?: API.Driver
   hideExtraBtn?: boolean
 }>();
 
@@ -46,13 +47,17 @@ defineEmits<{
   cancel: [v: void]
 }>();
 
-const { driverId } = toRefs(props);
+const { driverId, driver } = toRefs(props);
 
 const driverState = ref<OrNull<API.Driver>>(null);
 
 const { loadingIds } = storeToRefs(useVisibilityStore());
 
 const init = async () => {
+  if (driver?.value) {
+    driverState.value = driver.value;
+    return;
+  }
   const rs = await retailerDriverApis.searchMyDrivers({ query: { id_eq: props.driverId }, includes: ['group_drivers'] });
   if (!(rs && rs.data) || rs.data.drivers.length === 0) {
     return;

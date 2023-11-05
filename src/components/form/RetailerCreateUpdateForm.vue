@@ -35,8 +35,9 @@
               <CInput
                 v-model:value="createUpdateBodyState.phone"
                 :maxlength="12"
+                noSpace
+                :replaceSymbol="[NUMBER_ONLY]"
                 placeholder="số điện thoại"
-                acceptedOnly="number"
               />
             </FieldTitle>
           </AFormItem>
@@ -50,7 +51,7 @@
             </FieldTitle>
           </AFormItem>
           <AFormItem>
-            <FieldTitle title="Mô tả" required>
+            <FieldTitle title="Mô tả">
               <CInput
                 v-model:value="createUpdateBodyState.description"
                 :maxlength="300"
@@ -59,12 +60,12 @@
             </FieldTitle>
           </AFormItem>
           <AFormItem name="email">
-            <FieldTitle title="Nhập email" required>
+            <FieldTitle title="Email" required>
               <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
             </FieldTitle>
           </AFormItem>
           <AFormItem name="source">
-            <FieldTitle title="Chọn Nguồn" required>
+            <FieldTitle title="Chọn Nguồn Cấu Hình" required>
               <ASelect
                 v-model:value="createUpdateBodyState.source"
                 showSearch
@@ -103,6 +104,7 @@ import { EApiId } from '@/enums/request.enum';
 import { useFieldValidation } from '@/composable/useFieldValidation';
 import { useCommonStore } from '@/stores/common.store';
 import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
+import { NUMBER_ONLY } from '@/constants/regex.constant';
 
 const props = defineProps<{ retailerId: string }>();
 

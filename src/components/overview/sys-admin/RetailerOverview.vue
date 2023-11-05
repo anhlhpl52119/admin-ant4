@@ -79,7 +79,7 @@
             >
               <!-- header -->
               <template #header>
-                <div class="p-18 text-17 font-medium">
+                <div class="p-20 text-16 font-medium">
                   Cấu hình
                 </div>
               </template>
@@ -90,7 +90,7 @@
                 </div>
               </template>
               <!-- content -->
-              <div class="">
+              <div>
                 <div class="b-b b-b-abd b-b-solid p-16">
                   <div class="flex justify-end gap-10">
                     <AButton

@@ -11,7 +11,7 @@
           <slot name="item" :data="{ item, index, select }">
             <li
               :class="{ 'text-primary font-bold': item.value === modelValue }"
-              class="flex flex-center cursor-pointer px-16 py-12"
+              class="flex flex-center cursor-pointer px-15 py-12"
               @click="select(item.value)"
             >
               <label class="flex-1 cursor-inherit">{{ item.label }}</label>

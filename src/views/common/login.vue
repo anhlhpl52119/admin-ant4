@@ -62,8 +62,8 @@ const state = reactive({
   loading: false,
   captcha: '',
   formInline: {
-    email: 'banle0_manager@takeit.vn',
-    // email: 'admin@takeit.vn',
+    // email: 'banle0_manager@takeit.vn',
+    email: 'admin@takeit.vn',
 
     password: '123123A@',
     refresh: true,

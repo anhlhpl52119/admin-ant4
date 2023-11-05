@@ -23,7 +23,7 @@ declare global {
     type GroupDriver = {
       id: string;
       name: string;
-      // group_driver_code: string;
+      group_driver_code: string;
       description: string;
       email: string;
       address: string;

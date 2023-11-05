@@ -41,7 +41,7 @@ export const copyText = async (text: string) => {
   message.destroy();
   try {
     await navigator.clipboard.writeText(text);
-    message.success({ content: `Copied: ${text}`, duration: 1.2 });
+    message.success({ content: `Sao chép: ${text}`, duration: 1.2 });
   }
   catch (e) {}
 };

@@ -26,7 +26,7 @@ export const retailerDriverInvitationApis = {
       },
       {
         id: EApiId.INVITATION_CREATE,
-        successMsg: COMMON_SUCCESS_MSG.create,
+        successMsg: 'Gửi lời mời thành công!',
         errorMsg: 'Gửi lời mời thất bại',
         isShowLoading: true,
       },

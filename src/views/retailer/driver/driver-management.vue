@@ -62,12 +62,12 @@
             <span>{{ record?.email ?? '_' }}</span>
           </template>
         </ATableColumn>
-        <ATableColumn key="address" title="Địa chỉ" :ellipsis="true" class="w-100">
+        <ATableColumn key="address" title="Địa chỉ" :ellipsis="true">
           <template #default="{ record }: {record: API.Driver}">
             {{ record?.address ?? '_' }}
           </template>
         </ATableColumn>
-        <ATableColumn key="status" title="Status" width="8rem" align="center" fixed="right">
+        <ATableColumn key="status" title="Status" width="15rem" align="center" fixed="right">
           <template #default="{ record }: {record: API.Driver}">
             <DynamicTag :status="record?.status ?? ''" />
           </template>
@@ -88,14 +88,14 @@ import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
 import { copyText } from '@/utils/common.util';
 import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
 
-const DriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/DriverCreateUpdateForm.vue'));
+const CreateDriverInvitationForm = defineAsyncComponent(() => import('@/components/form/CreateDriverInvitationForm.vue'));
 
 const columnWidthRef = reactive<Record<string, number>>({
   name: 170,
   address: 400,
 });
 const fetch = async (params?: API.SearchDriverQueryParams) => {
-  const res = await retailerDriverApis.searchMyDrivers(params);
+  const res = await retailerDriverApis.searchIndependentDrivers(params);
 
   if (!(res && res.data) || res.data.drivers.length === 0) {
     return FALLBACK_PAGINATION_API_RESPONSE;
@@ -128,11 +128,6 @@ const onSearch = (e: QueriesRaw<API.Driver>[]) => {
   search();
 };
 
-const handleSuccess = (modalId: string) => {
-  coreModal.close(modalId);
-  search();
-};
-
 const handleResizeColumn = (width: number, colInfo: any) => {
   if (!columnWidthRef[colInfo.key]) {
     return;
@@ -140,17 +135,13 @@ const handleResizeColumn = (width: number, colInfo: any) => {
   columnWidthRef[colInfo.key] = width;
 };
 
-const openModel = (driverId?: string) => {
-  const title = driverId ? 'Cập nhật thông tin nhà bán lẻ' : 'Tạo mới nhà bán lẻ';
-  const modalId = coreModal.show({
-    component: DriverCreateUpdateForm,
-    title,
-    props: {
-      driverId: driverId ?? '',
-    },
+const openModel = () => {
+  coreModal.show({
+    component: CreateDriverInvitationForm,
+    title: 'Tạo lời mời tham gia cho tài xế',
+    props: {},
     emits: {
-      success: () => handleSuccess(modalId),
-      cancel: () => coreModal.close(modalId),
+      success: () => {},
     },
   });
 };

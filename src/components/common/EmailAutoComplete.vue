@@ -3,6 +3,7 @@
     :value="value"
     :placeholder="placeholder ?? 'Nhập email'"
     :options="domainOptions"
+    :disabled="disabled"
     @search="handleSearch"
     @select="onSelect"
     @keypress.enter="preventEnterToSubmit"
@@ -29,6 +30,7 @@ interface Option {
 const props = defineProps<{
   value: string
   placeholder?: string
+  disabled?: boolean
 }>();
 
 const emits = defineEmits<{

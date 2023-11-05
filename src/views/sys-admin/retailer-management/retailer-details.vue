@@ -79,7 +79,7 @@
             >
               <!-- header -->
               <template #header>
-                <div class="p-18 text-17 font-medium">
+                <div class="h-60 p-18 text-16 font-medium">
                   Cấu hình
                 </div>
               </template>
@@ -91,17 +91,16 @@
               </template>
               <!-- content -->
               <div class="">
-                <div class="b-b b-b-abd b-b-solid p-16">
-                  <div class="flex justify-end gap-10">
+                <div class="h-61 b-b b-b-abd b-b-solid p-18">
+                  <div class="flex flex-row-reverse gap-x-16">
+                    <AButton type="primary" @click="onEditConfig">
+                      Chỉnh sửa
+                    </AButton>
                     <AButton
                       :loading="loadingIds.has(EApiId.RETAILER_CHECK_REQUIRE_CONFIG)"
                       @click="checkRequiredConfig(true)"
                     >
                       Kiểm tra cấu hình
-                    </AButton>
-
-                    <AButton type="primary" @click="onEditConfig">
-                      Edit
                     </AButton>
                   </div>
                 </div>
@@ -272,7 +271,6 @@ const initDetails = async () => {
   selectedValue.value = res.data.group_drivers[0].group_driver_code;
   retailerState.value = res.data;
 };
-
 // const checkAuth = async () => {
 //   if (!retailerId?.value) {
 //     return;
@@ -324,6 +322,7 @@ const onEditConfigSuccess = (modelId: string) => {
 const onEditConfig = () => {
   const editModal = coreModal.show({
     component: ConfigUpdateForm,
+    modalWidth: '45rem',
     props: {
       retailerId: retailerId?.value ?? '',
       onCancel: () => coreModal.close(editModal),
@@ -365,6 +364,7 @@ const openModel = (retailerId?: string) => {
   const title = retailerId ? 'Cập nhật thông tin nhà bán lẻ' : 'Tạo mới nhà bán lẻ';
   const modalId = coreModal.show({
     component: RetailerCreateUpdateForm,
+    modalWidth: '45rem',
     title,
     props: {
       retailerId: retailerId ?? '',

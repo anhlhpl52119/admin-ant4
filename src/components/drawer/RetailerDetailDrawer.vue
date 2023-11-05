@@ -8,7 +8,7 @@
     @close="$emit('close')"
   >
     <template #extra>
-      <AButton @click="goToDetails">
+      <AButton type="primary" @click="goToDetails">
         Xem chi tiết
       </AButton>
     </template>
@@ -16,7 +16,7 @@
       <ASpin size="large" />
     </div>
     <template v-else>
-      <ADescriptions title="Thông tin Chi nhánh" bordered size="small">
+      <ADescriptions title="Thông tin tổng quan" bordered size="small">
         <ADescriptionsItem label="Tên">
           {{ retailerItem?.name || '' }}
         </ADescriptionsItem>
@@ -34,7 +34,7 @@
         </ADescriptionsItem>
       </ADescriptions>
       <ADivider />
-      <AList
+      <!-- <AList
         :data-source="retailerDrivers"
         bordered
         class="max-h-300 overflow-y-scroll"
@@ -79,8 +79,8 @@
             </AListItemMeta>
           </AListItem>
         </template>
-      </AList>
-      <ADivider />
+      </AList> -->
+      <!-- <ADivider />
       <AList
         :data-source="retailerConfig"
         bordered
@@ -98,7 +98,7 @@
             </AListItemMeta>
           </AListItem>
         </template>
-      </AList>
+      </AList> -->
     </template>
   </ADrawer>
 </template>
