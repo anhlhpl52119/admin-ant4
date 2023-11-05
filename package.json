@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run preview",
+    "start": "vite preview",
     "dev": "vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
-    "preinstall": "npx only-allow pnpm",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
@@ -19,7 +18,6 @@
     "ant-design-vue": "4.0.6",
     "axios": "^1.4.0",
     "lodash-es": "^4.17.21",
-    "perfect-debounce": "^1.0.0",
     "pinia": "^2.1.3",
     "unocss": "^0.53.5",
     "vue": "^3.3.4",
