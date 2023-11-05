@@ -45,10 +45,9 @@
 import { reactive } from 'vue';
 import { LockOutlined, UserOutlined } from '@ant-design/icons-vue';
 
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 import { useUserStore } from '@/stores/user.store';
-import { DEFAULT_ROLE_ROUTE } from '@/constants/common.constant';
 
 const state = reactive({
   loading: false,

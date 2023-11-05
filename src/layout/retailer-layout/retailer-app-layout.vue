@@ -24,7 +24,7 @@
     <ALayout class="bg-abg">
       <header class="h-64 bg-white flex-center">
         <AButton danger @click="doLogout">
-          Log out
+          Đăng xuất
         </AButton>
       </header>
       <ALayoutContent class="relative p-15 h-full">
