@@ -1,24 +1,24 @@
-<!-- <template>
+<template>
   <div>
     <CommonPageTitle
-      title="Tài Xế"
-      actionBtnLabel="Thêm Tài Xế"
+      title="Quản lý tài xế"
+      actionBtnLabel="Mời tài xế"
       @onClickAction="openModel()"
     />
 
     <CommonTableSearchForm
-      :raw="searchFilterRaw"
-      :loading="isTableLoading"
-      quickSearchKey=""
+      :rawSearchableItems="searchFilterRaw"
+      :loading="isFetching"
+      quickSearchKey="name_or_phone_cont"
       @search="onSearch"
-      @reset="search"
+      @reset="resetTable"
     />
 
     <section class="card">
       <ATable
-        :data-source="recordsState"
+        :data-source="tableRecords"
         size="small"
-        :loading="isTableLoading"
+        :loading="isFetching"
         :pagination="false"
         class="cursor-default"
         :scroll="{ y: 'calc(100rem - 40rem)' }"
@@ -26,9 +26,10 @@
       >
         <template #title>
           <CommonTableHeader
-            v-model:current-page="paginationState.currentPage"
-            v-model:record-per-page="paginationState.recordsPerPage"
-            :totalRecord="totalRecords"
+            :currentPage="tableState.currentPage"
+            :pageSize="tableState.pageSize"
+            :totalRecord="tableState.totalRecords"
+            @pageChange="handlePageChange"
             @reload="reload"
           />
         </template>
@@ -80,13 +81,12 @@
 </template>
 
 <script lang="ts" setup>
-import { EditOutlined } from '@ant-design/icons-vue';
 import { searchFilterRaw } from './column';
-import { type QueriesRaw, useCommonTableMethod } from '@/composable/useCommonTableMethod';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
 import { copyText } from '@/utils/common.util';
+import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
 
 const DriverCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/DriverCreateUpdateForm.vue'));
 
@@ -95,7 +95,7 @@ const columnWidthRef = reactive<Record<string, number>>({
   address: 400,
 });
 const fetch = async (params?: API.SearchDriverQueryParams) => {
-  const res = await retailerDriverApis.search(params);
+  const res = await retailerDriverApis.searchMyDrivers(params);
 
   if (!(res && res.data) || res.data.drivers.length === 0) {
     return FALLBACK_PAGINATION_API_RESPONSE;
@@ -110,15 +110,15 @@ const fetch = async (params?: API.SearchDriverQueryParams) => {
 };
 
 const {
-  isTableLoading,
+  handlePageChange,
+  isFetching,
+  tableRecords,
+  tableState,
   rawQueries,
-  paginationState,
-  recordsState,
-  totalRecords,
-
+  resetTable,
   search,
   reload,
-} = useCommonTableMethod(
+} = useTableMethod(
   EApiId.DRIVER_SEARCH,
   fetch,
 );
@@ -154,12 +154,4 @@ const openModel = (driverId?: string) => {
     },
   });
 };
-</script> -->
-<template>
-  <div>
-    Driver management temp
-  </div>
-</template>
-
-<script lang="ts" setup>
 </script>

@@ -103,7 +103,7 @@ const fetchDriver = async (keyword?: string) => {
     return;
   }
 
-  const rs = await retailerDriverApis.search({ query: { [QUERY_MATCHING]: keyword } });
+  const rs = await retailerDriverApis.searchMyDrivers({ query: { [QUERY_MATCHING]: keyword } });
   if (!(rs && rs?.data?.drivers) || rs.data.drivers.length === 0) {
     return;
   }

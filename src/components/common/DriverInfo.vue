@@ -53,7 +53,7 @@ const driverState = ref<OrNull<API.Driver>>(null);
 const { loadingIds } = storeToRefs(useVisibilityStore());
 
 const init = async () => {
-  const rs = await retailerDriverApis.search({ query: { id_eq: props.driverId }, includes: ['group_drivers'] });
+  const rs = await retailerDriverApis.searchMyDrivers({ query: { id_eq: props.driverId }, includes: ['group_drivers'] });
   if (!(rs && rs.data) || rs.data.drivers.length === 0) {
     return;
   }

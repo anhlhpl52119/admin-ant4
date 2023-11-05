@@ -228,7 +228,7 @@ const totalSelectedInvoicesAmount = computed(() => {
 
 const composeDriverOption = async (query?: ApiQueryAttr<API.Driver>) => {
   selectedInvoiceMap.clear();
-  const rs = await retailerDriverApis.search({ query });
+  const rs = await retailerDriverApis.searchMyDrivers({ query });
   if (!rs || rs.data.drivers.length === 0) {
     return [];
   }
