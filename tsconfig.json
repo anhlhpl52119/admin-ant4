@@ -1,5 +1,8 @@
 {
-  "extends": ["@vue/tsconfig/tsconfig.dom.json", "@tsconfig/node18/tsconfig.json"],
+  "extends": [
+    "@tsconfig/node18/tsconfig.json",
+    "@vue/tsconfig/tsconfig.dom.json"
+  ],
   "exclude": ["src/**/__tests__/*", "**/dist/**", "uno.config.ts"],
   "declaration": false,
   "compilerOptions": {
