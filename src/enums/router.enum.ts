@@ -1,4 +1,7 @@
 export enum ERouteName {
+  /** layout */
+  MAIN_LAYOUT = 'main-layout',
+
   /** Auth Routes */
   LOGIN = 'login',
 
@@ -10,9 +13,6 @@ export enum ERouteName {
   USER_PAGE4 = 'user-page4',
   USER_PAGE5 = 'user-page5',
   USER_PAGE6 = 'user-page6',
-
-  /** layout */
-  MAIN_LAYOUT = 'layout',
 
   /** Branch Routes */
   BRANCH = 'branch',
