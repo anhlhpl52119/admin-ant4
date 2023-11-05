@@ -98,7 +98,6 @@
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form';
 import type { DefaultOptionType } from 'ant-design-vue/es/select';
-import type { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
 import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { useFieldValidation } from '@/composable/useFieldValidation';

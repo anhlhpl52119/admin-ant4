@@ -1,6 +1,5 @@
 import type { CustomRoute } from '@/router/typing';
 import { ERouteName } from '@/enums/router.enum';
-import App from '@/App.vue';
 
 export const whiteListRoutes: CustomRoute[] = [
   {
