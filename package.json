@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "vite preview",
+    "start": "npm run preview",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
