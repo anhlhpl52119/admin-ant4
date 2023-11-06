@@ -44,7 +44,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       },
     },
     server: {
-      port: 5000,
+      port: 5500,
       host: true,
       proxy: {
         [VITE_API_SIGNATURE_PREFIX]: {
