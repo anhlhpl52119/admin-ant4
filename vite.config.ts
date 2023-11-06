@@ -28,7 +28,10 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       }),
       AutoImport({
         dts: './auto/auto-imports.d.ts',
-        dirs: ['./src/composable/core'],
+        dirs: [
+          './src/composable/core',
+          './src/stores',
+        ],
         imports: ['vue', 'vue-router', 'pinia'],
         vueTemplate: true,
       }),

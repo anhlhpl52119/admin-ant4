@@ -3,19 +3,37 @@
     <div class="text-spotlight">
       Demo Store
     </div>
-    <AButton type="primary">
-      Click
+    <AButton type="primary" :loading="loadIdsHas([EApiId.RETAILER_SEARCH, EApiId.BRANCH_SEARCH, EApiId.DRIVER_CREATE])" @click="asd">
+      Click loader normal
     </AButton>
-    <div class="mt-20">
-      <pre>{{ devStore }}</pre>
-    </div>
   </main>
 </template>
 
 <script lang="ts" setup>
-import { useDevStore } from './dev-store';
+import { useLoaderStore } from './dev-store';
+import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
+import { EApiId } from '@/enums/request.enum';
+import { sleepFor } from '@/utils/common.util';
 
-const devStore = useDevStore();
+const loader = useLoaderStore();
+const { loadIdsHas } = storeToRefs(useLoaderStore());
 
-const test = devStore.users[0];
+retailerApis.search();
+const fetch = async () => {
+  loader.addLoadingItem(EApiId.RETAILER_SEARCH);
+  await sleepFor(1000);
+  loader.removeLoadingItem(EApiId.RETAILER_SEARCH);
+  loader.addLoadingItem(EApiId.DRIVER_CREATE);
+  await sleepFor(2000);
+  loader.removeLoadingItem(EApiId.DRIVER_CREATE);
+};
+// const fetch2 = async () => {
+//   loader.addLoadingItem(EApiId.BRANCH_SEARCH);
+//   await sleepFor(2000);
+//   loader.removeLoadingItem(EApiId.BRANCH_SEARCH);
+// };
+const asd = () => {
+  fetch();
+  // fetch2();
+};
 </script>

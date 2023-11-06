@@ -70,17 +70,22 @@ declare global {
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
   const use: typeof import('../src/composable/useFieldValidation')['use']
+  const useApplicationStore: typeof import('../src/stores/application.store')['useApplicationStore']
   const useAttrs: typeof import('vue')['useAttrs']
+  const useCommonStore: typeof import('../src/stores/common.store')['useCommonStore']
   const useCommonTableMethod: typeof import('../src/composable/useCommonTableMethod')['useCommonTableMethod']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useFieldValidation: typeof import('../src/composable/useFieldValidation')['useFieldValidation']
   const useLink: typeof import('vue-router')['useLink']
+  const useLoaderStore: typeof import('../src/stores/loader.store')['useLoaderStore']
   const useLoading: typeof import('../src/composable/core/useLoading')['useLoading']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
   const useTableCache: typeof import('../src/composable/useTableCache')['useTableCache']
+  const useUserStore: typeof import('../src/stores/user.store')['useUserStore']
+  const useVisibilityStore: typeof import('../src/stores/visibility.store')['useVisibilityStore']
   const visibleModalState: typeof import('../src/composable/useAppModal')['visibleModalState']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
@@ -160,12 +165,16 @@ declare module 'vue' {
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
+    readonly useCommonStore: UnwrapRef<typeof import('../src/stores/common.store')['useCommonStore']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
+    readonly useLoaderStore: UnwrapRef<typeof import('../src/stores/loader.store')['useLoaderStore']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useUserStore: UnwrapRef<typeof import('../src/stores/user.store')['useUserStore']>
+    readonly useVisibilityStore: UnwrapRef<typeof import('../src/stores/visibility.store')['useVisibilityStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
@@ -238,12 +247,16 @@ declare module '@vue/runtime-core' {
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
+    readonly useCommonStore: UnwrapRef<typeof import('../src/stores/common.store')['useCommonStore']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
+    readonly useLoaderStore: UnwrapRef<typeof import('../src/stores/loader.store')['useLoaderStore']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useUserStore: UnwrapRef<typeof import('../src/stores/user.store')['useUserStore']>
+    readonly useVisibilityStore: UnwrapRef<typeof import('../src/stores/visibility.store')['useVisibilityStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>

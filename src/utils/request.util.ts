@@ -59,7 +59,8 @@ export const request = async <T>(
   config: RequestConfig,
   options: RequestOptions = {},
 ): Promise<T | null> => {
-  const { setLoadingId, removeLoadingId } = useVisibilityStore();
+  const { setLoadingId, removeLoadingId } = useVisibilityStore(); // TODO: remove after migrate ro loader-store
+  const { addLoadingItem, removeLoadingItem } = useLoaderStore();
   const userStore = useUserStore();
   // convert request params with 'include' queries
   if (config?.params?.includes && config.params.includes.length > 0) {
@@ -81,14 +82,16 @@ export const request = async <T>(
 
   // current role has no accessible to execute api request
   if (permitRoles && !permitRoles.includes(userStore.getUserRole!)) {
-    return $message.error('Bạn không có quyền truy cập tính năng này!');
+    $message.error('Bạn không có quyền truy cập tính năng này!');
+    return null as T;
   }
 
   // show loading
   isShowLoading && $message.loading({ content: loadingMessage, key: id });
 
   // set application loading
-  id && setLoadingId(id);
+  id && setLoadingId(id); // TODO: remove after migrate ro loader-store
+  addLoadingItem(id);
 
   // sent request
   try {
@@ -120,6 +123,7 @@ export const request = async <T>(
     // if (!successMsg && !errorMsg) {
     //   $message.destroy(id);
     // }
-    removeLoadingId(id);
+    removeLoadingId(id); // TODO: remove after migrate ro loader-store
+    removeLoadingItem(id);
   }
 };

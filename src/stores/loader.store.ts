@@ -17,11 +17,11 @@ export const useLoaderStore = defineStore('loader-store', {
     },
   },
   actions: {
-    addLoadingItem(id: EApiId) {
-      this.loadIdSet.add(id);
+    addLoadingItem(id?: EApiId) {
+      id && this.loadIdSet.add(id);
     },
-    removeLoadingItem(id: EApiId) {
-      this.loadIdSet.delete(id);
+    removeLoadingItem(id?: EApiId) {
+      id && this.loadIdSet.delete(id);
     },
     forceStopLoading() {
       this.loadIdSet.clear();
