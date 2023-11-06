@@ -26,16 +26,6 @@ const routes: CustomRoute[] = [
           title: 'Danh sách người dùng',
         },
       },
-      // {
-      //   path: ':id/details',
-      //   name: ERouteName.RETAILER_USER_DETAIL,
-      //   component: () => import('@/views/demo/demo-button.vue'),
-      //   meta: {
-      //     hiddenInMenu: true,
-      //     title: 'Quản lý người dùng',
-      //   },
-      //   props: route => ({ userId: route?.params?.id?.toString() || '' }),
-      // },
     ],
   },
 ];
