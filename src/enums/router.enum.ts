@@ -1,4 +1,8 @@
 export enum ERouteName {
+  /** ONLY FOR ADMIN DEVELOPMENT */
+  DEV = 'development',
+  DEV_1 = 'dev-1',
+
   /** layout */
   MAIN_LAYOUT = 'main-layout',
 
@@ -31,12 +35,6 @@ export enum ERouteName {
 
   /** White List Routes */
   WHITE_LIST = 'white-list',
-
-  /** Demo Routes */
-  DEMO = 'demo',
-  DEMO_PAGE1 = 'demo-page1',
-  DEMO_ERROR = 'DEMO-ERROR',
-  DEMO_404 = 'DEMO-404',
 
   /** Error Routes */
   NOT_FOUND = 'not-found-page',
