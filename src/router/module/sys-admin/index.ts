@@ -1,5 +1,6 @@
 import retailer from './retailer';
 import errorPage from './error';
+import development from './demo/development';
 import { ERouteName } from '@/enums/router.enum';
 import sysAdminLayout from '@/layout/sys-layout/sys-admin-app-layout.vue';
 import type { CustomRoute } from '@/router/typing';
@@ -17,6 +18,7 @@ export const sysRoutes: CustomRoute = {
   children: [
     ...retailer,
     ...errorPage,
+    ...development,
     {
       path: '/:pathMatch(.*)*',
       name: ERouteName.NOT_FOUND,
