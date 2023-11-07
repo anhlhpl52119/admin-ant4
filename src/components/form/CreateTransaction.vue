@@ -39,7 +39,7 @@
           id="table-fixed-height"
           :dataSource="invoiceState.records"
           bordered
-          :loading="loadingIds.has(EApiId.INVOICE_SEARCH)"
+          :loading="loadIdsHas(EApiId.INVOICE_SEARCH)"
           :pagination="false"
           class="cursor-default"
           :scroll="{ y: '30rem' }"
@@ -119,7 +119,7 @@
     </template>
     <div class="mt-16 flex flex-row-reverse">
       <ATooltip :mouseEnterDelay="0.5" :title="!!selectedInvoiceMap.size ? null : 'Chọn ít nhất 1 hóa đơn'" color="blue-inverse">
-        <AButton :disabled="selectedInvoiceMap.size === 0" :loading="loadingIds.has(EApiId.TRANSACTION_CREATE)" type="primary" @click="onCreate">
+        <AButton :disabled="selectedInvoiceMap.size === 0" :loading="loadIdsHas(EApiId.TRANSACTION_CREATE)" type="primary" @click="onCreate">
           {{ markAsDoneAfterCreate ? 'Thanh toán cho các hóa đơn này' : 'Tạo mới' }}
         </AButton>
       </ATooltip>
@@ -135,7 +135,6 @@ import { invoiceApis } from '@/apis/retailer/source-invoice-mgt/source-invoice-m
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
 import { ETransactionStatus } from '@/enums/api.enum';
 import { EApiId } from '@/enums/request.enum';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { formatDate } from '@/utils/date.util';
 import { percentFormat, stringToNumber, vndFormat } from '@/utils/number.util';
 import { FORMAT_COMMON_DATE } from '@/constants/common.constant';
@@ -153,7 +152,7 @@ const emits = defineEmits<{
 
 const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
 
-const { loadingIds } = storeToRefs(useVisibilityStore());
+const { loadIdsHas } = storeToRefs(useLoaderStore());
 
 const selectedDriverId = ref();
 const markAsDoneAfterCreate = ref(false);

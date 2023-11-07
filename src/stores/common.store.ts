@@ -3,7 +3,7 @@ import { retailerConfigApis } from '@/apis/sys-admin/retailer-mgt/retailer-confi
 export const useCommonStore = defineStore('common-store', () => {
   const retailerTypesState = ref<API.RetailerConfigType[]>([]);
 
-  const getRetailerTypes = async (forceFetch?: boolean) => {
+  const getRetailerConfigTypeCodes = async (forceFetch?: boolean) => {
     if (retailerTypesState.value.length > 0 && !forceFetch) {
       return retailerTypesState.value;
     }
@@ -18,6 +18,6 @@ export const useCommonStore = defineStore('common-store', () => {
   };
 
   return {
-    getRetailerTypes,
+    getRetailerConfigTypeCodes,
   };
 });

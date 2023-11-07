@@ -3,7 +3,7 @@
     <ASpin
       size="large"
       tip="Đang tải..."
-      :spinning="loadingIds.has(EApiId.RETAILER_CONFIG) || loadingIds.has(EApiId.RETAILER_CONFIG_UPDATE)"
+      :spinning="loadIdsHas([EApiId.RETAILER_CONFIG, EApiId.RETAILER_CONFIG_UPDATE])"
     >
       <AForm
         v-bind="formItemLayout"
@@ -79,7 +79,7 @@
         <div class="flex justify-center gap-10">
           <AButton
             type="primary"
-            :loading="loadingIds.has(EApiId.RETAILER_CONFIG_UPDATE)"
+            :loading="loadIdsHas(EApiId.RETAILER_CONFIG_UPDATE)"
             :disabled="false"
             htmlType="submit"
           >
@@ -96,7 +96,6 @@
 
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { useFieldValidation } from '@/composable/useFieldValidation';
 import { EKiotVietConfig } from '@/enums/api.enum';
@@ -112,7 +111,7 @@ const emits = defineEmits<{
   cancel: [v?: any]
 }>();
 
-const { loadingIds } = storeToRefs(useVisibilityStore());
+const { loadIdsHas } = storeToRefs(useLoaderStore());
 const { checkName } = useFieldValidation();
 
 // TODO: any name

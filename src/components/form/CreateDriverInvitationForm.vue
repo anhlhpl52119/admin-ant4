@@ -52,7 +52,6 @@ import { debounce } from 'lodash-es';
 import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
 import { BEGIN_BY_SPACE, MULTIPLE_SPACE_ADJACENT, NO_SCRIPT_INJECTION } from '@/constants/regex.constant';
 import { retailerDriverInvitationApis } from '@/apis/retailer/invitation-mgt/invitation-mgt';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
 
@@ -69,8 +68,9 @@ const FALL_BACK_OPTIONS: CommonOption = {
   label: 'Không tìm thấy kết quả',
   value: '',
 };
+
 const { groupId } = toRefs(props);
-const { loadingIds } = storeToRefs(useVisibilityStore());
+const { loadIdsHas } = storeToRefs(useLoaderStore());
 
 const driversMap = reactive<Map<string, API.Driver>>(new Map()); // driverId => Driver Object
 const selectedDriverId = ref<OrUndefine<string>>();
@@ -88,7 +88,7 @@ const driverOptions = computed<CommonOption[]>(() => {
 
   return drivers.map(i => ({ label: i?.name ?? '', value: i?.id ?? '' }));
 });
-const isFetch = computed(() => loadingIds.value.has(EApiId.DRIVER_SEARCH));
+const isFetch = computed(() => loadIdsHas.value(EApiId.DRIVER_INDEPENDENT_SEARCH));
 const selectedDriver = computed(() => driversMap.get(selectedDriverId.value ?? ''));
 const selectedGroup = computed(() => groupDriverState.options.find(i => i.value === groupDriverState.selected)?.label ?? '');
 
@@ -117,16 +117,6 @@ const composeGroupDriverOptions = async () => {
   groupDriverState.options = rs.data.group_drivers.map(i => ({ label: i?.name ?? '', value: i?.id ?? '' }));
   groupDriverState.selected = groupId?.value ?? groupDriverState.options[0].value?.toString() ?? '';
 };
-
-// const searchMyDriverById = async (driverId: string) => {
-//   const rs = await retailerDriverApis.searchMyDrivers({ query: { id_eq: driverId } });
-//   if (!(rs && rs?.data?.drivers) || !rs.data.drivers.length) {
-//     return;
-//   }
-//   const [driver] = rs.data.drivers;
-//   driversMap.set(driver.id, driver);
-//   selectedDriverId.value = driver.id;
-// };
 
 const onAddDriver = async () => {
   if (!(groupDriverState.selected && selectedDriverId.value)) {

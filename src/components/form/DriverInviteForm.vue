@@ -69,7 +69,6 @@ import { debounce } from 'lodash-es';
 import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
 import { BEGIN_BY_SPACE, MULTIPLE_SPACE_ADJACENT, NO_SCRIPT_INJECTION } from '@/constants/regex.constant';
 import { retailerDriverInvitationApis } from '@/apis/retailer/invitation-mgt/invitation-mgt';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 
 const props = defineProps<{ groupId: string }>();
@@ -79,7 +78,7 @@ const emits = defineEmits<{
   cancel: [v?: any]
 }>();
 
-const { loadingIds } = storeToRefs(useVisibilityStore());
+const { loadIdsHas } = storeToRefs(useLoaderStore());
 
 const driversMap = reactive<Map<string, API.Driver>>(new Map()); // driverId => Driver Object
 const selected = ref<OrUndefine<string>>();
@@ -93,7 +92,7 @@ const driverOptions = computed<CommonOption[]>(() => {
 
   return drivers.map(i => ({ label: i?.name ?? '', value: i?.id ?? '' }));
 });
-const isFetch = computed(() => loadingIds.value.has(EApiId.DRIVER_SEARCH));
+const isFetch = computed(() => loadIdsHas.value(EApiId.DRIVER_SEARCH));
 const selectedDriver = computed(() => driversMap.get(selected.value ?? ''));
 
 const fetchDriver = async (keyword?: string) => {

@@ -174,7 +174,6 @@ declare module 'vue' {
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useUserStore: UnwrapRef<typeof import('../src/stores/user.store')['useUserStore']>
-    readonly useVisibilityStore: UnwrapRef<typeof import('../src/stores/visibility.store')['useVisibilityStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
@@ -256,7 +255,6 @@ declare module '@vue/runtime-core' {
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useUserStore: UnwrapRef<typeof import('../src/stores/user.store')['useUserStore']>
-    readonly useVisibilityStore: UnwrapRef<typeof import('../src/stores/visibility.store')['useVisibilityStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>

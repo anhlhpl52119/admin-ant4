@@ -10,7 +10,6 @@ import { uniqueSlash } from '@/utils/url.util';
 import { EStatusCode } from '@/enums/request.enum';
 import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { useUserStore } from '@/stores/user.store';
 import { UNHANDLED_SERVER_ERROR } from '@/constants/common.constant';
 
@@ -59,7 +58,6 @@ export const request = async <T>(
   config: RequestConfig,
   options: RequestOptions = {},
 ): Promise<T | null> => {
-  const { setLoadingId, removeLoadingId } = useVisibilityStore(); // TODO: remove after migrate ro loader-store
   const { addLoadingItem, removeLoadingItem } = useLoaderStore();
   const userStore = useUserStore();
   // convert request params with 'include' queries
@@ -90,7 +88,6 @@ export const request = async <T>(
   isShowLoading && $message.loading({ content: loadingMessage, key: id });
 
   // set application loading
-  id && setLoadingId(id); // TODO: remove after migrate ro loader-store
   addLoadingItem(id);
 
   // sent request
@@ -123,7 +120,6 @@ export const request = async <T>(
     // if (!successMsg && !errorMsg) {
     //   $message.destroy(id);
     // }
-    removeLoadingId(id); // TODO: remove after migrate ro loader-store
     removeLoadingItem(id);
   }
 };

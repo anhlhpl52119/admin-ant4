@@ -1,6 +1,6 @@
 <template>
   <div class="min-w-650">
-    <ASpin size="large" :spinning="loadingIds.has(EApiId.DRIVER_SEARCH)">
+    <ASpin size="large" :spinning="loadIdsHas(EApiId.DRIVER_SEARCH)">
       <ADescriptions
         :bordered="true"
         size="small"
@@ -34,7 +34,6 @@
 <script lang="ts" setup>
 import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
 import { EApiId } from '@/enums/request.enum';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { formatDate } from '@/utils/date.util';
 
 const props = defineProps<{
@@ -51,7 +50,7 @@ const { driverId, driver } = toRefs(props);
 
 const driverState = ref<OrNull<API.Driver>>(null);
 
-const { loadingIds } = storeToRefs(useVisibilityStore());
+const { loadIdsHas } = storeToRefs(useLoaderStore());
 
 const init = async () => {
   if (driver?.value) {

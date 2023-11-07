@@ -51,7 +51,7 @@ export const useUserStore = defineStore('user-store', () => {
 
   const setupUserMenu = async () => {
     if (!getUserRole.value) {
-      message.error('Không thể định danh người dùng');
+      message.error('Không thể định danh người dùng để tạo trang điều hướng');
       resetToken();
 
       return;
@@ -68,7 +68,7 @@ export const useUserStore = defineStore('user-store', () => {
     userInfo.value = res?.data?.status?.data?.user;
     // get token in header
     if (!(typeof res.headers.getAuthorization === 'function')) {
-      message.error('Không tìm thấy token');
+      message.error('Người dùng chưa đăng nhập');
 
       return;
     }

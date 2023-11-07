@@ -11,15 +11,13 @@
 </template>
 
 <script lang="ts" setup>
-import { useVisibilityStore } from '@/stores/visibility.store';
-
 const props = defineProps<{
   status: OrNullish<string>
   loading?: boolean
   noBorder?: boolean
 }>();
 
-const { isAppLoading } = useVisibilityStore();
+const { isAppLoading } = storeToRefs(useLoaderStore());
 const { status, loading } = toRefs(props);
 
 const generalLoading = computed(() => !status.value && isAppLoading);

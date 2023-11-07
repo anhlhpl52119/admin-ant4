@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ASpin :spinning="loadingIds.has(EApiId.RETAILER_DETAILS) || !retailerState">
+    <ASpin :spinning="loadIdsHas(EApiId.RETAILER_DETAILS) || !retailerState">
       <section class="card mt-0 cursor-default">
         <div class="flex-btw-center">
           <div>
@@ -97,7 +97,7 @@
                       Chỉnh sửa
                     </AButton>
                     <AButton
-                      :loading="loadingIds.has(EApiId.RETAILER_CHECK_REQUIRE_CONFIG)"
+                      :loading="loadIdsHas(EApiId.RETAILER_CHECK_REQUIRE_CONFIG)"
                       @click="checkRequiredConfig(true)"
                     >
                       Kiểm tra cấu hình
@@ -189,7 +189,6 @@
 <script lang="ts" setup>
 import { Modal, message } from 'ant-design-vue';
 
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { useCommonStore } from '@/stores/common.store';
 import { EApiId } from '@/enums/request.enum';
 import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
@@ -209,9 +208,9 @@ const props = defineProps<{
 const ConfigUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerConfigUpdateForm.vue'));
 const RetailerCreateUpdateForm = defineAsyncComponent(() => import('@/components/form/RetailerCreateUpdateForm.vue'));
 
-const { loadingIds } = storeToRefs(useVisibilityStore());
+const { loadIdsHas } = storeToRefs(useLoaderStore());
 const { retailerId } = toRefs(props);
-const { getRetailerTypes } = useCommonStore();
+const { getRetailerConfigTypeCodes } = useCommonStore();
 
 const retailerState = ref<API.Retailer>();
 const driversState = ref<API.Driver[]>([]);
@@ -255,7 +254,7 @@ const initConfig = async () => {
 };
 
 const initDetails = async () => {
-  retailerType.value = await getRetailerTypes();
+  retailerType.value = await getRetailerConfigTypeCodes();
   if (!retailerId?.value) {
     message.error('Thiếu retailerId');
 

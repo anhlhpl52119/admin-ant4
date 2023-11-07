@@ -3,9 +3,9 @@
     <ASpin
       size="large"
       tip="Đang tải..."
-      :spinning="loadingIds.has(EApiId.RETAILER_USER_DETAILS) || loadingIds.has(EApiId.RETAILER_USER_UPDATE)"
+      :spinning="loadIdsHas([EApiId.RETAILER_USER_DETAILS, EApiId.RETAILER_USER_UPDATE])"
     >
-      <template v-if="!loadingIds.has(EApiId.RETAILER_USER_DETAILS)">
+      <template v-if="!loadIdsHas(EApiId.RETAILER_USER_DETAILS)">
         <AForm
           v-bind="formItemLayout"
           :rules="rules"
@@ -52,7 +52,7 @@
           <div class="flex justify-center gap-10">
             <AButton
               type="primary"
-              :loading="loadingIds.has(EApiId.RETAILER_CREATE) || loadingIds.has(EApiId.RETAILER_USER_UPDATE)"
+              :loading="loadIdsHas([EApiId.RETAILER_CREATE, EApiId.RETAILER_USER_UPDATE])"
               :disabled="false"
               htmlType="submit"
             >
@@ -70,7 +70,6 @@
 
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { useFieldValidation } from '@/composable/useFieldValidation';
 import { retailerUserApis } from '@/apis/retailer/user-mgt/user-mgt.api';
@@ -83,8 +82,8 @@ const emits = defineEmits<{
   cancel: [v?: any]
 }>();
 
-const { loadingIds } = storeToRefs(useVisibilityStore());
 const { checkName, checkPhoneNumber, checkEmail } = useFieldValidation();
+const { loadIdsHas } = storeToRefs(useLoaderStore());
 
 const formItemLayout = {
   labelCol: {

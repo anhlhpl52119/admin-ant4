@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useLoaderStore } from './dev-store';
 import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
 import { EApiId } from '@/enums/request.enum';
 import { sleepFor } from '@/utils/common.util';
@@ -23,6 +22,7 @@ const fetch = async () => {
   loader.addLoadingItem(EApiId.RETAILER_SEARCH);
   await sleepFor(1000);
   loader.removeLoadingItem(EApiId.RETAILER_SEARCH);
+  await sleepFor(200);
   loader.addLoadingItem(EApiId.DRIVER_CREATE);
   await sleepFor(2000);
   loader.removeLoadingItem(EApiId.DRIVER_CREATE);
