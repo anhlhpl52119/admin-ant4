@@ -10,7 +10,12 @@ export const useLoaderStore = defineStore('loader-store', {
 
   getters: {
     loadIdsHas: (state) => {
-      return (ids: EApiId[]) => Array.from(state.loadIdSet).some(i => ids.includes(i));
+      return (ids: EApiId[]) => {
+        if (Array.isArray(ids)) {
+          return Array.from(state.loadIdSet).some(i => ids.includes(i));
+        }
+        return Array.from(state.loadIdSet).includes(ids);
+      };
     },
     isAppLoad: (state) => {
       return state.loadIdSet.size > 0;
