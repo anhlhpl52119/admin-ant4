@@ -27,13 +27,7 @@ const fetch = async () => {
   await sleepFor(2000);
   loader.removeLoadingItem(EApiId.DRIVER_CREATE);
 };
-// const fetch2 = async () => {
-//   loader.addLoadingItem(EApiId.BRANCH_SEARCH);
-//   await sleepFor(2000);
-//   loader.removeLoadingItem(EApiId.BRANCH_SEARCH);
-// };
 const asd = () => {
   fetch();
-  // fetch2();
 };
 </script>
