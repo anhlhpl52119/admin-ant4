@@ -1,5 +1,4 @@
 import type { EApiId } from '@/enums/request.enum';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { mergeValues } from '@/utils/common.util';
 
 export interface Res<T> {
@@ -25,7 +24,7 @@ interface Page {
 export const useTableMethod = <T>(
   loadingNameSpace: EApiId,
   fetchFunc: (optional?: ApiCoreQuery<T, any>) => Promise<Res<T>>) => {
-  const { loadingIds } = useVisibilityStore();
+  const { loadIdsHas } = storeToRefs(useLoaderStore());
 
   const rawRecords: Ref<T[]> = ref([]);
 
@@ -38,7 +37,7 @@ export const useTableMethod = <T>(
 
   const rawQueries = ref<QueriesRaw<T>[]>([]);
 
-  const isFetching = computed(() => loadingIds.has(loadingNameSpace));
+  const isFetching = computed(() => loadIdsHas.value(loadingNameSpace));
 
   const apiQueries = computed<ApiQueryAttr<T>>(() => {
     const queries: ApiQueryAttr<T> = {};

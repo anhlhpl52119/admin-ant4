@@ -10,7 +10,6 @@ import { uniqueSlash } from '@/utils/url.util';
 import { EStatusCode } from '@/enums/request.enum';
 import { BrowserStorage } from '@/utils/storage.util';
 import { EStorage } from '@/enums/cache.enum';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { useUserStore } from '@/stores/user.store';
 import { UNHANDLED_SERVER_ERROR } from '@/constants/common.constant';
 
@@ -59,7 +58,7 @@ export const request = async <T>(
   config: RequestConfig,
   options: RequestOptions = {},
 ): Promise<T | null> => {
-  const { setLoadingId, removeLoadingId } = useVisibilityStore();
+  const { addLoadingItem, removeLoadingItem } = useLoaderStore();
   const userStore = useUserStore();
   // convert request params with 'include' queries
   if (config?.params?.includes && config.params.includes.length > 0) {
@@ -81,14 +80,15 @@ export const request = async <T>(
 
   // current role has no accessible to execute api request
   if (permitRoles && !permitRoles.includes(userStore.getUserRole!)) {
-    return $message.error('Bạn không có quyền truy cập tính năng này!');
+    $message.error('Bạn không có quyền truy cập tính năng này!');
+    return null as T;
   }
 
   // show loading
   isShowLoading && $message.loading({ content: loadingMessage, key: id });
 
   // set application loading
-  id && setLoadingId(id);
+  addLoadingItem(id);
 
   // sent request
   try {
@@ -120,6 +120,6 @@ export const request = async <T>(
     // if (!successMsg && !errorMsg) {
     //   $message.destroy(id);
     // }
-    removeLoadingId(id);
+    removeLoadingItem(id);
   }
 };

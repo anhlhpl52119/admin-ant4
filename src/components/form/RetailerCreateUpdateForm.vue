@@ -3,9 +3,9 @@
     <ASpin
       size="large"
       tip="Đang tải..."
-      :spinning="loadingIds.has(EApiId.RETAILER_DETAILS) || loadingIds.has(EApiId.RETAILER_UPDATE) || loadingIds.has(EApiId.RETAILER_CREATE)"
+      :spinning="loadIdsHas([EApiId.RETAILER_DETAILS, EApiId.RETAILER_UPDATE, EApiId.RETAILER_CREATE])"
     >
-      <template v-if="!loadingIds.has(EApiId.RETAILER_DETAILS)">
+      <template v-if="!loadIdsHas(EApiId.RETAILER_DETAILS)">
         <AForm
           v-bind="formItemLayout"
           :rules="rules"
@@ -69,10 +69,10 @@
               <ASelect
                 v-model:value="createUpdateBodyState.source"
                 showSearch
-                :loading="loadingIds.has(EApiId.RETAILER_TYPES)"
+                :loading="loadIdsHas(EApiId.RETAILER_TYPES)"
                 placeholder="Chọn nguồn"
                 :options="options"
-                :disabled="loadingIds.has(EApiId.RETAILER_TYPES)"
+                :disabled="loadIdsHas(EApiId.RETAILER_TYPES)"
                 :filterOption="filterOption"
               />
             </FieldTitle>
@@ -80,7 +80,7 @@
           <div class="flex justify-center gap-10">
             <AButton
               type="primary"
-              :loading="loadingIds.has(EApiId.RETAILER_CREATE) || loadingIds.has(EApiId.RETAILER_UPDATE)"
+              :loading="loadIdsHas([EApiId.RETAILER_CREATE, EApiId.RETAILER_UPDATE])"
               :disabled="false"
               htmlType="submit"
             >
@@ -99,7 +99,6 @@
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form';
 import type { DefaultOptionType } from 'ant-design-vue/es/select';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { useFieldValidation } from '@/composable/useFieldValidation';
 import { useCommonStore } from '@/stores/common.store';
@@ -113,8 +112,8 @@ const emits = defineEmits<{
   cancel: [v?: any]
 }>();
 
-const { loadingIds } = storeToRefs(useVisibilityStore());
-const { getRetailerTypes } = useCommonStore();
+const { loadIdsHas } = storeToRefs(useLoaderStore());
+const { getRetailerConfigTypeCodes } = useCommonStore();
 const { checkCode, checkName, checkPhoneNumber, checkEmail } = useFieldValidation();
 
 const formItemLayout = {
@@ -177,7 +176,7 @@ const onValidateSuccess = async () => {
 };
 
 const initOption = async () => {
-  const types = await getRetailerTypes();
+  const types = await getRetailerConfigTypeCodes();
   if (types.length === 0) {
     return;
   }

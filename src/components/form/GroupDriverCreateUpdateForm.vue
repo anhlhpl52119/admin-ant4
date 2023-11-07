@@ -3,9 +3,9 @@
     <ASpin
       size="large"
       tip="Đang tải..."
-      :spinning="loadingIds.has(EApiId.GROUP_DRIVER_DETAILS) || loadingIds.has(EApiId.GROUP_DRIVER_UPDATE)"
+      :spinning="loadIdsHas([EApiId.GROUP_DRIVER_DETAILS, EApiId.GROUP_DRIVER_UPDATE])"
     >
-      <template v-if="!loadingIds.has(EApiId.GROUP_DRIVER_DETAILS)">
+      <template v-if="!loadIdsHas(EApiId.GROUP_DRIVER_DETAILS)">
         <AForm
           v-bind="formItemLayout"
           :rules="rules"
@@ -47,7 +47,7 @@
           <div class="flex justify-center gap-10">
             <AButton
               type="primary"
-              :loading="loadingIds.has(EApiId.RETAILER_CREATE) || loadingIds.has(EApiId.RETAILER_USER_UPDATE)"
+              :loading="loadIdsHas([EApiId.RETAILER_CREATE, EApiId.RETAILER_USER_UPDATE])"
               :disabled="false"
               htmlType="submit"
             >
@@ -65,7 +65,6 @@
 
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { useFieldValidation } from '@/composable/useFieldValidation';
 import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
@@ -77,8 +76,8 @@ const emits = defineEmits<{
   cancel: [v?: any]
 }>();
 
-const { loadingIds } = storeToRefs(useVisibilityStore());
 const { checkName } = useFieldValidation();
+const { loadIdsHas } = storeToRefs(useLoaderStore());
 
 const formItemLayout = {
   labelCol: {

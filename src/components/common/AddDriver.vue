@@ -13,7 +13,7 @@
     </div>
 
     <div class="mt-20 flex gap-16 justify-center">
-      <AButton type="primary" :disabled="!selectedId" :loading="loadingIds.has(EApiId.GROUP_DRIVER_ADD_DRIVER)" @click="onSubmit">
+      <AButton type="primary" :disabled="!selectedId" :loading="loadIdsHas([EApiId.GROUP_DRIVER_ADD_DRIVER])" @click="onSubmit">
         Thêm
       </AButton>
       <AButton @click="$emit('success', false)">
@@ -27,13 +27,12 @@
 import { groupDriverApis } from '@/apis/retailer/group-driver-mgt/group-driver-mgt';
 import { driverApis } from '@/apis/sys-admin/driver-mgt/driver-mgt';
 import { EApiId } from '@/enums/request.enum';
-import { useVisibilityStore } from '@/stores/visibility.store';
 
 const props = defineProps<{ groupId: string }>();
 const emits = defineEmits<{
   success: [v: boolean]
 }>();
-const { loadingIds } = storeToRefs(useVisibilityStore());
+const { loadIdsHas } = storeToRefs(useLoaderStore());
 const selectedId = ref('');
 
 const onSubmit = async () => {

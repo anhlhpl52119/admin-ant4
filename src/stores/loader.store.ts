@@ -10,18 +10,23 @@ export const useLoaderStore = defineStore('loader-store', {
 
   getters: {
     loadIdsHas: (state) => {
-      return (ids: EApiId[]) => Array.from(state.loadIdSet).some(i => ids.includes(i));
+      return (ids: EApiId[] | EApiId) => {
+        if (Array.isArray(ids)) {
+          return Array.from(state.loadIdSet).some(i => ids.includes(i));
+        }
+        return Array.from(state.loadIdSet).includes(ids);
+      };
     },
-    isAppLoad: (state) => {
+    isAppLoading: (state) => {
       return state.loadIdSet.size > 0;
     },
   },
   actions: {
-    addLoadingItem(id: EApiId) {
-      this.loadIdSet.add(id);
+    addLoadingItem(id?: EApiId) {
+      id && this.loadIdSet.add(id);
     },
-    removeLoadingItem(id: EApiId) {
-      this.loadIdSet.delete(id);
+    removeLoadingItem(id?: EApiId) {
+      id && this.loadIdSet.delete(id);
     },
     forceStopLoading() {
       this.loadIdSet.clear();

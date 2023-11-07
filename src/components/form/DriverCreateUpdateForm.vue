@@ -3,9 +3,9 @@
     <ASpin
       size="large"
       tip="Đang tải..."
-      :spinning="loadingIds.has(EApiId.DRIVER_DETAILS) || loadingIds.has(EApiId.DRIVER_UPDATE) || loadingIds.has(EApiId.DRIVER_CREATE)"
+      :spinning="loadIdsHas([EApiId.DRIVER_DETAILS, EApiId.DRIVER_UPDATE, EApiId.DRIVER_CREATE])"
     >
-      <template v-if="!loadingIds.has(EApiId.DRIVER_DETAILS)">
+      <template v-if="!loadIdsHas(EApiId.DRIVER_DETAILS)">
         <AForm
           v-bind="formItemLayout"
           :rules="rules"
@@ -66,7 +66,7 @@
           <div class="flex justify-center gap-10">
             <AButton
               type="primary"
-              :loading="loadingIds.has(EApiId.DRIVER_CREATE) || loadingIds.has(EApiId.DRIVER_UPDATE)"
+              :loading="loadIdsHas([EApiId.DRIVER_CREATE, EApiId.DRIVER_UPDATE])"
               htmlType="submit"
             >
               Xác nhận
@@ -83,7 +83,6 @@
 
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form';
-import { useVisibilityStore } from '@/stores/visibility.store';
 import { EApiId } from '@/enums/request.enum';
 import { useFieldValidation } from '@/composable/useFieldValidation';
 import { retailerApis } from '@/apis/sys-admin/retailer-mgt/retailer-mgt';
@@ -110,7 +109,7 @@ const formItemLayout = {
   },
 };
 
-const { loadingIds } = storeToRefs(useVisibilityStore());
+const { loadIdsHas } = storeToRefs(useLoaderStore());
 const { checkCode, checkName, checkPhoneNumber } = useFieldValidation();
 
 const isUpdateMode = computed(() => !!props.driverId);
