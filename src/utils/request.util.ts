@@ -85,7 +85,7 @@ export const request = async <T>(
   }
 
   // show loading
-  isShowLoading && $message.loading({ content: loadingMessage, key: id });
+  isShowLoading && $message.loading({ content: loadingMessage, duration: 0, key: id });
 
   // set application loading
   addLoadingItem(id);

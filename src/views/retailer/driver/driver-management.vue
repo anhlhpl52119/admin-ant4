@@ -54,7 +54,7 @@
         <ATableColumn key="mail" :ellipsis="true" width="20rem">
           <template #title>
             <div class=" flex gap-5 items-center">
-              <i class="i-material-symbols:alternate-email-rounded block text-22 text-primary" />
+              <i class="i-material-symbols:alternate-email-rounded block text-20 text-primary" />
               <span>Email</span>
             </div>
           </template>
@@ -69,7 +69,7 @@
         </ATableColumn>
         <ATableColumn key="status" title="Status" width="15rem" align="center" fixed="right">
           <template #default="{ record }: {record: API.Driver}">
-            <DynamicTag :status="record?.status ?? ''" />
+            <DynamicTag :status="record?.status" />
           </template>
         </ATableColumn>
         <template #emptyText>
@@ -95,6 +95,7 @@ const columnWidthRef = reactive<Record<string, number>>({
   name: 170,
   address: 400,
 });
+
 const fetch = async (params?: API.SearchDriverQueryParams) => {
   const res = await retailerDriverApis.searchMyDrivers(params);
 
