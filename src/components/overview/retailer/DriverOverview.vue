@@ -35,7 +35,7 @@ import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
 import { invoiceApis } from '@/apis/retailer/source-invoice-mgt/source-invoice-mgt';
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
 import { EApiId } from '@/enums/request.enum';
-import { formatDate } from '@/utils/date.util';
+import { formatDate, timeFromNow } from '@/utils/date.util';
 
 const props = defineProps<{
   driverId: string
