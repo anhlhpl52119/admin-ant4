@@ -33,10 +33,10 @@
             @reload="reload"
           />
         </template>
-        <ATableColumn key="name" title="Tên tài xế" :resizable="true" :ellipsis="true" :maxWidth="300" :minWidth="100" :width="columnWidthRef.name" fixed="left">
+        <ATableColumn key="driver" title="Tài xế thụ hưởng">
           <template #default="{ record }: {record: API.Driver}">
-            <AButton type="link" class="p0">
-              {{ record.name }}
+            <AButton type="link" class="p0" @click="showDriverInfo(record?.id ?? '')">
+              {{ record?.name || '_' }}
             </AButton>
           </template>
         </ATableColumn>
@@ -89,13 +89,14 @@ import { copyText } from '@/utils/common.util';
 import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
 
 const CreateDriverInvitationForm = defineAsyncComponent(() => import('@/components/form/CreateDriverInvitationForm.vue'));
+const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
 
 const columnWidthRef = reactive<Record<string, number>>({
   name: 170,
   address: 400,
 });
 const fetch = async (params?: API.SearchDriverQueryParams) => {
-  const res = await retailerDriverApis.searchIndependentDrivers(params);
+  const res = await retailerDriverApis.searchMyDrivers(params);
 
   if (!(res && res.data) || res.data.drivers.length === 0) {
     return FALLBACK_PAGINATION_API_RESPONSE;
@@ -133,6 +134,18 @@ const handleResizeColumn = (width: number, colInfo: any) => {
     return;
   }
   columnWidthRef[colInfo.key] = width;
+};
+
+const showDriverInfo = (driverId: string) => {
+  const modalId = coreModal.show({
+    component: DriverInfo,
+    props: {
+      driverId,
+    },
+    emits: {
+      close: () => coreModal.close(modalId),
+    },
+  });
 };
 
 const openModel = () => {
