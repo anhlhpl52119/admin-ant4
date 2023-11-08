@@ -34,12 +34,15 @@
 
         <ATableColumn key="code" title="Mã thanh toán" :resizable="true" :ellipsis="true" :width="150" fixed="left">
           <template #default="{ record }: {record: API.TransactionHistory}">
-            <AButton type="link" class="p0" @click="showTransactionOverview(record.id)">
-              {{ record?.transaction_history_code || '_' }}
-            </AButton>
+            <div>
+              <FieldNewBadge :createTime="record?.created_at">
+                <AButton type="link" class="p0" @click="showTransactionOverview(record.id)">
+                  {{ record?.transaction_history_code || '_' }}
+                </AButton>
+              </FieldNewBadge>
+            </div>
           </template>
         </ATableColumn>
-
         <ATableColumn key="driver" title="Tài xế thụ hưởng">
           <template #default="{ record }: {record: API.TransactionHistory}">
             <ul>

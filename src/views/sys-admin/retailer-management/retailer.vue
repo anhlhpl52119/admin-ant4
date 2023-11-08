@@ -70,7 +70,7 @@
         </ATableColumn>
         <ATableColumn key="status" title="Trạng thái" width="17rem" align="center" fixed="right">
           <template #default="{ record }: {record: API.Retailer}">
-            <DynamicTag :status="record?.status ?? ''" />
+            <DynamicTag :status="record?.status" />
           </template>
         </ATableColumn>
       </ATable>
