@@ -12,8 +12,8 @@ declare global {
       address: string;
       status: string;
       source: string;
-      created_at: Date;
-      updated_at: Date;
+      created_at: string;
+      updated_at: string;
       user_id: string;
       // relationship
       group_drivers?: GroupDriver[];

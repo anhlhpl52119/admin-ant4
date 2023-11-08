@@ -104,7 +104,7 @@ import { vndFormat } from '@/utils/number.util';
 import { formatDate } from '@/utils/date.util';
 import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
 
-const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
+const DriverInfo2 = defineAsyncComponent(() => import('@/components/overview/retailer/DriverOverview.vue'));
 const CreateTransaction = defineAsyncComponent(() => import('@/components/form/CreateTransaction.vue'));
 const TransactionOverview = defineAsyncComponent(() => import('@/components/overview/retailer/TransactionOverview.vue'));
 
@@ -148,15 +148,15 @@ const handleSearchFormTrigger = (e: QueriesRaw<API.TransactionHistory>[]) => {
 };
 
 const showDriverInfo = (driverId: string) => {
-  const modalId = coreModal.show({
-    component: DriverInfo,
+  coreModal.show({
+    component: DriverInfo2,
     showCloseBtn: true,
+    modalWidth: '80rem',
     props: {
       driverId,
+      showRecentInvoices: true,
+      showRecentTransaction: true,
     },
-    // emits: {
-    //   close: () => coreModal.close(modalId),
-    // },
   });
 };
 

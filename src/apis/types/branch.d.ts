@@ -14,8 +14,8 @@ declare global {
       source: string;
       source_id?: string;
       retailer_id: string;
-      created_at?: Date;
-      updated_at?: Date;
+      created_at?: string;
+      updated_at?: string;
       // relationship
       retailer?: Retailer;
     };

@@ -19,8 +19,8 @@ declare global {
       status: string;
       source: string;
       user_id: string;
-      created_at?: Date;
-      updated_at?: Date;
+      created_at?: string;
+      updated_at?: string;
       subdomain_api?: string;
       subdomain_fe?: string;
       sync_status: `${ERetailerSyncStatus}`;
@@ -39,7 +39,7 @@ declare global {
       role: `${ERole}`;
       phone: string;
       default_password?: string;
-      default_password_changed_at?: Date;
+      default_password_changed_at?: string;
       belonged_retailer?: Retailer;
     };
 

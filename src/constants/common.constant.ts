@@ -4,6 +4,7 @@ import { ERole } from '@/enums/common.enum';
 export const DEFAULT_ROUTE_PATH = '/dashboard/page1';
 
 export const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7; // 7 days
+export const UNIX_TIMESTAMP_12_HOURS = 60 * 60 * 24; // 24 hours
 
 export const DEFAULT_ROLE_ROUTE = {
   [ERole.ADMIN]: '/retailer/management',
