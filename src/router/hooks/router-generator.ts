@@ -1,7 +1,9 @@
+import { cloneDeep } from 'lodash-es';
 import type { CustomRoute } from '@/router/typing';
 import { ERouteName } from '@/enums/router.enum';
 import router from '@/router';
 import { uniqueSlash } from '@/utils/url.util';
+import { ERole } from '@/enums/common.enum';
 
 const filterRoutesByRole = (routes: CustomRoute[], role: API.UserRole) => {
   const result: CustomRoute[] = [];
@@ -45,25 +47,25 @@ export const generatorNamePath = (
 };
 
 export const dynamicRouterGenerator = async (userRole: API.UserRole) => {
-  let newImpRoutes: CustomRoute;
-  if (userRole === 'sys') {
+  let dynamicRoute: CustomRoute;
+  if (userRole === ERole.ADMIN) {
     const { sysRoutes } = await import('@/router/module/sys-admin');
-    newImpRoutes = sysRoutes;
+    dynamicRoute = sysRoutes;
   }
   else {
     const { retailerRoutes } = await import('@/router/module/retailer');
-    newImpRoutes = retailerRoutes;
+    dynamicRoute = retailerRoutes;
   }
   try {
-    const childRoute = newImpRoutes?.children ?? [];
-    const removeRoute = router.addRoute(newImpRoutes);
-    const item = filterRoutesByRole(childRoute, userRole);
+    const child = dynamicRoute?.children ?? [];
+    const removeRoute = router.addRoute(dynamicRoute);
+    const permitRoutes = filterRoutesByRole(child, userRole);
     removeRoute();
-    newImpRoutes.children = [...item];
-    router.addRoute(newImpRoutes);
+    dynamicRoute.children = cloneDeep(permitRoutes);
+    router.addRoute(dynamicRoute);
     router.removeRoute(ERouteName.LOGIN);
     return Promise.resolve({
-      routes: newImpRoutes.children,
+      routes: dynamicRoute.children,
     });
   }
   catch (error) {

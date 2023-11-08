@@ -3,7 +3,6 @@
     <CommonPageTitle
       title="Quản lý chi nhánh"
       actionBtnLabel="Thêm chi nhánh"
-      @onClickAction="openModel()"
     />
 
     <CommonTableSearchForm
@@ -126,8 +125,5 @@ const onSearch = (e: QueriesRaw<API.Branch>[]) => {
 
 const handleResizeColumn = (w: any, col: any) => {
   col.width = w;
-};
-
-const openModel = (userId?: string) => {
 };
 </script>
