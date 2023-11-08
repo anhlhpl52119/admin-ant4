@@ -150,12 +150,13 @@ const handleSearchFormTrigger = (e: QueriesRaw<API.TransactionHistory>[]) => {
 const showDriverInfo = (driverId: string) => {
   const modalId = coreModal.show({
     component: DriverInfo,
+    showCloseBtn: true,
     props: {
       driverId,
     },
-    emits: {
-      close: () => coreModal.close(modalId),
-    },
+    // emits: {
+    //   close: () => coreModal.close(modalId),
+    // },
   });
 };
 

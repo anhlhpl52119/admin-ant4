@@ -17,6 +17,8 @@ declare global {
     ComponentGenericCapture<T> & {
       title?: string;
       maskCloseable?: boolean;
+      modalWidth?: string | number;
+      showCloseBtn?: boolean;
     };
 
   type CoreAppModal = {
@@ -28,6 +30,7 @@ declare global {
     isOpen: boolean;
     modalWidth?: string | number;
     maskCloseable?: boolean;
+    showCloseBtn?: boolean;
   };
 
   type CoreAsyncAlert = {

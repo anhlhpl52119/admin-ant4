@@ -4,7 +4,7 @@
       :open="value.isOpen"
       destroyOnClose
       centered
-      :footer="null"
+      :footer="value.showCloseBtn ? undefined : null"
       :width="value.modalWidth ?? 'auto'"
       :maskClosable="value.maskCloseable ?? false"
       :title="value.headerTitle ?? ''"
@@ -17,6 +17,13 @@
         v-on="value?.event ?? {}"
         @cancel="closeModal(id.toString())"
       />
+      <template v-if="value.showCloseBtn" #footer>
+        <div class="flex flex-row-reverse">
+          <AButton @click="closeModal(id.toString())">
+            Đóng
+          </AButton>
+        </div>
+      </template>
     </AModal>
   </template>
 </template>
