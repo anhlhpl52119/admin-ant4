@@ -3,12 +3,12 @@
     <ADropdown :trigger="['click']">
       <div class="flex items-center gap-10 cursor-pointer">
         <div>
-          <AAvatar :size="40">
+          <AAvatar :size="37">
             USER
           </AAvatar>
         </div>
         <div class="w-100 truncate">
-          <span class="block text-spotlight text-16 text-primary">{{ userInfo?.name || '-' }}}</span>
+          <span class="block text-spotlight text-15 text-primary">{{ userInfo?.name || '-' }}}</span>
           <DynamicTag class="mt-5" :status="userInfo?.role" />
         </div>
       </div>
