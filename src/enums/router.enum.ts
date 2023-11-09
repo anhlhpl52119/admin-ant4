@@ -67,4 +67,7 @@ export enum ERouteName {
   TRANSACTION_HISTORY = 'transaction-history',
   TRANSACTION_HISTORY_MANAGEMENT = 'transaction-history-management',
   TRANSACTION_HISTORY_DETAIL = 'transaction-history-details',
+
+  RETAILER_INFO = 'retailer-info',
+  RETAILER_INFO_DETAIL = 'retailer-info-detail',
 }

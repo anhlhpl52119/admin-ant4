@@ -1,0 +1,55 @@
+<template>
+  <header class="h-64 bg-white flex justify-end items-center px-20">
+    <ADropdown :trigger="['click']">
+      <div class="flex items-center gap-10 cursor-pointer">
+        <div>
+          <AAvatar :size="40">
+            USER
+          </AAvatar>
+        </div>
+        <div class="w-100 truncate">
+          <span class="block text-spotlight text-16 text-primary">Retailer 1</span>
+          <span class="block text-desc">Manager</span>
+        </div>
+      </div>
+
+      <template #overlay>
+        <AMenu class="w-150">
+          <AMenuItem>
+            <div class="font-500 text-15">
+              <RouterLink :to="{ name: ERouteName.RETAILER_INFO_DETAIL }">
+                Thông tin
+              </RouterLink>
+            </div>
+          </AMenuItem>
+          <AMenuDivider />
+          <AMenuItem>
+            <div class="font-500 text-15">
+              <i class="i-material-symbols:key-rounded inline-block" />
+              <span class="ml-7">Đổi mật khẩu</span>
+            </div>
+          </AMenuItem>
+          <AMenuItem @click="doLogout">
+            <div class="text-red hover:underline font-600 text-15">
+              <PoweroffOutlined />
+              <span class="ml-7">Đăng xuất</span>
+            </div>
+          </AMenuItem>
+        </AMenu>
+      </template>
+    </ADropdown>
+  </header>
+</template>
+
+<script lang="ts" setup>
+import { PoweroffOutlined } from '@ant-design/icons-vue';
+import { authApis } from '@/apis/auth/auth.api';
+import { ERouteName } from '@/enums/router.enum';
+import { BrowserStorage } from '@/utils/storage.util';
+
+const doLogout = async () => {
+  await authApis.logout();
+  BrowserStorage.clear();
+  location.reload();
+};
+</script>

@@ -22,11 +22,7 @@
       </AMenu>
     </ALayoutSider>
     <ALayout class="bg-abg">
-      <header class="h-64 bg-white flex-center">
-        <AButton danger @click="doLogout">
-          Đăng xuất
-        </AButton>
-      </header>
+      <RetailerLayoutHeader />
       <ALayoutContent class="relative p-15 h-full">
         <PageContent />
       </ALayoutContent>
@@ -36,12 +32,11 @@
 
 <script lang="ts" setup>
 import CustomSubMenu from './left-menu/CustomSubMenu.vue';
+import RetailerLayoutHeader from './header/RetailerLayoutHeader.vue';
 import PageContent from '@/layout/retailer-layout/page-content/index.vue';
 import { useUserStore } from '@/stores/user.store';
 import { ERouteName } from '@/enums/router.enum';
-import { BrowserStorage } from '@/utils/storage.util';
 import type { CustomRoute } from '@/router/typing';
-import { authApis } from '@/apis/auth/auth.api';
 
 const routes = useRoute();
 const route = useRoute();
@@ -57,12 +52,6 @@ const activeKey = ref<string[]>(
 );
 const selectedKeys = computed(() => [routes?.name?.toString() ?? ERouteName.DASHBOARD]);
 const _test = computed(() => route.matched);
-
-const doLogout = async () => {
-  await authApis.logout();
-  BrowserStorage.clear();
-  location.reload();
-};
 
 function findParentRouteName(
   routes: CustomRoute[],
