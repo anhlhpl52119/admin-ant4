@@ -30,7 +30,7 @@ const statusColorMap: Record<string, string[]> = {
   processing: ['processing'], // yellow
   geekblue: ['not_config'], // bg: #f0f5ff || border: #adc6ff
   cyan: ['ready_to_sync', 'active'], // bg: #e6fffb || border: #87e8de
-  magenta: ['user'], // bg: #fff0f6 || border: #ffadd2
+  magenta: ['user', 'manager'], // bg: #fff0f6 || border: #ffadd2
 };
 
 const statusTextMap: Record<string, string> = {
@@ -47,10 +47,12 @@ const statusTextMap: Record<string, string> = {
   user: 'Nhân viên',
   processing: 'Đang tải',
   active: 'Đang hoạt động',
+  manager: 'Quản lý',
 };
 
 const statusIconMap: Record<string, string> = {
   'active': 'i-material-symbols:verified-user-rounded',
+  'manager': 'i-material-symbols:verified-user-rounded',
   'in-active': 'i-fluent:plug-disconnected-20-filled',
   'unknown': 'i-pajamas:severity-unknown',
   'processing;': 'i-svg-spinners:tadpole',

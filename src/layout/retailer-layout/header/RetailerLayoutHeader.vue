@@ -8,8 +8,8 @@
           </AAvatar>
         </div>
         <div class="w-100 truncate">
-          <span class="block text-spotlight text-16 text-primary">Retailer 1</span>
-          <span class="block text-desc">Manager</span>
+          <span class="block text-spotlight text-16 text-primary">{{ userInfo?.name || '-' }}}</span>
+          <DynamicTag class="mt-5" :status="userInfo?.role" />
         </div>
       </div>
 
@@ -46,10 +46,24 @@ import { PoweroffOutlined } from '@ant-design/icons-vue';
 import { authApis } from '@/apis/auth/auth.api';
 import { ERouteName } from '@/enums/router.enum';
 import { BrowserStorage } from '@/utils/storage.util';
+import { useUserStore } from '@/stores/user.store';
+
+const userInfo = ref<API.UserLoginInfo | null>();
+const userStore = useUserStore();
+
+const getUserInfo = async () => {
+  if (userStore.getUserInfo) {
+    userInfo.value = userStore.getUserInfo;
+    return;
+  }
+  await userStore.verifyUser();
+  userInfo.value = userStore.getUserInfo;
+};
 
 const doLogout = async () => {
   await authApis.logout();
   BrowserStorage.clear();
   location.reload();
 };
+getUserInfo();
 </script>
