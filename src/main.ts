@@ -1,11 +1,7 @@
 import { createApp } from 'vue';
-
-// import dayjs from 'dayjs';
 import App from './App.vue';
 import * as plugins from '@/plugins';
 import { setupRouter } from '@/router';
-
-// import 'dayjs//locale/vi';
 
 const app = createApp(App);
 

@@ -86,7 +86,7 @@ const props = defineProps<{
 
 const emits = defineEmits<{
   search: [v: QueriesRaw<T>[]]
-  reset: [v: void]
+  reset: [v?: any]
 }>();
 
 const { loading } = toRefs(props);
