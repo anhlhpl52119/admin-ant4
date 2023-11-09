@@ -48,19 +48,19 @@
             {{ record?.source_invoice_code || '_' }}
           </template>
         </ATableColumn>
-        <ATableColumn key="create_date" title="Ngày thực hiện" :ellipsis="true" align="center">
+        <ATableColumn key="invoice_date" title="Ngày lập hóa đơn" :ellipsis="true" align="center">
           <template #default="{ record }: {record: API.SourceInvoice}">
-            {{ formatDate(record?.created_at) || '_' }}
+            {{ formatDate(record?.invoice_date) || '_' }}
           </template>
         </ATableColumn>
-        <ATableColumn key="update_date" title="Ngày chi trả" :ellipsis="true" align="center">
-          <template #default="{ record }: {record: API.SourceInvoice}">
-            {{ formatDate(record?.updated_at) || '_' }}
-          </template>
-        </ATableColumn>
-        <ATableColumn key="amount" title="Tổng tiền" :ellipsis="true" align="right">
+        <ATableColumn key="amount" title="Tổng hóa đơn" :ellipsis="true" align="right">
           <template #default="{ record }: {record: API.SourceInvoice}">
             {{ vndFormat(record?.total_amount) || '_' }}
+          </template>
+        </ATableColumn>
+        <ATableColumn key="roses" title="Hoa hồng" :ellipsis="true" align="right">
+          <template #default="{ record }: {record: API.SourceInvoice}">
+            {{ vndFormat(invoiceNetTake(record)) || '_' }}
           </template>
         </ATableColumn>
         <template #summary>
@@ -87,6 +87,7 @@
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
 import { formatDate } from '@/utils/date.util';
 import { vndFormat } from '@/utils/number.util';
+import { invoiceNetTake } from '@/composable/useCommonComposable';
 
 const props = defineProps<{
   id: string

@@ -98,8 +98,8 @@ export const useTableMethod = <T>(
     fetchData({ page: 1 });
   };
 
+  // fetch on init
   fetchData();
-
   return {
     isFetching,
     tableRecords: rawRecords,

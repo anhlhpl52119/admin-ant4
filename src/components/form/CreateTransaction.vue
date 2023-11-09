@@ -136,8 +136,9 @@ import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transact
 import { ETransactionStatus } from '@/enums/api.enum';
 import { EApiId } from '@/enums/request.enum';
 import { formatDate } from '@/utils/date.util';
-import { percentFormat, stringToNumber, vndFormat } from '@/utils/number.util';
+import { percentFormat, vndFormat } from '@/utils/number.util';
 import { FORMAT_COMMON_DATE } from '@/constants/common.constant';
+import { invoiceNetTake } from '@/composable/useCommonComposable';
 
 type RangeValue = [Dayjs, Dayjs] | [string, string];
 
@@ -194,25 +195,6 @@ const markAsDoneDirectly = async (isCheck: boolean) => {
   if (!confirm) { return; }
 
   markAsDoneAfterCreate.value = true;
-};
-
-const invoiceNetTake = (invoice: API.SourceInvoice) => {
-  const { commission_rate, total_amount, tax, discount } = invoice;
-  if (!total_amount) {
-    return 0;
-  }
-  let amount = Math.round(total_amount);
-  const rate = stringToNumber(commission_rate) / 100;
-  if (rate) {
-    amount = Math.round(amount * rate);
-  }
-  if (tax) {
-    // TODO: prepare for additional logic later. this not available right now
-  }
-  if (discount) {
-    // TODO: prepare for add additional later. this not available right now
-  }
-  return amount;
 };
 
 const totalSelectedInvoicesAmount = computed(() => {
@@ -273,7 +255,6 @@ const onRangeChange = (dates: RangeValue, dateStrings: [string, string]) => {
       invoice_date_gteq: dateStrings[0],
       invoice_date_lteq: dateStrings[1],
     });
-    // console.log('From: ', dates[0], ', to: ', dates[1]);
     console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
   }
   else {
