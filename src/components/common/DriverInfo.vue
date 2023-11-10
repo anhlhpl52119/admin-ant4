@@ -23,11 +23,6 @@
         </ADescriptionsItem>
       </ADescriptions>
     </ASpin>
-    <!-- <div v-if="!hideExtraBtn" class="flex flex-row-reverse mt-16">
-      <AButton @click="$emit('cancel')">
-        Đóng
-      </AButton>
-    </div> -->
   </div>
 </template>
 
