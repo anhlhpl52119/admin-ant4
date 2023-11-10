@@ -15,12 +15,10 @@
 
       <template #overlay>
         <AMenu class="w-150">
-          <AMenuItem>
-            <div class="font-500 text-15">
-              <RouterLink :to="{ name: ERouteName.RETAILER_INFO_DETAIL }">
-                Thông tin
-              </RouterLink>
-            </div>
+          <AMenuItem class="font-500 text-15">
+            <RouterLink :to="{ name: ERouteName.RETAILER_INFO_DETAIL }">
+              Thông tin
+            </RouterLink>
           </AMenuItem>
           <AMenuDivider />
           <AMenuItem>
