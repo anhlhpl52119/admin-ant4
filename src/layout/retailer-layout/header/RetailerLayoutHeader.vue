@@ -8,7 +8,7 @@
           </AAvatar>
         </div>
         <div class="w-100 truncate">
-          <span class="block text-spotlight text-15 text-primary">{{ userInfo?.name || '-' }}}</span>
+          <span class="block text-spotlight text-15 text-primary">{{ userInfo?.name || '-' }}</span>
           <DynamicTag class="mt-5" :status="userInfo?.role" />
         </div>
       </div>
@@ -21,7 +21,7 @@
             </RouterLink>
           </AMenuItem>
           <AMenuDivider />
-          <AMenuItem>
+          <AMenuItem @click="onOpenChangePass">
             <div class="font-500 text-15">
               <i class="i-material-symbols:key-rounded inline-block" />
               <span class="ml-7">Đổi mật khẩu</span>
@@ -46,6 +46,7 @@ import { ERouteName } from '@/enums/router.enum';
 import { BrowserStorage } from '@/utils/storage.util';
 import { useUserStore } from '@/stores/user.store';
 
+const ChangePasswordForm = defineAsyncComponent(() => import('@/components/form/ChangePasswordForm.vue'));
 const userInfo = ref<API.UserLoginInfo | null>();
 const userStore = useUserStore();
 
@@ -62,6 +63,14 @@ const doLogout = async () => {
   await authApis.logout();
   BrowserStorage.clear();
   location.reload();
+};
+const onOpenChangePass = () => {
+  coreModal.show({
+    title: 'Đổi mật khẩu',
+    component: ChangePasswordForm,
+    props: {},
+    modalWidth: '40rem',
+  });
 };
 getUserInfo();
 </script>

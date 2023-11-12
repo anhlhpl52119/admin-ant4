@@ -56,6 +56,7 @@ declare module 'vue' {
     CAppModal: typeof import('./../src/components/core/CAppModal/CAppModal.vue')['default']
     CAsyncAlertDialog: typeof import('./../src/components/core/CAsyncAlertDialog/CAsyncAlertDialog.vue')['default']
     CFetchOption: typeof import('./../src/components/core/CFetchOption/CFetchOption.vue')['default']
+    ChangePasswordForm: typeof import('./../src/components/form/ChangePasswordForm.vue')['default']
     CInput: typeof import('./../src/components/core/CInput/CInput.vue')['default']
     CommonPageTitle: typeof import('./../src/components/common/CommonPageTitle.vue')['default']
     CommonTableHeader: typeof import('./../src/components/common/CommonTableHeader.vue')['default']

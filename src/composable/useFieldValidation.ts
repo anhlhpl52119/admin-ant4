@@ -1,4 +1,5 @@
 import type { Rule } from 'ant-design-vue/es/form';
+import { AT_LEAST_ONE_CHARACTER, AT_LEAST_ONE_NUMBER, NO_SCRIPT_INJECTION, VALID_EMAIL_FORMAT } from '@/constants/regex.constant';
 
 export const useFieldValidation = () => {
   /** Check name */
@@ -6,9 +7,6 @@ export const useFieldValidation = () => {
     if (!value) {
       return Promise.reject(new Error('Tên không được để trống'));
     }
-    // if (!Number.isInteger(value)) {
-    //   return Promise.reject(new Error('Please input digits'));
-    // }
     if (value.length < 5) {
       return Promise.reject(new Error('Tên phải có ít nhất 5 ký tự'));
     }
@@ -48,9 +46,8 @@ export const useFieldValidation = () => {
     if (!value) {
       return Promise.reject(new Error('Email không được để trống'));
     }
-    const validEmailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,6})*$/;
 
-    if (!validEmailRegex.test(value)) {
+    if (!VALID_EMAIL_FORMAT.test(value)) {
       return Promise.reject(
         new Error('Email không hợp lệ'),
       );
@@ -59,8 +56,30 @@ export const useFieldValidation = () => {
     return Promise.resolve();
   };
 
+  const checkPassword = async (_rule: Rule, value: string) => {
+    if (!value) {
+      return Promise.reject(new Error('Mật khẩu không được để trống'));
+    }
+    if (value.length < 8 || value.length > 36) {
+      return Promise.reject(new Error('Mật khẩu phải có độ dài ít nhất từ 8 đến 23 ký tự'));
+    }
+    if (!AT_LEAST_ONE_CHARACTER.test(value)) {
+      return Promise.reject(new Error('Mật khẩu phải có thêm ít nhất một chữ'));
+    }
+    if (!AT_LEAST_ONE_CHARACTER.test(value)) {
+      return Promise.reject(new Error('Mật khẩu phải có thêm ít nhất một chữ'));
+    }
+    if (!AT_LEAST_ONE_NUMBER.test(value)) {
+      return Promise.reject(new Error('Mật khẩu phải có thêm ít nhất một số'));
+    }
+    if (NO_SCRIPT_INJECTION.test(value)) {
+      return Promise.reject(new Error('Mật khẩu của bạn có ký tự không được cho phép'));
+    }
+  };
+
   return {
     checkName,
+    checkPassword,
     checkCode,
     checkPhoneNumber,
     checkEmail,
