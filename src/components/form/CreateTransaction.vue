@@ -19,7 +19,7 @@
       </div>
       <ADivider>Danh sách hóa đơn chưa thanh toán</ADivider>
       <div class="my-16 card">
-        <ARangePicker :presets="rangePresets" :format="FORMAT_COMMON_DATE" @change="onRangeChange" />
+        <ARangePicker :presets="rangePresets" :format="EDateFormat.DATE_API_QUERY" @change="onRangeChange" />
         <div>
           <span class="mr-5">Thanh toán ngay</span>
           <ATooltip
@@ -137,8 +137,8 @@ import { ETransactionStatus } from '@/enums/api.enum';
 import { EApiId } from '@/enums/request.enum';
 import { formatDate } from '@/utils/date.util';
 import { percentFormat, vndFormat } from '@/utils/number.util';
-import { FORMAT_COMMON_DATE } from '@/constants/common.constant';
 import { invoiceNetTake } from '@/composable/useCommonComposable';
+import { EDateFormat } from '@/enums/common.enum';
 
 type RangeValue = [Dayjs, Dayjs] | [string, string];
 

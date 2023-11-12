@@ -61,7 +61,7 @@ export const useFieldValidation = () => {
       return Promise.reject(new Error('Mật khẩu không được để trống'));
     }
     if (value.length < 8 || value.length > 36) {
-      return Promise.reject(new Error('Mật khẩu phải có độ dài ít nhất từ 8 đến 23 ký tự'));
+      return Promise.reject(new Error('Mật khẩu phải có độ dài ít nhất từ 8 đến 32 ký tự'));
     }
     if (!AT_LEAST_ONE_CHARACTER.test(value)) {
       return Promise.reject(new Error('Mật khẩu phải có thêm ít nhất một chữ'));

@@ -54,8 +54,3 @@ export const FALLBACK_PAGINATION_API_RESPONSE = {
 export const GENERAL_EMAIL_DOMAIN = ['gmail.com', 'icloud.com', 'outlook.com', 'facebook.com', 'yahoo.com'];
 
 export const UNHANDLED_SERVER_ERROR = 'Lỗi không xác định từ server';
-
-export const FORMAT_API_DATE_QUERY = 'DD-MM-YYYY';
-export const FORMAT_COMMON_DATE = 'DD-MM-YYYY';
-export const FORMAT_DATE_TIME = 'DD-MM-YYYY HH:MM';
-export const FORMAT_DATE_TIME_SECOND = 'DD-MM-YYYY HH:mm:ss';

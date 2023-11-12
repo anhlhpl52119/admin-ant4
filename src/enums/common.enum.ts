@@ -11,5 +11,7 @@ export enum ERole {
 }
 
 export enum EDateFormat {
-  DATE_TIME = 'DD-MM-YYYY HH:mm',
+  DATE_HOUR_MINUTE = 'DD-MM-YYYY HH:mm',
+  DATE_HOUR_MINUTE_SECOND = 'DD-MM-YYYY HH:mm:ss',
+  DATE_API_QUERY = 'DD-MM-YYYY',
 }

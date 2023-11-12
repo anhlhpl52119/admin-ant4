@@ -1,7 +1,8 @@
+import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import type { EDateFormat } from '@/enums/common.enum';
+import { EDateFormat } from '@/enums/common.enum';
 
-export const formatDate = (date: OrNullish<string | number | Date>, formatType: `${EDateFormat}` = 'DD-MM-YYYY HH:mm') => {
+export const formatDate = (date: OrNullish<string | number | Dayjs>, formatType: `${EDateFormat}` = EDateFormat.DATE_HOUR_MINUTE) => {
   if (!dayjs(date).isValid()) {
     return 'Ngày không hợp lệ';
   }
@@ -9,17 +10,21 @@ export const formatDate = (date: OrNullish<string | number | Date>, formatType: 
   return dayjs(date).format(formatType);
 };
 
-export const timeFromNow = (date: OrNullish<string | number | Date>) => {
+export const timeFromNow = (date: OrNullish<string | number | Dayjs>) => {
   if (!dayjs(date).isValid()) {
     return 'Ngày không hợp lệ';
   }
   return dayjs(date).fromNow();
 };
 
-export const isFiveMinutesAgo = (date: OrNullish<string | number | Date>) => {
+export const isFiveMinutesAgo = (date: OrNullish<string | number | Dayjs>) => {
   if (!dayjs(date).isValid()) {
     return false;
   }
   const fiveMinutesAgo = dayjs().subtract(5, 'minute');
   return dayjs(date).isSameOrAfter(dayjs(fiveMinutesAgo));
+};
+
+export const isValidDate = (date: OrNullish<string | number | Dayjs>) => {
+  return dayjs(date).isValid();
 };
