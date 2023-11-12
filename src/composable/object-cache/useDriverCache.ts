@@ -129,7 +129,7 @@ export const useDriverCache = () => {
     return rs?.data?.total_records;
   };
 
-  const getDriverTransaction = async (props: DriverTransactionQuery): Promise<DriverTransactionResponse> => {
+  const getDriverTransactions = async (props: DriverTransactionQuery): Promise<DriverTransactionResponse> => {
     if (!props.driverId) {
       return FALL_BACK_DRIVER_TRANSACTION_RESPONSE;
     }
@@ -176,7 +176,7 @@ export const useDriverCache = () => {
     getDriverInvoices,
     countDriverInvoices,
     // transaction
-    getDriverTransaction,
+    getDriverTransactions,
     countDriverTransactions,
   };
 };

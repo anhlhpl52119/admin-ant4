@@ -20,6 +20,9 @@
         </ADescriptionsItem>
         <ADescriptionsItem label="Ngày chỉnh sửa">
           {{ formatDate(driverState?.updated_at) }}
+          <div class="text-gray">
+            ({{ timeFromNow(driverState?.updated_at) }})
+          </div>
         </ADescriptionsItem>
       </ADescriptions>
       <div>
@@ -36,6 +39,7 @@ import { invoiceApis } from '@/apis/retailer/source-invoice-mgt/source-invoice-m
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
 import { EApiId } from '@/enums/request.enum';
 import { formatDate, timeFromNow } from '@/utils/date.util';
+import { useDriverCache } from '@/composable/object-cache/useDriverCache';
 
 const props = defineProps<{
   driverId: string
@@ -47,6 +51,7 @@ const emits = defineEmits<{
   cancel: [v: void] // use for close modal if this component use in AppModal
 }>();
 
+const { getDriverTransactions, getDriverInvoices } = useDriverCache();
 const { driverId } = toRefs(props);
 
 const driverState = ref<API.Driver>();
