@@ -26,6 +26,17 @@
         </ADescriptionsItem>
       </ADescriptions>
       <div>
+        <ATabs v-model:activeKey="activeKey" type="card">
+          <ATabPane key="1" tab="Hóa đơn">
+            1
+          </ATabPane>
+          <ATabPane key="2" tab="Đợt thanh toán">
+            2
+          </ATabPane>
+        </ATabs>
+      </div>
+
+      <div>
         <pre>{{ driverInvoices.records }}</pre>
         <pre>{{ driverTransaction.records }}</pre>
       </div>
@@ -54,6 +65,7 @@ const emits = defineEmits<{
 const { getDriverTransactions, getDriverInvoices } = useDriverCache();
 const { driverId } = toRefs(props);
 
+const activeKey = ref(1);
 const driverState = ref<API.Driver>();
 const driverInvoices = reactive({
   records: [] as API.SourceInvoice[],
