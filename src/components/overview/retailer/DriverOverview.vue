@@ -31,13 +31,13 @@
             <template #tab>
               <div class="mr-20">
                 <ABadge :count="driverInvoiceUnpaid" :offset="[20, 0]">
-                  <span class="text-spotlight">Hóa đơn mới</span>
+                  <span class="text-spotlight">Hóa đơn chưa xử lý</span>
                 </ABadge>
               </div>
             </template>
             <template #default>
-              <div class="max-h-450 overscroll-y-auto">
-                {{ driverInvoices.records }}
+              <div class="max-h-450 overflow-y-auto">
+                <DriverInvoiceTable :driverId="driverId" @totalUnpaid="driverInvoiceUnpaid = $event" />
               </div>
             </template>
           </ATabPane>
@@ -50,7 +50,11 @@
                 </ABadge>
               </div>
             </template>
-            <pre>{{ driverTransaction.records }}</pre>
+            <template #default>
+              <div class="max-h-450 overflow-y-auto">
+                <!-- <DriverInvoiceTable :driverId="driverId" @totalUnpaid="driverInvoiceUnpaid = $event" /> -->
+              </div>
+            </template>
           </ATabPane>
         </ATabs>
       </div>
@@ -149,9 +153,6 @@ const init = async () => {
   }
   props.showRecentInvoices && getDriverLatestInvoices(driverId.value);
   props.showRecentTransaction && getDriverLatestTransaction(driverId.value);
-
-  driverInvoiceUnpaid.value = await countDriverInvoices(driverId.value, 'unpaid');
-  driverTransactionPending.value = await countDriverTransactions(driverId.value, 'pending');
 };
 
 watchEffect(async () => {
