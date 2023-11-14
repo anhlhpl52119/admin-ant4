@@ -66,9 +66,8 @@ export const useDriverCache = () => {
 
     const fromDate = props?.range?.[0] || undefined;
     const toDate = props?.range?.[1] || undefined;
-
     // query date order
-    if (isValidDate(fromDate) && isValidDate(toDate)) {
+    if (fromDate && toDate && isValidDate(fromDate) && isValidDate(toDate)) {
       Object.assign(query, {
         invoice_date_gteq: formatDate(fromDate, EDateFormat.DATE_API_QUERY),
         invoice_date_lteq: formatDate(toDate, EDateFormat.DATE_API_QUERY),
@@ -76,7 +75,7 @@ export const useDriverCache = () => {
     }
 
     const apiPayload: API.SearchSourceInvoiceQueryParams = {
-      items: props?.items || 1,
+      items: props?.items || 10,
       page: props?.page || 1,
       query,
     };
