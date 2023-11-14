@@ -25,20 +25,34 @@
           </div>
         </ADescriptionsItem>
       </ADescriptions>
-      <div>
+      <div class="mt-16">
         <ATabs v-model:activeKey="activeKey" type="card">
-          <ATabPane key="1" tab="Hóa đơn">
-            1
+          <ATabPane key="1">
+            <template #tab>
+              <div class="mr-20">
+                <ABadge :count="driverInvoiceUnpaid" :offset="[20, 0]">
+                  <span class="text-spotlight">Hóa đơn mới</span>
+                </ABadge>
+              </div>
+            </template>
+            <template #default>
+              <div class="max-h-450 overscroll-y-auto">
+                {{ driverInvoices.records }}
+              </div>
+            </template>
           </ATabPane>
-          <ATabPane key="2" tab="Đợt thanh toán">
-            2
+
+          <ATabPane key="2">
+            <template #tab>
+              <div class="mr-20">
+                <ABadge :count="driverTransactionPending" :offset="[20, 0]">
+                  <span class="text-spotlight">Phiếu thanh toán đang chờ</span>
+                </ABadge>
+              </div>
+            </template>
+            <pre>{{ driverTransaction.records }}</pre>
           </ATabPane>
         </ATabs>
-      </div>
-
-      <div>
-        <pre>{{ driverInvoices.records }}</pre>
-        <pre>{{ driverTransaction.records }}</pre>
       </div>
     </ASpin>
   </div>
@@ -62,11 +76,13 @@ const emits = defineEmits<{
   cancel: [v: void] // use for close modal if this component use in AppModal
 }>();
 
-const { getDriverTransactions, getDriverInvoices } = useDriverCache();
+const { getDriverTransactions, getDriverInvoices, countDriverInvoices, countDriverTransactions } = useDriverCache();
 const { driverId } = toRefs(props);
 
-const activeKey = ref(1);
+const activeKey = ref('1');
 const driverState = ref<API.Driver>();
+const driverInvoiceUnpaid = ref<number>(0);
+const driverTransactionPending = ref<number>(0);
 const driverInvoices = reactive({
   records: [] as API.SourceInvoice[],
   total: 0,
@@ -133,6 +149,9 @@ const init = async () => {
   }
   props.showRecentInvoices && getDriverLatestInvoices(driverId.value);
   props.showRecentTransaction && getDriverLatestTransaction(driverId.value);
+
+  driverInvoiceUnpaid.value = await countDriverInvoices(driverId.value, 'unpaid');
+  driverTransactionPending.value = await countDriverTransactions(driverId.value, 'pending');
 };
 
 watchEffect(async () => {
