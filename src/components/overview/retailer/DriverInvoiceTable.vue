@@ -98,9 +98,6 @@ import { useDriverCache } from '@/composable/object-cache/useDriverCache';
 const props = defineProps<{
   driverId: string
 }>();
-const emits = defineEmits<{
-  totalUnpaid: [v: number]
-}>();
 
 const { loadIdsHas } = storeToRefs(useLoaderStore());
 const { getDriverInvoices } = useDriverCache();

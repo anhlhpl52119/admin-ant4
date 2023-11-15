@@ -12,7 +12,9 @@
     >
       <ATableColumn key="code" title="Mã chi phiếu" :ellipsis="true" fixed="left" :width="130">
         <template #default="{ record }: {record: API.TransactionHistory}">
-          {{ record?.transaction_history_code || '_' }}
+          <AButton type="link" class="p0" @click="showTransactionOverview(record.id)">
+            {{ record?.transaction_history_code || '_' }}
+          </AButton>
         </template>
       </ATableColumn>
       <ATableColumn key="create_date" title="Ngày lập" :ellipsis="true" align="center">
@@ -56,9 +58,7 @@ const props = defineProps<{
   driverId: string
 }>();
 
-const emits = defineEmits<{
-  totalPending: [v: number]
-}>();
+const TransactionOverview = defineAsyncComponent(() => import('@/components/overview/retailer/TransactionOverview.vue'));
 
 const { loadIdsHas } = storeToRefs(useLoaderStore());
 const { getDriverTransactions } = useDriverCache();
@@ -69,6 +69,19 @@ const driverTransactions = ref<API.TransactionHistory[]>([]);
 const composeDriverTransaction = async (status: `${ETransactionStatus}`) => {
   const rs = await getDriverTransactions({ driverId: driverId.value, transactionStatus: status });
   driverTransactions.value = rs.transactionHistories;
+};
+
+const showTransactionOverview = (id: string) => {
+  const modalId = coreModal.show({
+    component: TransactionOverview,
+    props: {
+      id,
+    },
+    modalWidth: '80rem',
+    emits: {
+      forceFetchList: () => {},
+    },
+  });
 };
 
 const init = async () => {

@@ -171,7 +171,6 @@ const showTransactionOverview = (id: string) => {
     },
     modalWidth: '80rem',
     emits: {
-      success: () => coreModal.close(modalId),
       forceFetchList: () => reload(),
     },
   });

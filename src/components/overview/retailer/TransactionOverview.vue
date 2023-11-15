@@ -94,7 +94,6 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-  success: [v?: boolean]
   forceFetchList: [v?: boolean]
 }>();
 
@@ -117,9 +116,6 @@ const showDriverInfo = (driverId: string) => {
     props: {
       driverId,
       hideExtraBtn: true,
-    },
-    emits: {
-      close: () => coreModal.close(modalId),
     },
   });
 };
