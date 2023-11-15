@@ -37,7 +37,9 @@
             </template>
             <template #default>
               <div class="max-h-450 overflow-y-auto">
-                <DriverInvoiceTable :driverId="driverId" @totalUnpaid="driverInvoiceUnpaid = $event" />
+                <DriverInvoiceTable
+                  :driverId="driverId"
+                />
               </div>
             </template>
           </ATabPane>
@@ -52,7 +54,9 @@
             </template>
             <template #default>
               <div class="max-h-450 overflow-y-auto">
-                <!-- <DriverInvoiceTable :driverId="driverId" @totalUnpaid="driverInvoiceUnpaid = $event" /> -->
+                <DriverTransactionTable
+                  :driverId="driverId"
+                />
               </div>
             </template>
           </ATabPane>
@@ -66,9 +70,10 @@
 import { retailerDriverApis } from '@/apis/retailer/driver-mgt/driver-mgt';
 import { invoiceApis } from '@/apis/retailer/source-invoice-mgt/source-invoice-mgt';
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
+import { useDriverCache } from '@/composable/object-cache/useDriverCache';
+import { ETransactionStatus } from '@/enums/api.enum';
 import { EApiId } from '@/enums/request.enum';
 import { formatDate, timeFromNow } from '@/utils/date.util';
-import { useDriverCache } from '@/composable/object-cache/useDriverCache';
 
 const props = defineProps<{
   driverId: string
@@ -80,10 +85,10 @@ const emits = defineEmits<{
   cancel: [v: void] // use for close modal if this component use in AppModal
 }>();
 
-const { getDriverTransactions, getDriverInvoices, countDriverInvoices, countDriverTransactions } = useDriverCache();
+const { countDriverInvoices, countDriverTransactions } = useDriverCache();
 const { driverId } = toRefs(props);
 
-const activeKey = ref('1');
+const activeKey = ref();
 const driverState = ref<API.Driver>();
 const driverInvoiceUnpaid = ref<number>(0);
 const driverTransactionPending = ref<number>(0);
@@ -145,12 +150,21 @@ const getDriverInfo = async (driverId: string): Promise<boolean> => {
   return true;
 };
 
+const countDriverTransaction = async (status: `${ETransactionStatus}`) => {
+  driverTransactionPending.value = await countDriverTransactions(driverId.value, status);
+};
+const countDriverInvoice = async (status: 'unpaid') => {
+  driverInvoiceUnpaid.value = await countDriverInvoices(driverId.value, 'unpaid');
+};
+
 const init = async () => {
   if (!await getDriverInfo(driverId.value)) {
     emits('cancel');
     await showAsyncAlert({ content: 'Không thể tải thông tin tài xế, xin hãy thử lại', severity: 'error' });
     return;
   }
+  countDriverTransaction(ETransactionStatus.PENDING);
+  countDriverInvoice('unpaid');
   props.showRecentInvoices && getDriverLatestInvoices(driverId.value);
   props.showRecentTransaction && getDriverLatestTransaction(driverId.value);
 };

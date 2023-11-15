@@ -68,7 +68,7 @@
                   Tạm tính
                 </li>
                 <li v-if="!!selectedInvoiceMap.size" class="text-desc">
-                  ({{ selectedInvoiceMap.size }} hóa đơn)
+                  {{ selectedInvoiceMap.size }} hóa đơn
                 </li>
               </ul>
             </ATableSummaryCell>
@@ -103,12 +103,11 @@ const emits = defineEmits<{
 }>();
 
 const { loadIdsHas } = storeToRefs(useLoaderStore());
-const { getDriverInvoices, countDriverInvoices } = useDriverCache();
+const { getDriverInvoices } = useDriverCache();
 const { driverId } = toRefs(props);
 
 const selectedInvoiceMap = reactive<Map<string, API.SourceInvoice>>(new Map()); // invoice_id -> invoice item
 const driverInvoices = ref<API.SourceInvoice[]>([]);
-const totalUnpaidInvoice = ref<number>(0);
 
 const isCheckAll = computed(() => !!driverInvoices.value.length && selectedInvoiceMap.size === driverInvoices.value.length);
 const isSelectHalf = computed(() => !!selectedInvoiceMap.size && (selectedInvoiceMap.size < driverInvoices.value.length));
@@ -138,18 +137,17 @@ const onSelectInvoice = (item: API.SourceInvoice) => {
   selectedInvoiceMap.set(item.id, item);
 };
 
-const countCurrentDriverInvoice = async (status: 'all' | 'unpaid') => {
-  totalUnpaidInvoice.value = await countDriverInvoices(driverId.value, 'unpaid');
-  emits('totalUnpaid', totalUnpaidInvoice.value);
-};
-
 const composeDriverInvoice = async () => {
-  const rs = await getDriverInvoices({ driverId: driverId.value, invoiceType: 'unpaid' });
+  const rs = await getDriverInvoices({
+    driverId: driverId.value,
+    invoiceType: 'unpaid',
+    items: 20,
+  });
   driverInvoices.value = rs.sourceInvoices;
   rs.sourceInvoices.forEach(i => selectedInvoiceMap.set(i.id, i));
 };
+
 const init = async () => {
-  countCurrentDriverInvoice('unpaid');
   composeDriverInvoice();
 };
 init();

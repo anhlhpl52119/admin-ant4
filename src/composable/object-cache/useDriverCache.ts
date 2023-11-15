@@ -132,17 +132,17 @@ export const useDriverCache = () => {
     if (!props.driverId) {
       return FALL_BACK_DRIVER_TRANSACTION_RESPONSE;
     }
-
     const query: API.SearchTransactionQueryParams['query'] = {
       driver_id_eq: props.driverId,
       s: `transaction_date ${props?.dateOrder || 'desc'}`,
+      status_eq: props?.transactionStatus,
     };
 
     const fromDate = props?.range?.[0] || undefined;
     const toDate = props?.range?.[1] || undefined;
 
     // query date order
-    if (isValidDate(fromDate) && isValidDate(toDate)) {
+    if (fromDate && toDate && isValidDate(fromDate) && isValidDate(toDate)) {
       Object.assign(query, {
         transaction_date_gteq: formatDate(fromDate, EDateFormat.DATE_API_QUERY),
         transaction_date_lteq: formatDate(toDate, EDateFormat.DATE_API_QUERY),
@@ -150,7 +150,7 @@ export const useDriverCache = () => {
     }
 
     const apiPayload: API.SearchTransactionQueryParams = {
-      items: props?.items || 1,
+      items: props?.items || 20,
       page: props?.page || 1,
       query,
     };
