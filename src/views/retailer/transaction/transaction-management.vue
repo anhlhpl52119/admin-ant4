@@ -19,7 +19,6 @@
         :loading="isFetching"
         :pagination="false"
         class="cursor-default"
-        :scroll="{ y: '61rem' }"
         size="small"
       >
         <template #title>

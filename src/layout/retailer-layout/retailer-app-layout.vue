@@ -1,18 +1,14 @@
 <template>
-  <ALayout class="min-h-screen">
-    <ALayoutSider
-      v-model:collapsed="isCollapsed"
-      collapsible :width="250"
-      theme="light"
-      breakpoint="lg"
-    >
-      <header class="p-5 h-60">
+  <section class="h-full flex items-stretch">
+    <div>
+      <div class="p-5 h-60">
         <img v-if="isCollapsed" src="~@/assets/img/logo-tai-co-colored.png" class="object-scale-down w-full h-full" alt="logo">
         <img v-else src="~@/assets/img/logo-tai-co-vertical-text.png" class="object-scale-down w-full h-full" alt="logo">
-      </header>
+      </div>
       <AMenu
         v-model:openKeys="activeKey"
         :selectedKeys="selectedKeys"
+        :inlineCollapsed="isCollapsed"
         theme="light"
         mode="inline"
       >
@@ -20,14 +16,20 @@
           <CustomSubMenu :data="item" />
         </template>
       </AMenu>
-    </ALayoutSider>
-    <ALayout class="bg-abg">
+    </div>
+
+    <div class="flex-grow overflow-hidden">
       <RetailerLayoutHeader />
-      <ALayoutContent class="relative p-15 h-full">
+      <main class="p-12 bg-abg overflow-auto h-full">
+        <!-- <div class="bg-amber">
+          <div class="h-400">
+            sdsd
+          </div>
+        </div> -->
         <PageContent />
-      </ALayoutContent>
-    </ALayout>
-  </ALayout>
+      </main>
+    </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
