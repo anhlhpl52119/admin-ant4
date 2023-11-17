@@ -1,10 +1,13 @@
 <template>
   <section class="h-full flex items-stretch">
-    <div>
+    <!-- Side bar -->
+    <aside>
+      <!-- Logo -->
       <div class="p-5 h-60">
         <img v-if="isCollapsed" src="~@/assets/img/logo-tai-co-colored.png" class="object-scale-down w-full h-full" alt="logo">
         <img v-else src="~@/assets/img/logo-tai-co-vertical-text.png" class="object-scale-down w-full h-full" alt="logo">
       </div>
+      <!-- User menu -->
       <AMenu
         v-model:openKeys="activeKey"
         :selectedKeys="selectedKeys"
@@ -12,23 +15,23 @@
         theme="light"
         mode="inline"
       >
+        <!-- Sub menu -->
         <template v-for="item in userStore.userMenu" :key="item.name">
           <CustomSubMenu :data="item" />
         </template>
       </AMenu>
-    </div>
+    </aside>
 
-    <div class="flex-grow overflow-hidden">
+    <!-- Main page -->
+    <article class="flex-grow pb-10 flex flex-col">
+      <!-- Header -->
       <RetailerLayoutHeader />
-      <main class="p-12 bg-abg overflow-auto h-full">
-        <!-- <div class="bg-amber">
-          <div class="h-400">
-            sdsd
-          </div>
-        </div> -->
+
+      <!-- Content -->
+      <main class="p-12 bg-abg overflow-auto flex-grow">
         <PageContent />
       </main>
-    </div>
+    </article>
   </section>
 </template>
 
