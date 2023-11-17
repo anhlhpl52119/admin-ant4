@@ -40,7 +40,6 @@
         :pagination="false"
         bordered
         class="cursor-default"
-        :scroll="{ y: '20rem' }"
         size="small"
       >
         <ATableColumn key="code" title="Mã hóa đơn" :ellipsis="true" fixed="left" :width="130">
