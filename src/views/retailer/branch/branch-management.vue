@@ -18,7 +18,6 @@
         :columns="columns"
         :loading="isFetching"
         :pagination="false"
-        :scroll="{ y: '61rem' }"
         size="small"
         @resizeColumn="handleResizeColumn"
       >
