@@ -18,7 +18,6 @@
         :dataSource="tableRecords"
         :loading="isFetching"
         :pagination="false"
-        :scroll="{ y: '61rem' }"
         size="small"
       >
         <ATableColumn key="index" title="Stt" width="5rem" align="center">
