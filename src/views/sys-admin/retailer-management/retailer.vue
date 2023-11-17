@@ -19,7 +19,6 @@
         :loading="isFetching"
         :pagination="false"
         class="cursor-default"
-        :scroll="{ y: 'calc(100rem - 30rem)' }"
       >
         <ATableColumn key="name" title="Tên nhà bán lẻ" :ellipsis="true" :width="300" fixed="left">
           <template #default="{ record }: {record: API.Retailer}">
