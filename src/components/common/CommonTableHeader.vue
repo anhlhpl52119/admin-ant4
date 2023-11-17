@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-btw-center">
-    <ul class="flex gap-5 font-700 items-center lg:hidden">
+  <div class="flex-btw-center md:b-abd">
+    <ul class="flex gap-5 font-700 items-center">
       <li><span>Tổng cộng:</span></li>
       <li><span class="text-primary text-18">{{ totalRecord }}</span></li>
       <li><span>bản ghi được tìm thấy</span></li>
