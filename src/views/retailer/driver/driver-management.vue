@@ -21,7 +21,6 @@
         :loading="isFetching"
         :pagination="false"
         class="cursor-default"
-        :scroll="{ y: 'calc(100rem - 40rem)' }"
         @resizeColumn="handleResizeColumn"
       >
         <template #title>
