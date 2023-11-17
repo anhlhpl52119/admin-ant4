@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <div>
     <CommonPageTitle
       title="Quản lý lịch sử thanh toán"
       actionBtnLabel="Tạo mới"
@@ -94,7 +94,7 @@
         </ATableColumn>
       </ATable>
     </section>
-  </main>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -163,7 +163,7 @@ const showDriverInfo = (driverId: string) => {
 };
 
 const showTransactionOverview = (id: string) => {
-  const modalId = coreModal.show({
+  coreModal.show({
     component: TransactionOverview,
     props: {
       id,
@@ -188,3 +188,6 @@ const openCreateTransactionModal = () => {
   });
 };
 </script>
+
+<style scoped>
+</style>
