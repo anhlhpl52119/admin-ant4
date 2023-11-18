@@ -1,17 +1,43 @@
 <template>
-  <div class="flex-btw-center md:b-abd">
-    <ul class="flex gap-5 font-700 items-center">
-      <li><span>Tổng cộng:</span></li>
-      <li><span class="text-primary text-18">{{ totalRecord }}</span></li>
-      <li><span>bản ghi được tìm thấy</span></li>
-    </ul>
-    <ul class="flex items-center gap-10">
+  <div class="flex items-center">
+    <div class="text-nowrap text-spotlight">
+      <strong class="text-info">{{ totalRecord }}</strong>
+      <span class="ml-4">Bản ghi</span>
+    </div>
+
+    <AButton
+      type="default"
+      shape="round"
+      size="small"
+      class="ml-4 justify-self-center"
+      :icon="h(ReloadOutlined)" @click="$emit('reload')"
+    />
+
+    <div class="flex ml-auto">
+      <APagination
+        size="small"
+        :current="currentPage"
+        :total="totalRecord"
+        :pageSize="pageSize"
+        :showSizeChanger="false"
+        @change="$emit('pageChange', { currentPage: $event })"
+      />
+      <ASelect
+        size="small"
+        :value="pageSize"
+        :options="VIEW_BY_OPTIONS"
+        class="hidden md:block"
+        @change="$emit('pageChange', { currentPage: 1, pageSize: $event as number })"
+      />
+    </div>
+
+    <!-- <ul class="flex items-center gap-5">
       <li>
-        <AButton type="primary" :icon="h(ReloadOutlined)" @click="$emit('reload')">
+        <AButton type="primary" shape="round" size="small" :icon="h(ReloadOutlined)" @click="$emit('reload')">
           Làm mới
         </AButton>
       </li>
-      <li>
+      <li class="whitespace-nowrap">
         <APagination
           size="small"
           :current="currentPage"
@@ -21,28 +47,26 @@
           @change="$emit('pageChange', { currentPage: $event })"
         />
       </li>
-      <li>
-        <span class="mr-5">Hiển thị</span>
+      <li class="hidden md:block">
         <ASelect
           size="small"
           :value="pageSize"
           :options="VIEW_BY_OPTIONS"
           @change="$emit('pageChange', { currentPage: 1, pageSize: $event as number })"
         />
-      </li>
-      <li>
+      </li> -->
+
+    <!-- <li>
         <ADropdown trigger="click">
           <template #overlay>
             <AMenu @click="$emit('onSort')">
               <AMenuItem key="create_at">
                 <div class="flex gap-5 items-center">
-                  <!-- <i class="i-mdi:sort-calendar-ascending w25 h25 text-primary" /> -->
                   <span>Ngày tạo</span>
                 </div>
               </AMenuItem>
               <AMenuItem key="update_at">
                 <div class="flex gap-5 items-center">
-                  <!-- <i class="i-mdi:sort-calendar-ascending w25 h25 text-primary" /> -->
                   <span>Ngày sửa đổi</span>
                 </div>
               </AMenuItem>
@@ -60,8 +84,8 @@
             Ngày tạo gần nhất
           </AButton>
         </ADropdown>
-      </li>
-    </ul>
+      </li> -->
+    <!-- </ul> -->
   </div>
 </template>
 
