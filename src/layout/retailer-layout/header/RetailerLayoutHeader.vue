@@ -1,5 +1,5 @@
 <template>
-  <header class="h-64 bg-white flex justify-end items-center px-20">
+  <header class="h-64 bg-white flex justify-end items-center px-20 py-10">
     <ADropdown :trigger="['click']">
       <div class="flex items-center gap-10 cursor-pointer">
         <div>
