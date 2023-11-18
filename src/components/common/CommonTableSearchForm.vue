@@ -1,34 +1,64 @@
 <template>
   <section class="card grid gap-10" @keypress.enter="onSearch">
-    <div class="flex-btw-center">
-      <ul class="flex gap-5">
-        <li>
-          <CInput
-            v-model:value="quickSearchVal"
-            placeholder="Tìm theo Tên, Mã hoặc Sđt"
-            size="large"
-            :maxlength="70"
-            allowClear
-            class="w-400 self-end"
-          >
-            <template #suffix>
-              <SearchOutlined />
-            </template>
-          </CInput>
-        </li>
-        <li>
-          <AButton
-            type="primary" size="large"
-            :loading="loading"
-            @click="onSearch"
-          >
-            Tìm
-            <template #icon>
-              <SearchOutlined />
-            </template>
-          </AButton>
-        </li>
-      </ul>
+    <div class="flex justify-between">
+      <CInput
+        v-model:value="quickSearchVal"
+        placeholder="Tìm theo Tên, Mã hoặc Sđt"
+        size="large"
+        :maxlength="70"
+        allowClear
+        class="w-300"
+      >
+        <template #suffix>
+          <SearchOutlined />
+        </template>
+      </CInput>
+      <AButton
+        type="primary" size="large"
+        :loading="loading"
+        class="ml-4"
+        @click="onSearch"
+      >
+        Tìm
+      </AButton>
+      <AButton
+        disabled
+        size="large"
+        class="ml-auto"
+        @click="addNewSearchItem"
+      >
+        <template #icon>
+          <FilterFilled />
+        </template>
+      </AButton>
+      <!-- <ul class="flex gap-5">
+          <li>
+            <CInput
+              v-model:value="quickSearchVal"
+              placeholder="Tìm theo Tên, Mã hoặc Sđt"
+              size="large"
+              :maxlength="70"
+              allowClear
+              class="w-300 self-end"
+            >
+              <template #suffix>
+                <SearchOutlined />
+              </template>
+            </CInput>
+          </li>
+          <li>
+            <AButton
+              type="primary" size="large"
+              :loading="loading"
+              @click="onSearch"
+            >
+              Tìm
+              <template #icon>
+                <SearchOutlined />
+              </template>
+            </AButton>
+          </li>
+        </ul> -->
 
       <ul class="justify-self-end flex gap-5 items-center">
         <li v-if="stateSearchItem.length !== 0">
@@ -48,13 +78,14 @@
         </li>
         <li>
           <!-- TODO: add dynamic component for search item and remove disabled after -->
-          <AButton disabled size="large" class="self-end" @click="addNewSearchItem">
+          <!-- <AButton disabled size="large" class="self-end" @click="addNewSearchItem">
             <template #icon>
               <FilterFilled />
             </template>
-          </AButton>
+          </AButton> -->
         </li>
       </ul>
+      <!-- </cinput> -->
     </div>
     <div v-if="stateSearchItem.length !== 0" ref="scrollElement" class="max-w-full overflow-x-auto overflow-y-hidden bg-slate-100 rounded-10 p-5">
       <TransitionGroup name="fade" tag="ul" class="flex gap-10 mt-7">
