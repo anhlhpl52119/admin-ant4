@@ -50,14 +50,14 @@
                   {{ record?.driver?.name || '_' }}
                 </AButton>
               </li>
-              <li class="text-desc">
+              <li class="hidden text-desc md:block">
                 #{{ record?.driver?.driver_code || '_' }}
               </li>
             </ul>
           </template>
         </ATableColumn>
 
-        <ATableColumn key="tax" title="Thuế" align="right" :width="100">
+        <ATableColumn key="tax" title="Thuế" align="right" :width="100" :responsive="['xl']">
           <template #default="{ record }: {record: API.TransactionHistory}">
             {{ vndFormat(record?.tax) }}
           </template>
@@ -69,7 +69,7 @@
           </template>
         </ATableColumn>
 
-        <ATableColumn key="update_date" title="Ngày cập nhật" align="center">
+        <ATableColumn key="update_date" title="Ngày cập nhật" align="center" :responsive="['xl']">
           <template #default="{ record }: {record: API.TransactionHistory}">
             <ul>
               <li>
@@ -81,7 +81,7 @@
             </ul>
           </template>
         </ATableColumn>
-        <ATableColumn key="transaction_date" title="Ngày giao dịch" align="center">
+        <ATableColumn key="transaction_date" title="Ngày giao dịch" align="center" :responsive="['sm']">
           <template #default="{ record }: {record: API.TransactionHistory}">
             {{ formatDate(record?.transaction_date) }}
           </template>
