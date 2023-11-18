@@ -1,6 +1,6 @@
 <template>
-  <article class="mx-16 my-20 flex-btw-center">
-    <span class="text-24 font-700">
+  <article class="mx-16 my-16 flex-btw-center">
+    <span class="text-18 font-700">
       {{ title }}
     </span>
     <slot>
