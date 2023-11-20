@@ -36,19 +36,6 @@
               <EmailAutoComplete v-model:value="createUpdateBodyState.email" />
             </FieldTitle>
           </AFormItem>
-          <!-- <AFormItem name="source">
-            <FieldTitle title="Phân quyền" required>
-              <ASelect
-                v-model:value="createUpdateBodyState.role"
-                showSearch
-                :loading="loadingIds.has(EApiId.RETAILER_TYPES)"
-                placeholder="Phân quyền cho người dùng này"
-                :options="options"
-                :disabled="loadingIds.has(EApiId.RETAILER_TYPES)"
-                :filterOption="filterOption"
-              />
-            </FieldTitle>
-          </AFormItem> -->
           <div class="flex justify-center gap-10">
             <AButton
               type="primary"
