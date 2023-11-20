@@ -87,6 +87,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TransactionOverview: typeof import('./../src/components/overview/retailer/TransactionOverview.vue')['default']
+    TransactionTest2: typeof import('./../src/components/overview/TransactionTest2.vue')['default']
     UserDetailDrawer: typeof import('./../src/components/drawer/UserDetailDrawer.vue')['default']
     VerticalTabsContainer: typeof import('./../src/components/common/VerticalTabsContainer.vue')['default']
   }

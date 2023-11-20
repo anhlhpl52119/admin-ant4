@@ -120,19 +120,22 @@ const onValidateSuccess = async () => {
     severity: 'warn',
     strictMsg: 'Tôi đã ghi nhớ mật khẩu mới của mình!',
   });
-  if (!confirm) {
-    return;
-  }
+
+  if (!confirm) { return; }
+
   const rs = await authApis.changePassword({
     current_password: formState.currentPass,
     password: formState.newPass,
     password_confirmation: formState.confirmNewPass,
   });
+
   if (rs?.status !== 200) {
     await showAsyncAlert({ content: (rs?.data?.message[0] || 'Không thể cập nhật mật khẩu'), severity: 'error' });
     return;
   }
+
   await showAsyncAlert({ content: 'Đổi mật khẩu thành công!', severity: 'success' });
   emits('cancel');
+  // TODO: reset token back to login
 };
 </script>
