@@ -33,4 +33,10 @@ declare namespace API {
   };
 
   type LoginResponse = ApiRawResponse<UserLogin>;
+
+  type ChangePasswordRequestBody = {
+    current_password: string;
+    password: string;
+    password_confirmation: string;
+  }
 }
