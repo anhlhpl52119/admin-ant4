@@ -44,8 +44,6 @@ import { ERouteName } from '@/enums/router.enum';
 import type { CustomRoute } from '@/router/typing';
 
 const routes = useRoute();
-const route = useRoute();
-
 const userStore = useUserStore();
 
 const isCollapsed = ref<boolean>(false);
@@ -56,7 +54,6 @@ const activeKey = ref<string[]>(
   ),
 );
 const selectedKeys = computed(() => [routes?.name?.toString() ?? ERouteName.DASHBOARD]);
-const _test = computed(() => route.matched);
 
 function findParentRouteName(
   routes: CustomRoute[],

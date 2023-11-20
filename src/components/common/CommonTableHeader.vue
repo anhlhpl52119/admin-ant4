@@ -30,6 +30,35 @@
         @change="$emit('pageChange', { currentPage: 1, pageSize: $event as number })"
       />
     </div>
+    <div>
+      <ADropdown trigger="click">
+        <template #overlay>
+          <AMenu @click="$emit('onSort')">
+            <AMenuItem key="create_at">
+              <div class="flex gap-5 items-center">
+                <span>Ngày tạo</span>
+              </div>
+            </AMenuItem>
+            <AMenuItem key="update_at">
+              <div class="flex gap-5 items-center">
+                <span>Ngày sửa đổi</span>
+              </div>
+            </AMenuItem>
+            <ARadioGroup v-model:value="value1" buttonStyle="solid" class="m8">
+              <ARadioButton value="asc">
+                Tăng dần
+              </ARadioButton>
+              <ARadioButton value="desc">
+                Giảm dần
+              </ARadioButton>
+            </ARadioGroup>
+          </AMenu>
+        </template>
+        <AButton size="small">
+          Ngày tạo gần nhất
+        </AButton>
+      </ADropdown>
+    </div>
 
     <!-- <ul class="flex items-center gap-5">
       <li>

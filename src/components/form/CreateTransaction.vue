@@ -12,7 +12,7 @@
         - Nhập tên tài xế để lọc ra những hóa đơn chưa thanh toán
       </p>
     </div>
-    <template v-if="selectedDriverId">
+    <div v-if="selectedDriverId" class="w-800">
       <div>
         <ADivider>Thông tin tài xế</ADivider>
         <DriverInfo :driverId="selectedDriverId" hideExtraBtn />
@@ -97,8 +97,8 @@
                     <li class="text-spotlight">
                       Tạm tính
                     </li>
-                    <li v-if="!!selectedInvoiceMap.size" class="text-desc">
-                      ({{ selectedInvoiceMap.size }} hóa đơn)
+                    <li v-if="!!selectedInvoiceMap.size" class="text-gray">
+                      {{ selectedInvoiceMap.size }} hóa đơn
                     </li>
                   </ul>
                 </ATableSummaryCell>
@@ -116,7 +116,7 @@
           </template>
         </ATable>
       </div>
-    </template>
+    </div>
     <div class="mt-16 flex flex-row-reverse">
       <ATooltip :mouseEnterDelay="0.5" :title="!!selectedInvoiceMap.size ? null : 'Chọn ít nhất 1 hóa đơn'" color="blue-inverse">
         <AButton :disabled="selectedInvoiceMap.size === 0" :loading="loadIdsHas(EApiId.TRANSACTION_CREATE)" type="primary" @click="onCreate">

@@ -40,6 +40,8 @@ declare module 'vue' {
     ASelect: typeof import('ant-design-vue/es')['Select']
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ASpin: typeof import('ant-design-vue/es')['Spin']
+    AStatistic: typeof import('ant-design-vue/es')['Statistic']
+    AStatisticCountdown: typeof import('ant-design-vue/es')['StatisticCountdown']
     ASubMenu: typeof import('ant-design-vue/es')['SubMenu']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     ATable: typeof import('ant-design-vue/es')['Table']

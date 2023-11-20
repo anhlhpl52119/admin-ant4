@@ -179,7 +179,6 @@ const openCreateTransactionModal = () => {
   const modalId = coreModal.show({
     component: CreateTransaction,
     title: 'Tạo mới đợt thanh toán',
-    modalWidth: '80rem',
     props: {
     },
     emits: {
