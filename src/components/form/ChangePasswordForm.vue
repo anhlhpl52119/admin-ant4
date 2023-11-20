@@ -26,7 +26,7 @@
           - Mật khẩu bao gồm: <strong>số, chữ, và ít nhất một ký tự đặt biệt</strong>
         </p>
         <p>
-          - Các ký tự đặt biệt không bao gồm: <strong> =, >, =, &, !, ^, #, \</strong>
+          - Các ký tự đặt biệt không bao gồm: <strong> =, >, &, !, ^, #, \</strong>
         </p>
       </div>
       <CInput
@@ -61,12 +61,19 @@ import { reactive, ref } from 'vue';
 import type { Rule } from 'ant-design-vue/es/form';
 import type { FormInstance } from 'ant-design-vue';
 import { useFieldValidation } from '@/composable/useFieldValidation';
+import { authApis } from '@/apis/auth/auth.api';
 
 interface FormState {
   currentPass: string
   newPass: string
   confirmNewPass: string
 }
+
+;
+const emits = defineEmits<{
+  cancel: []
+}>();
+
 const { checkPassword } = useFieldValidation();
 const formRef = ref<FormInstance>();
 const formState = reactive<FormState>({
@@ -116,7 +123,16 @@ const onValidateSuccess = async () => {
   if (!confirm) {
     return;
   }
-  console.log('call api');
-  // TODO:  call api
+  const rs = await authApis.changePassword({
+    current_password: formState.currentPass,
+    password: formState.newPass,
+    password_confirmation: formState.confirmNewPass,
+  });
+  if (rs?.status !== 200) {
+    await showAsyncAlert({ content: (rs?.data?.message[0] || 'Không thể cập nhật mật khẩu'), severity: 'error' });
+    return;
+  }
+  await showAsyncAlert({ content: 'Đổi mật khẩu thành công!', severity: 'success' });
+  emits('cancel');
 };
 </script>
