@@ -63,7 +63,7 @@ const colorMap: Record<string, string> = {
   error: '#ff4d4f',
   info: '#12a38e',
   warn: '#faad14',
-  success: '#52c41a',
+  success: '#12a38e',
 };
 
 const isConfirmStrict = ref(false);
