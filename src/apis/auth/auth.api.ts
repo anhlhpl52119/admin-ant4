@@ -42,4 +42,20 @@ export const authApis = {
       },
     );
   },
+  changePassword: (rqBody: API.ChangePasswordRequestBody) => {
+    const body = { user: rqBody };
+    return request<ApiRawResponse<ApiSuccessResponse>>(
+      {
+        url: '/common/user/change_password',
+        body,
+        method: ERequestMethod.PUT,
+      },
+      {
+        id: EApiId.LOGIN,
+        isShowLoading: true,
+        successMsg: 'Thành công!',
+        getDataDirectly: false, // response raw axios with header Authorization
+      },
+    );
+  },
 };
