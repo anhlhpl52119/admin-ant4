@@ -61,6 +61,7 @@ declare module 'vue' {
     ChangePasswordForm: typeof import('./../src/components/form/ChangePasswordForm.vue')['default']
     CInput: typeof import('./../src/components/core/CInput/CInput.vue')['default']
     CommonPageTitle: typeof import('./../src/components/common/CommonPageTitle.vue')['default']
+    CommonRetailerStatistic: typeof import('./../src/components/common/CommonRetailerStatistic.vue')['default']
     CommonTableHeader: typeof import('./../src/components/common/CommonTableHeader.vue')['default']
     CommonTableSearchForm: typeof import('./../src/components/common/CommonTableSearchForm.vue')['default']
     CreateDriverInvitationForm: typeof import('./../src/components/form/CreateDriverInvitationForm.vue')['default']
