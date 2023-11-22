@@ -70,4 +70,6 @@ export enum ERouteName {
 
   RETAILER_INFO = 'retailer-info',
   RETAILER_INFO_DETAIL = 'retailer-info-detail',
+  RETAILER_DASHBOARD = 'retailer-dashboard',
+  RETAILER_DASHBOARD_OVERVIEW = 'retailer-dashboard-overview',
 }
