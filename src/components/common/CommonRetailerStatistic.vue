@@ -1,7 +1,7 @@
 <template>
-  <div class="grid grid-cols-2 gap-12 md:grid-cols-4">
+  <div class="grid gap-8 grid-cols-2 md:grid-cols-4">
     <template v-for="item in renderItem" :key="item.id">
-      <div class="card m-0 flex flex-col justify-between" :class="item.className">
+      <div class="card min-h-100 m-0 flex flex-col justify-between" :class="item.className">
         <div class="line-clamp-2">
           <h3 class="text-16 font-500">
             {{ item.name }}
