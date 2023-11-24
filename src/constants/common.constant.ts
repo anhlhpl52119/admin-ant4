@@ -10,7 +10,7 @@ export const DEFAULT_ROLE_ROUTE = {
   [ERole.ADMIN]: '/retailer/management',
   [ERole.RETAILER_USER]: '/transaction/transaction-management',
   [ERole.DRIVER]: '/transaction/transaction-management',
-  [ERole.RETAILER_MANAGER]: '/transaction/transaction-management',
+  [ERole.RETAILER_MANAGER]: '/dashboard/overview',
 };
 
 export const COMMON_SUCCESS_MSG = {
