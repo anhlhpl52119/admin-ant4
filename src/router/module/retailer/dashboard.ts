@@ -17,7 +17,7 @@ const routes: CustomRoute[] = [
       {
         path: 'overview',
         name: ERouteName.RETAILER_DASHBOARD_OVERVIEW,
-        component: () => import('@/views/retailer/dashboard/retailer-dashboard-overview.vue'),
+        component: () => import('@/views/retailer/dashboard/retailer-dashboard.vue'),
         meta: {
           hiddenInMenu: false,
           title: 'Thống kê tổng quan',

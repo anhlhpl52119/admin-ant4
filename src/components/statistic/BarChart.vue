@@ -14,7 +14,7 @@ import { CALENDAR_LABELS } from '@/constants/common.constant';
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 const chartOptions = {
-  responsive: false,
+  responsive: true,
   scales: {
     y: {
       beginAtZero: true,

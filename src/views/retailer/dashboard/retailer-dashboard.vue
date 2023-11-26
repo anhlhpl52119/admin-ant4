@@ -5,11 +5,17 @@
       <BarChart />
     </div>
     <div md="row-span-6" class="card min-h-400 m0 col-span-2">
-      overview
+      {{ formatDate(dateconvvv, EDateFormat.UNIX_TIME) }}
+      <strong>
+        {{ Math.floor(new Date(dateconvvv).getTime() / 1000) }}
+      </strong>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-const log = '';
+import { EDateFormat } from '@/enums/common.enum';
+import { formatDate } from '@/utils/date.util';
+
+const dateconvvv = '2023-01-01 00:00:00 UTC';
 </script>
