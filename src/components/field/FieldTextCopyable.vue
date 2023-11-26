@@ -1,5 +1,5 @@
 <template>
-  <span v-bind="$attrs" class="hover:underline cursor-pointer text-primary" @click="onCopy">{{ copyContent }}</span>
+  <span v-bind="$attrs" class="clickable" @click="onCopy">{{ copyContent }}</span>
 </template>
 
 <script lang="ts" setup>
