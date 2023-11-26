@@ -38,7 +38,7 @@ const renderItem = reactive([
   },
   {
     id: '3',
-    name: 'Tài xế',
+    name: 'Tổng',
     icon: 'i-game-icons:steering-wheel',
     className: 'bg-#e8f7ff',
     value: '50',

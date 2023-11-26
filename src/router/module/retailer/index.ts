@@ -13,7 +13,7 @@ export const retailerRoutes: CustomRoute = {
   path: '/',
   name: ERouteName.MAIN_LAYOUT,
   component: retailerLayout,
-  redirect: '/transaction',
+  redirect: '/dashboard',
   meta: {
     hiddenInMenu: false,
     title: 'Home',

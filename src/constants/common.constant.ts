@@ -54,3 +54,9 @@ export const FALLBACK_PAGINATION_API_RESPONSE = {
 export const GENERAL_EMAIL_DOMAIN = ['gmail.com', 'icloud.com', 'outlook.com', 'facebook.com', 'yahoo.com'];
 
 export const UNHANDLED_SERVER_ERROR = 'Lỗi không xác định từ server';
+
+export const CALENDAR_LABELS = {
+  MONTH_FROM_1_TO_12: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+  MONTH_FROM_1_TO_6: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'],
+  MONTH_FROM_7_TO_12: ['Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+};

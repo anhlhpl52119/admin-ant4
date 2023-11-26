@@ -26,4 +26,16 @@ export const retailerDashboardApis = {
       },
     );
   },
+  totalAmountTransaction: (body: any) => {
+    return request<API.GetBranchDetailResponse>(
+      {
+        url: '/retailer/dashboard/total_transaction_amount',
+        body,
+        method: ERequestMethod.GET,
+      },
+      {
+        id: EApiId.RETAILER_DASHBOARD_TOTAL_INVOICE_AMOUNT,
+      },
+    );
+  },
 };
