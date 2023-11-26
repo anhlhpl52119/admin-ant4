@@ -31,14 +31,14 @@
         <ATableColumn key="code" title="Mã" :ellipsis="true" :width="140">
           <template #default="{ record }: {record: API.Retailer}">
             <div @click="copyText(record?.retailer_code ?? '_')">
-              <span class="cursor-pointer hover:text-primary">{{ record.retailer_code }}</span>
+              <span class="clickable">{{ record.retailer_code }}</span>
             </div>
           </template>
         </ATableColumn>
         <ATableColumn key="phone" title="Số điện thoại" width="15rem" align="center">
           <template #default="{ record }: {record: API.Retailer}">
             <div
-              class="flex-center gap-5 cursor-pointer hover:text-primary"
+              class="flex-center gap-5 clickable"
               @click="copyText(record?.phone ?? '_')"
             >
               <span>{{ record?.phone ?? '_' }}</span>

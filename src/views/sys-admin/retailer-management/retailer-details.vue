@@ -25,7 +25,7 @@
               </div>
 
               <div class="mt-10" @click="copyText(retailerState?.phone ?? '')">
-                <span class="text-spotlight hover:underline cursor-pointer">{{ retailerState?.phone ?? '-' }}</span>
+                <span class="text-spotlight clickable">{{ retailerState?.phone ?? '-' }}</span>
               </div>
             </li>
             <ADivider type="vertical" class="h-50" />
@@ -35,14 +35,14 @@
                 <span>Email</span>
               </div>
               <div class="mt-10" @click="copyText(retailerState?.email ?? '')">
-                <span class="text-spotlight hover:underline cursor-pointer">{{ retailerState?.email ?? '-' }}</span>
+                <span class="text-spotlight clickable">{{ retailerState?.email ?? '-' }}</span>
               </div>
             </li>
             <ADivider type="vertical" class="h-50" />
             <li>
               <p>Số tài xế</p>
               <div class="mt-10" @click="activeKey = '2'">
-                <span class="text-spotlight hover:underline cursor-pointer">{{ totalDrivers }}</span>
+                <span class="text-spotlight clickable">{{ totalDrivers }}</span>
               </div>
             </li>
             <ADivider type="vertical" class="h-50" />

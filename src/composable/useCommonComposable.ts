@@ -1,6 +1,9 @@
 import { stringToNumber } from '@/utils/number.util';
 
-export const invoiceNetTake = (invoice: API.SourceInvoice): number => {
+export const invoiceNetTake = (invoice: OrNullish<API.SourceInvoice>): number => {
+  if (!invoice) {
+    return 0;
+  }
   const { commission_rate, total_amount, tax, discount } = invoice;
   if (!total_amount) {
     return 0;

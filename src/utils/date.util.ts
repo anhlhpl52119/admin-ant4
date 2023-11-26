@@ -10,6 +10,14 @@ export const formatDate = (date: OrNullish<string | number | Dayjs>, formatType:
   return dayjs(date).format(formatType);
 };
 
+export const toUnixTime = (date: OrNullish<string | number | Dayjs>) => {
+  if (!dayjs(date).isValid()) {
+    return 0;
+  }
+
+  return Number(dayjs(date).format('X'));
+};
+
 export const timeFromNow = (date: OrNullish<string | number | Dayjs>) => {
   if (!dayjs(date).isValid()) {
     return 'Ngày không hợp lệ';

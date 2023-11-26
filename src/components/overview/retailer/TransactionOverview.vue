@@ -30,7 +30,7 @@
       <ADivider />
       <div>
         <div>
-          <span class="text-spotlight text-primary  text-24 ml-7 hover:underline cursor-pointer" @click="showDriverInfo(transactionInfo?.driver?.id ?? '')">{{ transactionInfo?.driver?.name || '-' }}</span>
+          <span class="text-spotlight text-24 ml-7 clickable" @click="showDriverInfo(transactionInfo?.driver?.id ?? '')">{{ transactionInfo?.driver?.name || '-' }}</span>
           <span class="text-desc text-12 ml-7">({{ transactionInfo?.driver?.phone || '-' }})</span>
         </div>
       </div>

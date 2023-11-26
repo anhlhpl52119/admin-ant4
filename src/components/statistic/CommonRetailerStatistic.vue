@@ -1,5 +1,5 @@
 <template>
-  <div class="grid gap-8 grid-cols-2 md:grid-cols-4">
+  <div md="grid-cols-4" class="grid gap-8 grid-cols-2">
     <template v-for="item in renderItem" :key="item.id">
       <div class="card min-h-100 m-0 flex flex-col justify-between" :class="item.className">
         <div class="line-clamp-2">

@@ -17,6 +17,7 @@ export const useLoaderStore = defineStore('loader-store', {
         return Array.from(state.loadIdSet).includes(ids);
       };
     },
+
     isAppLoading: (state) => {
       return state.loadIdSet.size > 0;
     },

@@ -42,7 +42,7 @@
         <ATableColumn key="phone" title="Số điện thoại" width="15rem" align="center">
           <template #default="{ record }: {record: API.Driver}">
             <div
-              class="flex-center gap-5 cursor-pointer hover:text-primary"
+              class="flex-center gap-5 clickable"
               @click="copyText(record?.phone ?? '_')"
             >
               <span>{{ record?.phone ?? '_' }}</span>
