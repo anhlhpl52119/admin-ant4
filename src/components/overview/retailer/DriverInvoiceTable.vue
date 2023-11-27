@@ -49,7 +49,7 @@
           {{ vndFormat(record?.total_amount) || '_' }}
         </template>
       </ATableColumn>
-      <ATableColumn key="roses" title="Hoa hồng" :ellipsis="true" align="right" :width="85">
+      <ATableColumn key="commission" title="Hoa hồng" :ellipsis="true" align="right" :width="85">
         <template #default="{ record }: {record: API.SourceInvoice}">
           {{ percentFormat(record?.commission_rate ?? '') }}
         </template>
