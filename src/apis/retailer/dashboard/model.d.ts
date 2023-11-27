@@ -3,10 +3,14 @@ export {};
 
 declare global {
   namespace API {
-    type GetDashboardInfoRequestBody = {
+    type GetDashBoardChartInfoRequestBody = {
       period: 'month' | 'day' | 'year';
-      start_date: string;
-      end_date: string;
+      start_date: number;
+      end_date: number;
+    };
+    type GetDashBoardTotalAmountRequestBody = {
+      start_date: number;
+      end_date: number;
     };
   }
 }
