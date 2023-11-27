@@ -1,8 +1,8 @@
 <template>
-  <div md="grid-cols-3 grid-flow-col h-600" class="grid gap-8">
+  <div md="grid-cols-3 grid-flow-col h-500" class="grid gap-8">
     <CommonRetailerStatistic class="col-span-2" />
     <div md="col-span-2 row-span-5" class="card min-h-400 m0 col-span-2">
-      <BarChart />
+      <NumberSourceInvoiceChart />
     </div>
     <div md="row-span-6" class="card m0 col-span-2">
       <LatestInvoice />
