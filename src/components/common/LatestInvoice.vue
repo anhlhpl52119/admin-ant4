@@ -3,7 +3,7 @@
     Hóa đơn gần đây
   </h3>
   <AList
-    class="max-h-600 overflow-y-scroll cursor-default"
+    class="max-h-500 overflow-y-scroll cursor-default"
     :loading="loadIdsHas(EApiId.INVOICE_SEARCH)"
     itemLayout="horizontal"
     :data-source="sourceInvoices"
