@@ -49,7 +49,7 @@ const chartOptions = {
   responsive: true,
   borderRadius: 4,
   borderWidth: 1,
-  maintainAspectRatio: true,
+  maintainAspectRatio: false,
   scales: {
     y: {
       beginAtZero: true,

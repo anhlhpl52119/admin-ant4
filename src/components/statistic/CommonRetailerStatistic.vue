@@ -73,8 +73,8 @@ const getNumberInvoicesOfMonth = async () => {
     query: {
       transaction_history_id_not_null: 'true',
       status_eq: 'active',
-      invoice_date_gteq: formatDate(CURRENT_MONTH_START_DATE, EDateFormat.DATE_API_QUERY), // start date
-      invoice_date_lteq: formatDate(CURRENT_MONTH_END_DATE, EDateFormat.DATE_API_QUERY), // end date
+      // invoice_date_gteq: formatDate(CURRENT_MONTH_START_DATE, EDateFormat.DATE_API_QUERY), // start date
+      // invoice_date_lteq: formatDate(CURRENT_MONTH_END_DATE, EDateFormat.DATE_API_QUERY), // end date
     },
   });
   if (!rs?.data.total_records) {
