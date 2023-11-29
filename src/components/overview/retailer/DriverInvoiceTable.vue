@@ -138,7 +138,7 @@ const composeDriverInvoice = async () => {
   const rs = await getDriverInvoices({
     driverId: driverId.value,
     invoiceType: 'unpaid',
-    items: 20,
+    items: 100,
   });
   driverInvoices.value = rs.sourceInvoices;
   rs.sourceInvoices.forEach(i => selectedInvoiceMap.set(i.id, i));
