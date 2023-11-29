@@ -45,6 +45,8 @@ export const useUserStore = defineStore('user-store', () => {
       return false;
     }
     userInfo.value = res.data.user;
+    // TODO: check whether current user need to change password
+    // default_password_chagne_at = null => redirect change password page
 
     return true;
   };
