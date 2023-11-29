@@ -54,7 +54,7 @@ const renderItem = computed(() => [
   },
   {
     id: '3',
-    name: 'Tổng tiền đã thanh toán trong tháng 12',
+    name: 'Tổng tiền đã thanh toán trong tháng 11',
     icon: '',
     className: 'bg-#e8f7ff',
     value: vndFormat(state.currentMonthTransactionAmount),
