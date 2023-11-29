@@ -75,8 +75,12 @@ const SourceInvoiceOverview = defineAsyncComponent(() => import('@/components/ov
 
 const sourceInvoices = ref<API.SourceInvoice[]>([]);
 const { loadIdsHas } = useLoaderStore();
-
+const currentPage = ref(1);
 const composeSourceInvoiceInfo = async (page: number = 1) => {
+  if (page > 5) {
+    showAsyncAlert({ content: 'Muốn xem thêm bạn hãy chuyển hướng đến trang quản lý', severity: 'info' });
+    return;
+  }
   const rs = await invoiceApis.search({
     includes: ['driver'],
     items: 10,
@@ -90,9 +94,12 @@ const composeSourceInvoiceInfo = async (page: number = 1) => {
   if (!(rs && rs?.data?.source_invoices?.length > 0)) {
     return;
   }
-  sourceInvoices.value = rs.data.source_invoices;
+  sourceInvoices.value.push(...rs.data.source_invoices);
 };
-const onLoadMore = () => {};
+const onLoadMore = () => {
+  currentPage.value++;
+  composeSourceInvoiceInfo(currentPage.value);
+};
 const onShowDriverOverViewModal = (driverId: string) => {
   if (!driverId) {
     return;
