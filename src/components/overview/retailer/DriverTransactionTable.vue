@@ -71,15 +71,20 @@ const composeDriverTransaction = async (status: `${ETransactionStatus}`) => {
   driverTransactions.value = rs.transactionHistories;
 };
 
+const onUpdate = async (isUpdate: boolean) => {
+  if (!isUpdate) { return; }
+  composeDriverTransaction(ETransactionStatus.PENDING);
+};
+
 const showTransactionOverview = (id: string) => {
-  const modalId = coreModal.show({
+  coreModal.show({
     component: TransactionOverview,
     props: {
       id,
     },
     modalWidth: '80rem',
     emits: {
-      forceFetchList: () => {},
+      forceFetchList: (isUpdate: any) => onUpdate(isUpdate),
     },
   });
 };
