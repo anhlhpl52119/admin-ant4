@@ -2,7 +2,6 @@
   <AModal
     :open="state.isOpen"
     destroyOnClose
-    centered
     width="40rem"
     :maskClosable="false"
     :icon="h(ExclamationCircleFilled)"
