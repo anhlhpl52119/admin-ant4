@@ -50,7 +50,7 @@ export const transactionHistoryApis = {
       },
       {
         id: EApiId.TRANSACTION_CANCEL,
-        successMsg: COMMON_SUCCESS_MSG.create,
+        successMsg: 'Tạo mới phiếu thanh toán thành công',
         errorMsg: COMMON_ERROR_MSG.create,
         isShowLoading: true,
       },
@@ -64,7 +64,7 @@ export const transactionHistoryApis = {
       },
       {
         id: EApiId.TRANSACTION_COMPLETE,
-        successMsg: COMMON_SUCCESS_MSG.create,
+        successMsg: 'Hoàn tất thanh toán!',
         errorMsg: COMMON_ERROR_MSG.create,
         isShowLoading: true,
       },
