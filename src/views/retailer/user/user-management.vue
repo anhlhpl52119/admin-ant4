@@ -194,6 +194,7 @@ const openModel = (userId?: string) => {
   const modalId = coreModal.show({
     component: RetailerUserCreateUpdateForm,
     title,
+    modalWidth: '35rem',
     props: {
       userId: userId ?? '',
     },
