@@ -1,7 +1,7 @@
 <template>
   <div class="p-12">
     <h3 class="text-spotlight text-18">
-      Thống kê hóa đơn
+      Thống kê số lượng hóa đơn
     </h3>
     <ASpin :spinning="loading">
       <div md="h-400 w-full" class="w-400 h-500">
