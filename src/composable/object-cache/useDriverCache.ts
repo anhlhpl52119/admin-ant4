@@ -62,6 +62,8 @@ export const useDriverCache = () => {
     const query: API.SearchSourceInvoiceQueryParams['query'] = {
       driver_id_eq: props.driverId,
       s: `invoice_date ${props?.dateOrder || 'desc'}`,
+      status_eq: 'active',
+      transaction_history_id_null: 'true',
     };
 
     const fromDate = props?.range?.[0] || undefined;
