@@ -2,23 +2,23 @@ import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
 export const retailerDashboardApis = {
-  invoicesChart: (body: API.GetDashBoardChartInfoRequestBody) => {
+  invoicesChart: (params: API.GetDashBoardChartInfoRequestParams) => {
     return request<ApiObjectResponse<Record<string, number>>>(
       {
         url: '/retailer/dashboard/source_invoice_chart',
         method: ERequestMethod.GET,
-        body,
+        params,
       },
       {
         id: EApiId.RETAILER_DASHBOARD_TOTAL_INVOICE,
       },
     );
   },
-  invoiceAmountChart: (body: API.GetDashBoardChartInfoRequestBody) => {
+  invoiceAmountChart: (params: API.GetDashBoardChartInfoRequestParams) => {
     return request<ApiObjectResponse<Record<string, number>>>(
       {
         url: '/retailer/dashboard/amount_chart',
-        body,
+        params,
         method: ERequestMethod.GET,
       },
       {
@@ -26,11 +26,11 @@ export const retailerDashboardApis = {
       },
     );
   },
-  commissionAmountChart: (body: API.GetDashBoardChartInfoRequestBody) => {
+  commissionAmountChart: (params: API.GetDashBoardChartInfoRequestParams) => {
     return request<ApiObjectResponse<Record<string, string>>>(
       {
         url: '/retailer/dashboard/amount_chart',
-        body,
+        params,
         method: ERequestMethod.GET,
       },
       {
@@ -38,11 +38,11 @@ export const retailerDashboardApis = {
       },
     );
   },
-  totalAmountTransaction: (body: API.GetDashBoardTotalAmountRequestBody) => {
+  totalAmountTransaction: (params: API.GetDashBoardTotalAmountRequestParams) => {
     return request<ApiObjectResponse<string>>(
       {
         url: '/retailer/dashboard/total_transaction_amount',
-        body,
+        params,
         method: ERequestMethod.GET,
       },
       {
@@ -50,11 +50,11 @@ export const retailerDashboardApis = {
       },
     );
   },
-  topDriverTotalAmount: (body: API.GetDashBoardTotalAmountRequestBody) => {
+  topDriverTotalAmount: (params: API.GetDashBoardTotalAmountRequestParams) => {
     return request<ApiObjectResponse<string>>(
       {
         url: '/retailer/dashboard/top_driver_by_total_amount',
-        body,
+        params,
         method: ERequestMethod.GET,
       },
       {
