@@ -136,11 +136,11 @@ const chartData = computed(() => ({
 
 const testsss = async () => {
   loading.value = true;
-  // const rs = await retailerDashboardApis.invoicesChart({
-  //   period: 'month',
-  //   start_date: 1672531200,
-  //   end_date: 1704067199,
-  // });
+  const rs = await retailerDashboardApis.invoicesChart({
+    period: 'month',
+    start_date: 1672531200,
+    end_date: 1704067199,
+  });
 
   await sleepFor(500);
   state.period = 'month';
