@@ -34,6 +34,7 @@ const state = reactive({
   pendingTransaction: 0,
   currentMonthTransactionAmount: 0,
 });
+
 const CURRENT_MONTH_START_DATE = dayjs().startOf('M');
 const CURRENT_MONTH_END_DATE = dayjs().endOf('M');
 
