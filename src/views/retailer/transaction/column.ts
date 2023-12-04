@@ -1,47 +1,6 @@
 import type { TableColumnType } from 'ant-design-vue';
 import type { QueriesRaw } from '@/composable/useTableMethod';
 
-export const columns: TableColumnType<API.GroupDriver>[] = [
-  {
-    title: 'STT',
-    dataIndex: 'indexNum',
-    width: '7rem',
-    align: 'center',
-    fixed: 'left',
-  },
-  {
-    title: 'Tên',
-    dataIndex: 'name',
-    fixed: 'left',
-    ellipsis: true,
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    ellipsis: true,
-  },
-  {
-    title: 'Địa chỉ',
-    dataIndex: 'address',
-    ellipsis: true,
-  },
-  {
-    title: 'Status',
-    dataIndex: 'status',
-    ellipsis: true,
-  },
-  {
-    title: 'Mô tả',
-    dataIndex: 'description',
-    ellipsis: true,
-  },
-  {
-    dataIndex: 'edit',
-    width: '6rem',
-    fixed: 'right',
-  },
-];
-
 export const searchFilterRaw: QueriesRaw<API.GroupDriver>[] = [
   {
     label: 'Tìm theo tên',
