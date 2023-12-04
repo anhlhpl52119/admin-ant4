@@ -4,10 +4,11 @@
 </template>
 
 <script lang="ts" setup>
+import type { Dayjs } from 'dayjs';
 import { isFiveMinutesAgo } from '@/utils/date.util';
 
 const props = defineProps<{
-  createTime: OrNullish<string | number | Date>
+  createTime: OrNullish<string | number | Dayjs>
 }>();
 
 const isNew = computed(() => isFiveMinutesAgo(props.createTime));
