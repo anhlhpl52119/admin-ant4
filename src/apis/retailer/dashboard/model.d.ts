@@ -2,7 +2,7 @@ import {} from "@/enums/request.enum";
 export {};
 
 declare global {
-  namespace API {
+    namespace API {
     type GetDashBoardChartInfoRequestParams = {
       period: 'month' | 'day' | 'year';
       start_date: number;
@@ -12,5 +12,11 @@ declare global {
       start_date: number;
       end_date: number;
     };
+    type DriverContribute = {
+      name: string;
+      code: string;
+      total: string
+    };
+    type GetTopDriverContributeResponse = ApiArrayResponse<DriverContribute>
   }
 }

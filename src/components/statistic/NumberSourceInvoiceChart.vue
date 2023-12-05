@@ -19,31 +19,18 @@
 <script setup lang="ts">
 import { Bar } from 'vue-chartjs';
 import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip } from 'chart.js';
-
 import type { Dayjs } from 'dayjs';
 
 import dayjs from 'dayjs';
 import { retailerDashboardApis } from '@/apis/retailer/dashboard/dashboard';
-import { dateGap, formatDate, isValidDate } from '@/utils/date.util';
+import { dateGap, formatDate, getBoundaryDateOfMonth, isValidDate, toUnixTime } from '@/utils/date.util';
 import { EDateFormat } from '@/enums/common.enum';
 import { sleepFor } from '@/utils/common.util';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
-// TEMPPPPP
-const MOCK_RESPONSE = {
-  '2023-09-01 00:00:00 UTC': 88,
-  '2023-01-01 00:00:00 UTC': 78,
-  '2023-10-01 00:00:00 UTC': 87,
-  '2023-04-01 00:00:00 UTC': 81,
-  '2023-05-01 00:00:00 UTC': 82,
-  '2023-08-01 00:00:00 UTC': 70,
-  '2023-07-01 00:00:00 UTC': 94,
-  '2023-02-01 00:00:00 UTC': 97,
-  '2023-06-01 00:00:00 UTC': 97,
-  '2023-03-01 00:00:00 UTC': 90,
-};
-// TEMPPPPPPP
+const START_DATE_OF_CURRENT_MONTH = getBoundaryDateOfMonth('startDate');
+const END_DATE_OF_CURRENT_MONTH = getBoundaryDateOfMonth('endDate');
 
 const chartOptions = {
   responsive: true,
@@ -134,19 +121,30 @@ const chartData = computed(() => ({
   }],
 }));
 
-const testsss = async () => {
+const init = async () => {
   loading.value = true;
+  if (!(START_DATE_OF_CURRENT_MONTH && END_DATE_OF_CURRENT_MONTH)) {
+    showAsyncAlert({
+      content: 'Lỗi định đang ngày tháng',
+      severity: 'error',
+    });
+    return;
+  }
+
+  const startOfMonthUnix = toUnixTime(START_DATE_OF_CURRENT_MONTH);
+  const endOfMonthUnix = toUnixTime(END_DATE_OF_CURRENT_MONTH);
   const rs = await retailerDashboardApis.invoicesChart({
     period: 'month',
-    start_date: 1672531200,
-    end_date: 1704067199,
+    start_date: startOfMonthUnix,
+    end_date: endOfMonthUnix,
   });
-
-  await sleepFor(500);
+  loading.value = false;
+  if (!rs?.data) {
+    return;
+  }
   state.period = 'month';
-  state.endDate = 1704067199;
-  statisticState.value = MOCK_RESPONSE;
+  statisticState.value = rs.data;
   loading.value = false;
 };
-testsss();
+init();
 </script>

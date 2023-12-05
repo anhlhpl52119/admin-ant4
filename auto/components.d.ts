@@ -87,6 +87,7 @@ declare module 'vue' {
     GroupDriverCreateUpdateForm: typeof import('./../src/components/form/GroupDriverCreateUpdateForm.vue')['default']
     GroupDriverDetailDrawer: typeof import('./../src/components/drawer/GroupDriverDetailDrawer.vue')['default']
     LatestInvoice: typeof import('./../src/components/common/LatestInvoice.vue')['default']
+    LatestInvoiceList: typeof import('./../src/components/statistic/LatestInvoiceList.vue')['default']
     NumberSourceInvoiceChart: typeof import('./../src/components/statistic/NumberSourceInvoiceChart.vue')['default']
     RetailerConfigUpdateForm: typeof import('./../src/components/form/RetailerConfigUpdateForm.vue')['default']
     RetailerCreateUpdateForm: typeof import('./../src/components/form/RetailerCreateUpdateForm.vue')['default']

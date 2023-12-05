@@ -51,7 +51,7 @@ export const retailerDashboardApis = {
     );
   },
   topDriverTotalAmount: (params: API.GetDashBoardTotalAmountRequestParams) => {
-    return request<ApiObjectResponse<string>>(
+    return request<API.GetTopDriverContributeResponse>(
       {
         url: '/retailer/dashboard/top_driver_by_total_amount',
         params,

@@ -23,11 +23,11 @@
             </template>
             <template #description>
               <ul class="text-nowrap">
-                <li>
-                  Tài xế: <span
-                    class="clickable"
-                    @click="onShowDriverOverViewModal(item?.driver?.id)"
-                  >{{ item?.driver?.name || '-' }}</span>
+                <li
+                  class="clickable"
+                  @click="onShowDriverOverViewModal(item?.driver?.id)"
+                >
+                  {{ item?.driver?.name || '-' }}
                 </li>
                 <li>{{ formatDate(item?.invoice_date, EDateFormat.DATE_API_QUERY) || '-' }}</li>
               </ul>

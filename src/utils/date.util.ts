@@ -59,3 +59,17 @@ export const isFiveMinutesAgo = (date: OrNullish<string | number | Dayjs>) => {
   const fiveMinutesAgo = dayjs().subtract(5, 'minute');
   return dayjs(date).isSameOrAfter(dayjs(fiveMinutesAgo));
 };
+
+export const getBoundaryDateOfMonth = (period: 'startDate' | 'endDate') => {
+  if (!isValidDate(dayjs())) {
+    return null;
+  }
+  switch (period) {
+    case 'endDate':
+      return dayjs().endOf('M');
+    case 'startDate':
+      return dayjs().startOf('M');
+    default:
+      return null;
+  }
+};

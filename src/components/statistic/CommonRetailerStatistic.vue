@@ -81,12 +81,11 @@ import dayjs from 'dayjs';
 import { retailerDashboardApis } from '@/apis/retailer/dashboard/dashboard';
 import { invoiceApis } from '@/apis/retailer/source-invoice-mgt/source-invoice-mgt';
 import { transactionHistoryApis } from '@/apis/retailer/transaction-mgt/transaction-mgt';
-import { EDateFormat } from '@/enums/common.enum';
-import { formatDate, toUnixTime } from '@/utils/date.util';
+import { getBoundaryDateOfMonth, toUnixTime } from '@/utils/date.util';
 import { vndFormat } from '@/utils/number.util';
 
-const CURRENT_MONTH_START_DATE = dayjs().startOf('M');
-const CURRENT_MONTH_END_DATE = dayjs().endOf('M');
+const START_DATE_OF_CURRENT_MONTH = getBoundaryDateOfMonth('startDate');
+const END_DATE_OF_CURRENT_MONTH = getBoundaryDateOfMonth('endDate');
 const CURRENT_MONTH = dayjs().get('M');
 
 const state = reactive({
@@ -135,15 +134,24 @@ const getNumberPendingTransactionOfMonth = async () => {
 };
 
 const getTotalAmountTransactionOfMonth = async () => {
+  if (!(START_DATE_OF_CURRENT_MONTH && END_DATE_OF_CURRENT_MONTH)) {
+    showAsyncAlert({
+      content: 'Lỗi định đang ngày tháng',
+      severity: 'error',
+    });
+    return;
+  }
   loadingState.totalAmountTransactionInMonth = true;
-  const startOfMonthUnix = toUnixTime(CURRENT_MONTH_START_DATE);
-  const endOfMonthUnix = toUnixTime(CURRENT_MONTH_END_DATE);
 
+  const startOfMonthUnix = toUnixTime(START_DATE_OF_CURRENT_MONTH);
+  const endOfMonthUnix = toUnixTime(END_DATE_OF_CURRENT_MONTH);
   const rs = await retailerDashboardApis.totalAmountTransaction({
     start_date: Number(startOfMonthUnix),
     end_date: Number(endOfMonthUnix),
   });
+
   loadingState.totalAmountTransactionInMonth = false;
+
   if (!rs?.data) {
     return;
   }
