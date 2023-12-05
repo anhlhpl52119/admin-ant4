@@ -8,7 +8,7 @@
       {{ invoiceState?.source_invoice_code || '-' }}
     </ADescriptionsItem>
     <ADescriptionsItem label="Trạng thái" :span="1">
-      <DynamicTag :status="invoiceState?.status" />
+      <FieldDynamicTag :status="invoiceState?.status" />
     </ADescriptionsItem>
     <ADescriptionsItem label="Tài xế" :span="2">
       {{ driverState?.name || '-' }}

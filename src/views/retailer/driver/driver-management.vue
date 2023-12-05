@@ -68,7 +68,7 @@
         </ATableColumn>
         <ATableColumn key="status" title="Status" width="15rem" align="center" fixed="right">
           <template #default="{ record }: {record: API.Driver}">
-            <DynamicTag :status="record?.status" />
+            <FieldDynamicTag :status="record?.status" />
           </template>
         </ATableColumn>
         <template #emptyText>

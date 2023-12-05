@@ -89,7 +89,7 @@
 
         <ATableColumn key="status" title="Trạng thái" :width="100" align="right" fixed="right">
           <template #default="{ record }: {record: API.TransactionHistory}">
-            <DynamicTag :status="record?.status" />
+            <FieldDynamicTag :status="record?.status" />
           </template>
         </ATableColumn>
       </ATable>

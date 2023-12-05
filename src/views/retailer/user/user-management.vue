@@ -44,7 +44,7 @@
         </ATableColumn>
         <ATableColumn key="role" title="Phân quyền" width="20rem" align="center">
           <template #default="{ record }: {record: API.RetailerUser}">
-            <DynamicTag :status="record?.role" />
+            <FieldDynamicTag :status="record?.role" />
           </template>
         </ATableColumn>
         <ATableColumn key="last-update" title="Cập nhật" width="10rem" align="right">

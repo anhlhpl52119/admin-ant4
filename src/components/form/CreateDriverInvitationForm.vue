@@ -19,7 +19,7 @@
           <ASelectOption :value="item.value">
             <div class="flex items-center justify-between">
               <span>{{ item.label }}</span>
-              <DynamicTag status="active" />
+              <FieldDynamicTag status="active" />
             </div>
           </ASelectOption>
         </template>

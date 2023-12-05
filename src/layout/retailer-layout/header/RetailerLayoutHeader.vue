@@ -9,7 +9,7 @@
         </div>
         <div class="w-100 truncate">
           <span class="block text-spotlight text-15 text-primary">{{ userInfo?.name || '-' }}</span>
-          <DynamicTag class="mt-5" :status="userInfo?.role" />
+          <FieldDynamicTag class="mt-5" :status="userInfo?.role" />
         </div>
       </div>
 

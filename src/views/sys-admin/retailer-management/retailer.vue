@@ -64,12 +64,12 @@
         </ATableColumn>
         <ATableColumn key="config" title="Cấu hình" width="20rem" align="center" fixed="right">
           <template #default="{ record }: {record: API.Retailer}">
-            <DynamicTag :status="record?.sync_status ?? ''" />
+            <FieldDynamicTag :status="record?.sync_status ?? ''" />
           </template>
         </ATableColumn>
         <ATableColumn key="status" title="Trạng thái" width="17rem" align="center" fixed="right">
           <template #default="{ record }: {record: API.Retailer}">
-            <DynamicTag :status="record?.status" />
+            <FieldDynamicTag :status="record?.status" />
           </template>
         </ATableColumn>
       </ATable>

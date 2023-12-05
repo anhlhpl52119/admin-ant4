@@ -34,7 +34,7 @@
           {{ userDetail?.phone || '' }}
         </ADescriptionsItem>
         <ADescriptionsItem label="Phân quyền">
-          <DynamicTag :status="userDetail?.role" />
+          <FieldDynamicTag :status="userDetail?.role" />
         </ADescriptionsItem>
         <ADescriptionsItem label="Email">
           {{ userDetail?.email || '' }}

@@ -8,7 +8,7 @@
         </div>
 
         <div>
-          <DynamicTag v-if="transactionInfo?.status !== 'pending'" :status="transactionInfo?.status" />
+          <FieldDynamicTag v-if="transactionInfo?.status !== 'pending'" :status="transactionInfo?.status" />
           <div v-else>
             <span class="mr-5">Đã thanh toán</span>
             <ATooltip title="Đánh dấu hóa đơn này đã thanh toán" arrowPointAtCenter>
