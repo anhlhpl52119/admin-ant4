@@ -3,7 +3,7 @@
     <span class="text-18 font-700">
       {{ title }}
     </span>
-    <slot>
+    <slot v-if="actionBtnLabel">
       <AButton type="primary" size="large" @click="$emit('onClickAction')">
         {{ actionBtnLabel }}
         <template #icon>
@@ -19,7 +19,7 @@ import { PlusOutlined } from '@ant-design/icons-vue';
 
 const props = defineProps<{
   title: string
-  actionBtnLabel: string
+  actionBtnLabel?: string
 }>();
 
 defineEmits<{

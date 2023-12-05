@@ -2,7 +2,6 @@
   <main>
     <CommonPageTitle
       title="Quản lý chi nhánh"
-      actionBtnLabel="Thêm chi nhánh"
     />
 
     <CommonTableSearchForm
