@@ -97,6 +97,8 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SourceInvoiceBarChart: typeof import('./../src/components/statistic/SourceInvoiceBarChart.vue')['default']
     SourceInvoiceOverview: typeof import('./../src/components/overview/retailer/SourceInvoiceOverview.vue')['default']
+    TestChart: typeof import('./../src/components/statistic/TestChart.vue')['default']
+    TestChartContext: typeof import('./../src/components/statistic/TestChartContext.vue')['default']
     TopDriverInvoiceAmount: typeof import('./../src/components/statistic/TopDriverInvoiceAmount.vue')['default']
     TransactionOverview: typeof import('./../src/components/overview/retailer/TransactionOverview.vue')['default']
     TransactionTest2: typeof import('./../src/components/overview/TransactionTest2.vue')['default']

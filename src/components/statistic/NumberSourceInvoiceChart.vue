@@ -25,7 +25,6 @@ import dayjs from 'dayjs';
 import { retailerDashboardApis } from '@/apis/retailer/dashboard/dashboard';
 import { dateGap, formatDate, getBoundaryDateOfMonth, isValidDate, toUnixTime } from '@/utils/date.util';
 import { EDateFormat } from '@/enums/common.enum';
-import { sleepFor } from '@/utils/common.util';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 

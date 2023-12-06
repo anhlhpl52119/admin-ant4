@@ -25,14 +25,7 @@ import {
   Tooltip,
 } from 'chart.js';
 import { PolarArea } from 'vue-chartjs';
-
-import type { Dayjs } from 'dayjs';
-import dayjs from 'dayjs';
 import { retailerDashboardApis } from '@/apis/retailer/dashboard/dashboard';
-import { dateGap, formatDate, isValidDate } from '@/utils/date.util';
-import { EDateFormat } from '@/enums/common.enum';
-import { sleepFor } from '@/utils/common.util';
-import { vndFormat } from '@/utils/number.util';
 
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 

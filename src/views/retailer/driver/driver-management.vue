@@ -88,7 +88,7 @@ import { copyText } from '@/utils/common.util';
 import { type QueriesRaw, useTableMethod } from '@/composable/useTableMethod';
 
 const CreateDriverInvitationForm = defineAsyncComponent(() => import('@/components/form/CreateDriverInvitationForm.vue'));
-const DriverInfo = defineAsyncComponent(() => import('@/components/common/DriverInfo.vue'));
+const DriverOverview = defineAsyncComponent(() => import('@/components/overview/retailer/DriverOverview.vue'));
 
 const columnWidthRef = reactive<Record<string, number>>({
   name: 170,
@@ -138,7 +138,8 @@ const handleResizeColumn = (width: number, colInfo: any) => {
 
 const showDriverInfo = (driverId: string) => {
   const modalId = coreModal.show({
-    component: DriverInfo,
+    component: DriverOverview,
+    modalWidth: '80rem',
     props: {
       driverId,
     },
