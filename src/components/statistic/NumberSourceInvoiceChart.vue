@@ -41,13 +41,21 @@ const chartOptions = {
       beginAtZero: true,
     },
   },
+  plugins: {
+    tooltip: {
+      callbacks: {
+        label: (item: any) => `${item.dataset.label} ${item.formattedValue} hóa đơn`,
+      },
+    },
+  },
+
 };
 
 const loading = ref(false);
 const state = reactive({
   period: 'month' as 'day' | 'month' | 'year',
-  startDate: 1672531200,
-  endDate: 0, // 1704067199
+  startDate: toUnixTime(START_DATE_OF_CURRENT_MONTH),
+  endDate: toUnixTime(END_DATE_OF_CURRENT_MONTH),
 });
 
 const formatMap = (date: string | Dayjs) => {
