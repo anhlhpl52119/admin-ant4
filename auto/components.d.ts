@@ -68,6 +68,7 @@ declare module 'vue' {
     CommonTableSearchForm: typeof import('./../src/components/common/CommonTableSearchForm.vue')['default']
     copy: typeof import('./../src/components/statistic/BarChart copy.vue')['default']
     CreateDriverInvitationForm: typeof import('./../src/components/form/CreateDriverInvitationForm.vue')['default']
+    CreatePasswordForm: typeof import('./../src/components/form/CreatePasswordForm.vue')['default']
     CreateTransaction: typeof import('./../src/components/form/CreateTransaction.vue')['default']
     DriverCreateUpdateForm: typeof import('./../src/components/form/DriverCreateUpdateForm.vue')['default']
     DriverInfo: typeof import('./../src/components/common/DriverInfo.vue')['default']
