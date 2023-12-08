@@ -68,7 +68,6 @@
           <i class=" i-ic:round-store-mall-directory block text-28" />
         </li>
         <li class="text-18 font-800">
-          <!-- {{ state }} -->
           2
         </li>
       </ul>
