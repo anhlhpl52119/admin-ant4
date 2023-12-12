@@ -10,8 +10,15 @@
   >
     <!-- List render -->
     <template #renderItem="{ item, index }: {item: API.SourceInvoice, index: number}">
-      <AListItem>
-        <ASkeleton avatar :title="false" :loading="loadIdsHas(EApiId.INVOICE_SEARCH)" active>
+      <AListItem
+        class="text-center text-red"
+      >
+        <ASkeleton
+          :title="false"
+          :loading="loadIdsHas(EApiId.INVOICE_SEARCH)"
+          avatar
+          active
+        >
           <AListItemMeta>
             <template #title>
               <div
