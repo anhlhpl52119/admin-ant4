@@ -21,7 +21,6 @@ declare global {
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
-  const getInvoicesByDriverId: typeof import('../src/composable/core/useApiUtility')['getInvoicesByDriverId']
   const h: typeof import('vue')['h']
   const inject: typeof import('vue')['inject']
   const isProxy: typeof import('vue')['isProxy']
@@ -62,7 +61,6 @@ declare global {
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
   const showAsyncAlert: typeof import('../src/composable/core/useAsyncAlert')['showAsyncAlert']
-  const showConfirmAlert: typeof import('../src/composable/core/useAsyncAlert')['showConfirmAlert']
   const storeToRefs: typeof import('pinia')['storeToRefs']
   const toRaw: typeof import('vue')['toRaw']
   const toRef: typeof import('vue')['toRef']
@@ -70,24 +68,16 @@ declare global {
   const toValue: typeof import('vue')['toValue']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
-  const use: typeof import('../src/composable/useFieldValidation')['use']
-  const useApplicationStore: typeof import('../src/stores/application.store')['useApplicationStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useCommonStore: typeof import('../src/stores/common.store')['useCommonStore']
-  const useCommonTableMethod: typeof import('../src/composable/useCommonTableMethod')['useCommonTableMethod']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
-  const useFieldValidation: typeof import('../src/composable/useFieldValidation')['useFieldValidation']
   const useLink: typeof import('vue-router')['useLink']
   const useLoaderStore: typeof import('../src/stores/loader.store')['useLoaderStore']
-  const useLoading: typeof import('../src/composable/core/useLoading')['useLoading']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
-  const useTableCache: typeof import('../src/composable/useTableCache')['useTableCache']
   const useUserStore: typeof import('../src/stores/user.store')['useUserStore']
-  const useVisibilityStore: typeof import('../src/stores/visibility.store')['useVisibilityStore']
-  const visibleModalState: typeof import('../src/composable/useAppModal')['visibleModalState']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']
@@ -96,7 +86,8 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { Component, ComponentPublicInstance, ComputedRef, InjectionKey, PropType, Ref, VNode, WritableComputedRef } from 'vue'
+  export type { Component, ComponentPublicInstance, ComputedRef, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, VNode, WritableComputedRef } from 'vue'
+  import('vue')
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'

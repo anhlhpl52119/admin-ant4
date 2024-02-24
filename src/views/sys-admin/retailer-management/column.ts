@@ -1,4 +1,3 @@
-import type { TableColumnType } from 'ant-design-vue';
 import type { QueriesRaw } from '@/composable/useTableMethod';
 
 export const searchFilterRaw: QueriesRaw<API.Retailer>[] = [

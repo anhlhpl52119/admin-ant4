@@ -1,4 +1,3 @@
-import { COMMON_SUCCESS_MSG } from '@/constants/common.constant';
 import { EApiId, ERequestMethod } from '@/enums/request.enum';
 import { request } from '@/utils/request.util';
 
