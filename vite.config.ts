@@ -35,9 +35,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         imports: ['vue', 'vue-router', 'pinia'],
         vueTemplate: true,
       }),
-      UnoCSS({
-        presets: [],
-      }),
+      UnoCSS(),
     ],
     css: {
       preprocessorOptions: {

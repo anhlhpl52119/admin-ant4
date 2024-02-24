@@ -4,13 +4,12 @@ import type { CustomRoute } from './typing';
 import { afterEach, beforeEach } from './hooks';
 import { whiteListRoutes } from './module/white-list/white-list';
 import { ERouteName } from '@/enums/router.enum';
-import AppView from '@/App.vue';
 
 export const routes: CustomRoute[] = [
   {
     path: '/',
     name: ERouteName.MAIN_LAYOUT,
-    component: AppView,
+    component: () => import('@/App.vue'),
     meta: {
       hiddenInMenu: false,
       title: 'Home',
@@ -34,7 +33,6 @@ export async function setupRouter(app: App) {
 
   // App setup router
   app.use(router);
-  await router.isReady();
 }
 
 export default router;
