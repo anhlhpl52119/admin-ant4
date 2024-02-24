@@ -52,3 +52,11 @@ export const mergeValues = (target: any, values: any) => {
 
   return target;
 };
+
+export const generateUuid = (optional?: { prefix?: string; suffix?: string }) => {
+  const str = '10000000-1000-4000-8000-100000000000'.replace(
+    /[018]/g,
+    (c: string) => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16),
+  );
+  return `${optional?.prefix ?? ''}${str}${optional?.suffix ?? ''}`;
+};

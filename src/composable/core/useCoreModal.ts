@@ -1,5 +1,5 @@
 import type { ComponentOptions } from 'vue';
-import { v4 as uuid } from 'uuid';
+import { generateUuid } from '@/utils/common.util';
 
 export const modalState = reactive<Map<string, CoreAppModal>>(new Map());
 
@@ -7,7 +7,7 @@ type ModalProps<T extends ComponentOptions<any>> = CoreModalProps<T>
 
 export const coreModal = {
   show: <T extends ComponentOptions<any>>(modalContent: ModalProps<T>) => {
-    const id = uuid();
+    const id = generateUuid();
     const { component, emits, props, title, maskCloseable = false, modalWidth, showCloseBtn } = modalContent;
     if (component) {
       const setState: CoreAppModal = {
