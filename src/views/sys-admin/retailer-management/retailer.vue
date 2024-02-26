@@ -78,9 +78,8 @@
 </template>
 
 <script lang="ts" setup>
-import { InfoCircleOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
-import { columns, searchFilterRaw } from './column';
+import { searchFilterRaw } from './column';
 import { EApiId } from '@/enums/request.enum';
 import { FALLBACK_PAGINATION_API_RESPONSE } from '@/constants/common.constant';
 import { useTableCache } from '@/composable/useTableCache';

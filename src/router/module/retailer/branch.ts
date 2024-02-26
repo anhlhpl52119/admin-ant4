@@ -1,12 +1,11 @@
 import type { CustomRoute } from '@/router/typing';
 import { ERouteName } from '@/enums/router.enum';
-import PageContent from '@/layout/retailer-layout/page-content/index.vue';
 
 const routes: CustomRoute[] = [
   {
     path: 'branch',
     name: ERouteName.BRANCH,
-    component: () => PageContent,
+    component: () => import('@/layout/retailer-layout/page-content/index.vue'),
     redirect: '/branch/branch-management',
     meta: {
       hiddenInMenu: false,

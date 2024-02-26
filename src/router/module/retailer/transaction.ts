@@ -1,13 +1,12 @@
 import type { CustomRoute } from '@/router/typing';
 import { ERouteName } from '@/enums/router.enum';
-import PageContent from '@/layout/retailer-layout/page-content/index.vue';
 import { ERole } from '@/enums/common.enum';
 
 const routes: CustomRoute[] = [
   {
     path: 'transaction',
     name: ERouteName.TRANSACTION_HISTORY,
-    component: PageContent,
+    component: () => import('@/layout/retailer-layout/page-content/index.vue'),
     redirect: '/transaction/transaction-management',
     meta: {
       hiddenInMenu: false,

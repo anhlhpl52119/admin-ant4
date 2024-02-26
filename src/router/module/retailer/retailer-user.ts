@@ -1,6 +1,5 @@
 import type { CustomRoute } from '@/router/typing';
 
-import PageContent from '@/layout/retailer-layout/page-content/index.vue';
 import { ERouteName } from '@/enums/router.enum';
 import { ERole } from '@/enums/common.enum';
 
@@ -8,7 +7,7 @@ const routes: CustomRoute[] = [
   {
     path: 'user',
     name: ERouteName.RETAILER_USER,
-    component: PageContent,
+    component: () => import('@/layout/retailer-layout/page-content/index.vue'),
     redirect: '/user/management',
     meta: {
       hiddenInMenu: false,

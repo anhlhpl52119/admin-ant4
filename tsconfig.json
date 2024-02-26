@@ -1,9 +1,16 @@
 {
   "extends": [
-    "@tsconfig/node18/tsconfig.json",
+    "@tsconfig/node20/tsconfig.json",
     "@vue/tsconfig/tsconfig.dom.json"
   ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "electron",
+    "vite.config.ts"
+  ],
   "exclude": ["src/**/__tests__/*", "**/dist/**", "uno.config.ts"],
+  "files": ["auto/components.d.ts", "auto/auto-imports.d.ts"],
   "declaration": false,
   "compilerOptions": {
     "lib": ["ES6", "DOM"],

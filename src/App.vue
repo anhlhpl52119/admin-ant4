@@ -1,6 +1,6 @@
 <template>
   <AConfigProvider :locale="viVN" :theme="seedTokenGlobalConfig">
-    <RouterView #="{ Component }">
+    <RouterView :key="$route.fullPath" #="{ Component }">
       <Component :is="Component" />
       <CAppDrawer />
       <CAppModal />

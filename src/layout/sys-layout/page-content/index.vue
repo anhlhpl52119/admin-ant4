@@ -1,5 +1,5 @@
 <template>
-  <RouterView #="{ Component }">
+  <RouterView :key="$route.fullPath" #="{ Component }">
     <Transition
       :name="Object.is(route.meta?.transitionName, false) ? '' : 'fade-transform'"
       mode="out-in"

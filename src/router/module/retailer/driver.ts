@@ -1,12 +1,11 @@
 import type { CustomRoute } from '@/router/typing';
 import { ERouteName } from '@/enums/router.enum';
-import PageContent from '@/layout/retailer-layout/page-content/index.vue';
 
 const routes: CustomRoute[] = [
   {
     path: 'driver',
     name: ERouteName.DRIVER,
-    component: PageContent,
+    component: () => import('@/layout/retailer-layout/page-content/index.vue'),
     redirect: '/driver/driver-management',
     meta: {
       hiddenInMenu: false,
