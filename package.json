@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "bootstrap": "pnpm install",
-    "preinstall": "npx only-allow pnpm",
+    "bootstrap": "npm install",
     "start": "npm run preview",
     "dev": "vite",
     "build": "rimraf dist && cross-env NODE_ENV=production vite build",
